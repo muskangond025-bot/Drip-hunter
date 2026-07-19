@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -43,160 +43,37 @@ interface ProductItem {
   rating: number;
   discount?: string;
   color: string;
-  gender: 'Boy' | 'Girls' | 'Men' | 'Women';
+  gender: 'Men' | 'Women' | 'Boys' | 'Girls' | 'Kids';
   subcategory: 'T-shirts' | 'Sweatshirts' | 'Joggers';
   isSuggested?: boolean;
 }
 
-const products: ProductItem[] = [
-  {
-    id: 201,
-    brand: "ALMOST GODS",
-    name: "Vintage Flame Oversized Tee",
-    price: "$45",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
-    rating: 5,
-    discount: "10% OFF",
-    color: "Red",
-    gender: "Men",
-    subcategory: "T-shirts"
-  },
-  {
-    id: 202,
-    brand: "A BATHING APE",
-    name: "Retro Graphic Boxy Tee",
-    price: "$49",
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
-    rating: 4,
-    discount: "20% OFF",
-    color: "Red",
-    gender: "Boy",
-    subcategory: "T-shirts"
-  },
-  {
-    id: 203,
-    brand: "ACRONYM",
-    name: "Heavyweight Kanji Red Tee",
-    price: "$42",
-    image: "https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&w=600&q=80",
-    rating: 5,
-    discount: "10% OFF",
-    color: "Red",
-    gender: "Men",
-    subcategory: "T-shirts"
-  },
-  {
-    id: 204,
-    brand: "A-COLD-WALL*",
-    name: "Cyber Tokyo Vintage Tee",
-    price: "$52",
-    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80",
-    rating: 4,
-    discount: "30% OFF",
-    color: "Red",
-    gender: "Girls",
-    subcategory: "T-shirts"
-  },
-  {
-    id: 205,
-    brand: "BLUE BREW",
-    name: "Distressed Raw Hem Tee",
-    price: "$39",
-    image: "https://images.unsplash.com/photo-1503342394128-c104d54dba01?auto=format&fit=crop&w=600&q=80",
-    rating: 5,
-    discount: "10% OFF",
-    color: "Red",
-    gender: "Boy",
-    subcategory: "T-shirts"
-  },
-  {
-    id: 206,
-    brand: "BALENCIAGA",
-    name: "Heavyweight Box Logo Hood",
-    price: "$85",
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
-    rating: 5,
-    discount: "20% OFF",
-    color: "Blue",
-    gender: "Women",
-    subcategory: "Sweatshirts"
-  },
-  {
-    id: 207,
-    brand: "BRAIN DEAD",
-    name: "Tech Utility Street Cargos",
-    price: "$95",
-    image: "https://images.unsplash.com/photo-1550928431-ee0ec6db1ad7?auto=format&fit=crop&w=600&q=80",
-    rating: 4,
-    discount: "10% OFF",
-    color: "Green",
-    gender: "Boy",
-    subcategory: "Joggers"
-  },
-  {
-    id: 208,
-    brand: "CARHARTT WIP",
-    name: "Classic Acid Wash Tee",
-    price: "$48",
-    image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=600&q=80",
-    rating: 5,
-    discount: "30% OFF",
-    color: "Red",
-    gender: "Men",
-    subcategory: "T-shirts"
-  },
-  // Suggested models (Black streetwear T-shirts)
-  {
-    id: 209,
-    brand: "CORTEIZ",
-    name: "Shadow Arch Heavyweight Tee",
-    price: "$55",
-    image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80",
-    rating: 5,
-    color: "Black",
-    gender: "Men",
-    subcategory: "T-shirts",
-    isSuggested: true
-  },
-  {
-    id: 210,
-    brand: "OFF-WHITE",
-    name: "Midnight Skull Graphic Tee",
-    price: "$49",
-    image: "https://images.unsplash.com/photo-1618354691229-88d47f285158?auto=format&fit=crop&w=600&q=80",
-    rating: 4,
-    color: "Black",
-    gender: "Boy",
-    subcategory: "T-shirts",
-    isSuggested: true
-  },
-  {
-    id: 211,
-    brand: "SUPREME",
-    name: "Dark Matter Acid Wash Tee",
-    price: "$52",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
-    rating: 5,
-    color: "Black",
-    gender: "Women",
-    subcategory: "T-shirts",
-    isSuggested: true
-  },
-  {
-    id: 212,
-    brand: "BILLIONAIRE BOYS CLUB",
-    name: "Rebel Phantom Print Tee",
-    price: "$48",
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
-    rating: 5,
-    color: "Black",
-    gender: "Girls",
-    subcategory: "T-shirts",
-    isSuggested: true
-  }
-];
+import { masterProducts } from "../product/[id]/data";
 
-export default function ShopCatalog() {
+const products: ProductItem[] = masterProducts.map((p) => {
+  const subcat = 
+    p.category.toLowerCase().includes("top wear") || p.name.toLowerCase().includes("tee") || p.name.toLowerCase().includes("t-shirt") || p.name.toLowerCase().includes("shirt")
+      ? "T-shirts" 
+      : p.category.toLowerCase().includes("sweatshirt") || p.name.toLowerCase().includes("hoodie") || p.category.toLowerCase().includes("caps")
+        ? "Sweatshirts" 
+        : "Joggers";
+
+  return {
+    id: p.id,
+    brand: p.brand,
+    name: p.name,
+    price: p.price,
+    image: p.image,
+    rating: Math.round(p.rating),
+    discount: p.discount > 0 ? `${p.discount}% OFF` : undefined,
+    color: p.color,
+    gender: (p.gender === "Boys" || p.gender === "Girls") ? "Kids" : p.gender as any,
+    subcategory: subcat,
+    isSuggested: p.color === "Black"
+  };
+});
+
+export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
   // Global cart/wishlist sync state
   const [cart, setCart] = useState<CartItem[]>([]);
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
@@ -204,47 +81,89 @@ export default function ShopCatalog() {
   const [searchCategory, setSearchCategory] = useState("All");
   const [loginOpen, setLoginOpen] = useState(false);
 
+  // Sync state with localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedCart = localStorage.getItem("drip-cart");
+      if (savedCart) {
+        try { setCart(JSON.parse(savedCart)); } catch (e) { console.error(e); }
+      }
+      const savedWishlist = localStorage.getItem("drip-wishlist");
+      if (savedWishlist) {
+        try { setWishlist(JSON.parse(savedWishlist)); } catch (e) { console.error(e); }
+      }
+    }
+  }, []);
+
+  // Listen for search & brand URL parameter changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleUrlChange = () => {
+        const params = new URLSearchParams(window.location.search);
+        
+        // 1. Sync search query parameter
+        const searchParam = params.get("search");
+        if (searchParam !== null) {
+          setSearchQuery(searchParam);
+        } else {
+          setSearchQuery("");
+        }
+
+        // 2. Sync brand filter query parameter
+        const brandParam = params.get("brand");
+        if (brandParam) {
+          const matchedBrand = Array.from(new Set(products.map(p => p.brand)))
+            .find(b => b.toLowerCase() === brandParam.toLowerCase());
+          if (matchedBrand) {
+            setSelectedBrands([matchedBrand]);
+            setBrandsOpen(true);
+          }
+        } else {
+          setSelectedBrands([]);
+        }
+      };
+      
+      handleUrlChange();
+      window.addEventListener("popstate", handleUrlChange);
+      return () => window.removeEventListener("popstate", handleUrlChange);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("drip-cart", JSON.stringify(cart));
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("drip-wishlist", JSON.stringify(wishlist));
+    }
+  }, [wishlist]);
+
   // Sorting state
   const [sortBy, setSortBy] = useState<'recommended' | 'price-low' | 'price-high' | 'rating'>('recommended');
 
   // Interactive sidebar filters state
   const [selectedGenders, setSelectedGenders] = useState<string[]>([]);
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const brandParam = params.get("brand");
-      if (brandParam) {
-        const matchedBrand = Array.from(new Set(products.map(p => p.brand)))
-          .find(b => b.toLowerCase() === brandParam.toLowerCase());
-        if (matchedBrand) {
-          return [matchedBrand];
-        }
-      }
-    }
-    return [];
-  });
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
   const [selectedDiscounts, setSelectedDiscounts] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  // Reset pagination on filter change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedGenders, selectedSubcategories, selectedBrands, selectedRatings, selectedColors, selectedDiscounts, sortBy]);
+
   // Section toggle states (false = collapsed, true = expanded by default)
   const [genderOpen, setGenderOpen] = useState(false);
   const [subOpen, setSubOpen] = useState(false);
-  const [brandsOpen, setBrandsOpen] = useState(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const brandParam = params.get("brand");
-      if (brandParam) {
-        const matchedBrand = Array.from(new Set(products.map(p => p.brand)))
-          .find(b => b.toLowerCase() === brandParam.toLowerCase());
-        if (matchedBrand) {
-          return true;
-        }
-      }
-    }
-    return false;
-  });
+  const [brandsOpen, setBrandsOpen] = useState(false);
   const [ratingOpen, setRatingOpen] = useState(false);
   const [discountOpen, setDiscountOpen] = useState(false);
   const [colorOpen, setColorOpen] = useState(false);
@@ -312,9 +231,55 @@ export default function ShopCatalog() {
     }
   };
 
+  const bannerDetails = useMemo(() => {
+    switch (initialTab) {
+      case "New Arrivals":
+        return {
+          badge: "NEW SEASON ARRIVALS",
+          title: "NEW ARRIVALS",
+          desc: "Explore the newest additions to our street archives. Limited drops, fresh graphics, and seasonal fits."
+        };
+      case "Best Selling":
+        return {
+          badge: "COMMUNITY FAVORITES",
+          title: "BEST SELLING",
+          desc: "The most wanted heavyweight tees and hoodies in the scene. Selected by the community."
+        };
+      case "Discounted Offers":
+        return {
+          badge: "LIMITED TIME PROMO",
+          title: "SPECIAL OFFERS",
+          desc: "Score massive discounts on premium graphic tees, cargo wear, and outerwear. Grab yours before they sell out."
+        };
+      case "Winter Collection":
+        return {
+          badge: "COLD WEATHER ARCHIVE",
+          title: "WINTER DROP",
+          desc: "Heavyweight hoodies, warm crewnecks, and technical fleece layers designed to keep you warm on the streets."
+        };
+      default:
+        return {
+          badge: "STREET ARCHIVE PRODUCTS",
+          title: "ALL PRODUCTS",
+          desc: "Streetwear heavyweight tees designed for boxy fits, drop shoulders, and vintage washes. Filter the collection below."
+        };
+    }
+  }, [initialTab]);
+
   // State-driven filtering logic
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
+      // 0. Pre-filtering by collection tab
+      if (initialTab === "New Arrivals") {
+        if (product.id > 205) return false;
+      } else if (initialTab === "Best Selling") {
+        if (product.rating < 5) return false;
+      } else if (initialTab === "Discounted Offers") {
+        if (!product.discount) return false;
+      } else if (initialTab === "Winter Collection") {
+        if (product.subcategory !== "Sweatshirts" && product.subcategory !== "Joggers") return false;
+      }
+
       // 1. Search Query
       if (searchQuery && !product.name.toLowerCase().includes(searchQuery.toLowerCase()) && !product.brand.toLowerCase().includes(searchQuery.toLowerCase())) {
         return false;
@@ -376,6 +341,12 @@ export default function ShopCatalog() {
   const catalogList = useMemo(() => {
     return sortedProducts.filter(p => !p.isSuggested);
   }, [sortedProducts]);
+
+  const totalPages = Math.ceil(catalogList.length / itemsPerPage);
+  const paginatedCatalogList = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return catalogList.slice(start, start + itemsPerPage);
+  }, [catalogList, currentPage]);
 
   const suggestedList = useMemo(() => {
     return sortedProducts.filter(p => p.isSuggested);
@@ -445,13 +416,13 @@ export default function ShopCatalog() {
           
           <div className="relative z-10 max-w-4xl mx-auto space-y-4">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-400/10 border border-yellow-400/30 text-yellow-400 font-mono text-[10px] uppercase font-bold tracking-widest rounded-full">
-              <Sparkles className="w-3 h-3" /> STREET ARCHIVE T-SHIRTS
+              <Sparkles className="w-3 h-3" /> {bannerDetails.badge}
             </span>
             <h1 className="text-4xl sm:text-6xl font-chaney-title text-white uppercase leading-none tracking-tight">
-              T-SHIRTS
+              {bannerDetails.title}
             </h1>
             <p className="text-zinc-400 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
-              Streetwear heavyweight tees designed for boxy fits, drop shoulders, and vintage washes. Filter the collection below.
+              {bannerDetails.desc}
             </p>
           </div>
         </section>
@@ -512,7 +483,7 @@ export default function ShopCatalog() {
             {/* 1. Main Content Grid (Left) */}
             <div className="flex-1 space-y-12">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {catalogList.map((product) => {
+                {paginatedCatalogList.map((product) => {
                   const isFav = wishlist.some(item => item.id === product.id);
                   return (
                     <div 
@@ -520,7 +491,10 @@ export default function ShopCatalog() {
                       className="bg-white border border-zinc-200 rounded-3xl overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
                     >
                       {/* Image container */}
-                      <div className="relative aspect-[3/4] bg-zinc-100 overflow-hidden">
+                      <div 
+                        className="relative aspect-[3/4] bg-zinc-100 overflow-hidden cursor-pointer"
+                        onClick={() => window.location.href = `/product/${product.id}`}
+                      >
                         <Image 
                           src={product.image} 
                           alt={product.name}
@@ -538,7 +512,7 @@ export default function ShopCatalog() {
                         {/* Favorite & Quick Add overlay buttons */}
                         <div className="absolute top-4 right-4 flex flex-col gap-2">
                           <button 
-                            onClick={() => handleToggleFavorite(product)}
+                            onClick={(e) => { e.stopPropagation(); handleToggleFavorite(product); }}
                             className="w-9 h-9 bg-white hover:bg-zinc-100 rounded-full flex items-center justify-center shadow-md transition-colors cursor-pointer"
                           >
                             <Heart className={`w-4 h-4 ${isFav ? "fill-red-500 text-red-500 animate-ping" : "text-zinc-600"}`} />
@@ -548,7 +522,7 @@ export default function ShopCatalog() {
                         {/* Add to Bag hover button */}
                         <div className="absolute inset-x-4 bottom-4 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                           <button 
-                            onClick={() => handleAddToCart(product)}
+                            onClick={(e) => { e.stopPropagation(); handleAddToCart(product); }}
                             className="w-full py-3 bg-black hover:bg-zinc-900 text-white font-mono text-xs font-bold tracking-widest uppercase rounded-2xl flex items-center justify-center gap-2 shadow-lg cursor-pointer"
                           >
                             <ShoppingBag className="w-4 h-4" /> Add to Bag
@@ -557,9 +531,12 @@ export default function ShopCatalog() {
                       </div>
 
                       {/* Product copy details */}
-                      <div className="p-5 space-y-2">
+                      <div 
+                        className="p-5 space-y-2 cursor-pointer"
+                        onClick={() => window.location.href = `/product/${product.id}`}
+                      >
                         <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block">{product.brand}</span>
-                        <h4 className="font-bold text-zinc-800 text-sm tracking-tight line-clamp-1">{product.name}</h4>
+                        <h4 className="font-bold text-zinc-800 text-sm tracking-tight line-clamp-1 hover:text-orange-500 transition-colors">{product.name}</h4>
                         
                         {/* Rating stars */}
                         <div className="flex items-center gap-1">
@@ -605,20 +582,47 @@ export default function ShopCatalog() {
               )}
 
               {/* Pagination controls */}
-              <div className="flex justify-center items-center gap-3 pt-6 font-mono text-xs">
-                <button className="w-9 h-9 border border-zinc-200 rounded-xl flex items-center justify-center text-zinc-400 cursor-not-allowed" disabled>
-                  &lt;
-                </button>
-                <button className="w-9 h-9 bg-black text-white border border-black rounded-xl flex items-center justify-center font-bold">
-                  1
-                </button>
-                <button className="w-9 h-9 border border-zinc-200 rounded-xl hover:bg-zinc-50 flex items-center justify-center text-zinc-600">
-                  2
-                </button>
-                <button className="w-9 h-9 border border-zinc-200 rounded-xl hover:bg-zinc-50 flex items-center justify-center text-zinc-600">
-                  &gt;
-                </button>
-              </div>
+              {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-3 pt-6 font-mono text-xs">
+                  <button 
+                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    disabled={currentPage === 1}
+                    className={`w-9 h-9 border border-zinc-200 rounded-xl flex items-center justify-center text-zinc-650 transition-colors cursor-pointer ${
+                      currentPage === 1 ? "opacity-40 cursor-not-allowed" : "hover:bg-zinc-50"
+                    }`}
+                  >
+                    &lt;
+                  </button>
+                  
+                  {Array.from({ length: totalPages }).map((_, idx) => {
+                    const pageNum = idx + 1;
+                    const isActive = currentPage === pageNum;
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`w-9 h-9 border rounded-xl flex items-center justify-center font-bold transition-all cursor-pointer ${
+                          isActive 
+                            ? "bg-black text-white border-black shadow-xs" 
+                            : "bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+
+                  <button 
+                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                    disabled={currentPage === totalPages}
+                    className={`w-9 h-9 border border-zinc-200 rounded-xl flex items-center justify-center text-zinc-650 transition-colors cursor-pointer ${
+                      currentPage === totalPages ? "opacity-40 cursor-not-allowed" : "hover:bg-zinc-50"
+                    }`}
+                  >
+                    &gt;
+                  </button>
+                </div>
+              )}
 
             </div>
 
@@ -654,7 +658,7 @@ export default function ShopCatalog() {
                 </button>
                 {genderOpen && (
                   <div className="space-y-2 font-mono text-xs text-zinc-600 pt-1">
-                    {['Boy', 'Girls', 'Men', 'Women'].map((g) => (
+                    {['Men', 'Women', 'Boys', 'Girls', 'Kids'].map((g) => (
                       <label key={g} className="flex items-center gap-2.5 cursor-pointer hover:text-zinc-900">
                         <input 
                           type="checkbox"

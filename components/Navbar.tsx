@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Search, User, Heart, ShoppingBag, Menu, X, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Search, User, Heart, ShoppingBag, Menu, X, ArrowRight, Eye, EyeOff, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface CartItem {
   id: number;
@@ -24,10 +25,10 @@ interface WishlistItem {
 interface NavbarProps {
   cart: CartItem[];
   wishlist: WishlistItem[];
-  searchQuery: string;
-  searchCategory: string;
-  onSearchChange: (query: string) => void;
-  onCategoryChange: (category: string) => void;
+  searchQuery?: string;
+  searchCategory?: string;
+  onSearchChange?: (query: string) => void;
+  onCategoryChange?: (category: string) => void;
   onRemoveFromCart: (id: number) => void;
   onRemoveFromWishlist: (id: number) => void;
   onUpdateCartQuantity: (id: number, qty: number) => void;
@@ -55,7 +56,83 @@ export function Navbar({
   const [wishlistOpen, setWishlistOpen] = useState(false);
   const [localLoginOpen, setLocalLoginOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [authScreen, setAuthScreen] = useState<'signin' | 'signup' | 'forgot'>('signin');
+  const [currentScreen, setCurrentScreen] = useState<'home' | 'login' | 'register' | 'verify'>('home');
+  const [authEmail, setAuthEmail] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
+  const [codeError, setCodeError] = useState("");
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("user@driphunter.com");
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [activePath, setActivePath] = useState("/");
+  const [exploreDropdownOpen, setExploreDropdownOpen] = useState(false);
+  const [localSearch, setLocalSearch] = useState(searchQuery);
+
+  useEffect(() => {
+    setLocalSearch(searchQuery);
+  }, [searchQuery]);
+
+  const handleSearchSubmit = () => {
+    if (typeof window !== "undefined") {
+      if (window.location.pathname === "/shop") {
+        const params = new URLSearchParams(window.location.search);
+        if (localSearch) {
+          params.set("search", localSearch);
+        } else {
+          params.delete("search");
+        }
+        window.history.pushState({}, "", `${window.location.pathname}?${params.toString()}`);
+        
+        // Dispatch popstate event to notify ShopCatalog of query changes
+        window.dispatchEvent(new Event("popstate"));
+      } else {
+        window.location.href = `/shop?search=${encodeURIComponent(localSearch)}`;
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setActivePath(window.location.pathname);
+      setIsLoggedIn(localStorage.getItem("isRegistered") === "true");
+      const savedEmail = localStorage.getItem("registeredEmail");
+      if (savedEmail) {
+        setUserEmail(savedEmail);
+      }
+      const handleAuth = () => {
+        setIsLoggedIn(localStorage.getItem("isRegistered") === "true");
+        const freshEmail = localStorage.getItem("registeredEmail");
+        if (freshEmail) {
+          setUserEmail(freshEmail);
+        }
+      };
+      window.addEventListener("auth-change", handleAuth);
+      return () => window.removeEventListener("auth-change", handleAuth);
+    }
+  }, []);
+
+  const handleSignInSimulate = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("isRegistered", "true");
+      localStorage.setItem("registeredEmail", "user@driphunter.com");
+      setIsLoggedIn(true);
+      window.dispatchEvent(new Event("auth-change"));
+      alert("Sign In / Sign Up simulated successfully!");
+    }
+  };
+
+  const handleLogOutSimulate = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("isRegistered", "false");
+      setIsLoggedIn(false);
+      window.dispatchEvent(new Event("auth-change"));
+      setCurrentScreen("home");
+      alert("Logged out successfully!");
+    }
+  };
 
   const loginOpen = propLoginOpen !== undefined ? propLoginOpen : localLoginOpen;
   const setLoginOpen = propSetLoginOpen !== undefined ? propSetLoginOpen : setLocalLoginOpen;
@@ -69,7 +146,7 @@ export function Navbar({
   return (
     <header className="w-full bg-white text-black border-b border-zinc-200 sticky top-0 z-50">
       {/* Announcement Bar */}
-      <div className="w-full bg-black text-white text-xs py-2 px-4 flex items-center justify-center font-mono overflow-hidden">
+      <div className="w-full bg-black text-white text-[10px] py-1.5 px-4 flex items-center justify-center font-mono overflow-hidden tracking-wider select-none">
         <div className="animate-pulse flex items-center space-x-2">
           <span>⚡ SUMMER DRIP IS HERE: USE CODE <strong className="text-yellow-400 font-bold">DRIP10</strong> FOR 10% OFF ⚡</span>
           <ArrowRight className="w-3.5 h-3.5" />
@@ -77,62 +154,181 @@ export function Navbar({
       </div>
 
       {/* Main Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-        {/* Logo */}
-        <div className="flex items-center">
-          <a href="#" className="font-chaney-title text-xl md:text-2xl tracking-tighter hover:opacity-85 transition-opacity">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-6">
+        {/* Left: Brand Logo */}
+        <div className="flex items-center flex-shrink-0">
+          <a href="/" className="font-chaney-title text-xl md:text-2xl tracking-tighter hover:opacity-85 transition-opacity">
             DRIP HUNTER
           </a>
         </div>
 
-        {/* Search Bar */}
-        <div className="hidden md:flex flex-1 max-w-lg items-center border-2 border-black rounded-full overflow-hidden px-4 bg-zinc-50 focus-within:bg-white focus-within:ring-2 focus-within:ring-black transition-all">
-          <select 
-            value={searchCategory}
-            onChange={(e) => onCategoryChange(e.target.value)}
-            className="bg-transparent text-sm font-semibold outline-none py-2.5 pr-2 border-r border-zinc-300 mr-2 text-zinc-700 cursor-pointer"
-          >
-            <option value="All">All</option>
-            <option value="Tees">Tees</option>
-            <option value="Hoodies">Hoodies</option>
-            <option value="Pants">Pants</option>
-          </select>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search premium streetwear..."
-            className="w-full bg-transparent outline-none text-sm py-2 px-1"
-          />
-          <button className="p-1.5 hover:bg-zinc-200 rounded-full transition-colors cursor-pointer">
-            <Search className="w-4 h-4 text-black" />
-          </button>
-        </div>
-
-        {/* Action Tools & Menu Trigger */}
-        <div className="flex items-center gap-4">
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold">
-            <a href="/shop" className="hover:underline underline-offset-4">Shop</a>
-            <a href="/brands" className="hover:underline underline-offset-4">Explore</a>
-            <a href="/affiliate" className="hover:underline underline-offset-4 text-yellow-500 font-extrabold uppercase tracking-wide">Affiliate</a>
-            <a href="#" className="hover:underline underline-offset-4 text-red-500 font-bold">Sales</a>
-            <a href="#" className="hover:underline underline-offset-4">Support</a>
+        {/* Center: Centered Navigation Links & Sleek Search Bar */}
+        <div className="hidden lg:flex flex-1 items-center justify-center gap-8">
+          <nav className="flex items-center gap-6 text-sm font-semibold tracking-wide">
+            {[
+              { label: "Home", href: "/" },
+              { label: "About", href: "/about" },
+              { label: "Explore", href: "/explore" }
+            ].map((link) => {
+              const isActive = activePath === link.href;
+              return (
+                <div 
+                  key={link.label}
+                  className="relative py-2 select-none group"
+                >
+                  <a 
+                    href={link.href}
+                    className="flex items-center gap-1 cursor-pointer"
+                  >
+                    <motion.span
+                      animate={{ color: isActive ? "#f05a28" : "#27272a" }}
+                      whileHover={{ color: "#f05a28" }}
+                      transition={{ duration: 0.15 }}
+                      className="font-sans font-bold"
+                    >
+                      {link.label}
+                    </motion.span>
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeIndicator"
+                        className="absolute bottom-0 inset-x-0 h-0.5 bg-orange-500 rounded-full"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </a>
+                </div>
+              );
+            })}
           </nav>
 
-          <div className="h-6 w-px bg-zinc-200 hidden lg:block" />
+          {/* Compact Sleek Search Bar */}
+          <div className="flex items-center border border-zinc-200 rounded-full bg-white px-3 py-1.5 w-52 focus-within:border-orange-400 focus-within:ring-1 focus-within:ring-orange-400 transition-all">
+            <input
+              type="text"
+              value={localSearch}
+              onChange={(e) => {
+                const val = e.target.value;
+                setLocalSearch(val);
+                onSearchChange?.(val);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearchSubmit();
+                }
+              }}
+              placeholder="Search..."
+              className="bg-transparent outline-none text-xs w-full py-0.5 px-1 text-zinc-800 placeholder-zinc-400"
+            />
+            <Search 
+              className="w-3.5 h-3.5 text-zinc-400 cursor-pointer hover:text-black transition-colors" 
+              onClick={handleSearchSubmit}
+            />
+          </div>
+        </div>
 
-          {/* Account Icon */}
-          <button 
-            onClick={() => setLoginOpen(true)}
-            className="p-2 hover:bg-zinc-100 rounded-full transition-colors relative cursor-pointer" 
-            aria-label="Account"
+        {/* Right: Preserved Action Icons */}
+        <div className="flex items-center gap-4 flex-shrink-0">
+          {/* Account Icon with Hover/Click Dropdown */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setProfileDropdownOpen(true)}
+            onMouseLeave={() => setProfileDropdownOpen(false)}
           >
-            <User className="w-5.5 h-5.5" />
-          </button>
+            <button 
+              onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+              className="p-2 hover:bg-zinc-100 rounded-full transition-colors relative cursor-pointer block border-none bg-transparent" 
+              aria-label="Account"
+            >
+              <User className="w-5.5 h-5.5" />
+            </button>
+            
+            <AnimatePresence>
+              {profileDropdownOpen && (
+                <div className="absolute right-0 top-full pt-2 z-50">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.15 }}
+                    className="w-64 bg-white border border-zinc-200 rounded-2xl shadow-xl p-5 text-left select-none"
+                  >
+                    {!isLoggedIn ? (
+                      <div className="space-y-3">
+                        <h4 className="text-sm font-bold text-zinc-900 font-sans uppercase tracking-wider">Welcome</h4>
+                        <p className="text-[11px] text-zinc-505 font-medium font-sans">To access your wishlist and orders</p>
+                        <button
+                          onClick={() => {
+                            setCurrentScreen("login");
+                            setProfileDropdownOpen(false);
+                          }}
+                          className="w-full bg-zinc-950 hover:bg-black text-white font-extrabold text-xs uppercase tracking-wider py-3.5 rounded-xl cursor-pointer text-center transition-colors border-none"
+                        >
+                          Sign In / Sign Up
+                        </button>
+                        <div className="border-t border-zinc-100 pt-2">
+                          <a 
+                            href="/brands" 
+                            className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors text-[11px] font-semibold font-sans"
+                            onClick={() => setProfileDropdownOpen(false)}
+                          >
+                            Brand
+                          </a>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-2 text-xs font-semibold text-zinc-700 font-sans">
+                        <div className="pb-2.5 border-b border-zinc-100">
+                          <span className="text-[9px] font-mono text-zinc-400 block uppercase tracking-wider">Logged in as</span>
+                          <strong className="text-zinc-900 text-sm font-bold block truncate">{userEmail}</strong>
+                        </div>
+                        <a 
+                          href="/wishlist?tab=profile" 
+                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          onClick={() => setProfileDropdownOpen(false)}
+                        >
+                          My Profile
+                        </a>
+                        <a 
+                          href="/wishlist?tab=orders" 
+                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          onClick={() => setProfileDropdownOpen(false)}
+                        >
+                          Orders
+                        </a>
+                        <a 
+                          href="/wishlist?tab=wishlist" 
+                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          onClick={() => setProfileDropdownOpen(false)}
+                        >
+                          Wishlist
+                        </a>
+                        <a 
+                          href="/brands" 
+                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          onClick={() => setProfileDropdownOpen(false)}
+                        >
+                          Brand
+                        </a>
+                        <button
+                          onClick={() => {
+                            handleLogOutSimulate();
+                            setProfileDropdownOpen(false);
+                          }}
+                          className="w-full text-left flex items-center gap-2 py-2.5 px-2 text-red-500 hover:bg-red-50 hover:text-red-700 rounded-lg cursor-pointer font-bold mt-2 bg-transparent border-none"
+                        >
+                          Log Out
+                        </button>
+                      </div>
+                    )}
+                  </motion.div>
+                </div>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Wishlist Icon */}
-          <button 
-            onClick={() => setWishlistOpen(true)}
+          <a 
+            href="/wishlist"
             className="p-2 hover:bg-zinc-100 rounded-full transition-colors relative cursor-pointer" 
             aria-label="Wishlist"
           >
@@ -142,7 +338,7 @@ export function Navbar({
                 {wishlist.length}
               </span>
             )}
-          </button>
+          </a>
 
           {/* Cart Icon */}
           <button 
@@ -174,18 +370,29 @@ export function Navbar({
           <div className="flex items-center border border-zinc-300 rounded-full px-4 py-2 bg-zinc-50">
             <input
               type="text"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
+              value={localSearch}
+              onChange={(e) => {
+                const val = e.target.value;
+                setLocalSearch(val);
+                onSearchChange?.(val);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearchSubmit();
+                }
+              }}
               placeholder="Search..."
               className="w-full bg-transparent outline-none text-sm"
             />
-            <Search className="w-4 h-4 text-zinc-500" />
+            <Search 
+              className="w-4 h-4 text-zinc-500 cursor-pointer hover:text-black transition-colors" 
+              onClick={handleSearchSubmit}
+            />
           </div>
           <nav className="flex flex-col space-y-3 font-semibold text-sm">
-            <a href="/shop" className="block py-2 hover:bg-zinc-50 px-2 rounded">Shop</a>
-            <a href="/brands" className="block py-2 hover:bg-zinc-50 px-2 rounded">Explore</a>
-            <a href="#" className="block py-2 hover:bg-zinc-50 px-2 rounded text-red-500">Sales</a>
-            <a href="#" className="block py-2 hover:bg-zinc-50 px-2 rounded">Support</a>
+            <a href="/" className="block py-2 hover:bg-zinc-50 px-2 rounded">Home</a>
+            <a href="/about" className="block py-2 hover:bg-zinc-50 px-2 rounded">About</a>
+            <a href="/explore" className="block py-2 hover:bg-zinc-50 px-2 rounded">Explore</a>
           </nav>
         </div>
       )}
@@ -293,8 +500,8 @@ export function Navbar({
                   <p className="text-[10px] text-zinc-400 font-mono uppercase tracking-wider">Shipping & taxes calculated at checkout</p>
                   <button 
                     onClick={() => {
-                      alert("Order Placed Successfully! (Simulation)");
                       setCartOpen(false);
+                      window.location.href = "/checkout";
                     }}
                     className="w-full bg-black text-white text-xs font-bold uppercase tracking-wider py-4 rounded-xl hover:bg-zinc-950 transition-colors shadow-lg cursor-pointer"
                   >
@@ -457,274 +664,262 @@ export function Navbar({
         </div>
       )}
 
-      {/* Account Login Modal */}
-      {loginOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6 select-none">
-          <div className="absolute inset-0 bg-black/65 backdrop-blur-xs transition-opacity" onClick={() => setLoginOpen(false)} />
-          
-          {/* Modal Container */}
-          <div className="relative bg-white rounded-[32px] shadow-2xl border border-zinc-100 max-w-4xl w-full flex overflow-hidden animate-fade-in-up min-h-[560px]">
+      {/* Full Page Authentication Flows Screen Overlay */}
+      {currentScreen !== "home" && (
+        <div className="fixed top-[112px] inset-x-0 bottom-0 bg-white z-[60] overflow-y-auto flex flex-col justify-center select-none">
+          <div className="flex-grow flex items-center justify-center py-16 px-4">
             
-            {/* Left Panel: Graphic & Quote (displays exact cropped screenshot) */}
-            <div 
-              className="hidden md:block md:w-1/2 relative bg-zinc-950"
-              style={{
-                backgroundImage: "url('/images/login-bg.png')",
-                backgroundSize: "200% 100%",
-                backgroundPosition: "left center",
-                backgroundRepeat: "no-repeat"
-              }}
-            >
-              {/* Overlay elements if any, otherwise layout matches mockup perfectly as baked-in */}
-            </div>
+            <AnimatePresence mode="wait">
+              {currentScreen === "login" && (
+                <motion.div 
+                  key="login"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.2 }}
+                  className="relative bg-white rounded-3xl border border-zinc-200/80 shadow-2xl max-w-md w-full p-8 md:p-10 text-left"
+                >
+                  {/* Close button */}
+                  <button 
+                    onClick={() => setCurrentScreen("home")}
+                    className="absolute top-5 right-5 w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center hover:bg-black transition-colors cursor-pointer border-none"
+                    aria-label="Close page"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
 
-            {/* Right Panel: Welcome form / Sign Up form */}
-            <div className="w-full md:w-1/2 p-8 sm:p-12 relative flex flex-col justify-center bg-white">
-              {/* Close Button */}
-              <button 
-                onClick={() => setLoginOpen(false)} 
-                className="absolute top-5 right-5 p-2 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer text-zinc-400 hover:text-zinc-600"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
+                  <h2 className="text-2xl font-black text-zinc-900 tracking-tight leading-none uppercase font-mono">Login</h2>
+                  <p className="text-xs text-zinc-505 mt-3 mb-6 font-medium">
+                    Please enter your e-mail and password:
+                  </p>
 
-              {/* Logo / Brand Header */}
-              <div className="flex items-center gap-2 mb-6">
-                <span className="h-2 w-2 rounded-full bg-yellow-400 animate-pulse" />
-                <span className="text-xs font-chaney-title tracking-wider uppercase text-zinc-950">Drip Hunter</span>
-              </div>
-
-              {authScreen === 'signin' && (
-                <>
-                  {/* Header Title */}
-                  <div className="mb-6">
-                    <h3 className="text-2xl font-serif font-extrabold text-zinc-950 tracking-tight">Welcome Back</h3>
-                    <p className="text-xs text-zinc-400 mt-1 font-medium">Enter your email and password to access your account</p>
-                  </div>
-
-                  {/* Login Form */}
                   <form 
                     onSubmit={(e) => {
                       e.preventDefault();
-                      alert("Welcome Back to DRIP HUNTER! Login successful.");
-                      setLoginOpen(false);
-                    }} 
+                      localStorage.setItem("isRegistered", "true");
+                      localStorage.setItem("registeredEmail", authEmail || "user@driphunter.com");
+                      setIsLoggedIn(true);
+                      window.dispatchEvent(new Event("auth-change"));
+                      setCurrentScreen("home");
+                      alert("Logged in successfully!");
+                    }}
                     className="space-y-4"
                   >
-                    <div>
-                      <label className="text-xs font-bold text-zinc-700 block mb-1.5">Email</label>
+                    <input 
+                      type="email" 
+                      required 
+                      placeholder="Email"
+                      value={authEmail}
+                      onChange={(e) => setAuthEmail(e.target.value)}
+                      className="w-full border border-zinc-250 rounded-xl px-4 py-3.5 text-xs bg-white outline-none focus:border-zinc-500 transition-all font-mono text-zinc-900"
+                    />
+
+                    <div className="relative">
                       <input 
-                        type="email" 
+                        type="password" 
                         required 
-                        placeholder="Enter your email"
-                        className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-sm bg-zinc-50 outline-none focus:bg-white focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all placeholder-zinc-400 text-zinc-800"
+                        placeholder="Password"
+                        value={authPassword}
+                        onChange={(e) => setAuthPassword(e.target.value)}
+                        className="w-full border border-zinc-250 rounded-xl px-4 py-3.5 text-xs bg-white outline-none focus:border-zinc-500 transition-all font-mono text-zinc-900"
                       />
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-bold text-zinc-700 block mb-1.5">Password</label>
-                      <div className="relative">
-                        <input 
-                          type={showPassword ? "text" : "password"} 
-                          required 
-                          placeholder="Enter your password"
-                          className="w-full border border-zinc-300 rounded-xl px-4 pr-10 py-3 text-sm bg-zinc-50 outline-none focus:bg-white focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all placeholder-zinc-400 text-zinc-800"
-                        />
-                        <button 
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-700 cursor-pointer p-0.5 bg-transparent border-0"
-                        >
-                          {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs pt-1">
-                      <label className="flex items-center gap-2 text-zinc-500 cursor-pointer">
-                        <input type="checkbox" className="rounded text-black accent-black focus:ring-0 cursor-pointer border-zinc-200" />
-                        <span className="font-medium">Remember me</span>
-                      </label>
                       <button 
                         type="button"
-                        onClick={() => setAuthScreen('forgot')}
-                        className="font-semibold text-zinc-800 hover:underline bg-transparent border-none p-0 cursor-pointer text-xs"
+                        onClick={() => alert("Forgot password link sent!")}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-zinc-400 hover:text-black cursor-pointer bg-transparent border-none p-0 font-bold"
                       >
-                        Forgot Password
+                        Forgot password?
                       </button>
                     </div>
 
-                    {/* Submit button */}
                     <button 
                       type="submit" 
-                      className="w-full bg-black hover:bg-zinc-900 text-white font-semibold text-xs uppercase tracking-wider py-3.5 rounded-xl transition-all shadow-xs mt-4 cursor-pointer"
+                      className="w-full bg-zinc-950 hover:bg-black text-[#ebd26b] font-extrabold text-xs uppercase tracking-widest py-4 rounded-xl cursor-pointer text-center transition-colors border-none mt-2"
                     >
-                      Sign In
-                    </button>
-
-                    {/* Google Sign In button */}
-                    <button 
-                      type="button"
-                      onClick={() => {
-                        alert("Google OAuth Login Initialized! (Simulation)");
-                        setLoginOpen(false);
-                      }}
-                      className="w-full bg-white hover:bg-zinc-50 text-zinc-700 font-semibold text-xs py-3.5 rounded-xl transition-all cursor-pointer border border-zinc-200 shadow-xs flex items-center justify-center gap-2.5 mt-2"
-                    >
-                      <svg className="w-4 h-4" viewBox="0 0 24 24">
-                        <path
-                          fill="#EA4335"
-                          d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.354 0 3.373 2.736 1.5 6.727l3.766 3.038z"
-                        />
-                        <path
-                          fill="#34A853"
-                          d="M16.04 15.345c-1.073.71-2.437 1.137-4.04 1.137a7.07 7.07 0 0 1-6.734-4.855L1.5 14.664C3.373 18.655 7.354 21.39 12 21.39c3.055 0 5.864-1.09 7.964-2.973l-3.924-3.072z"
-                        />
-                        <path
-                          fill="#4285F4"
-                          d="M23.49 12.273c0-.818-.082-1.609-.218-2.364H12v4.51h6.464a5.53 5.53 0 0 1-2.4 3.636l3.924 3.073c2.29-2.11 3.502-5.21 3.502-8.855z"
-                        />
-                        <path
-                          fill="#FBBC05"
-                          d="M5.266 12.182c0-.437.073-.864.2-1.273L1.7 7.873a11.967 11.967 0 0 0 0 8.618l3.766-3.036a7.043 7.043 0 0 1-.2-1.273z"
-                        />
-                      </svg>
-                      <span>Sign In with Google</span>
+                      Log In
                     </button>
                   </form>
 
-                  {/* Sign up link */}
-                  <div className="text-center mt-6 text-xs text-zinc-500">
-                    <span>Don&apos;t have an account? </span>
-                    <button onClick={() => setAuthScreen('signup')} className="font-bold text-black hover:underline bg-transparent border-none p-0 cursor-pointer">
+                  <div className="text-center mt-6 text-xs text-zinc-505 font-semibold font-sans">
+                    Don't have an account?{" "}
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        setCurrentScreen("register");
+                        setCodeError("");
+                      }} 
+                      className="font-bold text-black hover:underline cursor-pointer bg-transparent border-none p-0"
+                    >
                       Sign Up
                     </button>
                   </div>
-                </>
+                </motion.div>
               )}
 
-              {authScreen === 'signup' && (
-                <>
-                  {/* Header Title */}
-                  <div className="mb-6">
-                    <h3 className="text-2xl font-serif font-extrabold text-zinc-950 tracking-tight">Create Account</h3>
-                    <p className="text-xs text-zinc-400 mt-1 font-medium">Join the Drip Hunter club for premium streetwear drops</p>
-                  </div>
+              {currentScreen === "register" && (
+                <motion.div 
+                  key="register"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.2 }}
+                  className="relative bg-white rounded-3xl border border-zinc-200/80 shadow-2xl max-w-md w-full p-8 md:p-10 text-left"
+                >
+                  <button 
+                    onClick={() => setCurrentScreen("home")}
+                    className="absolute top-5 right-5 w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center hover:bg-black transition-colors cursor-pointer border-none"
+                    aria-label="Close page"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
 
-                  {/* Sign Up Form */}
+                  <h2 className="text-2xl font-black text-zinc-900 tracking-tight leading-none uppercase font-mono">Register</h2>
+                  <p className="text-xs text-zinc-500 mt-3 mb-6 font-medium">
+                    Please fill in the information below:
+                  </p>
+
                   <form 
                     onSubmit={(e) => {
                       e.preventDefault();
-                      alert("Account Created Successfully! Welcome to DRIP HUNTER.");
-                      setAuthScreen('signin');
-                      setLoginOpen(false);
-                    }} 
+                      setCurrentScreen("verify");
+                    }}
                     className="space-y-4"
                   >
-                    <div>
-                      <label className="text-xs font-bold text-zinc-700 block mb-1.5">Name</label>
+                    <div className="grid grid-cols-2 gap-3">
                       <input 
                         type="text" 
                         required 
-                        placeholder="Enter your name"
-                        className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-sm bg-zinc-50 outline-none focus:bg-white focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all placeholder-zinc-400 text-zinc-800"
+                        placeholder="First Name"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        className="w-full border border-zinc-250 rounded-xl px-4 py-3.5 text-xs bg-white outline-none focus:border-zinc-500 transition-all font-mono text-zinc-900"
                       />
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-bold text-zinc-700 block mb-1.5">Email Address</label>
                       <input 
-                        type="email" 
+                        type="text" 
                         required 
-                        placeholder="Enter your email"
-                        className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-sm bg-zinc-50 outline-none focus:bg-white focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all placeholder-zinc-400 text-zinc-800"
+                        placeholder="Last Name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        className="w-full border border-zinc-250 rounded-xl px-4 py-3.5 text-xs bg-white outline-none focus:border-zinc-500 transition-all font-mono text-zinc-900"
                       />
                     </div>
 
-                    <div>
-                      <label className="text-xs font-bold text-zinc-700 block mb-1.5">Password</label>
-                      <div className="relative">
-                        <input 
-                          type={showPassword ? "text" : "password"} 
-                          required 
-                          placeholder="Create a password"
-                          className="w-full border border-zinc-300 rounded-xl px-4 pr-10 py-3 text-sm bg-zinc-50 outline-none focus:bg-white focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all placeholder-zinc-400 text-zinc-800"
-                        />
-                        <button 
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-700 cursor-pointer p-0.5 bg-transparent border-0"
-                        >
-                          {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                        </button>
-                      </div>
-                    </div>
+                    <input 
+                      type="email" 
+                      required 
+                      placeholder="Email"
+                      value={authEmail}
+                      onChange={(e) => setAuthEmail(e.target.value)}
+                      className="w-full border border-zinc-250 rounded-xl px-4 py-3.5 text-xs bg-white outline-none focus:border-zinc-500 transition-all font-mono text-zinc-900"
+                    />
 
-                    {/* Submit button */}
+                    <input 
+                      type="password" 
+                      required 
+                      placeholder="Password"
+                      value={authPassword}
+                      onChange={(e) => setAuthPassword(e.target.value)}
+                      className="w-full border border-zinc-250 rounded-xl px-4 py-3.5 text-xs bg-white outline-none focus:border-zinc-500 transition-all font-mono text-zinc-900"
+                    />
+
                     <button 
                       type="submit" 
-                      className="w-full bg-black hover:bg-zinc-900 text-white font-semibold text-xs uppercase tracking-wider py-3.5 rounded-xl transition-all shadow-xs mt-6 cursor-pointer"
+                      className="w-full bg-zinc-950 hover:bg-black text-[#ebd26b] font-extrabold text-xs uppercase tracking-widest py-4 rounded-xl cursor-pointer text-center transition-colors border-none mt-2"
                     >
-                      Sign Up
+                      Create My Account
                     </button>
                   </form>
 
-                  {/* Sign in link */}
-                  <div className="text-center mt-6 text-xs text-zinc-500">
-                    <span>Already have an account? </span>
-                    <button onClick={() => setAuthScreen('signin')} className="font-bold text-black hover:underline bg-transparent border-none p-0 cursor-pointer">
-                      Sign In
+                  <div className="text-center mt-6 text-xs text-zinc-505 font-semibold font-sans">
+                    Already have an account?{" "}
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        setCurrentScreen("login");
+                        setCodeError("");
+                      }} 
+                      className="font-bold text-black hover:underline cursor-pointer bg-transparent border-none p-0"
+                    >
+                      Log in
                     </button>
                   </div>
-                </>
+                </motion.div>
               )}
 
-              {authScreen === 'forgot' && (
-                <>
-                  {/* Header Title */}
-                  <div className="mb-6">
-                    <h3 className="text-2xl font-serif font-extrabold text-zinc-950 tracking-tight">Reset Password</h3>
-                    <p className="text-xs text-zinc-400 mt-1 font-medium">Enter your email address to receive a password reset link</p>
-                  </div>
+              {currentScreen === "verify" && (
+                <motion.div 
+                  key="verify"
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.2 }}
+                  className="relative bg-white rounded-3xl border border-zinc-200/80 shadow-2xl max-w-md w-full p-8 md:p-10 text-left"
+                >
+                  <button 
+                    onClick={() => setCurrentScreen("home")}
+                    className="absolute top-5 right-5 w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center hover:bg-black transition-colors cursor-pointer border-none"
+                    aria-label="Close page"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
 
-                  {/* Forgot Password Form */}
+                  <h2 className="text-2xl font-black text-zinc-900 tracking-tight leading-none uppercase font-mono">Enter Code</h2>
+                  <p className="text-xs text-zinc-505 mt-3 mb-6 font-medium">
+                    Sent to {authEmail || "user@driphunter.com"}
+                  </p>
+
                   <form 
                     onSubmit={(e) => {
                       e.preventDefault();
-                      alert("Password reset link sent successfully!");
-                      setAuthScreen('signin');
-                    }} 
+                      if (!verificationCode.trim()) {
+                        setCodeError("Verification code cannot be empty!");
+                        return;
+                      }
+                      localStorage.setItem("isRegistered", "true");
+                      localStorage.setItem("registeredEmail", authEmail || "user@driphunter.com");
+                      setIsLoggedIn(true);
+                      window.dispatchEvent(new Event("auth-change"));
+                      setCurrentScreen("home");
+                      alert("Account verified and logged in successfully!");
+                    }}
                     className="space-y-4"
                   >
-                    <div>
-                      <label className="text-xs font-bold text-zinc-700 block mb-1.5">Email Address</label>
+                    <div className="relative">
                       <input 
-                        type="email" 
+                        type="text" 
+                        maxLength={6}
                         required 
-                        placeholder="Enter your email"
-                        className="w-full border border-zinc-300 rounded-xl px-4 py-3 text-sm bg-zinc-50 outline-none focus:bg-white focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all placeholder-zinc-400 text-zinc-800"
+                        placeholder="6-digit code"
+                        value={verificationCode}
+                        onChange={(e) => {
+                          setVerificationCode(e.target.value);
+                          setCodeError("");
+                        }}
+                        className="w-full border border-zinc-250 rounded-xl px-4 py-3.5 text-xs bg-white outline-none focus:border-zinc-500 transition-all font-mono text-zinc-900"
                       />
+                      <button 
+                        type="button"
+                        onClick={() => alert("Verification code resent!")}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-zinc-500 hover:text-black cursor-pointer bg-transparent border-none p-0 font-bold"
+                      >
+                        Verify
+                      </button>
                     </div>
 
-                    {/* Submit button */}
+                    {codeError && (
+                      <p className="text-[10px] text-red-500 font-mono font-bold text-left">{codeError}</p>
+                    )}
+
                     <button 
                       type="submit" 
-                      className="w-full bg-black hover:bg-zinc-900 text-white font-semibold text-xs uppercase tracking-wider py-3.5 rounded-xl transition-all shadow-xs mt-6 cursor-pointer"
+                      className="w-full bg-zinc-950 hover:bg-black text-[#ebd26b] font-extrabold text-xs uppercase tracking-widest py-4 rounded-xl cursor-pointer text-center transition-colors border-none mt-2"
                     >
-                      Send Reset Link
+                      Create My Account
                     </button>
                   </form>
-
-                  {/* Sign in link */}
-                  <div className="text-center mt-6 text-xs text-zinc-500">
-                    <button onClick={() => setAuthScreen('signin')} className="font-bold text-black hover:underline bg-transparent border-none p-0 cursor-pointer">
-                      Back to Sign In
-                    </button>
-                  </div>
-                </>
+                </motion.div>
               )}
-            </div>
+            </AnimatePresence>
 
           </div>
         </div>

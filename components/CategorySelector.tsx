@@ -50,7 +50,12 @@ const categoriesData: Category[] = [
   },
 ];
 
-export function CategorySelector() {
+interface CategorySelectorProps {
+  selectedSubCategory?: string | null;
+  onSelectSubCategory?: (subCategoryName: string | null) => void;
+}
+
+export function CategorySelector({ selectedSubCategory, onSelectSubCategory }: CategorySelectorProps) {
   const allSubCategories = categoriesData.flatMap((cat) => cat.subCategories);
 
   return (
@@ -58,27 +63,43 @@ export function CategorySelector() {
       <div className="bg-zinc-50 border border-zinc-200 rounded-3xl p-6 shadow-sm overflow-hidden">
         {/* Horizontal scrollable wrapper for all subcategories combined */}
         <div className="flex items-center gap-6 overflow-x-auto scrollbar-none py-1 -my-1 w-full flex-nowrap justify-start lg:justify-between">
-          {allSubCategories.map((sub, idx) => (
-            <button
-              key={idx}
-              className="flex flex-col items-center gap-2 group flex-shrink-0 cursor-pointer min-w-[75px] sm:min-w-[85px] focus:outline-none"
-            >
-              {/* Circular Image Container */}
-              <div className="w-12 h-12 sm:w-16 sm:h-16 relative bg-white border border-zinc-200 shadow-sm rounded-full overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:border-black group-hover:shadow-md">
-                <Image
-                  src={sub.image}
-                  alt={sub.name}
-                  fill
-                  sizes="64px"
-                  className="object-cover"
-                />
-              </div>
-              {/* Subcategory Name */}
-              <span className="text-[10px] sm:text-xs font-bold text-center leading-tight group-hover:underline text-zinc-700 group-hover:text-black line-clamp-1 max-w-full">
-                {sub.name}
-              </span>
-            </button>
-          ))}
+          {allSubCategories.map((sub, idx) => {
+            const isSelected = selectedSubCategory === sub.name;
+            return (
+              <button
+                key={idx}
+                onClick={() => {
+                  if (onSelectSubCategory) {
+                    onSelectSubCategory(isSelected ? null : sub.name);
+                  }
+                }}
+                className="flex flex-col items-center gap-2 group flex-shrink-0 cursor-pointer min-w-[75px] sm:min-w-[85px] focus:outline-none"
+              >
+                {/* Circular Image Container */}
+                <div className={`w-12 h-12 sm:w-16 sm:h-16 relative bg-white border rounded-full overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-md ${
+                  isSelected 
+                    ? "border-black ring-2 ring-black scale-105 shadow-md" 
+                    : "border-zinc-200 shadow-sm group-hover:border-black"
+                }`}>
+                  <Image
+                    src={sub.image}
+                    alt={sub.name}
+                    fill
+                    sizes="64px"
+                    className="object-cover"
+                  />
+                </div>
+                {/* Subcategory Name */}
+                <span className={`text-[10px] sm:text-xs font-bold text-center leading-tight group-hover:underline line-clamp-1 max-w-full ${
+                  isSelected 
+                    ? "text-black underline font-black" 
+                    : "text-zinc-700 group-hover:text-black"
+                }`}>
+                  {sub.name}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>

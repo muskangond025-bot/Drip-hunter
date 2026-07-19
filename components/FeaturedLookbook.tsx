@@ -4,7 +4,11 @@ import React from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
-export function FeaturedLookbook() {
+interface FeaturedLookbookProps {
+  onSelectCategory?: (category: string | null) => void;
+}
+
+export function FeaturedLookbook({ onSelectCategory }: FeaturedLookbookProps) {
   return (
     <section className="bg-zinc-950 text-white py-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-zinc-900 via-black to-black opacity-80" />
@@ -35,7 +39,12 @@ export function FeaturedLookbook() {
               </p>
             </div>
             <div className="mt-12">
-              <button className="w-full bg-white hover:bg-yellow-400 hover:text-black text-black font-extrabold uppercase text-xs tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 transition-all group-hover:shadow-lg cursor-pointer">
+              <button 
+                onClick={() => {
+                  if (onSelectCategory) onSelectCategory("Graphic Tees");
+                }}
+                className="w-full bg-white hover:bg-yellow-400 hover:text-black text-black font-extrabold uppercase text-xs tracking-wider py-4 rounded-xl flex items-center justify-center gap-2 transition-all group-hover:shadow-lg cursor-pointer"
+              >
                 View Lookbook
                 <ArrowUpRight className="w-4 h-4" />
               </button>
@@ -79,7 +88,14 @@ export function FeaturedLookbook() {
                 <span className="text-[9px] font-mono text-zinc-500 font-bold uppercase">LOOK 02</span>
                 <h4 className="text-sm font-black uppercase mt-1">Industrial Crop Top</h4>
               </div>
-              <a href="#" className="relative z-10 text-xs font-mono text-yellow-400 font-bold hover:underline mt-4 flex items-center gap-1">
+              <a 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onSelectCategory) onSelectCategory("Graphic Tees");
+                }}
+                className="relative z-10 text-xs font-mono text-yellow-400 font-bold hover:underline mt-4 flex items-center gap-1"
+              >
                 View Outfit <ArrowUpRight className="w-3 h-3" />
               </a>
             </div>
@@ -97,7 +113,14 @@ export function FeaturedLookbook() {
                 <span className="text-[9px] font-mono text-zinc-500 font-bold uppercase">LOOK 03</span>
                 <h4 className="text-sm font-black uppercase mt-1">Wide Cargo Pants</h4>
               </div>
-              <a href="#" className="relative z-10 text-xs font-mono text-yellow-400 font-bold hover:underline mt-4 flex items-center gap-1">
+              <a 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onSelectCategory) onSelectCategory("Tactical Cargo");
+                }}
+                className="relative z-10 text-xs font-mono text-yellow-400 font-bold hover:underline mt-4 flex items-center gap-1"
+              >
                 View Outfit <ArrowUpRight className="w-3 h-3" />
               </a>
             </div>
@@ -115,7 +138,14 @@ export function FeaturedLookbook() {
                 <span className="text-[9px] font-mono text-zinc-500 font-bold uppercase">LOOK 04</span>
                 <h4 className="text-sm font-black uppercase mt-1">Tactical Mesh Cap</h4>
               </div>
-              <a href="#" className="relative z-10 text-xs font-mono text-yellow-400 font-bold hover:underline mt-4 flex items-center gap-1">
+              <a 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onSelectCategory) onSelectCategory("Utility Caps");
+                }}
+                className="relative z-10 text-xs font-mono text-yellow-400 font-bold hover:underline mt-4 flex items-center gap-1"
+              >
                 View Outfit <ArrowUpRight className="w-3 h-3" />
               </a>
             </div>

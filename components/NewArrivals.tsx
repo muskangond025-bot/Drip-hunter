@@ -128,6 +128,7 @@ interface NewArrivalsProps {
   onToggleFavorite: (product: Product) => void;
   searchQuery?: string;
   searchCategory?: string;
+  selectedSubCategory?: string | null;
 }
 
 export function NewArrivals({
@@ -137,10 +138,55 @@ export function NewArrivals({
   onToggleFavorite,
   searchQuery = "",
   searchCategory = "All",
+  selectedSubCategory,
 }: NewArrivalsProps) {
   const [activeHeroSlide, setActiveHeroSlide] = useState(0);
 
   let displayProducts = productsByCategory[activeTab] || productsData;
+
+  // Filter by selected subcategory (from CategorySelector)
+  if (selectedSubCategory) {
+    const sub = selectedSubCategory.toLowerCase();
+    displayProducts = displayProducts.filter(item => {
+      const name = item.name.toLowerCase();
+      const brand = item.brand.toLowerCase();
+      
+      if (sub.includes("tee") || sub.includes("t-shirt")) {
+        return name.includes("tee") || name.includes("t-shirt");
+      }
+      if (sub.includes("hoodie")) {
+        return name.includes("hoodie");
+      }
+      if (sub.includes("shirt")) {
+        return name.includes("shirt");
+      }
+      if (sub.includes("vest")) {
+        return name.includes("vest");
+      }
+      if (sub.includes("sweater") || sub.includes("crewneck")) {
+        return name.includes("sweater") || name.includes("crewneck");
+      }
+      if (sub.includes("cargo")) {
+        return name.includes("cargo");
+      }
+      if (sub.includes("shorts")) {
+        return name.includes("shorts") || name.includes("short");
+      }
+      if (sub.includes("denim") || sub.includes("jeans")) {
+        return name.includes("denim") || name.includes("jeans");
+      }
+      if (sub.includes("sweatpants")) {
+        return name.includes("sweatpants") || name.includes("pants");
+      }
+      if (sub.includes("jogger")) {
+        return name.includes("jogger");
+      }
+      if (sub.includes("cap") || sub.includes("beanie") || sub.includes("shades") || sub.includes("bag") || sub.includes("socks") || sub.includes("utility")) {
+        return name.includes("cap") || name.includes("beanie") || name.includes("shades") || name.includes("bag") || name.includes("socks") || name.includes("utility") || name.includes("hat");
+      }
+      return name.includes(sub) || brand.includes(sub);
+    });
+  }
 
   // Filter by category dropdown select
   if (searchCategory && searchCategory !== "All") {
@@ -171,13 +217,13 @@ export function NewArrivals({
   };
 
   return (
-    <section className="bg-white text-black py-16">
+    <section id="new-arrivals" className="bg-white text-black py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Title & Subtitle */}
         <SectionHeader
-          title="New Arrival"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et"
+          title={selectedSubCategory ? `New Arrival: ${selectedSubCategory}` : "New Arrival"}
+          description={selectedSubCategory ? `Showing premium streetwear items related to "${selectedSubCategory}"` : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et"}
         />
 
         {/* Layout Grid */}
@@ -287,6 +333,7 @@ export function NewArrivals({
               return (
                 <ProductCard
                   key={item.id}
+                  id={item.id}
                   brand={item.brand}
                   name={item.name}
                   price={item.price}

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface LookbookData {
   logoTitle: string;
@@ -97,8 +98,182 @@ const brandLookbooks: Record<string, LookbookData> = {
   }
 };
 
+const dealPages = [
+  // Page 1
+  [
+    {
+      bg: "bg-gradient-to-br from-[#7c2d12] via-[#581c87] to-[#3b0764]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none">
+          <span className="text-yellow-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">DEAL</span>
+          <span className="text-cyan-300 text-sm block italic my-1.5 font-bold font-sans">of the</span>
+          <span className="text-yellow-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">DAY</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-[#e11d48]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
+          <span className="bg-yellow-400 text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">DEAL OF THE</span>
+          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">WEEK</span>
+          <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">SHOP NOW!</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-gradient-to-br from-[#f59e0b] to-[#ea580c]",
+      content: (
+        <div className="text-center flex flex-col items-center gap-1.5">
+          <span className="bg-red-650 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">THIS WEEK ONLY</span>
+          <span className="bg-cyan-400 text-white text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BEST DEAL</span>
+          <span className="bg-black text-white text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">BIG OFFER</span>
+          <span className="text-red-600 text-[9px] font-extrabold uppercase tracking-widest bg-white px-2 py-0.5 rounded-full border border-red-500 mt-1">UP TO 50% OFF</span>
+        </div>
+      )
+    }
+  ],
+  // Page 2
+  [
+    {
+      bg: "bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none">
+          <span className="text-orange-455 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">FLASH</span>
+          <span className="text-white text-sm block italic my-1.5 font-bold font-sans">SALE</span>
+          <span className="text-orange-455 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">70% OFF</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-[#059669]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
+          <span className="bg-[#fef08a] text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">MID-SEASON</span>
+          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">SPECIAL</span>
+          <span className="text-[#fef08a] text-[10px] font-bold uppercase tracking-widest mt-1">LIMITED STOCKS</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-gradient-to-br from-[#be123c] to-[#9f1239]",
+      content: (
+        <div className="text-center flex flex-col items-center gap-1.5">
+          <span className="bg-black text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">EXCLUSIVE CODES</span>
+          <span className="bg-yellow-400 text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BUY 1 GET 1</span>
+          <span className="bg-white text-zinc-900 text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">FREE TEES</span>
+          <span className="text-yellow-500 text-[9px] font-extrabold uppercase tracking-widest bg-zinc-900 px-2 py-0.5 rounded-full mt-1">CODE: FREE20</span>
+        </div>
+      )
+    }
+  ],
+  // Page 3
+  [
+    {
+      bg: "bg-gradient-to-br from-[#4c1d95] via-[#2e1065] to-[#1e1b4b]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none">
+          <span className="text-cyan-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">HOODIE</span>
+          <span className="text-yellow-400 text-sm block italic my-1.5 font-bold font-sans">SPECIAL</span>
+          <span className="text-cyan-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">DROP DEALS</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-gradient-to-br from-[#0d9488] to-[#115e59]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
+          <span className="bg-black text-yellow-400 text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">WEEKEND ONLY</span>
+          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">STEALS</span>
+          <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">Flat 40% Off</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-gradient-to-br from-[#3f3f46] to-[#18181b]",
+      content: (
+        <div className="text-center flex flex-col items-center gap-1.5">
+          <span className="bg-yellow-400 text-black text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">WORLDWIDE</span>
+          <span className="bg-white text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">FREE SHIPPING</span>
+          <span className="bg-zinc-800 text-white text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">NO MINIMUM</span>
+          <span className="text-yellow-400 text-[9px] font-extrabold uppercase tracking-widest mt-1">AUTOMATIC APPLY</span>
+        </div>
+      )
+    }
+  ],
+  // Page 4
+  [
+    {
+      bg: "bg-gradient-to-br from-[#365314] via-[#1a2e05] to-[#0f1d02]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none">
+          <span className="text-yellow-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">CARGO</span>
+          <span className="text-white text-sm block italic my-1.5 font-bold font-sans">PANTS</span>
+          <span className="text-yellow-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">SAVINGS</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-gradient-to-br from-[#3730a3] to-[#1e1b4b]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
+          <span className="bg-yellow-400 text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">MEMBERS ONLY</span>
+          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">DRIP CLUB</span>
+          <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">Get Extra 20% Off</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-gradient-to-br from-[#78350f] to-[#451a03]",
+      content: (
+        <div className="text-center flex flex-col items-center gap-1.5">
+          <span className="bg-black text-yellow-500 text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">LUCKY BOX</span>
+          <span className="bg-white text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">MYSTERY BOX</span>
+          <span className="bg-yellow-500 text-black text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">DROPS ONCE</span>
+          <span className="text-white text-[9px] font-extrabold uppercase tracking-widest mt-1">LIMITED 100 PIECES</span>
+        </div>
+      )
+    }
+  ],
+  // Page 5
+  [
+    {
+      bg: "bg-gradient-to-br from-[#ea580c] via-[#ca8a04] to-[#854d0e]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none">
+          <span className="text-white text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">VINTAGE</span>
+          <span className="text-black text-sm block italic my-1.5 font-bold font-sans">TEE</span>
+          <span className="text-white text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">SPECIALS</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-gradient-to-br from-[#e11d48] to-[#be123c]",
+      content: (
+        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
+          <span className="bg-black text-[#fecdd3] text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">FINAL CALL</span>
+          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">CLEANOUT</span>
+          <span className="text-[#fecdd3] text-[10px] font-bold uppercase tracking-widest mt-1">Everything Must Go</span>
+        </div>
+      )
+    },
+    {
+      bg: "bg-gradient-to-br from-[#0284c7] to-[#0369a1]",
+      content: (
+        <div className="text-center flex flex-col items-center gap-1.5">
+          <span className="bg-black text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">FINANCE SUPPORT</span>
+          <span className="bg-[#e0f2fe] text-[#0369a1] text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BUY NOW</span>
+          <span className="bg-white text-black text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">PAY LATER</span>
+          <span className="text-yellow-400 text-[9px] font-extrabold uppercase tracking-widest mt-1">INTEREST FREE</span>
+        </div>
+      )
+    }
+  ]
+];
+
 export function TemplatesShowcase() {
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
+  const [currentDealPage, setCurrentDealPage] = useState(0);
 
   const handleBrandClick = (brandName: string) => {
     if (activeBrand === brandName) {
@@ -124,49 +299,58 @@ export function TemplatesShowcase() {
         </p>
 
         {/* Banners Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10 max-w-5xl mx-auto">
-          
-          {/* Card 1: Purple Deal Of The Day */}
-          <div className="bg-gradient-to-br from-[#7c2d12] via-[#581c87] to-[#3b0764] rounded-3xl aspect-[1.6] flex flex-col items-center justify-center p-6 shadow-md relative overflow-hidden group hover:scale-[1.01] transition-transform duration-300">
-            <div className="absolute -top-10 -right-10 w-28 h-28 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-            <div className="text-center font-black tracking-tighter leading-none">
-              <span className="text-yellow-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">DEAL</span>
-              <span className="text-cyan-300 text-sm block italic my-1.5 font-bold font-sans">of the</span>
-              <span className="text-yellow-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">DAY</span>
-            </div>
-          </div>
-
-          {/* Card 2: Red Deal Of The Week */}
-          <div className="bg-[#e11d48] rounded-3xl aspect-[1.6] flex flex-col items-center justify-center p-6 shadow-md relative overflow-hidden group hover:scale-[1.01] transition-transform duration-300">
-            <div className="absolute -bottom-10 -left-10 w-28 h-28 bg-black/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-            <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
-              <span className="bg-yellow-350 text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">DEAL OF THE</span>
-              <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">WEEK</span>
-              <span className="text-yellow-350 text-[10px] font-bold uppercase tracking-widest mt-1">SHOP NOW!</span>
-            </div>
-          </div>
-
-          {/* Card 3: Orange Best Deal Big Offer */}
-          <div className="bg-gradient-to-br from-[#f59e0b] to-[#ea580c] rounded-3xl aspect-[1.6] flex flex-col items-center justify-center p-6 shadow-md relative overflow-hidden group hover:scale-[1.01] transition-transform duration-300">
-            <div className="absolute -top-10 -left-10 w-28 h-28 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-            <div className="text-center flex flex-col items-center gap-1.5">
-              <span className="bg-red-650 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">THIS WEEK ONLY</span>
-              <span className="bg-cyan-400 text-white text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BEST DEAL</span>
-              <span className="bg-black text-white text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">BIG OFFER</span>
-              <span className="text-red-600 text-[9px] font-extrabold uppercase tracking-widest bg-white px-2 py-0.5 rounded-full border border-red-500 mt-1">UP TO 50% OFF</span>
-            </div>
-          </div>
-
+        <div className="relative overflow-hidden mt-10 max-w-5xl mx-auto min-h-[220px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentDealPage}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.23 }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            >
+              {dealPages[currentDealPage].map((card, i) => (
+                <div 
+                  key={i} 
+                  className={`${card.bg} rounded-3xl aspect-[1.6] flex flex-col items-center justify-center p-6 shadow-md relative overflow-hidden group hover:scale-[1.01] transition-transform duration-300`}
+                >
+                  <div className="absolute -top-10 -right-10 w-28 h-28 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+                  {card.content}
+                </div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Pagination Dots Row */}
         <div className="flex items-center justify-center gap-2.5 mt-8">
-          <button className="w-7 h-7 rounded-lg bg-zinc-100 text-zinc-600 flex items-center justify-center hover:bg-zinc-200 transition-colors text-xs font-bold font-mono cursor-pointer">&lt;</button>
-          <button className="w-7 h-7 rounded-lg bg-orange-500 text-white flex items-center justify-center text-xs font-bold font-mono shadow-xs cursor-pointer">1</button>
-          {[2, 3, 4, 5].map((idx) => (
-            <button key={idx} className="w-7 h-7 rounded-lg bg-zinc-50 text-zinc-500 flex items-center justify-center hover:bg-zinc-200 transition-colors text-xs font-bold font-mono cursor-pointer">{idx}</button>
+          <button 
+            onClick={() => setCurrentDealPage(prev => (prev === 0 ? dealPages.length - 1 : prev - 1))}
+            className="w-7 h-7 rounded-lg bg-zinc-100 text-zinc-600 flex items-center justify-center hover:bg-zinc-200 transition-colors text-xs font-bold font-mono cursor-pointer border-none"
+          >
+            &lt;
+          </button>
+          
+          {dealPages.map((_, idx) => (
+            <button 
+              key={idx} 
+              onClick={() => setCurrentDealPage(idx)}
+              className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-mono transition-all cursor-pointer border-none ${
+                currentDealPage === idx 
+                  ? "bg-orange-500 text-white shadow-xs" 
+                  : "bg-zinc-50 text-zinc-500 hover:bg-zinc-200"
+              }`}
+            >
+              {idx + 1}
+            </button>
           ))}
-          <button className="w-7 h-7 rounded-lg bg-zinc-100 text-zinc-600 flex items-center justify-center hover:bg-zinc-200 transition-colors text-xs font-bold font-mono cursor-pointer">&gt;</button>
+
+          <button 
+            onClick={() => setCurrentDealPage(prev => (prev === dealPages.length - 1 ? 0 : prev + 1))}
+            className="w-7 h-7 rounded-lg bg-zinc-100 text-zinc-600 flex items-center justify-center hover:bg-zinc-200 transition-colors text-xs font-bold font-mono cursor-pointer border-none"
+          >
+            &gt;
+          </button>
         </div>
       </div>
 

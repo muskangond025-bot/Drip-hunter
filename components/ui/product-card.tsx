@@ -4,6 +4,7 @@ import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
+  id?: number;
   brand: string;
   name: string;
   price: string;
@@ -18,6 +19,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({
+  id,
   brand,
   name,
   price,
@@ -44,9 +46,11 @@ export function ProductCard({
     >
       {/* Image container */}
       <div
+        onClick={() => id && (window.location.href = `/product/${id}`)}
         className={cn(
           "relative w-full aspect-[4/5] bg-zinc-100 overflow-hidden select-none",
-          isPadded ? "rounded-xl" : "rounded-t-[22px]"
+          isPadded ? "rounded-xl" : "rounded-t-[22px]",
+          id ? "cursor-pointer" : ""
         )}
       >
         <Image
@@ -95,11 +99,14 @@ export function ProductCard({
       {/* Product Details & Action Button */}
       {isPadded ? (
         <div className="mt-4 flex flex-col gap-1.5 flex-grow justify-between">
-          <div>
+          <div
+            onClick={() => id && (window.location.href = `/product/${id}`)}
+            className={cn("flex flex-col gap-1", id ? "cursor-pointer" : "")}
+          >
             <span className="text-[10px] text-zinc-400 font-mono block uppercase">
               {brand}
             </span>
-            <h4 className="text-xs font-bold text-zinc-950 uppercase tracking-tight line-clamp-1 mt-0.5">
+            <h4 className="text-xs font-bold text-zinc-955 uppercase tracking-tight line-clamp-1 mt-0.5 hover:text-orange-500 transition-colors">
               {name}
             </h4>
             <strong className="text-sm font-bold text-zinc-950 mt-1 block">
@@ -116,11 +123,14 @@ export function ProductCard({
         </div>
       ) : (
         <>
-          <div className="p-5 bg-white flex flex-col gap-1 flex-grow">
+          <div 
+            onClick={() => id && (window.location.href = `/product/${id}`)}
+            className={cn("p-5 bg-white flex flex-col gap-1 flex-grow", id ? "cursor-pointer" : "")}
+          >
             <span className="text-[10px] font-sans text-zinc-400 uppercase tracking-wider block">
               {brand}
             </span>
-            <h4 className="text-xs font-bold text-zinc-700 tracking-tight uppercase line-clamp-1">
+            <h4 className="text-xs font-bold text-zinc-700 tracking-tight uppercase line-clamp-1 hover:text-orange-500 transition-colors">
               {name}
             </h4>
             <strong className="text-sm font-bold text-zinc-950 block mt-0.5">

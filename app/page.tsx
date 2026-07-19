@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
+import { CategorySelector } from "@/components/CategorySelector";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { HeroSection } from "@/components/HeroSection";
+import { TShirtGridSection } from "@/components/TShirtGridSection";
 import { NewArrivals } from "@/components/NewArrivals";
 import { TemplatesShowcase } from "@/components/TemplatesShowcase";
 import { BrandCollabTeasers } from "@/components/BrandCollabTeasers";
+import { BrandShowcase } from "@/components/BrandShowcase";
 import { FeaturedLookbook } from "@/components/FeaturedLookbook";
 import { RecentlyViewed } from "@/components/RecentlyViewed";
 import { MediaCollage } from "@/components/MediaCollage";
@@ -15,6 +19,7 @@ import { TikTokReels } from "@/components/TikTokReels";
 import { NoticeBoard } from "@/components/NoticeBoard";
 import { RetroTechBanner } from "@/components/RetroTechBanner";
 import { Footer } from "@/components/Footer";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface CartItem {
   id: number;
@@ -48,6 +53,43 @@ export default function Home() {
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("All");
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
+
+  // Smooth scroll to product grid when a category is selected
+  useEffect(() => {
+    if (selectedSubCategory) {
+      const element = document.getElementById("tshirt-grid");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }, [selectedSubCategory]);
+
+  // Sync state with localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedCart = localStorage.getItem("drip-cart");
+      if (savedCart) {
+        try { setCart(JSON.parse(savedCart)); } catch (e) { console.error(e); }
+      }
+      const savedWishlist = localStorage.getItem("drip-wishlist");
+      if (savedWishlist) {
+        try { setWishlist(JSON.parse(savedWishlist)); } catch (e) { console.error(e); }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("drip-cart", JSON.stringify(cart));
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("drip-wishlist", JSON.stringify(wishlist));
+    }
+  }, [wishlist]);
 
   const handleAddToCart = (product: ProductItem) => {
     setCart((prevCart) => {
@@ -102,11 +144,35 @@ export default function Home() {
       />
 
       <main className="flex-grow">
+        {/* Horizontal Category Slider */}
+        <CategorySelector 
+          selectedSubCategory={selectedSubCategory}
+          onSelectSubCategory={setSelectedSubCategory}
+        />
+
         {/* Category Filter Tabs */}
         <CategoryTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
         {/* Hero Slider & Banner */}
-        <HeroSection />
+        <HeroSection 
+          onShopTheLook={(categoryName) => {
+            setSelectedSubCategory(categoryName);
+          }}
+          onExploreCollections={() => {
+            const element = document.getElementById("tshirt-grid");
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }}
+        />
+
+        {/* Dynamic T-Shirt Grid Section from Figma */}
+        <TShirtGridSection 
+          onAddToCart={handleAddToCart}
+          selectedSubCategory={selectedSubCategory}
+          onClearSubCategory={() => setSelectedSubCategory(null)}
+          searchQuery={searchQuery}
+        />
 
         {/* New Arrivals Product Showcase */}
         <NewArrivals
@@ -116,6 +182,7 @@ export default function Home() {
           onToggleFavorite={handleToggleFavorite}
           searchQuery={searchQuery}
           searchCategory={searchCategory}
+          selectedSubCategory={selectedSubCategory}
         />
 
         {/* Squarespace Style Templates Showcase */}
@@ -125,7 +192,11 @@ export default function Home() {
         <BrandCollabTeasers />
 
         {/* Custom lookbook street vibes */}
-        <FeaturedLookbook />
+        <FeaturedLookbook 
+          onSelectCategory={(categoryName) => {
+            setSelectedSubCategory(categoryName);
+          }}
+        />
 
         {/* User history recently viewed */}
         <RecentlyViewed

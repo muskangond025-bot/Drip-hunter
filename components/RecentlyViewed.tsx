@@ -70,6 +70,7 @@ export function RecentlyViewed({
           return (
             <ProductCard
               key={idx}
+              id={prod.id}
               brand={prod.brand}
               name={prod.name}
               price={prod.price}

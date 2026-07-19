@@ -5,7 +5,12 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function HeroSection() {
+interface HeroSectionProps {
+  onShopTheLook?: (category: string) => void;
+  onExploreCollections?: () => void;
+}
+
+export function HeroSection({ onShopTheLook, onExploreCollections }: HeroSectionProps) {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const slides = [
@@ -86,11 +91,25 @@ export function HeroSection() {
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-4">
-            <button className="bg-white text-black hover:bg-yellow-400 font-extrabold uppercase text-xs tracking-wider px-8 py-4 rounded-full flex items-center gap-2 transition-all shadow-lg hover:shadow-yellow-400/20 group cursor-pointer">
+            <button 
+              onClick={() => {
+                if (onShopTheLook) {
+                  if (activeSlide === 0) onShopTheLook("Graphic Tees");
+                  else if (activeSlide === 1) onShopTheLook("Tactical Vests");
+                  else if (activeSlide === 2) onShopTheLook("Utility Caps");
+                }
+              }}
+              className="bg-white text-black hover:bg-yellow-400 font-extrabold uppercase text-xs tracking-wider px-8 py-4 rounded-full flex items-center gap-2 transition-all shadow-lg hover:shadow-yellow-400/20 group cursor-pointer"
+            >
               Shop the Look
               <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform" />
             </button>
-            <button className="border-2 border-white hover:border-yellow-400 hover:text-yellow-400 text-white font-extrabold uppercase text-xs tracking-wider px-8 py-4 rounded-full transition-all cursor-pointer">
+            <button 
+              onClick={() => {
+                if (onExploreCollections) onExploreCollections();
+              }}
+              className="border-2 border-white hover:border-yellow-400 hover:text-yellow-400 text-white font-extrabold uppercase text-xs tracking-wider px-8 py-4 rounded-full transition-all cursor-pointer"
+            >
               Explore Collections
             </button>
           </div>
