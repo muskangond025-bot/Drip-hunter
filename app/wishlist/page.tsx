@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
-import { ProductCard } from "@/components";
+import { ProductCard } from "@/components/ui/product-card";
 import { Heart, X, User, ShoppingBag, Check, Save, LogOut } from "lucide-react";
 import { MixMatchCreator } from "@/components/features/MixMatchCreator";
 import { motion, AnimatePresence } from "framer-motion";
