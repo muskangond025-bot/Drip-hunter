@@ -23,6 +23,7 @@ import {
   ArrowRight,
   X
 } from "lucide-react";
+import CompleteYourDrip from "@/components/features/CompleteYourDrip";
 
 interface CartItem {/*  */
   id: number;
@@ -511,6 +512,8 @@ export default function Explore() {
   const [dripSpotView, setDripSpotView] = useState<"A" | "B" | "C">("A");
   const [selectedVariantImage, setSelectedVariantImage] = useState<string>("https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=300&q=80");
   const [dripVisionLayout, setDripVisionLayout] = useState<"row" | "stack">("row");
+  const [activeDripVisionIndex, setActiveDripVisionIndex] = useState<number>(0);
+  const [isDripVisionPlaying, setIsDripVisionPlaying] = useState<boolean>(false);
   const [instaOffset, setInstaOffset] = useState(0);
   const [activeSpotlightId, setActiveSpotlightId] = useState<number>(1);
   const [likedPosts, setLikedPosts] = useState<boolean[]>(Array(6).fill(false));
@@ -1854,49 +1857,119 @@ export default function Explore() {
                   </section>
 
                   {/* DripVision Section */}
-                  <section id="dripvision-section" className="mb-20">
-                    <h2 className="text-4xl font-black text-center text-zinc-955 uppercase tracking-widest mb-10">DripVision</h2>
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-5xl mx-auto">
-                      <div className={`lg:col-span-4 flex ${dripVisionLayout === "row" ? "flex-col" : "flex-row flex-wrap"} gap-4 select-none justify-between`}>
-                        {[1, 2, 3].map((num) => (
-                          <div 
-                            key={num} 
-                            onClick={() => setDripVisionLayout("stack")}
-                            className={`relative aspect-[16/10] bg-[#2a93fc] border border-blue-400 rounded-[20px] flex items-center justify-center cursor-pointer shadow-sm hover:scale-[1.01] transition-transform ${dripVisionLayout === "row" ? "w-full" : "w-[30%]"}`}
+                  <section id="dripvision-section" className="mb-20 max-w-5xl mx-auto px-4 sm:px-6 scroll-mt-24 select-none">
+                    <h2 className="text-4xl font-black text-center text-zinc-955 uppercase tracking-widest mb-10 font-sans">
+                      DripVision
+                    </h2>
+
+                    <div className="flex flex-col gap-5">
+                      {/* Top Row: 2 Vertically Stacked Blue Cards on Left (4 cols) + 1 Featured Yellow Video Player on Right (8 cols) */}
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+                        
+                        {/* Left Column: 2 Vertically Stacked Blue Video Cards */}
+                        <div className="lg:col-span-4 flex flex-col gap-5 justify-between">
+                          {[0, 1].map((cardIdx) => (
+                            <div
+                              key={cardIdx}
+                              onClick={() => setActiveDripVisionIndex(cardIdx)}
+                              className={`relative w-full flex-1 min-h-[140px] bg-[#2995fc] border-2 border-[#187ee0] rounded-[24px] flex items-center justify-center cursor-pointer shadow-sm hover:scale-[1.01] transition-all overflow-hidden ${
+                                activeDripVisionIndex === cardIdx ? "ring-4 ring-yellow-400/80 shadow-md" : ""
+                              }`}
+                            >
+                              {/* Pattern texture background */}
+                              <div className="absolute inset-0 bg-[radial-gradient(#ffffff25_1px,transparent_1px)] [background-size:14px_14px] opacity-70 pointer-events-none" />
+                              
+                              {/* Play Circle Button */}
+                              <div className="relative z-10 w-16 h-16 rounded-full border-2 border-black bg-[#84c6ff]/90 backdrop-blur-xs flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                                <Play className="w-7 h-7 fill-black text-black ml-1" />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Right Column: 1 Large Featured Yellow Card containing Main Video Player */}
+                        <div className="lg:col-span-8 bg-[#ffc324] border-2 border-[#e6ab0e] rounded-[28px] p-5 sm:p-7 flex flex-col items-center justify-center relative shadow-sm min-h-[340px]">
+                          {/* Main Video Screen Container */}
+                          <div className="relative w-full h-full min-h-[280px] bg-[#1a1836] border border-[#2b2754] rounded-[20px] p-4 flex flex-col justify-between overflow-hidden shadow-2xl">
+                            
+                            {/* Top Right Share Icon */}
+                            <div className="flex justify-end z-20">
+                              <button className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors border-none bg-transparent cursor-pointer">
+                                <svg className="w-5 h-5 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
+                                  <circle cx="18" cy="5" r="3" />
+                                  <circle cx="6" cy="12" r="3" />
+                                  <circle cx="18" cy="19" r="3" />
+                                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                                </svg>
+                              </button>
+                            </div>
+
+                            {/* Center Red Play Button */}
+                            <div className="my-auto flex justify-center items-center z-20 py-4">
+                              <button 
+                                onClick={() => setIsDripVisionPlaying(!isDripVisionPlaying)}
+                                className="w-20 h-20 sm:w-22 sm:h-22 rounded-full bg-[#f0324c] hover:bg-[#ff3b56] text-white flex items-center justify-center shadow-2xl hover:scale-108 active:scale-95 transition-all border-none cursor-pointer group"
+                              >
+                                <Play className="w-9 h-9 fill-white text-white ml-1.5 group-hover:scale-110 transition-transform" />
+                              </button>
+                            </div>
+
+                            {/* Bottom Video Player Control Bar */}
+                            <div className="w-full space-y-2.5 z-20 pt-2 select-none">
+                              {/* Timeline Bar */}
+                              <div className="relative w-full h-1.5 bg-white/20 rounded-full cursor-pointer overflow-hidden flex items-center">
+                                <div className="h-full bg-[#f0324c] rounded-full w-[45%]" />
+                                <div className="w-3 h-3 rounded-full bg-white shadow-md -ml-1 flex-shrink-0" />
+                              </div>
+
+                              {/* Control Icons */}
+                              <div className="flex items-center justify-between text-white/90 text-xs px-1 font-mono">
+                                <div className="flex items-center gap-3">
+                                  <button className="hover:text-white border-none bg-transparent cursor-pointer text-sm">▶</button>
+                                  <button className="hover:text-white border-none bg-transparent cursor-pointer text-xs font-bold">❚❚</button>
+                                  <button className="hover:text-white border-none bg-transparent cursor-pointer text-xs">■</button>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  <button className="hover:text-white border-none bg-transparent cursor-pointer text-xs">🔊</button>
+                                  <button className="hover:text-white border-none bg-transparent cursor-pointer text-xs">⚙</button>
+                                  <button className="hover:text-white border-none bg-transparent cursor-pointer text-xs">⛶</button>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Subtle Floor Glow Effect */}
+                            <div className="absolute bottom-[-30px] left-1/2 -translate-x-1/2 w-[85%] h-12 bg-[#ffc324]/20 blur-xl pointer-events-none rounded-full" />
+                          </div>
+                        </div>
+
+                      </div>
+
+                      {/* Bottom Row: 3 Horizontal Blue Video Cards side-by-side */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        {[2, 3, 4].map((cardIdx) => (
+                          <div
+                            key={cardIdx}
+                            onClick={() => setActiveDripVisionIndex(cardIdx)}
+                            className={`relative w-full aspect-[16/10] bg-[#2995fc] border-2 border-[#187ee0] rounded-[24px] flex items-center justify-center cursor-pointer shadow-sm hover:scale-[1.01] transition-all overflow-hidden ${
+                              activeDripVisionIndex === cardIdx ? "ring-4 ring-yellow-400/80 shadow-md" : ""
+                            }`}
                           >
-                            <div className="w-10 h-10 rounded-full border border-black bg-white flex items-center justify-center shadow-md">
-                              <Play className="w-4 h-4 fill-black text-black" />
+                            {/* Pattern texture background */}
+                            <div className="absolute inset-0 bg-[radial-gradient(#ffffff25_1px,transparent_1px)] [background-size:14px_14px] opacity-70 pointer-events-none" />
+                            
+                            {/* Play Circle Button */}
+                            <div className="relative z-10 w-16 h-16 rounded-full border-2 border-black bg-[#84c6ff]/90 backdrop-blur-xs flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                              <Play className="w-7 h-7 fill-black text-black ml-1" />
                             </div>
                           </div>
                         ))}
                       </div>
-
-                      <motion.div 
-                        layout
-                        className="lg:col-span-8 bg-[#ffd52c] border border-yellow-400 rounded-[32px] p-6 sm:p-8 flex flex-col justify-between items-center relative overflow-hidden min-h-[300px]"
-                      >
-                        <div className="relative w-full flex-grow min-h-[220px] flex items-center justify-center bg-black/5 rounded-2xl border border-black/10">
-                          <div className="w-16 h-16 rounded-full border-2 border-black bg-white/90 flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition-transform">
-                            <Play className="w-6 h-6 fill-red-500 text-red-500 ml-1" />
-                          </div>
-                        </div>
-                        {dripVisionLayout === "stack" && (
-                          <div className="flex gap-4 pt-4 w-full justify-center">
-                            {[4, 5].map((num) => (
-                              <div 
-                                key={num} 
-                                className="bg-[#2a93fc] border-2 border-[#197be3] rounded-[20px] px-6 py-3 flex items-center justify-center gap-3 cursor-pointer hover:bg-blue-600 transition-colors"
-                                onClick={() => setDripVisionLayout("row")}
-                              >
-                                <Play className="w-4 h-4 fill-white text-white" />
-                                <span className="text-xs font-black uppercase text-white tracking-wider font-sans">PLAY DIRECT</span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </motion.div>
                     </div>
                   </section>
+
+                  {/* Complete Your Drip 3D Try-On Section */}
+                  <CompleteYourDrip />
 
                   {/* Instagram Posts Section */}
                   <section id="instagram-section" className="mb-20 max-w-7xl mx-auto text-center">

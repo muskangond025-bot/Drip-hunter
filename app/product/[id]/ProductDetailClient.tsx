@@ -9,6 +9,7 @@ import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { StarRating } from "@/components/ui/star-rating";
 import { motion, AnimatePresence } from "framer-motion";
 import { masterProducts, Product } from "./data";
+import CompleteYourDrip from "@/components/features/CompleteYourDrip";
 
 interface CartItem {
   id: number;
@@ -26,6 +27,33 @@ interface WishlistItem {
   price: string;
   image: string;
 }
+
+const DRIP_ITEMS_BY_CATEGORY: Record<string, Array<{ title: string; img: string; price: string }>> = {
+  top: [
+    { title: "Blue Drip Essential Tee", img: "/images/drip_tshirt_exact.png", price: "₹1,899" },
+    { title: "Black Oversized Graphic Tee", img: "/images/drip_tshirt_exact.png", price: "₹2,199" },
+    { title: "Neon Volt Streetwear Tee", img: "/images/drip_tshirt_exact.png", price: "₹1,999" },
+    { title: "Crimson Red Vintage Tee", img: "/images/drip_tshirt_exact.png", price: "₹1,799" },
+  ],
+  outerwear: [
+    { title: "Blue Drip Varsity Jacket", img: "/images/drip_jacket_exact.png", price: "₹4,999" },
+    { title: "Black Stealth Biker Jacket", img: "/images/drip_jacket_exact.png", price: "₹5,999" },
+    { title: "Olive Tactical Bomber", img: "/images/drip_jacket_exact.png", price: "₹4,499" },
+    { title: "Grey Distressed Denim", img: "/images/drip_jacket_exact.png", price: "₹3,899" },
+  ],
+  cap: [
+    { title: "Blue Drip Snapback Cap", img: "/images/drip_cap_exact.png", price: "₹1,299" },
+    { title: "Black Streetwear Beanie", img: "/images/drip_cap_exact.png", price: "₹999" },
+    { title: "White Minimalist Bucket Hat", img: "/images/drip_cap_exact.png", price: "₹1,199" },
+    { title: "Crimson Red Dad Hat", img: "/images/drip_cap_exact.png", price: "₹1,099" },
+  ],
+  shoes: [
+    { title: "Black / Pink Puma Nitro", img: "/images/puma_black_pink_exact.png", price: "₹6,999" },
+    { title: "Black / Neon Green Puma", img: "/images/puma_black_neon_exact.png", price: "₹7,499" },
+    { title: "Red Puma Running Nitro", img: "/images/puma_red_exact.png", price: "₹6,499" },
+    { title: "Yellow / Orange Flame Puma", img: "/images/puma_yellow_orange_exact.png", price: "₹7,999" },
+  ],
+};
 
 // Swipable lookbook items for Dressing-up the Mannequin
 interface LookbookItem {
@@ -102,6 +130,16 @@ export default function ProductDetailClient({ productId }: { productId: number }
   const [selectedDripCategory, setSelectedDripCategory] = useState<"top" | "outerwear" | "cap" | "shoes">("shoes");
   const [selectedDripItemIndex, setSelectedDripItemIndex] = useState(0);
   const [isMannequinFlipped, setIsMannequinFlipped] = useState(false);
+  const [equippedOutfit, setEquippedOutfit] = useState<{
+    top?: { title: string; img: string; price: string } | null;
+    outerwear?: { title: string; img: string; price: string } | null;
+    cap?: { title: string; img: string; price: string } | null;
+    shoes?: { title: string; img: string; price: string } | null;
+  }>({
+    shoes: { title: "Black / Pink Puma Nitro", img: "/images/puma_black_pink_exact.png", price: "₹6,999" },
+    top: { title: "Blue Drip Essential Tee", img: "/images/drip_tshirt_exact.png", price: "₹1,899" },
+    cap: { title: "Blue Drip Snapback Cap", img: "/images/drip_cap_exact.png", price: "₹1,299" }
+  });
 
   // Touch & drag swipe gesture state handlers on main zoom image
   const [touchStartX, setTouchStartX] = useState(0);
@@ -1468,7 +1506,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                 </div>
               </div>
 
-                {/* COMPLETE YOUR DRIP: INTERACTIVE OUTFIT CUSTOMIZER (OPTIMIZED FOR LAPTOP SCREEN HEIGHT) */}
+                {/* COMPLETE YOUR DRIP: INTERACTIVE OUTFIT CUSTOMIZER (EXACT STATUE DESIGN WITH PERFECT WEARABLE FITTING) */}
                 <div className="w-full space-y-4 pt-6 select-none font-sans">
                   
                   {/* Header */}
@@ -1476,7 +1514,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                     Complete your Drip
                   </h3>
 
-                  {/* Customizer Layout (3-Column Layout Compact Height for Laptops) */}
+                  {/* Customizer Layout (3-Column Layout Matching Exact Screenshot) */}
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch font-sans bg-white border border-zinc-200 rounded-[24px] p-3 shadow-xs lg:h-[420px]">
                     
                     {/* COLUMN 1: Category Selection Sidebar (Far Left Stack - 4 Item Cards) */}
@@ -1514,19 +1552,20 @@ export default function ProductDetailClient({ productId }: { productId: number }
                       })}
                     </div>
 
-                    {/* COLUMN 2: 2x2 Swatches Grid for Selected Category (Middle 4 Cards - No Vertical Gap) */}
+                    {/* COLUMN 2: 2x2 Swatches Grid for Selected Category (Middle 4 Cards Dynamically Change) */}
                     <div className="lg:col-span-4 grid grid-cols-2 grid-rows-2 gap-2 h-full">
-                      {[
-                        { title: "Black / Pink Puma Nitro", img: "/images/puma_black_pink_exact.png" },
-                        { title: "Black / Neon Green Puma", img: "/images/puma_black_neon_exact.png" },
-                        { title: "Red Puma Running Nitro", img: "/images/puma_red_exact.png" },
-                        { title: "Yellow / Orange Flame Puma", img: "/images/puma_yellow_orange_exact.png" }
-                      ].map((item, idx) => {
+                      {((DRIP_ITEMS_BY_CATEGORY[selectedDripCategory]) || DRIP_ITEMS_BY_CATEGORY.shoes).map((item, idx) => {
                         const isSelected = selectedDripItemIndex === idx;
                         return (
                           <div
                             key={idx}
-                            onClick={() => setSelectedDripItemIndex(idx)}
+                            onClick={() => {
+                              setSelectedDripItemIndex(idx);
+                              setEquippedOutfit((prev) => ({
+                                ...prev,
+                                [selectedDripCategory]: item,
+                              }));
+                            }}
                             className={`relative w-full h-[140px] lg:h-full rounded-xl overflow-hidden bg-white cursor-pointer transition-all border-2 p-1.5 flex items-center justify-center ${
                               isSelected 
                                 ? "border-[#ffeb3b] ring-2 ring-amber-300/40 shadow-sm" 
@@ -1546,16 +1585,30 @@ export default function ProductDetailClient({ productId }: { productId: number }
                       })}
                     </div>
 
-                    {/* COLUMN 3: 3D Silver Mannequin Statue Viewport (Far Right Large Viewport) */}
-                    <div className="lg:col-span-6 relative bg-[#f8f9fa] border border-zinc-200 rounded-2xl overflow-hidden h-[340px] lg:h-full flex items-center justify-center p-3">
+                    {/* COLUMN 3: Silver Wireframe Mannequin Statue Viewport with Seamless Wearable Fitting */}
+                    <div className="lg:col-span-6 relative bg-[#f8f9fa] border border-zinc-200 rounded-2xl overflow-hidden h-[340px] lg:h-full flex items-center justify-center p-3 select-none">
                       
-                      {/* Mannequin Statue Image (Smooth 3D Flip without Blank Edge) */}
+                      {/* Top Left Reset Rotation Button (Reset 0°) */}
+                      <button
+                        onClick={() => {
+                          setRotationAngle(0);
+                          setIsMannequinFlipped(false);
+                        }}
+                        className="absolute top-3 left-3 z-30 px-2.5 py-1 bg-white border border-zinc-200 hover:border-black rounded-lg text-[10px] font-mono font-bold text-zinc-700 hover:text-black flex items-center gap-1.5 shadow-sm cursor-pointer transition-all"
+                        title="Reset Rotation to 0°"
+                      >
+                        <RotateCw className="w-3 h-3 text-amber-500" />
+                        <span>Reset 0°</span>
+                      </button>
+
+                      {/* Mannequin Statue Container with Seamless Wearable Apparel Layering */}
                       <div 
                         className="relative w-full h-full max-h-[370px] flex items-center justify-center transition-all duration-500 ease-in-out"
                         style={{ 
-                          transform: isMannequinFlipped ? 'scaleX(-1) rotate(-1deg)' : 'scaleX(1) rotate(0deg)'
+                          transform: `scaleX(${isMannequinFlipped ? -1 : 1}) rotate(${rotationAngle}deg)`
                         }}
                       >
+                        {/* Base Silver Wireframe Mannequin Statue Image */}
                         <Image
                           src="/images/drip_mannequin_statue_exact.png"
                           alt="3D Silver Wireframe Mannequin Statue"
@@ -1563,26 +1616,84 @@ export default function ProductDetailClient({ productId }: { productId: number }
                           priority
                           className="object-contain filter drop-shadow-md pointer-events-none p-2"
                         />
+
+                        {/* 1. EQUIPPED CAP / HEADWEAR (Perfectly Centered on Mannequin Head) */}
+                        {equippedOutfit.cap && (
+                          <div 
+                            className="absolute top-[8.5%] left-[51%] -translate-x-1/2 w-[16%] h-[12%] z-20 pointer-events-none transition-all duration-300 drop-shadow-md"
+                          >
+                            <Image
+                              src={equippedOutfit.cap.img}
+                              alt={equippedOutfit.cap.title}
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        )}
+
+                        {/* 2. EQUIPPED TORSO (T-SHIRT / JACKET) (Perfectly Centered on Shoulders & Chest) */}
+                        {(equippedOutfit.outerwear || equippedOutfit.top) && (
+                          <div 
+                            className="absolute top-[24.5%] left-[50.5%] -translate-x-1/2 w-[33%] h-[32%] z-20 pointer-events-none transition-all duration-300 drop-shadow-lg"
+                          >
+                            <Image
+                              src={(equippedOutfit.outerwear || equippedOutfit.top)!.img}
+                              alt={(equippedOutfit.outerwear || equippedOutfit.top)!.title}
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        )}
+
+                        {/* 3. EQUIPPED SHOES (Perfectly Centered on Left & Right Feet) */}
+                        {equippedOutfit.shoes && (
+                          <div 
+                            className="absolute bottom-[3.5%] left-[50%] -translate-x-1/2 w-[36%] h-[12%] z-20 pointer-events-none transition-all duration-300 flex justify-between items-center px-1 drop-shadow-md"
+                          >
+                            <div className="relative w-[45%] h-full transform scale-x-[-1] -rotate-6">
+                              <Image
+                                src={equippedOutfit.shoes.img}
+                                alt={equippedOutfit.shoes.title}
+                                fill
+                                className="object-contain"
+                              />
+                            </div>
+                            <div className="relative w-[45%] h-full transform rotate-6">
+                              <Image
+                                src={equippedOutfit.shoes.img}
+                                alt={equippedOutfit.shoes.title}
+                                fill
+                                className="object-contain"
+                              />
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/* Left & Right Rotation Arrow Buttons (< and >) */}
                       <button
-                        onClick={() => setIsMannequinFlipped(prev => !prev)}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[#222222] hover:bg-black text-white flex items-center justify-center font-bold shadow-md cursor-pointer border-none transition-colors text-lg z-10"
+                        onClick={() => {
+                          setIsMannequinFlipped(prev => !prev);
+                          setRotationAngle(prev => prev - 45);
+                        }}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[#222222] hover:bg-black text-white flex items-center justify-center font-bold shadow-md cursor-pointer border-none transition-colors text-lg z-30"
                         aria-label="Rotate Left"
                       >
                         ‹
                       </button>
                       <button
-                        onClick={() => setIsMannequinFlipped(prev => !prev)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[#222222] hover:bg-black text-white flex items-center justify-center font-bold shadow-md cursor-pointer border-none transition-colors text-lg z-10"
+                        onClick={() => {
+                          setIsMannequinFlipped(prev => !prev);
+                          setRotationAngle(prev => prev + 45);
+                        }}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[#222222] hover:bg-black text-white flex items-center justify-center font-bold shadow-md cursor-pointer border-none transition-colors text-lg z-30"
                         aria-label="Rotate Right"
                       >
                         ›
                       </button>
 
                       {/* Bottom Right Floating "Like the outfit, Buy it Now!" Card */}
-                      <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-2xl p-2.5 px-3.5 shadow-xl flex flex-col items-end gap-1 font-sans z-20">
+                      <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-2xl p-2.5 px-3.5 shadow-xl flex flex-col items-end gap-1 font-sans z-30">
                         <span className="text-[10px] text-zinc-600 font-medium tracking-tight">
                           Like the outfit, <strong className="text-zinc-955 font-extrabold">Buy it Now!</strong>
                         </span>
