@@ -213,3 +213,11 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Ultra Bold Heavy Block Display Font for Slay The Streets */
+.font-slay-ultra-bold {
+  font-family: 'CHANEY Wide', sans-serif;
+  font-weight: 900;
+  -webkit-text-stroke: 2px #000000;
+  paint-order: stroke fill;
+}

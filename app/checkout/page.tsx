@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
 import { ChevronDown, Tag, Check, Heart, RefreshCw, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 

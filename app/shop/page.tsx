@@ -2,8 +2,12 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
+import { ProductCard } from "@/components/ui/product-card";
+import { StarRating } from "@/components/ui/star-rating";
+import { Pagination } from "@/components/ui/pagination";
+
 import { 
   ShoppingBag, 
   Heart, 
@@ -486,75 +490,20 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
                 {paginatedCatalogList.map((product) => {
                   const isFav = wishlist.some(item => item.id === product.id);
                   return (
-                    <div 
+                    <ProductCard
                       key={product.id}
-                      className="bg-white border border-zinc-200 rounded-3xl overflow-hidden group hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
-                    >
-                      {/* Image container */}
-                      <div 
-                        className="relative aspect-[3/4] bg-zinc-100 overflow-hidden cursor-pointer"
-                        onClick={() => window.location.href = `/product/${product.id}`}
-                      >
-                        <Image 
-                          src={product.image} 
-                          alt={product.name}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        
-                        {/* Discount / Promo Tag */}
-                        {product.discount && (
-                          <span className="absolute top-4 left-4 bg-red-600 text-white font-mono text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-md shadow-md">
-                            {product.discount}
-                          </span>
-                        )}
-
-                        {/* Favorite & Quick Add overlay buttons */}
-                        <div className="absolute top-4 right-4 flex flex-col gap-2">
-                          <button 
-                            onClick={(e) => { e.stopPropagation(); handleToggleFavorite(product); }}
-                            className="w-9 h-9 bg-white hover:bg-zinc-100 rounded-full flex items-center justify-center shadow-md transition-colors cursor-pointer"
-                          >
-                            <Heart className={`w-4 h-4 ${isFav ? "fill-red-500 text-red-500 animate-ping" : "text-zinc-600"}`} />
-                          </button>
-                        </div>
-
-                        {/* Add to Bag hover button */}
-                        <div className="absolute inset-x-4 bottom-4 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                          <button 
-                            onClick={(e) => { e.stopPropagation(); handleAddToCart(product); }}
-                            className="w-full py-3 bg-black hover:bg-zinc-900 text-white font-mono text-xs font-bold tracking-widest uppercase rounded-2xl flex items-center justify-center gap-2 shadow-lg cursor-pointer"
-                          >
-                            <ShoppingBag className="w-4 h-4" /> Add to Bag
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Product copy details */}
-                      <div 
-                        className="p-5 space-y-2 cursor-pointer"
-                        onClick={() => window.location.href = `/product/${product.id}`}
-                      >
-                        <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block">{product.brand}</span>
-                        <h4 className="font-bold text-zinc-800 text-sm tracking-tight line-clamp-1 hover:text-orange-500 transition-colors">{product.name}</h4>
-                        
-                        {/* Rating stars */}
-                        <div className="flex items-center gap-1">
-                          {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              className={`w-3 h-3 ${i < product.rating ? "fill-yellow-400 text-yellow-400" : "text-zinc-200"}`} 
-                            />
-                          ))}
-                          <span className="text-[10px] font-mono text-zinc-400 ml-1">({product.rating}.0)</span>
-                        </div>
-
-                        <div className="flex items-center justify-between pt-1">
-                          <strong className="text-zinc-950 font-mono text-base font-extrabold">{product.price}</strong>
-                          <span className="text-[9px] font-mono px-2 py-0.5 border border-zinc-200 rounded text-zinc-500 uppercase">{product.gender}</span>
-                        </div>
-                      </div>
-                    </div>
+                      id={product.id}
+                      brand={product.brand}
+                      name={product.name}
+                      price={product.price}
+                      image={product.image}
+                      discount={product.discount}
+                      rating={product.rating}
+                      isFavorite={isFav}
+                      onFavoriteToggle={() => handleToggleFavorite(product)}
+                      onAddToCart={() => handleAddToCart(product)}
+                      variant="catalog"
+                    />
                   );
                 })}
               </div>
@@ -583,44 +532,12 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
 
               {/* Pagination controls */}
               {totalPages > 1 && (
-                <div className="flex justify-center items-center gap-3 pt-6 font-mono text-xs">
-                  <button 
-                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                    disabled={currentPage === 1}
-                    className={`w-9 h-9 border border-zinc-200 rounded-xl flex items-center justify-center text-zinc-650 transition-colors cursor-pointer ${
-                      currentPage === 1 ? "opacity-40 cursor-not-allowed" : "hover:bg-zinc-50"
-                    }`}
-                  >
-                    &lt;
-                  </button>
-                  
-                  {Array.from({ length: totalPages }).map((_, idx) => {
-                    const pageNum = idx + 1;
-                    const isActive = currentPage === pageNum;
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => setCurrentPage(pageNum)}
-                        className={`w-9 h-9 border rounded-xl flex items-center justify-center font-bold transition-all cursor-pointer ${
-                          isActive 
-                            ? "bg-black text-white border-black shadow-xs" 
-                            : "bg-white text-zinc-600 border-zinc-200 hover:bg-zinc-50"
-                        }`}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  })}
-
-                  <button 
-                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                    disabled={currentPage === totalPages}
-                    className={`w-9 h-9 border border-zinc-200 rounded-xl flex items-center justify-center text-zinc-650 transition-colors cursor-pointer ${
-                      currentPage === totalPages ? "opacity-40 cursor-not-allowed" : "hover:bg-zinc-50"
-                    }`}
-                  >
-                    &gt;
-                  </button>
+                <div className="pt-6">
+                  <Pagination 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                  />
                 </div>
               )}
 

@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Heart, ShoppingBag, MapPin, Truck, Star, Sparkles, RotateCw, RefreshCw } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { Heart, ShoppingBag, MapPin, Truck, Star, Sparkles, RotateCw, RefreshCw, Folder, X, Share2, Info, Tag, Check, Mail, HandCoins, ArrowLeftRight, ChevronRight } from "lucide-react";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { StarRating } from "@/components/ui/star-rating";
 import { motion, AnimatePresence } from "framer-motion";
 import { masterProducts, Product } from "./data";
 
@@ -91,6 +93,16 @@ export default function ProductDetailClient({ productId }: { productId: number }
   const [activeThumbnailIndex, setActiveThumbnailIndex] = useState(0);
   const [galleryMode, setGalleryMode] = useState<"grid" | "zoom">("grid");
 
+  // All Media & 3D Interactive Modal States
+  const [showAllMediaModal, setShowAllMediaModal] = useState(false);
+  const [show3DModal, setShow3DModal] = useState(false);
+  const [threeDRotationAngle, setThreeDRotationAngle] = useState(0);
+  const [mediaFilter, setMediaFilter] = useState<"all" | "lookbook" | "fabric">("all");
+  const [activeDetailsTab, setActiveDetailsTab] = useState<"details" | "reviews" | "tech">("details");
+  const [selectedDripCategory, setSelectedDripCategory] = useState<"top" | "outerwear" | "cap" | "shoes">("shoes");
+  const [selectedDripItemIndex, setSelectedDripItemIndex] = useState(0);
+  const [isMannequinFlipped, setIsMannequinFlipped] = useState(false);
+
   // Touch & drag swipe gesture state handlers on main zoom image
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
@@ -156,6 +168,14 @@ export default function ProductDetailClient({ productId }: { productId: number }
 
   // Active sub-info tabs
   const [activeInfoTab, setActiveInfoTab] = useState<"story" | "fit" | "features">("story");
+
+  // Expandable section states
+  const [showFullBrandStory, setShowFullBrandStory] = useState(false);
+  const [showAllReviews, setShowAllReviews] = useState(false);
+
+  // Size chart modal states
+  const [showSizeChart, setShowSizeChart] = useState(false);
+  const [sizeChartUnit, setSizeChartUnit] = useState<"in" | "cm">("in");
 
   // Load from local storage on mount
   useEffect(() => {
@@ -231,6 +251,19 @@ export default function ProductDetailClient({ productId }: { productId: number }
       return [
         ...prev,
         { id: product.id, name: product.name, brand: product.brand, price: product.price, image: product.image }
+      ];
+    });
+  };
+
+  const handleToggleItemWishlist = (item: { id: number; brand: string; title: string; price: string; img: string }) => {
+    setWishlist((prev) => {
+      const exists = prev.some((w) => w.id === item.id);
+      if (exists) {
+        return prev.filter((w) => w.id !== item.id);
+      }
+      return [
+        ...prev,
+        { id: item.id, brand: item.brand, name: item.title, price: item.price, image: item.img }
       ];
     });
   };
@@ -320,13 +353,13 @@ export default function ProductDetailClient({ productId }: { productId: number }
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full font-sans">
         
         {/* Navigation Breadcrumbs */}
-        <div className="text-xs text-zinc-400 font-bold mb-8 uppercase tracking-widest font-mono">
-          <a href="/" className="hover:text-black transition-colors">Home</a>
-          <span className="mx-2">&bull;</span>
-          <a href="/shop" className="hover:text-black transition-colors">Shop</a>
-          <span className="mx-2">&bull;</span>
-          <span className="text-zinc-800 font-black">{product.brand} Scuderia</span>
-        </div>
+        <Breadcrumb 
+          items={[
+            { label: "Shop", href: "/shop" },
+            { label: `${product.brand} Scuderia` }
+          ]}
+          className="mb-8"
+        />
 
         {/* Dynamic Interface based on step state */}
         <AnimatePresence mode="wait">
@@ -337,8 +370,10 @@ export default function ProductDetailClient({ productId }: { productId: number }
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start"
+              className="space-y-12 w-full"
             >
+              {/* Top Hero Section: Left Gallery (col-span-7) + Right Buy Panel (col-span-5) */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start w-full">
               
               {/* LEFT SIDE: Grid mode vs. Zoom mode (Figma Layouts) */}
               <div className="lg:col-span-7 w-full">
@@ -470,86 +505,393 @@ export default function ProductDetailClient({ productId }: { productId: number }
                             );
                           })}
                         </div>
+
+                        {/* Interactive Action Buttons: All media & View in 3D (Shown ONLY in Zoom View Mode) */}
+                        <div className="flex items-center justify-center gap-3 pt-4 select-none w-full">
+                          {/* All media button */}
+                          <button
+                            onClick={() => {
+                              setShowAllMediaModal(!showAllMediaModal);
+                              if (!showAllMediaModal) setShow3DModal(false);
+                            }}
+                            className={`font-extrabold text-xs px-5 py-2.5 rounded-2xl flex items-center gap-2 shadow-xs transition-all transform active:scale-95 cursor-pointer border-none ${
+                              showAllMediaModal 
+                                ? "bg-amber-500 text-black ring-2 ring-amber-400" 
+                                : "bg-[#ffe500] hover:bg-[#ffd600] text-black"
+                            }`}
+                          >
+                            <Folder className="w-4 h-4 fill-black/30 text-black" />
+                            <span className="tracking-wide">{showAllMediaModal ? "Hide Media" : "All media"}</span>
+                          </button>
+
+                          {/* View in 3D button */}
+                          <button
+                            onClick={() => {
+                              setShow3DModal(!show3DModal);
+                              if (!show3DModal) setShowAllMediaModal(false);
+                            }}
+                            className={`border font-bold text-xs px-5 py-2.5 rounded-2xl flex items-center gap-2 shadow-xs transition-all transform active:scale-95 cursor-pointer ${
+                              show3DModal 
+                                ? "bg-zinc-900 text-white border-zinc-900" 
+                                : "bg-white hover:bg-zinc-50 text-black border-zinc-250"
+                            }`}
+                          >
+                            <RotateCw className={`w-4 h-4 ${show3DModal ? "text-amber-400 animate-spin-slow" : "text-zinc-700"}`} />
+                            <span className="tracking-wide">{show3DModal ? "Hide 3D View" : "View in 3D"}</span>
+                          </button>
+                        </div>
+
+                        {/* INLINE ALL MEDIA & GALLERY CONTAINER (Opens directly below the buttons) */}
+                        <AnimatePresence>
+                          {showAllMediaModal && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                              animate={{ opacity: 1, height: "auto", marginTop: 16 }}
+                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="w-full bg-white rounded-[28px] overflow-hidden border border-zinc-200 shadow-xl select-none"
+                            >
+                              {/* Header */}
+                              <div className="flex items-center justify-between p-4 px-6 border-b border-zinc-150 bg-zinc-50">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="w-8 h-8 rounded-xl bg-[#ffe500] flex items-center justify-center">
+                                    <Folder className="w-4 h-4 text-black" />
+                                  </div>
+                                  <div>
+                                    <h4 className="text-xs font-black text-zinc-955 uppercase tracking-wide font-sans">
+                                      All Media & Gallery
+                                    </h4>
+                                    <p className="text-[10px] text-zinc-500 font-medium font-sans">
+                                      {product.brand} - {product.name} (6 media files available)
+                                    </p>
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={() => setShowAllMediaModal(false)}
+                                  className="p-1.5 rounded-full hover:bg-zinc-200 transition-colors cursor-pointer text-zinc-600 hover:text-black border-none bg-transparent"
+                                  aria-label="Close All Media"
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+
+                              {/* Media Grid Content */}
+                              <div className="p-4 sm:p-5 space-y-4 max-h-[480px] overflow-y-auto">
+                                {/* Category Filter Pills */}
+                                <div className="flex items-center gap-2 border-b border-zinc-100 pb-3">
+                                  {[
+                                    { id: "all", label: "All Photos (6)" },
+                                    { id: "lookbook", label: "Lookbook Shots (4)" },
+                                    { id: "fabric", label: "Fabric Zoom (2)" }
+                                  ].map((tab) => (
+                                    <button
+                                      key={tab.id}
+                                      onClick={() => setMediaFilter(tab.id as "all" | "lookbook" | "fabric")}
+                                      className={`text-[10px] font-bold px-3.5 py-1 rounded-full cursor-pointer transition-all border-none ${
+                                        mediaFilter === tab.id
+                                          ? "bg-black text-white shadow-xs"
+                                          : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+                                      }`}
+                                    >
+                                      {tab.label}
+                                    </button>
+                                  ))}
+                                </div>
+
+                                {/* Media Grid */}
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                  {[
+                                    { id: 0, title: "Front Studio View", img: product.image, cat: "lookbook", tag: "Photo", class: "" },
+                                    { id: 1, title: "Back Graphic View", img: product.image, cat: "lookbook", tag: "Photo", class: "scale-110" },
+                                    { id: 2, title: "Fabric Zoom Detail", img: product.image, cat: "fabric", tag: "Macro", class: "scale-150" },
+                                    { id: 3, title: "On-Model Street Style", img: product.image, cat: "lookbook", tag: "Lookbook", class: "scale-125" },
+                                    { id: 4, title: "Collab Patch Close-up", img: product.image, cat: "fabric", tag: "Detail", class: "scale-140" },
+                                    { id: 5, title: "Studio Outfit Profile", img: product.image, cat: "lookbook", tag: "Style", class: "scale-105" }
+                                  ]
+                                    .filter((item) => mediaFilter === "all" || item.cat === mediaFilter)
+                                    .map((media, idx) => (
+                                      <div
+                                        key={idx}
+                                        onClick={() => {
+                                          setActiveThumbnailIndex(media.id % 4);
+                                        }}
+                                        className="group relative aspect-[3/4] rounded-xl overflow-hidden bg-zinc-50 border border-zinc-200 cursor-pointer hover:border-black transition-all hover:shadow-md"
+                                      >
+                                        <Image
+                                          src={media.img}
+                                          alt={media.title}
+                                          fill
+                                          className={`object-cover transition-transform duration-500 group-hover:scale-105 ${media.class}`}
+                                        />
+                                        <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-xs text-white text-[8px] font-mono font-bold px-1.5 py-0.5 rounded uppercase">
+                                          {media.tag}
+                                        </div>
+                                        <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                          <p className="text-[11px] font-bold truncate">{media.title}</p>
+                                          <p className="text-[9px] text-zinc-300 font-mono">Click to inspect</p>
+                                        </div>
+                                      </div>
+                                    ))}
+                                </div>
+                              </div>
+
+                              {/* Footer */}
+                              <div className="p-3 px-4 bg-zinc-50 border-t border-zinc-150 flex items-center justify-between">
+                                <p className="text-[10px] text-zinc-500 font-mono">
+                                  Showing 6 media assets for {product.name}
+                                </p>
+                                <button
+                                  onClick={() => setShowAllMediaModal(false)}
+                                  className="bg-black text-white text-[11px] font-bold px-4 py-1.5 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer border-none"
+                                >
+                                  Close Gallery
+                                </button>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        {/* INLINE 3D 360° INTERACTIVE PRODUCT VIEWER (Opens directly below the button) */}
+                        <AnimatePresence>
+                          {show3DModal && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                              animate={{ opacity: 1, height: "auto", marginTop: 16 }}
+                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="w-full bg-white rounded-[28px] overflow-hidden border border-zinc-200 shadow-xl select-none"
+                            >
+                              {/* 3D Header Bar */}
+                              <div className="flex items-center justify-between p-4 px-6 border-b border-zinc-150 bg-zinc-50">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="w-8 h-8 rounded-xl bg-zinc-900 text-white flex items-center justify-center">
+                                    <RotateCw className="w-4 h-4 animate-spin-slow" />
+                                  </div>
+                                  <div>
+                                    <h4 className="text-xs font-black text-zinc-955 uppercase tracking-wide font-sans">
+                                      3D 360° Interactive Product Viewer
+                                    </h4>
+                                    <p className="text-[10px] text-zinc-500 font-medium font-sans">
+                                      Drag cursor or finger left/right to rotate product 360°
+                                    </p>
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={() => setShow3DModal(false)}
+                                  className="p-1.5 rounded-full hover:bg-zinc-200 transition-colors cursor-pointer text-zinc-600 hover:text-black border-none bg-transparent"
+                                  aria-label="Close 3D View"
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+
+                              {/* 3D Canvas / Interactive Rotation Viewport */}
+                              <div 
+                                className="relative w-full aspect-[4/3] bg-gradient-to-b from-zinc-100 via-zinc-50 to-white flex items-center justify-center overflow-hidden p-6 cursor-ew-resize active:cursor-grabbing"
+                                onMouseDown={(e) => {
+                                  isDraggingRef.current = true;
+                                  startDragXRef.current = e.clientX;
+                                  startAngleRef.current = threeDRotationAngle;
+                                }}
+                                onMouseMove={(e) => {
+                                  if (!isDraggingRef.current) return;
+                                  const deltaX = e.clientX - startDragXRef.current;
+                                  setThreeDRotationAngle((startAngleRef.current + deltaX * 0.8) % 360);
+                                }}
+                                onMouseUp={() => { isDraggingRef.current = false; }}
+                                onMouseLeave={() => { isDraggingRef.current = false; }}
+                                onTouchStart={(e) => {
+                                  isDraggingRef.current = true;
+                                  startDragXRef.current = e.touches[0].clientX;
+                                  startAngleRef.current = threeDRotationAngle;
+                                }}
+                                onTouchMove={(e) => {
+                                  if (!isDraggingRef.current) return;
+                                  const deltaX = e.touches[0].clientX - startDragXRef.current;
+                                  setThreeDRotationAngle((startAngleRef.current + deltaX * 0.8) % 360);
+                                }}
+                                onTouchEnd={() => { isDraggingRef.current = false; }}
+                              >
+                                {/* Rotating Image Container */}
+                                <div className="relative w-64 sm:w-80 aspect-[3/4] flex items-center justify-center">
+                                  <motion.div 
+                                    className="relative w-full h-full"
+                                    style={{ transform: `rotateY(${threeDRotationAngle}deg)` }}
+                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                  >
+                                    <Image
+                                      src={product.image}
+                                      alt={`${product.name} 3D Rotation`}
+                                      fill
+                                      priority
+                                      className="object-contain filter drop-shadow-2xl pointer-events-none"
+                                    />
+                                  </motion.div>
+                                </div>
+
+                                {/* Drag Indicator Badge */}
+                                <div className="absolute bottom-4 bg-black/75 backdrop-blur-xs text-white px-4 py-1.5 rounded-full text-[10px] font-mono font-bold flex items-center gap-1.5 shadow-md">
+                                  <RotateCw className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+                                  <span>Angle: {Math.round((threeDRotationAngle % 360 + 360) % 360)}° • Drag horizontally to spin</span>
+                                </div>
+                              </div>
+
+                              {/* 3D Bottom Controls */}
+                              <div className="p-3 px-4 bg-zinc-50 border-t border-zinc-150 flex items-center justify-between">
+                                <div className="flex items-center gap-1.5">
+                                  <button
+                                    onClick={() => setThreeDRotationAngle(prev => prev - 45)}
+                                    className="px-2.5 py-1 bg-white border border-zinc-200 rounded-md text-[10px] font-mono font-bold hover:bg-zinc-100 cursor-pointer"
+                                  >
+                                    ⟲ Left 45°
+                                  </button>
+                                  <button
+                                    onClick={() => setThreeDRotationAngle(prev => prev + 45)}
+                                    className="px-2.5 py-1 bg-white border border-zinc-200 rounded-md text-[10px] font-mono font-bold hover:bg-zinc-100 cursor-pointer"
+                                  >
+                                    ⟳ Right 45°
+                                  </button>
+                                  <button
+                                    onClick={() => setThreeDRotationAngle(0)}
+                                    className="px-2.5 py-1 bg-white border border-zinc-200 rounded-md text-[10px] font-mono font-bold hover:bg-zinc-100 cursor-pointer text-zinc-500"
+                                  >
+                                    Reset 0°
+                                  </button>
+                                </div>
+
+                                <button
+                                  onClick={() => setShow3DModal(false)}
+                                  className="bg-black text-white text-[11px] font-bold px-4 py-1.5 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer border-none"
+                                >
+                                  Close 3D View
+                                </button>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
                       </div>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* RIGHT SIDE: Buy specs panel */}
-              <div className="lg:col-span-5 space-y-6 text-left select-none">
+              {/* RIGHT SIDE: Buy specs panel (EXACT MATCH FOR FIGMA IMAGE 1) */}
+              <div className="lg:col-span-5 space-y-5 text-left select-none font-sans">
                 
-                {/* Brand Logo & Name */}
+                {/* Brand Title Row + ID & Share */}
                 <div>
-                  <div className="flex items-center gap-2">
-                    <span className="bg-red-600 text-white font-mono text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded shadow-sm">
-                      Ferrari Team wear
-                    </span>
-                    <Sparkles className="w-4 h-4 text-yellow-500 animate-spin" />
+                  <div className="flex items-center justify-between">
+                    <h1 className="text-xl font-bold text-zinc-950 uppercase tracking-tight">
+                      {product.brand}
+                    </h1>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="bg-[#fff9c4] text-[#f57f17] text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 font-mono">
+                        <Info className="w-3 h-3 text-amber-500" /> ID: 2S46FF
+                      </span>
+                      <button 
+                        onClick={() => {
+                          if (navigator.clipboard) {
+                            navigator.clipboard.writeText(window.location.href);
+                            alert("Product link copied to clipboard!");
+                          }
+                        }}
+                        aria-label="Share product"
+                        className="text-amber-500 hover:text-amber-600 transition-colors p-1 border-none bg-transparent cursor-pointer"
+                      >
+                        <Share2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
-                  <h1 className="text-3xl font-black tracking-tight text-zinc-950 uppercase leading-none font-sans mt-2.5">
-                    {product.brand}
-                  </h1>
-                  <p className="text-lg font-medium text-zinc-500 mt-1.5 uppercase tracking-wide">
+
+                  <p className="text-xs text-zinc-600 font-medium mt-1 leading-normal">
                     {product.name}
                   </p>
                 </div>
 
-                {/* Ratings badge */}
-                <div className="inline-flex items-center gap-2 border border-zinc-200 rounded-lg px-3 py-1.5 bg-zinc-50 font-mono text-xs font-black text-zinc-800">
-                  <span className="flex items-center gap-0.5 text-yellow-500">
-                    {product.rating} <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
-                  </span>
-                  <span className="text-zinc-300">|</span>
-                  <span className="text-zinc-550 font-bold">4.8k Ratings</span>
+                {/* Rating & Review Count */}
+                <div className="flex items-center gap-1.5 text-xs text-zinc-600 font-medium">
+                  <span>Product rating</span>
+                  <div className="flex items-center text-amber-400">
+                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                    <Star className="w-3.5 h-3.5 fill-amber-400 opacity-40" />
+                  </div>
+                  <span className="text-zinc-400">| 2.3K</span>
                 </div>
 
-                <hr className="border-zinc-150" />
+                {/* Sold by seller */}
+                <p className="text-xs text-zinc-500 font-medium">
+                  Sold by: <span className="text-zinc-800 font-semibold">Sellers Name</span>
+                </p>
 
-                {/* Pricing block */}
-                <div className="space-y-1 font-sans">
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-2xl font-black text-zinc-955 font-mono">
+                {/* Pricing Block */}
+                <div className="space-y-0.5 pt-1">
+                  <span className="text-xs text-zinc-400 font-bold line-through font-mono">
+                    ₹{originalMrp}
+                  </span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-extrabold text-zinc-950 font-mono">
                       {product.price}
                     </span>
-                    <span className="text-sm text-zinc-400 font-bold line-through font-mono">
-                      ₹{originalMrp}
-                    </span>
-                    <span className="text-base font-black text-[#f05a28] font-mono">
+                    <span className="text-xs font-bold text-[#f05a28] font-mono">
                       ({product.discount}% OFF)
                     </span>
                   </div>
-                  <p className="text-xs font-mono text-green-600 font-extrabold uppercase tracking-wide pt-1">
-                    inclusive of all taxes
-                  </p>
                 </div>
 
-                {/* Sizes selection */}
-                <div className="space-y-3 font-sans">
+                {/* Colour Options */}
+                <div className="space-y-2 pt-1">
+                  <h3 className="text-xs font-semibold text-zinc-700">
+                    Colour Options
+                  </h3>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-14 relative rounded-md overflow-hidden border-2 border-zinc-300 cursor-pointer hover:border-black transition-all bg-sky-100">
+                      <Image
+                        src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=100&q=80"
+                        alt="Light Blue Swatch"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="w-12 h-14 relative rounded-md overflow-hidden border-2 border-amber-400 ring-2 ring-amber-400/30 cursor-pointer bg-zinc-50">
+                      <Image
+                        src={product.image}
+                        alt="White Swatch"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Size Options & Size chart link */}
+                <div className="space-y-2 pt-1">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-xs font-black uppercase tracking-wider text-zinc-900">
-                      Select Size
+                    <h3 className="text-xs font-semibold text-zinc-700">
+                      Size Options
                     </h3>
                     <button 
-                      onClick={() => alert("Size Chart:\nS - Chest 38 inches\nM - Chest 40 inches\nL - Chest 42 inches\nXL - Chest 44 inches\nXXL - Chest 46 inches")}
-                      className="text-xs font-black uppercase tracking-widest text-[#f05a28] hover:text-orange-600 transition-colors bg-transparent border-none cursor-pointer"
+                      onClick={() => setShowSizeChart(true)}
+                      className="text-xs font-semibold text-[#fbc02d] hover:underline bg-transparent border-none cursor-pointer"
                     >
-                      Size Chart &gt;
+                      Size chart
                     </button>
                   </div>
 
-                  <div className="flex flex-wrap gap-3">
-                    {product.sizes.map((size) => {
+                  <div className="flex items-center gap-2">
+                    {["XS", "S", "M", "L", "XL"].map((size) => {
                       const isSelected = selectedSize === size;
                       return (
                         <button
                           key={size}
                           onClick={() => setSelectedSize(size)}
-                          className={`w-12 h-12 rounded-full border text-xs font-black uppercase tracking-wider flex items-center justify-center transition-all cursor-pointer ${
+                          className={`w-10 h-10 rounded-md border text-xs font-bold transition-all cursor-pointer ${
                             isSelected 
-                              ? "border-[#f05a28] bg-orange-50 text-[#f05a28] scale-[1.05] shadow-xs" 
-                              : "border-zinc-200 hover:border-zinc-350 text-zinc-700 hover:bg-zinc-50"
-                      }`}
+                              ? "bg-[#ffeb3b] border-[#fbc02d] text-black font-extrabold shadow-xs scale-105" 
+                              : "bg-white border-zinc-250 text-zinc-700 hover:border-zinc-400"
+                          }`}
                         >
                           {size}
                         </button>
@@ -558,84 +900,817 @@ export default function ProductDetailClient({ productId }: { productId: number }
                   </div>
                 </div>
 
-                {/* Purchase trays */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                  <button
-                    onClick={handleAddToCart}
-                    className="flex-grow flex items-center justify-center gap-2 bg-[#f05a28] hover:bg-orange-600 text-white font-black text-xs uppercase tracking-widest py-4.5 rounded-xl shadow-md transition-colors cursor-pointer border-none font-sans"
-                  >
-                    <ShoppingBag className="w-4 h-4 fill-white" />
-                    <span>Add to Bag</span>
-                  </button>
+                {/* Action Buttons: Add to Cart & Add to Wishlist */}
+                <div className="space-y-1.5 pt-2">
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={handleAddToCart}
+                      className="flex-1 bg-[#222222] hover:bg-black text-amber-300 font-bold text-xs py-3.5 px-4 rounded-lg shadow-sm transition-colors cursor-pointer border-none flex items-center justify-center gap-2 uppercase tracking-wide"
+                    >
+                      <span>Add to Cart</span>
+                    </button>
 
-                  <button
-                    onClick={handleToggleFavorite}
-                    className={`flex-grow sm:flex-grow-0 sm:px-8 flex items-center justify-center gap-2 border font-black text-xs uppercase tracking-widest py-4.5 rounded-xl transition-all cursor-pointer font-sans ${
-                      isProductInWishlist 
-                        ? "border-zinc-950 bg-zinc-950 text-white" 
-                        : "border-zinc-250 bg-white hover:bg-zinc-50 text-zinc-700"
-                    }`}
-                  >
-                    <Heart className={`w-4 h-4 ${isProductInWishlist ? "fill-red-500 text-red-500" : ""}`} />
-                    <span>{isProductInWishlist ? "Wishlisted" : "Wishlist"}</span>
-                  </button>
+                    <button
+                      onClick={handleToggleFavorite}
+                      className={`flex-1 border text-xs font-bold py-3.5 px-4 rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 uppercase tracking-wide ${
+                        isProductInWishlist
+                          ? "bg-zinc-900 text-white border-zinc-900"
+                          : "bg-white border-zinc-300 text-zinc-800 hover:bg-zinc-50"
+                      }`}
+                    >
+                      <span>{isProductInWishlist ? "Wishlisted" : "Add to Wishlist"}</span>
+                    </button>
+                  </div>
+
+                  {/* Warranty Subtext */}
+                  <p className="text-[10px] text-center text-zinc-500 font-mono font-medium">
+                    X Years Warranty*
+                  </p>
                 </div>
 
                 {/* Complete Your Look Banner Button */}
                 <button
                   onClick={() => setViewMode("drip")}
-                  className="w-full flex items-center justify-center gap-2.5 bg-zinc-950 hover:bg-black text-[#ebd26b] font-black text-xs uppercase tracking-widest py-4.5 rounded-xl border border-zinc-850 shadow-md transition-all cursor-pointer font-sans"
+                  className="w-full flex items-center justify-center gap-2 bg-zinc-950 hover:bg-black text-[#ebd26b] font-black text-xs uppercase tracking-widest py-3.5 rounded-xl border border-zinc-850 shadow-md transition-all cursor-pointer font-sans"
                 >
                   <Sparkles className="w-4 h-4 text-yellow-400 animate-pulse fill-yellow-400" />
-                  <span>Complete Your Look (Interactive Outfit Customizer)</span>
+                  <span>Complete Your Look (Fitting Customizer)</span>
                 </button>
 
-                {/* Pincode delivery widget */}
-                <div className="space-y-3 font-sans">
-                  <h3 className="text-xs font-black uppercase tracking-wider text-zinc-900 flex items-center gap-1.5 font-bold">
-                    <MapPin className="w-4 h-4 text-zinc-500" /> Delivery Checker
+                {/* Delivery Options Box */}
+                <div className="space-y-3 pt-3 border-t border-zinc-150">
+                  <h3 className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                    Delivery Options <Truck className="w-4 h-4 text-zinc-700" />
                   </h3>
-                  <form onSubmit={handlePincodeCheck} className="flex gap-2 max-w-sm">
-                    <input
-                      type="text"
-                      maxLength={6}
-                      value={pincode}
-                      onChange={(e) => setPincode(e.target.value.replace(/[^0-9]/g, ""))}
-                      placeholder="Enter 6-digit Pincode"
-                      className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-xs outline-none focus:border-zinc-400 font-mono text-zinc-800"
-                    />
-                    <button
-                      type="submit"
-                      className="bg-zinc-900 hover:bg-black text-[#ebd26b] font-black text-xs uppercase tracking-widest px-5 rounded-xl cursor-pointer transition-colors border-none"
-                    >
-                      Check
-                    </button>
-                  </form>
-                  {pincodeChecked && (
-                    <div className="text-xs font-mono text-zinc-650 bg-zinc-50 p-3 rounded-xl border border-zinc-100 flex flex-col gap-1">
-                      <span className="flex items-center gap-1.5 text-zinc-900 font-black">
-                        <Truck className="w-4 h-4 text-green-600" /> {pincodeDeliveryText}
-                      </span>
-                      <span className="text-zinc-400">&bull; Cash on Delivery available</span>
-                      <span className="text-zinc-400">&bull; Easy 14 days exchange and returns</span>
+
+                  {/* Pincode Input */}
+                  <div className="border border-zinc-200 rounded-lg p-1.5 pl-4 flex items-center justify-between max-w-xs bg-white">
+                    <span className="text-xs font-mono text-zinc-700 font-semibold">{pincode || "400615"}</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-zinc-900 text-white flex items-center justify-center text-[10px]">
+                        ✓
+                      </div>
+                      <button 
+                        onClick={() => {
+                          const code = prompt("Enter 6-digit Pincode:", pincode || "400615");
+                          if (code) setPincode(code);
+                        }}
+                        className="text-xs font-semibold text-[#f05a28] hover:underline bg-transparent border-none cursor-pointer pr-1"
+                      >
+                        Change
+                      </button>
                     </div>
-                  )}
+                  </div>
+
+                  {/* Feature Rows */}
+                  <div className="space-y-3 pt-2 text-xs text-zinc-800">
+                    {/* Mailbox / Estimate Delivery */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-zinc-100 flex items-center justify-center flex-shrink-0 text-zinc-800">
+                        <Mail className="w-4 h-4" />
+                      </div>
+                      <span className="font-bold text-zinc-900">
+                        Estimate Delivery, May 17
+                      </span>
+                    </div>
+
+                    {/* Pay on delivery */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-zinc-100 flex items-center justify-center flex-shrink-0 text-zinc-800">
+                        <HandCoins className="w-4 h-4" />
+                      </div>
+                      <span className="font-bold text-zinc-900">
+                        Pay on delivery available
+                      </span>
+                    </div>
+
+                    {/* Return & Exchange */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-zinc-100 flex items-center justify-center flex-shrink-0 text-zinc-800">
+                          <ArrowLeftRight className="w-4 h-4" />
+                        </div>
+                        <span className="font-bold text-zinc-900">
+                          Easy 12 days return &amp; exchange available
+                        </span>
+                      </div>
+                      <button 
+                        onClick={() => alert("Return & Exchange Policy:\nItems can be returned within 12 days of delivery in unused condition with tags intact.")}
+                        className="text-xs font-semibold text-[#fbc02d] hover:underline bg-transparent border-none cursor-pointer flex-shrink-0"
+                      >
+                        More Info
+                      </button>
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] text-zinc-500 text-center font-medium pt-1">
+                    100% Original Product
+                  </p>
                 </div>
 
-                {/* Specifications details */}
-                <div className="space-y-4 font-sans pt-2">
-                  <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest font-mono mb-2">Specifications</h4>
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-3.5 border border-zinc-100 rounded-2xl p-4 bg-zinc-50/25">
-                    {product.specifications.map((spec, i) => (
-                      <div key={i} className="text-xs leading-normal">
-                        <span className="text-zinc-400 block font-semibold">{spec.label}</span>
-                        <strong className="text-zinc-850 font-extrabold">{spec.value}</strong>
+                {/* Best Offers Section */}
+                <div className="space-y-3 pt-3 border-t border-zinc-150">
+                  <h3 className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                    Best Offers <Tag className="w-3.5 h-3.5 text-zinc-800 fill-zinc-800" />
+                  </h3>
+
+                  {/* Offer Cards */}
+                  <div className="space-y-2.5">
+                    {[1, 2, 3].map((idx) => (
+                      <div 
+                        key={idx}
+                        className="border border-zinc-200 rounded-lg p-3 bg-white space-y-1 hover:border-zinc-350 transition-colors"
+                      >
+                        <h4 className="text-xs font-bold text-zinc-900">
+                          7.5% Discount on Myntra Kotak Credit Card
+                        </h4>
+                        <p className="text-[11px] text-zinc-500 font-medium">
+                          Max Discount Up to ₹750 on every spends.
+                        </p>
+                        <button 
+                          onClick={() => alert("Offer Terms & Conditions:\n- Valid on transactions above ₹1,999.\n- Maximum discount capped at ₹750.\n- Applicable once per user per month.")}
+                          className="text-[11px] font-semibold text-[#f05a28] hover:underline bg-transparent border-none cursor-pointer pt-0.5 block"
+                        >
+                          Terms &amp; Condition
+                        </button>
                       </div>
                     ))}
+                  </div>
+
+                  {/* View More Link */}
+                  <div className="text-center pt-1">
+                    <button 
+                      onClick={() => alert("More Available Offers:\n- 10% Instant Discount on HDFC Cards\n- Flat ₹500 Cashback on UPI Transactions\n- Free Shipping on orders above ₹999")}
+                      className="text-xs font-semibold text-[#fbc02d] hover:underline bg-transparent border-none cursor-pointer"
+                    >
+                      View More
+                    </button>
                   </div>
                 </div>
 
               </div>
+              </div>
+
+              {/* NEW SECTION: Tabbed Specs & Details + Brand Story Banner (EXACT MATCH FOR FIGMA SCREENSHOT) */}
+              <div className="w-full mt-10 pt-8 border-t border-zinc-200 text-left font-sans select-none space-y-8">
+                
+                {/* Tab Navigation Header (Yellow Pill active indicator) */}
+                <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-6 border-b border-zinc-200 pb-4 overflow-x-auto">
+                  <button
+                    onClick={() => setActiveDetailsTab("details")}
+                    className={`text-xs sm:text-sm font-bold px-6 py-2.5 rounded-lg transition-all cursor-pointer border-none ${
+                      activeDetailsTab === "details"
+                        ? "bg-[#ffeb3b] text-black shadow-xs font-black"
+                        : "bg-transparent text-zinc-600 hover:text-black font-semibold"
+                    }`}
+                  >
+                    Product Details
+                  </button>
+                  <button
+                    onClick={() => setActiveDetailsTab("reviews")}
+                    className={`text-xs sm:text-sm font-bold px-6 py-2.5 rounded-lg transition-all cursor-pointer border-none ${
+                      activeDetailsTab === "reviews"
+                        ? "bg-[#ffeb3b] text-black shadow-xs font-black"
+                        : "bg-transparent text-zinc-600 hover:text-black font-semibold"
+                    }`}
+                  >
+                    Product Reviews
+                  </button>
+                  <button
+                    onClick={() => setActiveDetailsTab("tech")}
+                    className={`text-xs sm:text-sm font-bold px-6 py-2.5 rounded-lg transition-all cursor-pointer border-none ${
+                      activeDetailsTab === "tech"
+                        ? "bg-[#ffeb3b] text-black shadow-xs font-black"
+                        : "bg-transparent text-zinc-600 hover:text-black font-semibold"
+                    }`}
+                  >
+                    Technical Information
+                  </button>
+                </div>
+
+                {/* Tab Content 1: Product Details (Exact Match for Screenshot) */}
+                {activeDetailsTab === "details" && (
+                  <div className="space-y-8 animate-in fade-in duration-300">
+                    
+                    {/* Product Story Paragraph */}
+                    <div className="space-y-2 max-w-5xl">
+                      <h3 className="text-base font-bold text-zinc-950">
+                        Product Story
+                      </h3>
+                      <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-normal">
+                        Crafted with a stretchy elasticated waistband, you'll get an effortless fit for maximum comfort in PUMA x one8 Men's Knitted 8" Training Shorts. The slip pockets provide a convenient place to store your essentials, while the PUMA Cat logo adds a subtle branding element. Whether you're hitting the gym or running errands around town, these shorts are the perfect addition to your wardrobe.
+                      </p>
+                    </div>
+
+                    {/* 3 Columns Grid: Material Information, Care Instructions, FEATURES & BENEFITS */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-2">
+                      
+                      {/* Column 1: Material Information */}
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-bold text-zinc-950">
+                          Material Information
+                        </h4>
+                        <ul className="text-xs sm:text-sm text-zinc-600 space-y-1 list-disc list-inside">
+                          <li>Shell: 87% polyester, 13% elastane</li>
+                          <li>Pocket Bag: 100% polyester</li>
+                        </ul>
+                      </div>
+
+                      {/* Column 2: Care Instructions */}
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-bold text-zinc-955">
+                          Care Instructions
+                        </h4>
+                        <ul className="text-xs sm:text-sm text-zinc-600 space-y-1 list-disc list-inside">
+                          <li>Do not use fabric softener</li>
+                          <li>Exclusive of Decoration</li>
+                          <li>Do not iron print</li>
+                          <li>Wash with similar colours</li>
+                          <li>Use only mild detergent</li>
+                        </ul>
+                      </div>
+
+                      {/* Column 3: FEATURES & BENEFITS */}
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-bold text-zinc-955 uppercase tracking-wide">
+                          FEATURES &amp; BENEFITS
+                        </h4>
+                        <ul className="text-xs sm:text-sm text-zinc-600 space-y-1 list-disc list-inside">
+                          <li>CLOUDSPUN: Custom-milled performance poly/spandex blend, for optimal performance</li>
+                        </ul>
+                      </div>
+
+                    </div>
+
+                  </div>
+                )}
+
+                {/* Tab Content 2: Product Reviews (EXACT MATCH FOR FIGMA SCREENSHOT) */}
+                {activeDetailsTab === "reviews" && (
+                  <div className="space-y-10 animate-in fade-in duration-300 w-full font-sans select-none">
+                    
+                    {/* Top Sort By Dropdown */}
+                    <div className="flex justify-end">
+                      <div className="border border-zinc-300 rounded-lg px-4 py-2 bg-white flex items-center gap-3 text-xs font-medium text-zinc-800 shadow-2xs">
+                        <span>Sort by : <strong className="font-bold text-zinc-950">Newest review</strong></span>
+                        <ChevronRight className="w-4 h-4 text-zinc-500 rotate-90" />
+                      </div>
+                    </div>
+
+                    {/* Left Score + Right Progress Rating Breakdown */}
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center border-b border-zinc-150 pb-8">
+                      
+                      {/* Left: Overall Score (4.7) & Stars */}
+                      <div className="md:col-span-4 space-y-1">
+                        <span className="text-xs font-bold text-zinc-800">Reviews</span>
+                        <h2 className="text-5xl font-black text-zinc-950 font-sans leading-none">
+                          4.7
+                        </h2>
+                        <div className="flex items-center gap-1 text-[#ffeb3b] pt-1">
+                          <Star className="w-5 h-5 fill-[#ffeb3b]" />
+                          <Star className="w-5 h-5 fill-[#ffeb3b]" />
+                          <Star className="w-5 h-5 fill-[#ffeb3b]" />
+                          <Star className="w-5 h-5 fill-[#ffeb3b]" />
+                          <Star className="w-5 h-5 fill-[#ffeb3b]" />
+                        </div>
+                        <p className="text-xs text-zinc-400 font-medium font-sans">
+                          (578 Reviews)
+                        </p>
+                      </div>
+
+                      {/* Right: Stars Progress Bars Stack */}
+                      <div className="md:col-span-8 space-y-2 font-sans text-xs">
+                        {[
+                          { stars: "5 stars", count: 488, percent: 85 },
+                          { stars: "4 stars", count: 74, percent: 30 },
+                          { stars: "3 stars", count: 14, percent: 8 },
+                          { stars: "2 stars", count: 0, percent: 0 },
+                          { stars: "1 star", count: 0, percent: 0 }
+                        ].map((row, idx) => (
+                          <div key={idx} className="flex items-center gap-4">
+                            <span className="w-12 text-zinc-600 font-medium text-right">{row.stars}</span>
+                            <div className="flex-grow h-2.5 bg-zinc-100 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-[#ffeb3b] rounded-full transition-all duration-500"
+                                style={{ width: `${row.percent}%` }}
+                              />
+                            </div>
+                            <span className="w-8 text-zinc-500 font-mono font-medium text-left">{row.count}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                    </div>
+
+                    {/* Review Item Cards List (Left Review Text + Right 4 Donut Gauges) */}
+                    <div className="space-y-12 divide-y divide-zinc-150">
+                      {[
+                        { date: "May 17, 2024", name: "Emily R.", avatar: "ER", comment: "The fabric quality and athletic fit on these shorts are top tier! Perfect for workout sessions and street style.", quality: 85, comfort: 90, fit: 80, value: 95 },
+                        { date: "May 14, 2024", name: "Marcus T.", avatar: "MT", comment: "Super breathable materials with classic Puma T7 stripe branding. High-grade stitching that lasts.", quality: 90, comfort: 85, fit: 85, value: 90 },
+                        { date: "May 10, 2024", name: "Sarah K.", avatar: "SK", comment: "Fast delivery and 100% authentic Puma gear. Size fits true to chart with great flex.", quality: 95, comfort: 95, fit: 90, value: 85 },
+                        { date: "May 02, 2024", name: "David L.", avatar: "DL", comment: "Scuderia Ferrari accents look premium in person. Worth every rupee!", quality: 80, comfort: 90, fit: 85, value: 90 },
+                        { date: "Apr 28, 2024", name: "Ananya S.", avatar: "AS", comment: "Looks amazing paired with oversized graphic tees. High comfort waistband.", quality: 90, comfort: 95, fit: 90, value: 95 },
+                        { date: "Apr 21, 2024", name: "Vikram P.", avatar: "VP", comment: "Heavyweight comfort and lightweight breathability combined perfectly.", quality: 85, comfort: 85, fit: 85, value: 85 }
+                      ]
+                      .slice(0, showAllReviews ? 6 : 2)
+                      .map((review, itemIdx) => (
+                        <div key={itemIdx} className="pt-8 first:pt-0 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center animate-in fade-in duration-300">
+                          
+                          {/* Left Column: Date, Rating Stars, Avatar, Name & Review Comment */}
+                          <div className="lg:col-span-7 space-y-3">
+                            <p className="text-xs text-zinc-400 font-medium font-sans">
+                              {review.date}
+                            </p>
+
+                            <div className="flex items-center gap-1 text-[#ffeb3b]">
+                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
+                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
+                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
+                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
+                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
+                            </div>
+
+                            <div className="flex items-center gap-3 pt-1">
+                              <div className="w-8 h-8 rounded-full bg-[#9bb2ff] text-[#2e4ec6] font-extrabold text-xs flex items-center justify-center font-mono">
+                                {review.avatar}
+                              </div>
+                              <span className="text-sm font-bold text-zinc-955">
+                                {review.name}
+                              </span>
+                            </div>
+
+                            <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-normal max-w-xl">
+                              {review.comment}
+                            </p>
+                          </div>
+
+                          {/* Right Column: 4 Circular Donut Gauges (Quality, Comfort, Fit, Value for Money) */}
+                          <div className="lg:col-span-5 grid grid-cols-4 gap-2 sm:gap-4 items-center justify-items-center">
+                            {/* Quality Gauge */}
+                            <div className="flex flex-col items-center gap-2">
+                              <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+                                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                  <path className="text-zinc-200" strokeWidth="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                  <path className="text-[#ffeb3b]" strokeDasharray={`${review.quality}, 100`} strokeWidth="4" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                </svg>
+                              </div>
+                              <span className="text-xs font-semibold text-zinc-700">Quality</span>
+                            </div>
+
+                            {/* Comfort Gauge */}
+                            <div className="flex flex-col items-center gap-2">
+                              <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+                                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                  <path className="text-zinc-200" strokeWidth="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                  <path className="text-[#ffeb3b]" strokeDasharray={`${review.comfort}, 100`} strokeWidth="4" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                </svg>
+                              </div>
+                              <span className="text-xs font-semibold text-zinc-700">Comfort</span>
+                            </div>
+
+                            {/* Fit Gauge */}
+                            <div className="flex flex-col items-center gap-2">
+                              <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+                                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                  <path className="text-zinc-200" strokeWidth="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                  <path className="text-[#ffeb3b]" strokeDasharray={`${review.fit}, 100`} strokeWidth="4" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                </svg>
+                              </div>
+                              <span className="text-xs font-semibold text-zinc-700">Fit</span>
+                            </div>
+
+                            {/* Value for Money Gauge */}
+                            <div className="flex flex-col items-center gap-2">
+                              <div className="relative w-16 h-16 sm:w-20 sm:h-20">
+                                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                  <path className="text-zinc-200" strokeWidth="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                  <path className="text-[#ffeb3b]" strokeDasharray={`${review.value}, 100`} strokeWidth="4" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                </svg>
+                              </div>
+                              <span className="text-xs font-semibold text-zinc-700 text-center leading-tight">Value for Money</span>
+                            </div>
+                          </div>
+
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Bottom Expand Button */}
+                    <div className="pt-4">
+                      <button
+                        onClick={() => setShowAllReviews((prev) => !prev)}
+                        className="w-full border border-zinc-400 hover:border-black rounded-xl py-3.5 text-center text-xs font-bold text-zinc-800 bg-white hover:bg-zinc-50 transition-colors cursor-pointer flex items-center justify-center gap-2"
+                      >
+                        <span>{showAllReviews ? "Show less reviews" : "View all the reviews (27)"}</span>
+                        <ChevronRight className={`w-4 h-4 text-zinc-600 transition-transform duration-300 ${showAllReviews ? "-rotate-90" : "rotate-90"}`} />
+                      </button>
+                    </div>
+
+                  </div>
+                )}
+
+                {/* Tab Content 3: Technical Information (EXACT MATCH FOR FIGMA SCREENSHOT) */}
+                {activeDetailsTab === "tech" && (
+                  <div className="space-y-6 animate-in fade-in duration-300 w-full max-w-4xl font-sans select-none">
+                    <div className="space-y-4 pt-2">
+                      {[
+                        { label: "Product Dimensions", value: "22 x 34 x 5 cm" },
+                        { label: "Item Weight", value: "135 g" },
+                        { label: "Material type", value: "Polyester" },
+                        { label: "Style", value: "Bermuda Shorts" },
+                        { label: "Length", value: "Standard Length" },
+                        { label: "Care instructions", value: "Machine Wash" },
+                        { label: "Manufacturer", value: "Puma, Sin Joo Bo International Limited Hung Dao Commune Duong Kinh District 18671 Hai Phong City" },
+                        { label: "Country of Origin", value: "India" }
+                      ].map((row, idx) => (
+                        <div 
+                          key={idx} 
+                          className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-6 py-2.5 items-start text-xs sm:text-sm font-sans"
+                        >
+                          <div className="sm:col-span-4 font-bold text-zinc-950">
+                            {row.label}
+                          </div>
+                          <div className="sm:col-span-8 font-normal text-zinc-600 leading-relaxed">
+                            {row.value}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* BRAND STORY BANNER: DARK RED / MAROON PUMA BANNER (Exact Match for Leaping Puma Barcode Vector Watermark) */}
+                <div className="relative w-full rounded-[24px] overflow-hidden bg-[#450505] text-white p-8 sm:p-12 flex flex-col items-center justify-center text-center shadow-xl select-none mt-10 min-h-[230px]">
+                  
+                  {/* Top Row of 7 Barcode-Striped Puma Cat (Tiger) Watermarks */}
+                  <div className="absolute top-2 inset-x-0 flex items-center justify-between opacity-50 pointer-events-none px-2 sm:px-6">
+                    {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                      <svg key={`top-${i}`} className="w-16 sm:w-20 h-10 sm:h-12 text-zinc-300" viewBox="0 0 90 60" fill="currentColor">
+                        <g opacity="0.95">
+                          {/* Front Paws / Legs */}
+                          <rect x="4" y="24" width="2" height="6" rx="1" />
+                          <rect x="7" y="22" width="2" height="10" rx="1" />
+                          <rect x="10" y="20" width="2" height="14" rx="1" />
+                          <rect x="13" y="18" width="2" height="18" rx="1" />
+
+                          {/* Head & Ear */}
+                          <rect x="16" y="10" width="2" height="26" rx="1" />
+                          <rect x="19" y="8" width="2" height="24" rx="1" />
+                          <rect x="22" y="12" width="2" height="18" rx="1" />
+
+                          {/* High Arched Back & Body */}
+                          <rect x="25" y="10" width="2" height="18" rx="1" />
+                          <rect x="28" y="9" width="2" height="17" rx="1" />
+                          <rect x="31" y="8" width="2" height="16" rx="1" />
+                          <rect x="34" y="8" width="2" height="15" rx="1" />
+                          <rect x="37" y="9" width="2" height="14" rx="1" />
+                          <rect x="40" y="10" width="2" height="13" rx="1" />
+                          <rect x="43" y="12" width="2" height="13" rx="1" />
+                          <rect x="46" y="14" width="2" height="14" rx="1" />
+
+                          {/* Extended Hind Leg */}
+                          <rect x="49" y="17" width="2" height="18" rx="1" />
+                          <rect x="52" y="21" width="2" height="22" rx="1" />
+                          <rect x="55" y="25" width="2" height="24" rx="1" />
+                          <rect x="58" y="29" width="2" height="22" rx="1" />
+                          <rect x="61" y="33" width="2" height="16" rx="1" />
+                          <rect x="64" y="37" width="2" height="10" rx="1" />
+
+                          {/* Rising Tail */}
+                          <rect x="67" y="20" width="2" height="12" rx="1" />
+                          <rect x="70" y="15" width="2" height="12" rx="1" />
+                          <rect x="73" y="11" width="2" height="11" rx="1" />
+                          <rect x="76" y="7" width="2" height="10" rx="1" />
+                          <rect x="79" y="5" width="2" height="8" rx="1" />
+                        </g>
+                      </svg>
+                    ))}
+                  </div>
+
+                  {/* Bottom Row of 7 Barcode-Striped Puma Cat (Tiger) Watermarks */}
+                  <div className="absolute bottom-2 inset-x-0 flex items-center justify-between opacity-50 pointer-events-none px-2 sm:px-6">
+                    {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                      <svg key={`bot-${i}`} className="w-16 sm:w-20 h-10 sm:h-12 text-zinc-300" viewBox="0 0 90 60" fill="currentColor">
+                        <g opacity="0.95">
+                          {/* Front Paws / Legs */}
+                          <rect x="4" y="24" width="2" height="6" rx="1" />
+                          <rect x="7" y="22" width="2" height="10" rx="1" />
+                          <rect x="10" y="20" width="2" height="14" rx="1" />
+                          <rect x="13" y="18" width="2" height="18" rx="1" />
+
+                          {/* Head & Ear */}
+                          <rect x="16" y="10" width="2" height="26" rx="1" />
+                          <rect x="19" y="8" width="2" height="24" rx="1" />
+                          <rect x="22" y="12" width="2" height="18" rx="1" />
+
+                          {/* High Arched Back & Body */}
+                          <rect x="25" y="10" width="2" height="18" rx="1" />
+                          <rect x="28" y="9" width="2" height="17" rx="1" />
+                          <rect x="31" y="8" width="2" height="16" rx="1" />
+                          <rect x="34" y="8" width="2" height="15" rx="1" />
+                          <rect x="37" y="9" width="2" height="14" rx="1" />
+                          <rect x="40" y="10" width="2" height="13" rx="1" />
+                          <rect x="43" y="12" width="2" height="13" rx="1" />
+                          <rect x="46" y="14" width="2" height="14" rx="1" />
+
+                          {/* Extended Hind Leg */}
+                          <rect x="49" y="17" width="2" height="18" rx="1" />
+                          <rect x="52" y="21" width="2" height="22" rx="1" />
+                          <rect x="55" y="25" width="2" height="24" rx="1" />
+                          <rect x="58" y="29" width="2" height="22" rx="1" />
+                          <rect x="61" y="33" width="2" height="16" rx="1" />
+                          <rect x="64" y="37" width="2" height="10" rx="1" />
+
+                          {/* Rising Tail */}
+                          <rect x="67" y="20" width="2" height="12" rx="1" />
+                          <rect x="70" y="15" width="2" height="12" rx="1" />
+                          <rect x="73" y="11" width="2" height="11" rx="1" />
+                          <rect x="76" y="7" width="2" height="10" rx="1" />
+                          <rect x="79" y="5" width="2" height="8" rx="1" />
+                        </g>
+                      </svg>
+                    ))}
+                  </div>
+
+                  {/* Brand Title */}
+                  <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight relative z-10 text-white font-sans mt-2">
+                    Puma
+                  </h2>
+
+                  {/* Brand Description Text (Exact Text from Screenshot) */}
+                  <p className="text-xs sm:text-sm text-zinc-200 max-w-4xl leading-relaxed font-normal relative z-10 mt-3">
+                    Puma is a German multinational corporation that designs and manufactures athletic and casual footwear, apparel, and accessories. It was founded in 1948 by brothers Rudolf and Adolf Dassler in Herzogenaurach, Germany, which is known as the world capital of sports shoes. Puma is the third largest sportswear manufacturer in the world.
+                  </p>
+
+                  <AnimatePresence>
+                    {showFullBrandStory && (
+                      <motion.p
+                        initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                        animate={{ opacity: 1, height: "auto", marginTop: 12 }}
+                        exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                        className="text-xs sm:text-sm text-amber-200 max-w-4xl leading-relaxed font-normal relative z-10 border-t border-red-900/60 pt-3"
+                      >
+                        Known for iconic heritage lines including the T7 Tracksuit, Suede Classic, and official Formula 1 motorsport partnerships with Scuderia Ferrari and Mercedes-AMG Petronas. Puma continues to push streetwear boundaries with cutting-edge athletic ergonomics and high-octane aesthetic design.
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Read More Yellow Pill Link (Exact from Screenshot) */}
+                  <button 
+                    onClick={() => setShowFullBrandStory((prev) => !prev)}
+                    className="relative z-10 mt-4 text-[11px] font-bold text-white hover:text-amber-300 transition-colors flex items-center gap-1.5 cursor-pointer border-none bg-transparent"
+                  >
+                    <span>{showFullBrandStory ? "Read Less" : "Read More"}</span>
+                    <span className={`w-4 h-4 rounded-full bg-[#ffeb3b] text-black flex items-center justify-center text-[10px] font-black transition-transform duration-300 ${showFullBrandStory ? "rotate-90" : ""}`}>
+                      ➔
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+                {/* COMPLETE YOUR DRIP: INTERACTIVE OUTFIT CUSTOMIZER (OPTIMIZED FOR LAPTOP SCREEN HEIGHT) */}
+                <div className="w-full space-y-4 pt-6 select-none font-sans">
+                  
+                  {/* Header */}
+                  <h3 className="text-lg sm:text-xl font-bold text-zinc-955 text-center font-sans tracking-tight">
+                    Complete your Drip
+                  </h3>
+
+                  {/* Customizer Layout (3-Column Layout Compact Height for Laptops) */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch font-sans bg-white border border-zinc-200 rounded-[24px] p-3 shadow-xs lg:h-[420px]">
+                    
+                    {/* COLUMN 1: Category Selection Sidebar (Far Left Stack - 4 Item Cards) */}
+                    <div className="lg:col-span-2 flex flex-row lg:flex-col justify-between gap-2 h-full">
+                      {[
+                        { id: "top", name: "T-shirt", img: "/images/drip_tshirt_exact.png" },
+                        { id: "outerwear", name: "Jacket", img: "/images/drip_jacket_exact.png" },
+                        { id: "cap", name: "Cap", img: "/images/drip_cap_exact.png" },
+                        { id: "shoes", name: "Shoes", img: "/images/drip_shoes_exact.png" }
+                      ].map((cat) => {
+                        const isSelected = selectedDripCategory === cat.id;
+                        return (
+                          <div
+                            key={cat.id}
+                            onClick={() => {
+                              setSelectedDripCategory(cat.id as any);
+                              setSelectedDripItemIndex(0);
+                            }}
+                            className={`relative w-full h-[85px] sm:h-[95px] lg:h-full rounded-xl overflow-hidden cursor-pointer transition-all border-2 flex items-center justify-center bg-white ${
+                              isSelected 
+                                ? "border-[#ffeb3b] ring-2 ring-amber-300/40 shadow-sm" 
+                                : "border-zinc-200 hover:border-zinc-350"
+                            }`}
+                          >
+                            <div className="relative w-full h-full">
+                              <Image
+                                src={cat.img}
+                                alt={cat.name}
+                                fill
+                                className="object-contain p-1"
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* COLUMN 2: 2x2 Swatches Grid for Selected Category (Middle 4 Cards - No Vertical Gap) */}
+                    <div className="lg:col-span-4 grid grid-cols-2 grid-rows-2 gap-2 h-full">
+                      {[
+                        { title: "Black / Pink Puma Nitro", img: "/images/puma_black_pink_exact.png" },
+                        { title: "Black / Neon Green Puma", img: "/images/puma_black_neon_exact.png" },
+                        { title: "Red Puma Running Nitro", img: "/images/puma_red_exact.png" },
+                        { title: "Yellow / Orange Flame Puma", img: "/images/puma_yellow_orange_exact.png" }
+                      ].map((item, idx) => {
+                        const isSelected = selectedDripItemIndex === idx;
+                        return (
+                          <div
+                            key={idx}
+                            onClick={() => setSelectedDripItemIndex(idx)}
+                            className={`relative w-full h-[140px] lg:h-full rounded-xl overflow-hidden bg-white cursor-pointer transition-all border-2 p-1.5 flex items-center justify-center ${
+                              isSelected 
+                                ? "border-[#ffeb3b] ring-2 ring-amber-300/40 shadow-sm" 
+                                : "border-zinc-200 hover:border-zinc-350"
+                            }`}
+                          >
+                            <div className="relative w-full h-full">
+                              <Image
+                                src={item.img}
+                                alt={item.title}
+                                fill
+                                className="object-contain p-1"
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* COLUMN 3: 3D Silver Mannequin Statue Viewport (Far Right Large Viewport) */}
+                    <div className="lg:col-span-6 relative bg-[#f8f9fa] border border-zinc-200 rounded-2xl overflow-hidden h-[340px] lg:h-full flex items-center justify-center p-3">
+                      
+                      {/* Mannequin Statue Image (Smooth 3D Flip without Blank Edge) */}
+                      <div 
+                        className="relative w-full h-full max-h-[370px] flex items-center justify-center transition-all duration-500 ease-in-out"
+                        style={{ 
+                          transform: isMannequinFlipped ? 'scaleX(-1) rotate(-1deg)' : 'scaleX(1) rotate(0deg)'
+                        }}
+                      >
+                        <Image
+                          src="/images/drip_mannequin_statue_exact.png"
+                          alt="3D Silver Wireframe Mannequin Statue"
+                          fill
+                          priority
+                          className="object-contain filter drop-shadow-md pointer-events-none p-2"
+                        />
+                      </div>
+
+                      {/* Left & Right Rotation Arrow Buttons (< and >) */}
+                      <button
+                        onClick={() => setIsMannequinFlipped(prev => !prev)}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[#222222] hover:bg-black text-white flex items-center justify-center font-bold shadow-md cursor-pointer border-none transition-colors text-lg z-10"
+                        aria-label="Rotate Left"
+                      >
+                        ‹
+                      </button>
+                      <button
+                        onClick={() => setIsMannequinFlipped(prev => !prev)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[#222222] hover:bg-black text-white flex items-center justify-center font-bold shadow-md cursor-pointer border-none transition-colors text-lg z-10"
+                        aria-label="Rotate Right"
+                      >
+                        ›
+                      </button>
+
+                      {/* Bottom Right Floating "Like the outfit, Buy it Now!" Card */}
+                      <div className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-2xl p-2.5 px-3.5 shadow-xl flex flex-col items-end gap-1 font-sans z-20">
+                        <span className="text-[10px] text-zinc-600 font-medium tracking-tight">
+                          Like the outfit, <strong className="text-zinc-955 font-extrabold">Buy it Now!</strong>
+                        </span>
+                        <button
+                          onClick={handleAddToCart}
+                          className="bg-[#222222] hover:bg-black text-white font-extrabold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md transition-all active:scale-95 cursor-pointer border-none tracking-wide"
+                        >
+                          <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-black text-white">
+                            +
+                          </div>
+                          <span>Add to Cart</span>
+                        </button>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* BOTTOM LINKS BAR: More Shorts By brand / More Shorts of same color / More Shorts */}
+                <div className="flex items-center justify-center gap-8 sm:gap-14 pt-8 pb-4 text-xs sm:text-sm font-bold text-zinc-800 font-sans border-t border-zinc-200">
+                  <button 
+                    onClick={() => {
+                      window.location.href = `/explore?brand=${encodeURIComponent(product.brand)}`;
+                    }}
+                    className="hover:text-[#f05a28] hover:underline cursor-pointer border-none bg-transparent"
+                  >
+                    More Shorts By brand
+                  </button>
+                  <button 
+                    onClick={() => {
+                      window.location.href = `/explore?color=white`;
+                    }}
+                    className="hover:text-[#f05a28] hover:underline cursor-pointer border-none bg-transparent"
+                  >
+                    More Shorts of same color
+                  </button>
+                </div>
+
+                {/* RECENTLY VIEWED SECTION (EXACT MATCH FOR FIGMA SCREENSHOT) */}
+                <div className="pt-14 pb-8 space-y-8 select-none font-sans border-t border-zinc-200 mt-10">
+                  
+                  {/* Header */}
+                  <h2 className="text-2xl sm:text-3xl font-bold text-zinc-950 text-center tracking-tight font-sans">
+                    Recently Viewed
+                  </h2>
+
+                  {/* 4 Cards Carousel Grid + Right Arrow */}
+                  <div className="relative flex items-center">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
+                      {[
+                        { id: 201, brand: "Puma", title: "Puma Core T7 Track Shorts", price: "₹899", img: "/images/rv_product_1.png" },
+                        { id: 202, brand: "Puma", title: "Puma Printed Graphic Shorts", price: "₹1169", img: "/images/rv_product_2.png" },
+                        { id: 203, brand: "Puma", title: "Puma Tech Woven Trousers", price: "₹1539", img: "/images/rv_product_3.png" },
+                        { id: 204, brand: "Puma", title: "Puma Scuderia Sweatpants", price: "₹2069", img: "/images/rv_product_4.png" }
+                      ].map((item) => {
+                        const isWishlisted = wishlist.some((w) => w.id === item.id);
+                        return (
+                          <div 
+                            key={item.id} 
+                            onClick={() => {
+                              window.location.href = `/product/${item.id}`;
+                            }}
+                            className="group space-y-3 cursor-pointer"
+                          >
+                            
+                            {/* Image Card Container */}
+                            <div className="relative aspect-[3/4] w-full bg-[#f6f6f7] rounded-2xl overflow-hidden p-4 flex items-center justify-center border border-zinc-150 group-hover:border-zinc-300 transition-colors">
+                              
+                              {/* Wishlist Heart Icon (Top Right) */}
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleToggleItemWishlist(item);
+                                }}
+                                className="absolute top-3 right-3 z-10 hover:scale-115 transition-all bg-white/70 backdrop-blur-xs p-1.5 rounded-full shadow-2xs border-none cursor-pointer"
+                                aria-label="Add to Wishlist"
+                              >
+                                <Heart 
+                                  className={`w-4 h-4 transition-colors ${
+                                    isWishlisted 
+                                      ? "fill-red-500 text-red-500 scale-110" 
+                                      : "fill-black text-black hover:fill-red-400 hover:text-red-400"
+                                  }`} 
+                                />
+                              </button>
+
+                              {/* Product Image */}
+                              <div className="relative w-full h-full">
+                                <Image
+                                  src={item.img}
+                                  alt={item.title}
+                                  fill
+                                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                                />
+                              </div>
+
+                            </div>
+
+                            {/* Product Details (Left Aligned) */}
+                            <div className="space-y-0.5 px-1 font-sans">
+                              <span className="text-xs text-zinc-500 font-medium block">
+                                {item.brand}
+                              </span>
+                              <span className="text-xs text-zinc-400 font-normal block truncate">
+                                {item.title}
+                              </span>
+                              <span className="text-sm font-bold text-zinc-950 block pt-0.5">
+                                {item.price}
+                              </span>
+                            </div>
+
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Far-Right Carousel Navigation Arrow */}
+                    <button
+                      onClick={() => alert("Showing more recently viewed items...")}
+                      className="hidden xl:flex absolute -right-6 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white border border-zinc-200 shadow-md text-zinc-800 items-center justify-center font-bold hover:bg-black hover:text-white transition-colors cursor-pointer text-lg z-20"
+                      aria-label="Next items"
+                    >
+                      {"›"}
+                    </button>
+                </div>
+              </div>
+
             </motion.div>
           )}
 
@@ -1026,33 +2101,139 @@ export default function ProductDetailClient({ productId }: { productId: number }
           )}
         </AnimatePresence>
 
-        {/* Recently Viewed section for standard e-commerce page structure */}
-        <div className="mt-20 pt-10 border-t border-zinc-150 text-left">
-          <h2 className="text-xl font-black uppercase text-zinc-955 tracking-tight mb-8">Recently Viewed Products</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {masterProducts.slice(0, 4).map((p) => (
-              <div 
-                key={p.id}
-                onClick={() => {
-                  window.location.href = `/product/${p.id}`;
-                }}
-                className="group cursor-pointer flex flex-col justify-between bg-white border border-zinc-150 rounded-2xl p-3 shadow-xs hover:shadow-md transition-shadow"
+        {/* INTERACTIVE SIZE CHART MODAL */}
+        <AnimatePresence>
+          {showSizeChart && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs font-sans">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                transition={{ duration: 0.2 }}
+                className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden border border-zinc-200 select-none"
               >
-                <div>
-                  <div className="relative w-full aspect-[4/5] bg-zinc-50 rounded-xl overflow-hidden mb-3">
-                    <Image src={p.image} alt={p.name} fill className="object-cover group-hover:scale-103 transition-transform" />
+                {/* Modal Header */}
+                <div className="flex items-center justify-between p-5 px-6 border-b border-zinc-150 bg-zinc-50">
+                  <div>
+                    <h2 className="text-lg font-bold text-zinc-950 font-sans tracking-tight">
+                      SIZE GUIDE & MEASUREMENTS
+                    </h2>
+                    <p className="text-xs text-zinc-500 font-medium font-sans">
+                      Puma Scuderia Heritage Oversized Fit
+                    </p>
                   </div>
-                  <span className="text-[9px] font-mono text-zinc-400 uppercase tracking-widest block">{p.brand}</span>
-                  <h4 className="text-xs font-extrabold text-zinc-900 mt-1 line-clamp-1 group-hover:text-[#f05a28] transition-colors">{p.name}</h4>
+
+                  <div className="flex items-center gap-3">
+                    {/* Unit Toggle (in vs cm) */}
+                    <div className="flex bg-zinc-200 p-0.5 rounded-lg text-xs font-bold font-mono">
+                      <button
+                        onClick={() => setSizeChartUnit("in")}
+                        className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer border-none ${
+                          sizeChartUnit === "in" ? "bg-black text-white shadow-2xs" : "text-zinc-700 hover:text-black"
+                        }`}
+                      >
+                        IN
+                      </button>
+                      <button
+                        onClick={() => setSizeChartUnit("cm")}
+                        className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer border-none ${
+                          sizeChartUnit === "cm" ? "bg-black text-white shadow-2xs" : "text-zinc-700 hover:text-black"
+                        }`}
+                      >
+                        CM
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => setShowSizeChart(false)}
+                      className="w-8 h-8 rounded-full bg-zinc-200/70 hover:bg-zinc-300 text-zinc-700 flex items-center justify-center transition-colors cursor-pointer border-none"
+                      aria-label="Close modal"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex justify-between items-center mt-3 pt-2 border-t border-zinc-50 font-mono text-xs">
-                  <strong className="text-zinc-950 font-black">{p.price}</strong>
-                  <span className="text-[10px] text-zinc-450 uppercase">{p.color}</span>
+
+                {/* Modal Body */}
+                <div className="p-6 space-y-6 max-h-[80vh] overflow-y-auto">
+                  {/* Size Chart Table */}
+                  <div className="overflow-x-auto border border-zinc-200 rounded-xl">
+                    <table className="w-full text-left text-xs font-sans border-collapse">
+                      <thead>
+                        <tr className="bg-zinc-100 border-b border-zinc-200 text-zinc-700 font-bold uppercase tracking-wider">
+                          <th className="p-3.5 px-4">Size</th>
+                          <th className="p-3.5 px-4">Chest</th>
+                          <th className="p-3.5 px-4">Front Length</th>
+                          <th className="p-3.5 px-4">Shoulder</th>
+                          <th className="p-3.5 px-4">Sleeve Length</th>
+                          <th className="p-3.5 px-4 text-center">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-zinc-200 text-zinc-800">
+                        {[
+                          { size: "XS", chest: sizeChartUnit === "in" ? "36.0" : "91.4", length: sizeChartUnit === "in" ? "27.0" : "68.5", shoulder: sizeChartUnit === "in" ? "18.5" : "47.0", sleeve: sizeChartUnit === "in" ? "23.5" : "59.6" },
+                          { size: "S", chest: sizeChartUnit === "in" ? "38.0" : "96.5", length: sizeChartUnit === "in" ? "28.0" : "71.1", shoulder: sizeChartUnit === "in" ? "19.5" : "49.5", sleeve: sizeChartUnit === "in" ? "24.0" : "61.0" },
+                          { size: "M", chest: sizeChartUnit === "in" ? "40.0" : "101.6", length: sizeChartUnit === "in" ? "29.0" : "73.6", shoulder: sizeChartUnit === "in" ? "20.5" : "52.0", sleeve: sizeChartUnit === "in" ? "24.5" : "62.2" },
+                          { size: "L", chest: sizeChartUnit === "in" ? "42.0" : "106.7", length: sizeChartUnit === "in" ? "30.0" : "76.2", shoulder: sizeChartUnit === "in" ? "21.5" : "54.6", sleeve: sizeChartUnit === "in" ? "25.0" : "63.5" },
+                          { size: "XL", chest: sizeChartUnit === "in" ? "44.0" : "111.8", length: sizeChartUnit === "in" ? "31.0" : "78.7", shoulder: sizeChartUnit === "in" ? "22.5" : "57.1", sleeve: sizeChartUnit === "in" ? "25.5" : "64.7" }
+                        ].map((row) => {
+                          const isSelected = selectedSize === row.size;
+                          return (
+                            <tr 
+                              key={row.size}
+                              className={`hover:bg-amber-50/50 transition-colors cursor-pointer ${
+                                isSelected ? "bg-amber-100/60 font-bold" : ""
+                              }`}
+                              onClick={() => {
+                                setSelectedSize(row.size);
+                              }}
+                            >
+                              <td className="p-3.5 px-4 font-mono font-bold flex items-center gap-2">
+                                {row.size}
+                                {isSelected && (
+                                  <span className="text-[9px] bg-[#ffeb3b] text-black font-extrabold px-1.5 py-0.5 rounded uppercase font-mono">
+                                    Selected
+                                  </span>
+                                )}
+                              </td>
+                              <td className="p-3.5 px-4 font-mono">{row.chest} {sizeChartUnit}</td>
+                              <td className="p-3.5 px-4 font-mono">{row.length} {sizeChartUnit}</td>
+                              <td className="p-3.5 px-4 font-mono">{row.shoulder} {sizeChartUnit}</td>
+                              <td className="p-3.5 px-4 font-mono">{row.sleeve} {sizeChartUnit}</td>
+                              <td className="p-3.5 px-4 text-center">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedSize(row.size);
+                                    setShowSizeChart(false);
+                                  }}
+                                  className={`text-[11px] font-bold px-3 py-1 rounded-md transition-colors cursor-pointer border-none ${
+                                    isSelected ? "bg-black text-amber-300 font-extrabold" : "bg-zinc-200 text-zinc-800 hover:bg-black hover:text-white"
+                                  }`}
+                                >
+                                  {isSelected ? "Selected" : "Select"}
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Model Fit Recommendation Box */}
+                  <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 flex items-center gap-3 text-xs text-zinc-700">
+                    <Info className="w-5 h-5 text-zinc-500 flex-shrink-0" />
+                    <div>
+                      <span className="font-bold text-zinc-900 block">Model Fit Advice</span>
+                      <span>Model is 6&apos;1&quot; (185 cm) wearing size <strong className="font-bold text-black">M</strong>. Fits true to size for an intentional relaxed streetwear drop-shoulder aesthetic.</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
       </main>
 

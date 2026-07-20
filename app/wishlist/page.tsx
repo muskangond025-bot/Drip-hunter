@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/common/Navbar";
+import { Footer } from "@/components/common/Footer";
+import { ProductCard } from "@/components";
 import { Heart, X, User, ShoppingBag, Check, Save, LogOut } from "lucide-react";
-import { MixMatchCreator } from "@/components/MixMatchCreator";
+import { MixMatchCreator } from "@/components/features/MixMatchCreator";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CartItem {
@@ -684,59 +685,24 @@ export default function WishlistPage() {
                           <>
                             {/* Wishlist Items Grid */}
                             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-5">
-                              {wishlist.map((item) => {
-                                const priceNum = parseFloat(item.price.replace(/[^0-9.]/g, "")) || 40;
-                                const oldPrice = priceNum * 1.5;
-                                const oldPriceStr = `$${oldPrice.toFixed(0)}`;
-
-                                return (
-                                  <div key={item.id} className="group relative border border-zinc-200 rounded-2xl p-3 bg-white hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
-                                    {/* Remove button */}
-                                    <button 
-                                      onClick={() => handleRemoveFromWishlist(item.id)}
-                                      className="absolute top-4.5 right-4.5 z-10 bg-white/90 hover:bg-white text-zinc-505 hover:text-red-500 p-1.5 rounded-full shadow-xs backdrop-blur-xs transition-colors cursor-pointer border-none"
-                                    >
-                                      <X className="w-3.5 h-3.5" />
-                                    </button>
-
-                                    <div>
-                                      {/* Image container with rounded corners */}
-                                      <div className="relative aspect-[4/5] bg-zinc-50 rounded-xl overflow-hidden mb-3">
-                                        <Image 
-                                          src={item.image} 
-                                          alt={item.name} 
-                                          fill 
-                                          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
-                                          className="object-cover group-hover:scale-[1.02] transition-transform duration-500" 
-                                        />
-                                      </div>
-
-                                      {/* Content */}
-                                      <div className="px-1 py-1">
-                                        <h3 className="text-xs font-bold text-zinc-800 tracking-tight line-clamp-1 mb-1">
-                                          {item.name}
-                                        </h3>
-                                        <div className="flex items-center justify-between text-[10px] font-mono mt-1.5 px-0.5">
-                                          <span className="text-zinc-500 font-medium">Price: <strong className="text-zinc-950 font-extrabold">{item.price}</strong></span>
-                                          <span className="text-zinc-400 line-through">{oldPriceStr}</span>
-                                          <span className="text-orange-550 font-bold">(33% OFF)</span>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    {/* Move to bag button */}
-                                    <button 
-                                      onClick={() => {
-                                        handleAddToCart({ id: item.id, brand: item.brand, name: item.name, price: item.price, image: item.image });
-                                        handleRemoveFromWishlist(item.id);
-                                      }}
-                                      className="w-full bg-[#2a2a2a] hover:bg-black text-[#ebd26b] font-bold text-[10px] uppercase tracking-wider py-2.5 rounded-lg transition-colors cursor-pointer mt-3 border-none"
-                                    >
-                                      Move to Bag
-                                    </button>
-                                  </div>
-                                );
-                              })}
+                              {wishlist.map((item) => (
+                                <ProductCard
+                                  key={item.id}
+                                  id={item.id}
+                                  brand={item.brand}
+                                  name={item.name}
+                                  price={item.price}
+                                  image={item.image}
+                                  buttonText="Move to Bag"
+                                  isFavorite={true}
+                                  onFavoriteToggle={() => handleRemoveFromWishlist(item.id)}
+                                  onAddToCart={() => {
+                                    handleAddToCart({ id: item.id, brand: item.brand, name: item.name, price: item.price, image: item.image });
+                                    handleRemoveFromWishlist(item.id);
+                                  }}
+                                  variant="padded"
+                                />
+                              ))}
                             </div>
 
                             {/* Interactive Mix & Match Outfit Creator */}

@@ -2,23 +2,23 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Navbar } from "@/components/Navbar";
-import { CategorySelector } from "@/components/CategorySelector";
-import { CategoryTabs } from "@/components/CategoryTabs";
-import { HeroSection } from "@/components/HeroSection";
-import { TShirtGridSection } from "@/components/TShirtGridSection";
-import { NewArrivals } from "@/components/NewArrivals";
-import { TemplatesShowcase } from "@/components/TemplatesShowcase";
-import { BrandCollabTeasers } from "@/components/BrandCollabTeasers";
-import { BrandShowcase } from "@/components/BrandShowcase";
-import { FeaturedLookbook } from "@/components/FeaturedLookbook";
-import { RecentlyViewed } from "@/components/RecentlyViewed";
-import { MediaCollage } from "@/components/MediaCollage";
-import { LiveEvents } from "@/components/LiveEvents";
-import { TikTokReels } from "@/components/TikTokReels";
-import { NoticeBoard } from "@/components/NoticeBoard";
-import { RetroTechBanner } from "@/components/RetroTechBanner";
-import { Footer } from "@/components/Footer";
+import { Navbar } from "@/components/common/Navbar";
+import { CategorySelector } from "@/components/catalog/CategorySelector";
+import { CategoryTabs } from "@/components/catalog/CategoryTabs";
+import { HeroSection } from "@/components/features/HeroSection";
+import { TShirtGridSection } from "@/components/catalog/TShirtGridSection";
+import { NewArrivals } from "@/components/catalog/NewArrivals";
+import { TemplatesShowcase } from "@/components/features/TemplatesShowcase";
+import { BrandCollabTeasers } from "@/components/features/BrandCollabTeasers";
+import { BrandShowcase } from "@/components/catalog/BrandShowcase";
+import { FeaturedLookbook } from "@/components/features/FeaturedLookbook";
+import { RecentlyViewed } from "@/components/catalog/RecentlyViewed";
+import { MediaCollage } from "@/components/features/MediaCollage";
+import { LiveEvents } from "@/components/features/LiveEvents";
+import { TikTokReels } from "@/components/features/TikTokReels";
+import { NoticeBoard } from "@/components/common/NoticeBoard";
+import { RetroTechBanner } from "@/components/common/RetroTechBanner";
+import { Footer } from "@/components/common/Footer";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface CartItem {
