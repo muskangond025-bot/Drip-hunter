@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Play, ShoppingBag, ArrowRight, ShieldCheck, Zap, Layers, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, ShoppingBag, ArrowRight, ShieldCheck, Zap, Layers, Sparkles, Heart, Star, Check } from "lucide-react";
 
 interface SupervekShowcaseProps {
   onAddToCart?: (product: {
@@ -16,8 +16,31 @@ interface SupervekShowcaseProps {
 
 export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
   const [activeTab, setActiveTab] = useState<"BEST SELLERS" | "NEW RELEASES" | "SALE">("BEST SELLERS");
-  const [activeEssentialTab, setActiveEssentialTab] = useState<"CROSSBODY BAGS" | "CLOTHING" | "HEADWEAR" | "WALLETS" | "ACCESSORIES">("CROSSBODY BAGS");
+  const [activeEssentialTab, setActiveEssentialTab] = useState<"ALL" | "CROSSBODY BAGS" | "CLOTHING" | "HEADWEAR" | "WALLETS" | "ACCESSORIES">("ALL");
   const [selectedColor, setSelectedColor] = useState<Record<number, string>>({});
+  const [wishlistState, setWishlistState] = useState<Record<number, boolean>>({});
+  const [addedState, setAddedState] = useState<Record<number, boolean>>({});
+  const [selectedSizes, setSelectedSizes] = useState<Record<number, string>>({});
+
+  const toggleFav = (id: number) => {
+    setWishlistState((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const handleAddEssential = (item: { id: number; name: string; price: string; image: string }) => {
+    if (onAddToCart) {
+      onAddToCart({
+        id: item.id,
+        brand: "URBAN MONKEY",
+        name: item.name,
+        price: item.price,
+        image: item.image,
+      });
+    }
+    setAddedState((prev) => ({ ...prev, [item.id]: true }));
+    setTimeout(() => {
+      setAddedState((prev) => ({ ...prev, [item.id]: false }));
+    }, 1800);
+  };
 
   const bestSellers = [
     {
@@ -74,36 +97,70 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
 
   const urbanEssentials = [
     {
-      id: 810,
-      name: "Sling Bag Mini",
-      badge: "SAVE 10%",
-      price: "Rs. 899.00",
-      originalPrice: "Rs. 999.00",
-      image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=500&q=80",
+      id: 851,
+      name: "DENIM JACKET // 001",
+      price: "RS.2,200.00",
+      category: "CLOTHING",
+      sizes: ["S", "M", "L", "XL", "2XL"],
+      image: "/images/urban-essentials/denim_jacket.png",
     },
     {
-      id: 811,
-      name: "Tactical Sling Bag",
-      badge: "SAVE 28%",
-      price: "Rs. 999.00",
-      originalPrice: "Rs. 1,395.00",
-      image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80",
+      id: 852,
+      name: "FANNY PACK // 001",
+      price: "RS.1,900.00",
+      category: "CROSSBODY BAGS",
+      image: "/images/urban-essentials/fanny_pack.png",
     },
     {
-      id: 812,
-      name: "Messenger Sling Bag",
-      badge: "SAVE 15%",
-      price: "Rs. 1,699.00",
-      originalPrice: "Rs. 1,999.00",
-      image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=500&q=80",
+      id: 853,
+      name: "FULL SLEEVE SHIRT // BLACK",
+      price: "RS.1,400.00",
+      category: "CLOTHING",
+      sizes: ["S", "M", "L", "XL", "2XL"],
+      rating: 5,
+      reviews: 5,
+      image: "/images/urban-essentials/full_sleeve_shirt.png",
     },
     {
-      id: 813,
-      name: "Classic Strap Bags",
-      badge: "SAVE 40%",
-      price: "Rs. 1,199.00",
-      originalPrice: "Rs. 1,999.00",
-      image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=500&q=80",
+      id: 854,
+      name: "RIPSTOP CARGO PANTS // BLACK",
+      price: "RS.2,850.00",
+      category: "CLOTHING",
+      sizes: ["XS/S(26-28)", "M/L(30-32)", "XL/2XL(34-36)"],
+      rating: 5,
+      reviews: 3,
+      image: "/images/urban-essentials/cargo_pants.png",
+    },
+    {
+      id: 855,
+      name: "BIFOLD WALLET // 001",
+      price: "RS.1,300.00",
+      category: "WALLETS",
+      image: "/images/urban-essentials/bifold_wallet.png",
+    },
+    {
+      id: 856,
+      name: "COIN AND CARD HOLDER // 001",
+      price: "RS.1,000.00",
+      category: "WALLETS",
+      image: "/images/urban-essentials/coin_card_holder.png",
+    },
+    {
+      id: 857,
+      name: "SHORT SLEEVE SHIRT // BLACK",
+      price: "RS.1,200.00",
+      category: "CLOTHING",
+      sizes: ["S", "M", "L", "XL", "2XL"],
+      rating: 5,
+      reviews: 4,
+      image: "/images/urban-essentials/short_sleeve_shirt.png",
+    },
+    {
+      id: 858,
+      name: "SLING BAG // 001",
+      price: "RS.1,900.00",
+      category: "CROSSBODY BAGS",
+      image: "/images/urban-essentials/sling_bag.png",
     },
   ];
 
@@ -294,9 +351,9 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
               URBAN ESSENTIALS
             </h2>
 
-            {/* Sub Tabs */}
+            {/* Sub Category Filters */}
             <div className="flex flex-wrap justify-center items-center gap-4 text-xs font-bold text-zinc-500 pt-1">
-              {(["CROSSBODY BAGS", "CLOTHING", "HEADWEAR", "WALLETS", "ACCESSORIES"] as const).map((t) => (
+              {(["ALL", "CROSSBODY BAGS", "CLOTHING", "WALLETS", "ACCESSORIES"] as const).map((t) => (
                 <button
                   key={t}
                   onClick={() => setActiveEssentialTab(t)}
@@ -310,52 +367,115 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
             </div>
           </div>
 
-          {/* Essentials Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-            {urbanEssentials.map((item) => (
-              <div
-                key={item.id}
-                className="bg-white rounded-2xl p-4 border border-zinc-200/80 shadow-2xs hover:shadow-md transition-all group flex flex-col justify-between"
-              >
-                <div>
-                  <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-zinc-50 mb-3">
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      sizes="25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <span className="absolute top-2 left-2 text-[9px] font-black text-white bg-red-600 px-2 py-0.5 rounded font-mono">
-                      {item.badge}
-                    </span>
-                  </div>
+          {/* Essentials Cards - Exact 4 Columns Grid matching reference screenshot */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {urbanEssentials
+              .filter((item) => activeEssentialTab === "ALL" || item.category === activeEssentialTab)
+              .map((item) => {
+                const isFav = wishlistState[item.id];
+                const isAdded = addedState[item.id];
 
-                  <h4 className="text-xs font-bold text-zinc-900 group-hover:text-orange-500 transition-colors truncate">
-                    {item.name}
-                  </h4>
-                  <div className="flex items-center gap-2 text-xs font-mono mt-1">
-                    <span className="font-extrabold text-[#d92626]">{item.price}</span>
-                    <span className="text-zinc-400 line-through text-[11px]">{item.originalPrice}</span>
-                  </div>
-                </div>
+                return (
+                  <a
+                    key={item.id}
+                    href={`/product/${item.id}`}
+                    className="bg-white border border-zinc-200/90 shadow-2xs hover:shadow-md transition-all group flex flex-col justify-between p-3 cursor-pointer block no-underline text-black"
+                  >
+                    <div>
+                      {/* Product Image Box with Heart Icon & Size Pills */}
+                      <div className="relative aspect-square w-full bg-zinc-50 mb-2 overflow-hidden border border-zinc-100">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
 
-                <button
-                  onClick={() =>
-                    onAddToCart?.({
-                      id: item.id,
-                      brand: "Supervek",
-                      name: item.name,
-                      price: item.price,
-                      image: item.image,
-                    })
-                  }
-                  className="mt-4 w-full bg-zinc-900 hover:bg-black text-white text-[10px] font-bold uppercase tracking-wider py-2.5 rounded-xl cursor-pointer transition-colors border-none"
-                >
-                  Add To Cart
-                </button>
-              </div>
-            ))}
+                        {/* Top-Right Heart Wishlist Trigger */}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleFav(item.id);
+                          }}
+                          className="absolute top-2 right-2 p-1.5 rounded-full bg-white/90 hover:bg-white text-zinc-700 hover:text-black transition-colors z-10 border border-zinc-200 shadow-2xs cursor-pointer"
+                          aria-label="Add to Wishlist"
+                        >
+                          <Heart className={`w-3.5 h-3.5 ${isFav ? "fill-red-500 text-red-500" : "text-zinc-600"}`} />
+                        </button>
+
+                        {/* Size pills overlay - Appears ON HOVER ONLY matching request */}
+                        {item.sizes && (
+                          <div className="absolute bottom-2 inset-x-2 flex items-center justify-center gap-1 flex-wrap bg-white/95 backdrop-blur-xs py-1.5 px-1.5 rounded border border-zinc-200 text-[9px] font-mono font-bold text-zinc-800 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0 z-10 shadow-sm">
+                            {item.sizes.map((s, idx) => {
+                              const isSelected = selectedSizes[item.id] === s;
+                              return (
+                                <span
+                                  key={idx}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setSelectedSizes((prev) => ({ ...prev, [item.id]: s }));
+                                  }}
+                                  className={`px-1.5 py-0.5 border rounded-2xs cursor-pointer transition-colors ${
+                                    isSelected
+                                      ? "bg-black text-white border-black"
+                                      : "bg-zinc-50 text-zinc-800 border-zinc-300 hover:border-black hover:bg-zinc-100"
+                                  }`}
+                                >
+                                  {s}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Product Details */}
+                      <div className="space-y-1 py-1 text-left">
+                        <h4 className="text-xs font-mono font-bold text-zinc-900 tracking-tight uppercase line-clamp-1">
+                          {item.name}
+                        </h4>
+                        <div className="text-xs font-mono font-bold text-zinc-900">
+                          {item.price}
+                        </div>
+
+                        {/* Rating Stars & Reviews */}
+                        {item.reviews && (
+                          <div className="flex items-center gap-1 text-[10px] font-mono text-zinc-600 pt-0.5">
+                            <div className="flex text-black">
+                              {[...Array(item.rating || 5)].map((_, i) => (
+                                <Star key={i} className="w-3 h-3 fill-black text-black" />
+                              ))}
+                            </div>
+                            <span>{item.reviews} reviews</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Black Rectangular ADD TO CART Button */}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleAddEssential(item);
+                      }}
+                      className="mt-3 w-full bg-black hover:bg-zinc-800 text-white font-mono font-bold text-xs uppercase tracking-wider py-2.5 px-3 transition-colors border-none flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      {isAdded ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          ADDED TO CART
+                        </>
+                      ) : (
+                        "ADD TO CART"
+                      )}
+                    </button>
+                  </a>
+                );
+              })}
           </div>
         </div>
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Search, User, Heart, ShoppingBag, Menu, X, ArrowRight, Eye, EyeOff, ChevronDown } from "lucide-react";
+import { Search, User, Heart, ShoppingBag, Menu, X, ArrowRight, Eye, EyeOff, ChevronDown, Mic, Camera } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CartItem {
@@ -21,6 +21,28 @@ interface WishlistItem {
   price: string;
   image: string;
 }
+
+const CATEGORY_MENU_ITEMS = [
+  "All Categories",
+  "Accessories",
+  "Apparel",
+  "Bearings",
+  "Cruisers",
+  "Eyewear",
+  "Face Mask",
+  "Grip Tape",
+  "Handbags, Wallets & Cases",
+  "Headwear",
+  "Keychains",
+  "Misc. Hardgood Items",
+  "Skateboard",
+  "Skateboard Complete",
+  "Skateboard Deck",
+  "Skateboard Decks",
+  "Truck Accessories",
+  "Trucks",
+  "Wheels",
+];
 
 interface NavbarProps {
   cart: CartItem[];
@@ -71,6 +93,11 @@ export function Navbar({
   const [exploreDropdownOpen, setExploreDropdownOpen] = useState(false);
   const [localSearch, setLocalSearch] = useState(searchQuery);
   const [mounted, setMounted] = useState(false);
+  const [allCategoriesOpen, setAllCategoriesOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
+  const [searchCategoryOpen, setSearchCategoryOpen] = useState(false);
+  const [localSearchCategory, setLocalSearchCategory] = useState(searchCategory || "All");
 
   useEffect(() => {
     setMounted(true);
@@ -146,9 +173,9 @@ export function Navbar({
   }, 0);
 
   return (
-    <header className="w-full bg-white text-black border-b border-zinc-200 sticky top-0 z-50">
+    <header className="w-full bg-white text-black border-b border-zinc-200 sticky top-0 z-50" suppressHydrationWarning>
       {/* Announcement Bar */}
-      <div className="w-full bg-black text-white text-[10px] py-1.5 px-4 flex items-center justify-center font-mono overflow-hidden tracking-wider select-none">
+      <div className="w-full bg-black text-white text-[10px] py-1.5 px-4 flex items-center justify-center font-mono overflow-hidden tracking-wider select-none" suppressHydrationWarning>
         <div className="animate-pulse flex items-center space-x-2">
           <span>⚡ SUMMER DRIP IS HERE: USE CODE <strong className="text-yellow-400 font-bold">DRIP10</strong> FOR 10% OFF ⚡</span>
           <ArrowRight className="w-3.5 h-3.5" />
@@ -156,12 +183,70 @@ export function Navbar({
       </div>
 
       {/* Main Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-6">
-        {/* Left: Brand Logo */}
-        <div className="flex items-center flex-shrink-0">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-6" suppressHydrationWarning>
+        {/* Left: Brand Logo & All Categories Dropdown */}
+        <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0" suppressHydrationWarning>
           <a href="/" className="font-chaney-title text-xl md:text-2xl tracking-tighter hover:opacity-85 transition-opacity">
             DRIP HUNTER
           </a>
+
+          {/* All Categories Dropdown Menu Tab */}
+          <div 
+            className="relative hidden sm:block"
+            onMouseEnter={() => setAllCategoriesOpen(true)}
+            onMouseLeave={() => setAllCategoriesOpen(false)}
+          >
+            <button
+              onClick={() => setAllCategoriesOpen(!allCategoriesOpen)}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold font-sans text-zinc-800 hover:text-black bg-zinc-100 hover:bg-zinc-200/80 rounded-md transition-all cursor-pointer border border-zinc-200"
+            >
+              <span>{selectedCategory}</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-zinc-500 transition-transform duration-200 ${allCategoriesOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {/* All Categories Dropdown Menu List matching reference screenshot */}
+            <AnimatePresence>
+              {allCategoriesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 4, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                  transition={{ duration: 0.12 }}
+                  className="absolute left-0 top-full pt-1 z-50 min-w-[220px]"
+                >
+                  <div className="bg-white border border-zinc-200 rounded-md shadow-2xl py-1 max-h-[360px] overflow-y-auto font-sans text-xs">
+                    {CATEGORY_MENU_ITEMS.map((cat) => {
+                      const isSelected = selectedCategory === cat;
+                      return (
+                        <button
+                          key={cat}
+                          onClick={() => {
+                            setSelectedCategory(cat);
+                            setAllCategoriesOpen(false);
+                            onCategoryChange?.(cat === "All Categories" ? "All" : cat);
+                            if (typeof window !== "undefined") {
+                              if (cat === "All Categories") {
+                                window.location.href = "/shop";
+                              } else {
+                                window.location.href = `/shop?category=${encodeURIComponent(cat)}`;
+                              }
+                            }
+                          }}
+                          className={`w-full text-left px-3.5 py-1.5 cursor-pointer transition-colors flex items-center justify-between ${
+                            isSelected
+                              ? "bg-blue-600 text-white font-medium"
+                              : "text-zinc-700 hover:bg-zinc-100 hover:text-black"
+                          }`}
+                        >
+                          <span>{cat}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Center: Centered Navigation Links & Sleek Search Bar */}
@@ -203,28 +288,23 @@ export function Navbar({
             })}
           </nav>
 
-          {/* Compact Sleek Search Bar */}
-          <div className="flex items-center border border-zinc-200 rounded-full bg-white px-3 py-1.5 w-52 focus-within:border-orange-400 focus-within:ring-1 focus-within:ring-orange-400 transition-all">
+          {/* Search Bar with Category Dropdown Arrow & Overlay Trigger */}
+          <div 
+            onClick={() => setSearchOverlayOpen(true)}
+            className="flex items-center gap-2 border border-zinc-300 rounded-full bg-zinc-50 hover:bg-white px-3.5 py-1.5 w-64 cursor-pointer hover:border-black transition-all shadow-2xs group"
+          >
+            <Search className="w-3.5 h-3.5 text-zinc-500 group-hover:text-black transition-colors shrink-0" />
             <input
               type="text"
+              readOnly
               value={localSearch}
-              onChange={(e) => {
-                const val = e.target.value;
-                setLocalSearch(val);
-                onSearchChange?.(val);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSearchSubmit();
-                }
-              }}
-              placeholder="Search..."
-              className="bg-transparent outline-none text-xs w-full py-0.5 px-1 text-zinc-800 placeholder-zinc-400"
+              placeholder="Find your perfect streetwear..."
+              className="bg-transparent outline-none text-[11px] w-full text-zinc-800 placeholder-zinc-400 cursor-pointer pointer-events-none"
             />
-            <Search 
-              className="w-3.5 h-3.5 text-zinc-400 cursor-pointer hover:text-black transition-colors" 
-              onClick={handleSearchSubmit}
-            />
+            <div className="flex items-center gap-1 border-l border-zinc-200 pl-2 text-[10px] font-bold text-zinc-500 group-hover:text-black shrink-0">
+              <span>Category</span>
+              <ChevronDown className="w-3 h-3 text-zinc-500 group-hover:text-black transition-transform duration-200" />
+            </div>
           </div>
         </div>
 
@@ -958,6 +1038,283 @@ export function Navbar({
           </div>
         </div>
       )}
+
+      {/* Full-bleed Interactive Search Overlay Drawer matching reference screenshot */}
+      <AnimatePresence>
+        {searchOverlayOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] bg-white overflow-y-auto font-sans text-black"
+          >
+            {/* Top Search Bar Header */}
+            <div className="w-full border-b border-zinc-200 bg-white sticky top-0 z-10 py-4 px-4 sm:px-8 shadow-2xs">
+              <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+                
+                {/* Search Bar Input Box */}
+                <div className="flex-1 max-w-2xl mx-auto flex items-center gap-3 bg-zinc-100 border border-zinc-300 rounded-full px-4 py-2 shadow-2xs focus-within:border-black focus-within:bg-white transition-all">
+                  <Search className="w-4 h-4 text-zinc-600 shrink-0" />
+                  
+                  <input
+                    type="text"
+                    autoFocus
+                    value={localSearch}
+                    onChange={(e) => {
+                      setLocalSearch(e.target.value);
+                      onSearchChange?.(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        setSearchOverlayOpen(false);
+                        handleSearchSubmit();
+                      }
+                    }}
+                    placeholder="Find your perfect streetwear..."
+                    className="bg-transparent outline-none text-xs sm:text-sm w-full text-zinc-900 placeholder-zinc-500 font-medium"
+                  />
+
+                  {/* Category Dropdown Pill */}
+                  <div className="relative shrink-0">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSearchCategoryOpen(!searchCategoryOpen);
+                      }}
+                      className="flex items-center gap-1 text-xs font-bold text-zinc-800 hover:text-black border-l border-zinc-300 pl-3 cursor-pointer bg-transparent border-y-0 border-r-0"
+                    >
+                      <span>{localSearchCategory === "All" ? "Category" : localSearchCategory}</span>
+                      <ChevronDown className="w-3.5 h-3.5 text-zinc-500" />
+                    </button>
+
+                    {searchCategoryOpen && (
+                      <div className="absolute right-0 top-full mt-2 w-44 bg-white border border-zinc-200 rounded-xl shadow-xl py-1.5 z-50 text-xs font-mono">
+                        {["All", "T-Shirts", "Hoodies", "Shirts", "Eyewear", "Headwear", "Bottoms", "Bags", "Wallets", "Skateboards"].map((cat) => (
+                          <button
+                            key={cat}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setLocalSearchCategory(cat);
+                              onCategoryChange?.(cat);
+                              setSearchCategoryOpen(false);
+                            }}
+                            className={`w-full text-left px-3 py-1.5 cursor-pointer transition-colors ${
+                              localSearchCategory === cat ? "bg-black text-white font-bold" : "hover:bg-zinc-100 text-zinc-700"
+                            }`}
+                          >
+                            {cat}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Mic & Camera Action Icons */}
+                  <div className="flex items-center gap-2 border-l border-zinc-300 pl-3 text-zinc-600 shrink-0">
+                    <button
+                      onClick={() => alert("Voice Search active... Speak your query.")}
+                      className="hover:text-black transition-colors cursor-pointer p-0.5 border-none bg-transparent"
+                      title="Voice Search"
+                    >
+                      <Mic className="w-4 h-4 text-zinc-700 hover:text-black" />
+                    </button>
+                    <button
+                      onClick={() => alert("Visual Search active: Upload an image to find matching streetwear.")}
+                      className="hover:text-black transition-colors cursor-pointer p-0.5 border-none bg-transparent"
+                      title="Search by Image"
+                    >
+                      <Camera className="w-4 h-4 text-zinc-700 hover:text-black" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Cancel Button */}
+                <button
+                  onClick={() => setSearchOverlayOpen(false)}
+                  className="text-xs font-bold text-zinc-500 hover:text-black cursor-pointer border-none bg-transparent transition-colors"
+                >
+                  Cancel
+                </button>
+
+              </div>
+            </div>
+
+            {/* Overlay Body Grid (3 Columns matching screenshot) */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+
+                {/* LEFT COLUMN: Top Suggestions & Popular Brands */}
+                <div className="lg:col-span-3 space-y-8 text-left">
+                  {/* Top Suggestions */}
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-bold font-serif text-zinc-950 tracking-tight">
+                      Top Suggestions
+                    </h3>
+
+                    <div className="space-y-2.5 font-sans text-xs pt-1">
+                      {[
+                        "Graphic Tees",
+                        "Varsity Jackets",
+                        "Oversized Hoodies",
+                        "Tactical Sling Bags",
+                        "Street Shades",
+                        "Cargo Pants"
+                      ].map((sugg) => (
+                        <button
+                          key={sugg}
+                          onClick={() => {
+                            setLocalSearch(sugg);
+                            setSearchOverlayOpen(false);
+                            window.location.href = `/shop?search=${encodeURIComponent(sugg)}`;
+                          }}
+                          className="block w-full text-left py-1 text-zinc-600 hover:text-black hover:font-bold transition-all cursor-pointer border-none bg-transparent"
+                        >
+                          {sugg}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <hr className="border-zinc-400" />
+
+                  {/* Popular Brands */}
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-bold font-serif text-zinc-950 tracking-tight">
+                      Popular Brands
+                    </h3>
+
+                    {/* Circle Brand Icons Row */}
+                    <div className="flex items-center gap-3">
+                      {[
+                        { name: "Arlo", logo: "Arlo" },
+                        { name: "Supervek", logo: "SV" },
+                        { name: "Puma", logo: "Puma" },
+                      ].map((b, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setSearchOverlayOpen(false);
+                            window.location.href = `/shop?brand=${encodeURIComponent(b.name)}`;
+                          }}
+                          className="flex flex-col items-center gap-1 cursor-pointer group"
+                        >
+                          <div className="w-12 h-12 rounded-full border border-zinc-300 flex items-center justify-center font-mono font-bold text-xs group-hover:border-black group-hover:bg-zinc-50 transition-all shadow-2xs">
+                            {b.logo}
+                          </div>
+                          <span className="text-[10px] font-bold text-zinc-700 group-hover:text-black">{b.name}</span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Brand Pill Cards matching screenshot */}
+                    <div className="space-y-2.5 pt-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-8 rounded-lg bg-[#cff4fc] flex items-center justify-center font-bold text-[10px] text-[#055160] font-mono">
+                          Arlo
+                        </div>
+                        <div className="px-3.5 py-1 bg-[#cff4fc] text-[#055160] rounded-lg text-xs font-bold font-mono">
+                          Brand
+                        </div>
+                      </div>
+
+                      <div 
+                        className="p-2 border border-zinc-200 rounded-xl flex items-center gap-3 bg-zinc-50 hover:bg-white transition-colors cursor-pointer"
+                        onClick={() => {
+                          setSearchOverlayOpen(false);
+                          window.location.href = "/product/853";
+                        }}
+                      >
+                        <div className="w-10 h-10 relative rounded-lg overflow-hidden bg-black flex-shrink-0">
+                          <Image src="/images/urban-essentials/full_sleeve_shirt.png" alt="Arlo" fill className="object-cover" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold font-mono">Arlo Streetwear Hoodie</p>
+                          <p className="text-[10px] text-zinc-500 font-mono">RS. 1,400.00</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CENTER COLUMN: 2x2 Photo Grid matching screenshot */}
+                <div className="lg:col-span-5 grid grid-cols-2 gap-3">
+                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-sm group cursor-pointer border border-zinc-200">
+                    <Image
+                      src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80"
+                      alt="Streetwear Look 1"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+
+                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-sm group cursor-pointer border border-zinc-200">
+                    <Image
+                      src="https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=600&q=80"
+                      alt="Streetwear Look 2"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+
+                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-sm group cursor-pointer border border-zinc-200">
+                    <Image
+                      src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80"
+                      alt="Streetwear Look 3"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+
+                  <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-sm group cursor-pointer border border-zinc-200">
+                    <Image
+                      src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=600&q=80"
+                      alt="Streetwear Look 4"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </div>
+
+                {/* RIGHT COLUMN: Related Blogs matching screenshot */}
+                <div className="lg:col-span-4 space-y-4 text-left">
+                  <h3 className="text-2xl font-bold font-serif text-zinc-950 tracking-tight">
+                    Related Blogs
+                  </h3>
+
+                  <div className="space-y-3">
+                    {[
+                      { title: "Elevate Your Streetwear Drip With Oversized Tees", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" },
+                      { title: "Top 10 Varsity Jackets & Bomber Essentials", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" },
+                      { title: "How to Style Tactical Sling Bags & Accessories", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" },
+                      { title: "Skate Culture & Underground Urban Fashion", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=400&q=80" },
+                      { title: "The Ultimate Guide to Premium Headwear & Caps", img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=400&q=80" },
+                      { title: "Ripstop Cargo Pants: Utility Meets High Street", img: "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=400&q=80" },
+                    ].map((blog, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => {
+                          setSearchOverlayOpen(false);
+                          window.location.href = "/#blog";
+                        }}
+                        className="flex items-center gap-3 p-2 bg-[#ffe082]/70 hover:bg-[#ffe082] rounded-2xl transition-colors cursor-pointer group shadow-2xs border border-amber-200"
+                      >
+                        <div className="relative w-20 h-14 rounded-xl overflow-hidden flex-shrink-0 bg-amber-200">
+                          <Image src={blog.img} alt={blog.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                        </div>
+                        <h4 className="text-xs font-mono font-bold text-zinc-900 group-hover:text-black line-clamp-2 leading-tight">
+                          {blog.title}
+                        </h4>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

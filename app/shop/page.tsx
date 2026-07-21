@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { ProductCard } from "@/components/ui/product-card";
+import { CategorySelector } from "@/components/catalog/CategorySelector";
 import { StarRating } from "@/components/ui/star-rating";
 import { Pagination } from "@/components/ui/pagination";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,7 +23,10 @@ import {
   ChevronUp,
   X,
   Plus,
-  Minus
+  Minus,
+  Search,
+  Mic,
+  Camera
 } from "lucide-react";
 
 interface CartItem {
@@ -57,6 +61,7 @@ interface ProductItem {
   isSuggested?: boolean;
   isSoldOut?: boolean;
   reviewsCount?: number;
+  sizes?: string[];
 }
 
 import { masterProducts } from "../product/[id]/data";
@@ -84,6 +89,7 @@ const products: ProductItem[] = masterProducts.map((p, index) => {
     isSuggested: p.color === "Black",
     isSoldOut: index === 3 || index === 7,
     reviewsCount: 7 + (index * 3) % 15,
+    sizes: p.sizes || ["Small", "Medium", "Large"],
   };
 });
 
@@ -129,6 +135,11 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
           setSearchQuery(searchParam);
         } else {
           setSearchQuery("");
+        }
+
+        const categoryParam = params.get("category");
+        if (categoryParam) {
+          setActiveCategory(categoryParam);
         }
 
         const brandParam = params.get("brand");
@@ -195,16 +206,84 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
   // State-driven filtering logic
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
-      // Sub-navbar category filter
-      if (activeCategory !== "All" && activeCategory !== "SALE") {
-        if (activeCategory === "T-SHIRTS" && product.subcategory !== "T-shirts") return false;
-        if (activeCategory === "HOODIES" && product.subcategory !== "Sweatshirts") return false;
+      // Sub-navbar & circle icon category filter matching
+      if (activeCategory && activeCategory !== "All" && activeCategory !== "SALE") {
+        const catLower = activeCategory.toLowerCase();
+        const nameLower = product.name.toLowerCase();
+        const subLower = product.subcategory.toLowerCase();
+
+        if (catLower.includes("tshirt") || catLower.includes("t-shirt") || catLower.includes("tee")) {
+          if (!nameLower.includes("tee") && !nameLower.includes("t-shirt") && subLower !== "t-shirts") return false;
+        } else if (catLower.includes("eyewear") || catLower.includes("shades") || catLower.includes("glasses")) {
+          if (!nameLower.includes("glasses") && !nameLower.includes("shade") && !nameLower.includes("spectacle") && !nameLower.includes("eyewear")) return false;
+        } else if (catLower.includes("headwear") || catLower.includes("cap") || catLower.includes("hat")) {
+          if (!nameLower.includes("cap") && !nameLower.includes("hat") && !nameLower.includes("beanie") && !nameLower.includes("snapback")) return false;
+        } else if (catLower.includes("bottom") || catLower.includes("jogger") || catLower.includes("cargo") || catLower.includes("pant")) {
+          if (!nameLower.includes("pant") && !nameLower.includes("cargo") && !nameLower.includes("jogger") && !nameLower.includes("short") && !nameLower.includes("denim") && subLower !== "joggers") return false;
+        } else if (catLower.includes("backpack") || catLower.includes("bag") || catLower.includes("sling")) {
+          if (!nameLower.includes("bag") && !nameLower.includes("pack") && !nameLower.includes("slinger")) return false;
+        } else if (catLower.includes("wallet")) {
+          if (!nameLower.includes("wallet") && !nameLower.includes("pouch") && !nameLower.includes("card")) return false;
+        } else if (catLower === "shirts" || catLower === "shirt") {
+          if (!nameLower.includes("shirt") && !nameLower.includes("button")) return false;
+        } else if (catLower.includes("hoodie") || catLower.includes("sweatshirt")) {
+          if (!nameLower.includes("hoodie") && !nameLower.includes("sweatshirt") && subLower !== "sweatshirts") return false;
+        } else if (catLower.includes("skateboard") || catLower.includes("deck")) {
+          if (!nameLower.includes("skateboard") && !nameLower.includes("deck") && !nameLower.includes("wheel") && !nameLower.includes("truck")) return false;
+        }
       }
       if (activeCategory === "SALE" && !product.discount) return false;
 
-      // Search Query
-      if (searchQuery && !product.name.toLowerCase().includes(searchQuery.toLowerCase()) && !product.brand.toLowerCase().includes(searchQuery.toLowerCase())) {
-        return false;
+      // Smart Fuzzy Search Query Filter with Synonym Matching
+      if (searchQuery) {
+        const normalizedQuery = searchQuery.toLowerCase().replace(/-/g, "").trim();
+        const queryWords = normalizedQuery.split(/\s+/).filter(w => w.length > 0);
+        
+        if (queryWords.length > 0) {
+          const matchesAllWords = queryWords.every((word) => {
+            const name = product.name.toLowerCase().replace(/-/g, "");
+            const brand = product.brand.toLowerCase().replace(/-/g, "");
+            const sub = product.subcategory.toLowerCase().replace(/-/g, "");
+            const color = product.color.toLowerCase();
+            const badge = product.badge ? product.badge.toLowerCase() : "";
+            
+            // Handle variations of common words
+            if (word === "tshirt" || word === "tee" || word === "t-shirt" || word === "tshirts") {
+              return name.includes("tee") || name.includes("tshirt") || name.includes("t-shirt") || name.includes("shirt") || sub.includes("t-shirts") || sub.includes("top wear");
+            }
+            if (word === "hoodie" || word === "sweatshirt" || word === "hoodies") {
+              return name.includes("hoodie") || name.includes("sweatshirt") || name.includes("jacket") || sub.includes("sweatshirts");
+            }
+            if (word === "pants" || word === "cargo" || word === "jogger" || word === "bottom") {
+              return name.includes("pant") || name.includes("cargo") || name.includes("jogger") || sub.includes("joggers") || sub.includes("bottom wear");
+            }
+            
+            return name.includes(word) || brand.includes(word) || sub.includes(word) || color.includes(word) || badge.includes(word);
+          });
+          
+          if (!matchesAllWords) {
+            // Partial fallback matching: if at least one key word matches
+            const matchesAnyWord = queryWords.some((word) => {
+              const name = product.name.toLowerCase().replace(/-/g, "");
+              const brand = product.brand.toLowerCase().replace(/-/g, "");
+              const badge = product.badge ? product.badge.toLowerCase() : "";
+              if (word.length < 3) return false; // skip small helper words
+              
+              if (word === "tshirt" || word === "tee" || word === "t-shirt" || word === "tshirts") {
+                return name.includes("tee") || name.includes("tshirt") || name.includes("shirt");
+              }
+              if (word === "hoodie" || word === "sweatshirt" || word === "hoodies") {
+                return name.includes("hoodie") || name.includes("sweatshirt") || name.includes("jacket");
+              }
+              
+              return name.includes(word) || brand.includes(word) || badge.includes(word);
+            });
+            
+            if (!matchesAnyWord) {
+              return false;
+            }
+          }
+        }
       }
       // Gender Filters
       if (selectedGenders.length > 0 && !selectedGenders.includes(product.gender)) {
@@ -353,46 +432,11 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
           </h1>
         </div>
 
-        {/* 3. VISUAL SUBCATEGORY CARDS ROW */}
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <div className="grid grid-cols-2 gap-6 justify-center max-w-md mx-auto">
-            {/* Subcard 1: T-Shirts */}
-            <div 
-              onClick={() => setActiveCategory("T-SHIRTS")}
-              className="group cursor-pointer text-center space-y-2"
-            >
-              <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 shadow-sm group-hover:shadow-md transition-all">
-                <Image
-                  src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80"
-                  alt="T-Shirts"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <span className="text-xs font-black uppercase tracking-wider text-zinc-900 block font-mono">
-                T-SHIRTS
-              </span>
-            </div>
-
-            {/* Subcard 2: Hoodies & Sweatshirts */}
-            <div 
-              onClick={() => setActiveCategory("HOODIES")}
-              className="group cursor-pointer text-center space-y-2"
-            >
-              <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 shadow-sm group-hover:shadow-md transition-all">
-                <Image
-                  src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80"
-                  alt="Hoodies & Sweatshirts"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <span className="text-xs font-black uppercase tracking-wider text-zinc-900 block font-mono">
-                HOODIES &amp; SWEATSHIRTS
-              </span>
-            </div>
-          </div>
-        </div>
+        {/* 3. VISUAL CATEGORY CIRCLE ICONS RIBBON */}
+        <CategorySelector 
+          selectedSubCategory={activeCategory} 
+          onSelectSubCategory={(cat) => setActiveCategory(cat || "All")} 
+        />
 
         {/* 4. MAIN PRODUCTS & LEFT SIDEBAR FILTERS SECTION */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-zinc-200">
@@ -425,6 +469,40 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
               <h2 className="text-sm font-black uppercase tracking-widest text-zinc-950 font-mono border-b border-zinc-200 pb-3">
                 FILTERS
               </h2>
+
+              {/* Audience / Gender Filter Section (Girls, Boys, Men, Women, All) */}
+              <div className="border-b border-zinc-200 pb-4 space-y-3">
+                <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 font-mono">
+                  AUDIENCE / GENDER
+                </h3>
+
+                <div className="flex flex-wrap gap-1.5 text-xs font-mono">
+                  {['All', 'Men', 'Women', 'Boys', 'Girls'].map((g) => {
+                    const isSelected = g === 'All' ? selectedGenders.length === 0 : selectedGenders.includes(g);
+
+                    return (
+                      <button
+                        key={g}
+                        onClick={() => {
+                          setCurrentPage(1);
+                          if (g === 'All') {
+                            setSelectedGenders([]);
+                          } else {
+                            setSelectedGenders([g]);
+                          }
+                        }}
+                        className={`px-3 py-1.5 rounded-lg border font-mono font-bold text-[11px] uppercase tracking-wider cursor-pointer transition-all ${
+                          isSelected
+                            ? "bg-black text-white border-black shadow-xs"
+                            : "bg-zinc-50 text-zinc-700 border-zinc-300 hover:border-black hover:bg-zinc-100"
+                        }`}
+                      >
+                        {g}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
               {/* Accordion 1: Product type */}
               <div className="border-b border-zinc-200 pb-4 space-y-3">
@@ -541,95 +619,170 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
 
             </aside>
 
-            {/* RIGHT PRODUCT GRID (4 Columns Matching Screenshot 2) */}
+            {/* RIGHT PRODUCT GRID */}
             <div className="flex-grow space-y-12 w-full">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {paginatedCatalogList.map((product) => {
-                  const isFav = wishlist.some(item => item.id === product.id);
-                  return (
-                    <div
-                      key={product.id}
-                      onClick={() => openChooseOptions(product)}
-                      className="group flex flex-col justify-between bg-white rounded-2xl p-3 border border-zinc-200 shadow-2xs hover:shadow-lg transition-all duration-300 text-left relative cursor-pointer"
-                    >
-                      <div>
-                        {/* Image Container with Badges */}
-                        <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-3 bg-zinc-50">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            sizes="(max-width: 768px) 50vw, 25vw"
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                          
-                          {/* Badges */}
-                          <div className="absolute top-2 left-2 flex flex-col gap-1">
-                            {product.isSoldOut ? (
-                              <span className="bg-blue-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded font-mono">
-                                SOLD OUT
+              {searchQuery ? (
+                /* Search Results Layout matching user request (3 Columns, vibrant peach-to-yellow gradient background, brand label, bold title, price, Small | Medium | Large) */
+                <div className="space-y-8">
+                  {/* Search Bar Input showing active query */}
+                  <div className="max-w-xl mx-auto flex items-center gap-3 bg-white border border-zinc-300 rounded-full px-5 py-2.5 shadow-sm mb-8">
+                    <Search className="w-4 h-4 text-zinc-600 shrink-0" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search..."
+                      className="bg-transparent outline-none text-xs sm:text-sm w-full text-zinc-950 font-medium placeholder-zinc-500"
+                    />
+                    <Mic className="w-4 h-4 text-zinc-500 shrink-0 cursor-pointer hover:text-black" />
+                    <Camera className="w-4 h-4 text-zinc-500 shrink-0 cursor-pointer hover:text-black" />
+                  </div>
+
+                  {paginatedCatalogList.length === 0 ? (
+                    <div className="text-center py-16">
+                      <p className="text-sm font-mono text-zinc-500">No products found matching "{searchQuery}"</p>
+                    </div>
+                  ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {(paginatedCatalogList.length > 0 ? paginatedCatalogList : products.slice(0, 6)).map((product) => (
+                        <a
+                          key={product.id}
+                          href={`/product/${product.id}`}
+                          className="group bg-white/50 backdrop-blur-xs border border-zinc-200/80 rounded-[40px] p-3 flex flex-col justify-between cursor-pointer transition-all duration-300 hover:shadow-[0_24px_50px_rgba(253,186,116,0.25)] hover:-translate-y-1.5 hover:bg-white hover:border-zinc-300 no-underline text-black"
+                        >
+                          <div>
+                            {/* Image Box with vibrant soft pink-to-yellow gradient */}
+                            <div className="relative aspect-square w-full rounded-[30px] bg-gradient-to-b from-[#ffd3b6] via-[#ffeaa7] to-[#fff9db] p-6 flex items-center justify-center overflow-hidden border border-orange-100/50">
+                              <div className="relative w-11/12 h-11/12 flex items-center justify-center rounded-[20px] overflow-hidden bg-white/15 backdrop-blur-xs shadow-inner">
+                                <Image
+                                  src={product.image}
+                                  alt={product.name}
+                                  fill
+                                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Info Panel Below */}
+                            <div className="px-1 pt-3.5 pb-1 space-y-1 text-left">
+                              <span className="text-[9px] font-bold text-zinc-400 tracking-widest font-mono uppercase block">
+                                {product.brand}
                               </span>
-                            ) : (
-                              <>
-                                {product.badge && (
-                                  <span className="bg-black text-white text-[9px] font-black uppercase px-2 py-0.5 rounded font-mono">
-                                    {product.badge}
-                                  </span>
-                                )}
-                                {product.discount && (
-                                  <span className="bg-red-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded font-mono">
-                                    {product.discount}
-                                  </span>
-                                )}
-                              </>
-                            )}
+                              <h4 className="text-xs font-black text-zinc-950 tracking-tight font-sans uppercase line-clamp-1 group-hover:text-orange-500 transition-colors">
+                                {product.name}
+                              </h4>
+                              <div className="text-xs font-mono font-bold text-zinc-900">
+                                {product.price}
+                              </div>
+                            </div>
                           </div>
 
-                          {/* Quick View Hover Button */}
-                          <div className="absolute inset-x-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                openChooseOptions(product);
-                              }}
-                              className="w-full bg-white/90 hover:bg-white text-black font-extrabold text-[10px] uppercase tracking-wider py-2 rounded-lg backdrop-blur-sm shadow-md transition-colors border-none"
-                            >
-                              Quick view
-                            </button>
+                          {/* Sizes capsule pills on footer */}
+                          <div className="px-1 pt-2 flex items-center gap-1.5 flex-wrap border-t border-zinc-100 mt-2">
+                            {(product.sizes || ["S", "M", "L"]).slice(0, 3).map((size) => (
+                              <span
+                                key={size}
+                                className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-zinc-50 border border-zinc-200 text-zinc-600 transition-colors group-hover:bg-zinc-100"
+                              >
+                                {size}
+                              </span>
+                            ))}
                           </div>
-                        </div>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* Regular Catalog 4-Column Grid */
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {paginatedCatalogList.map((product) => {
+                    const isFav = wishlist.some(item => item.id === product.id);
+                    return (
+                      <div
+                        key={product.id}
+                        onClick={() => openChooseOptions(product)}
+                        className="group flex flex-col justify-between bg-white rounded-2xl p-3 border border-zinc-200 shadow-2xs hover:shadow-lg transition-all duration-300 text-left relative cursor-pointer"
+                      >
+                        <div>
+                          {/* Image Container with Badges */}
+                          <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-3 bg-zinc-50">
+                            <Image
+                              src={product.image}
+                              alt={product.name}
+                              fill
+                              sizes="(max-width: 768px) 50vw, 25vw"
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                            
+                            {/* Badges */}
+                            <div className="absolute top-2 left-2 flex flex-col gap-1">
+                              {product.isSoldOut ? (
+                                <span className="bg-blue-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded font-mono">
+                                  SOLD OUT
+                                </span>
+                              ) : (
+                                <>
+                                  {product.badge && (
+                                    <span className="bg-black text-white text-[9px] font-black uppercase px-2 py-0.5 rounded font-mono">
+                                      {product.badge}
+                                    </span>
+                                  )}
+                                  {product.discount && (
+                                    <span className="bg-red-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded font-mono">
+                                      {product.discount}
+                                    </span>
+                                  )}
+                                </>
+                              )}
+                            </div>
 
-                        {/* Title, Star Ratings & Price */}
-                        <div className="space-y-1">
-                          <h3 className="text-xs font-bold text-[#15803d] hover:text-[#0b4d26] transition-colors truncate">
-                            {product.name}
-                          </h3>
-
-                          {/* Star Ratings */}
-                          <div className="flex items-center gap-1 text-[11px] text-amber-500 font-mono">
-                            <span>★★★★★</span>
-                            <span className="text-zinc-400 text-[10px]">({product.reviewsCount || 7} reviews)</span>
+                            {/* Quick View Hover Button */}
+                            <div className="absolute inset-x-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  openChooseOptions(product);
+                                }}
+                                className="w-full bg-white/90 hover:bg-white text-black font-extrabold text-[10px] uppercase tracking-wider py-2 rounded-lg backdrop-blur-sm shadow-md transition-colors border-none"
+                              >
+                                Quick view
+                              </button>
+                            </div>
                           </div>
 
-                          {/* Price */}
-                          <div className="flex items-center gap-2 text-xs font-mono pt-0.5">
-                            <span className="font-extrabold text-[#d92626]">{product.price}</span>
-                            <span className="text-zinc-400 line-through text-[11px]">Rs. 2,499.00</span>
-                          </div>
+                          {/* Title, Star Ratings & Price */}
+                          <div className="space-y-1">
+                            <h3 className="text-xs font-bold text-[#15803d] hover:text-[#0b4d26] transition-colors truncate">
+                              {product.name}
+                            </h3>
 
-                          {/* Color Swatch Squares */}
-                          <div className="flex items-center gap-1 pt-2">
-                            <span className="w-3.5 h-3.5 bg-black rounded-xs border border-zinc-400 inline-block" />
-                            <span className="w-3.5 h-3.5 bg-[#2563eb] rounded-xs border border-zinc-400 inline-block" />
-                            <span className="w-3.5 h-3.5 bg-[#dc2626] rounded-xs border border-zinc-400 inline-block" />
-                            <span className="w-3.5 h-3.5 bg-[#eab308] rounded-xs border border-zinc-400 inline-block" />
+                            {/* Star Ratings */}
+                            <div className="flex items-center gap-1 text-[11px] text-amber-500 font-mono">
+                              <span>★★★★★</span>
+                              <span className="text-zinc-400 text-[10px]">({product.reviewsCount || 7} reviews)</span>
+                            </div>
+
+                            {/* Price */}
+                            <div className="flex items-center gap-2 text-xs font-mono pt-0.5">
+                              <span className="font-extrabold text-[#d92626]">{product.price}</span>
+                              <span className="text-zinc-400 line-through text-[11px]">Rs. 2,499.00</span>
+                            </div>
+
+                            {/* Color Swatch Squares */}
+                            <div className="flex items-center gap-1 pt-2">
+                              <span className="w-3.5 h-3.5 bg-black rounded-xs border border-zinc-400 inline-block" />
+                              <span className="w-3.5 h-3.5 bg-[#2563eb] rounded-xs border border-zinc-400 inline-block" />
+                              <span className="w-3.5 h-3.5 bg-[#dc2626] rounded-xs border border-zinc-400 inline-block" />
+                              <span className="w-3.5 h-3.5 bg-[#eab308] rounded-xs border border-zinc-400 inline-block" />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
 
               {/* Pagination controls */}
               {totalPages > 1 && (

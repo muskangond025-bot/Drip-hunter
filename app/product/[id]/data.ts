@@ -644,5 +644,228 @@ export const masterProducts: Product[] = [
       { label: "Fit", value: "Relaxed Jogger Fit" },
       { label: "Wash Care", value: "Wash Inside Out" }
     ]
+  },
+  {
+    id: 851,
+    brand: "URBAN MONKEY",
+    name: "DENIM JACKET // 001",
+    price: "RS.2,200.00",
+    image: "/images/urban-essentials/denim_jacket.png",
+    rating: 5.0,
+    color: "Blue",
+    gender: "Men",
+    category: "Clothing",
+    discount: 0,
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    description: "Heavyweight denim utility jacket featuring raw copper hardware and custom patch details.",
+    specifications: [
+      { label: "relaxed fit", value: "true to size" },
+      { label: "fabric", value: "100% Rigid Denim" },
+      { label: "color", value: "Indigo Wash" },
+      { label: "full sleeves", value: "button cuffs" },
+      { label: "unisex", value: "made in India" }
+    ]
+  },
+  {
+    id: 852,
+    brand: "URBAN MONKEY",
+    name: "FANNY PACK // 001",
+    price: "RS.1,900.00",
+    image: "/images/urban-essentials/fanny_pack.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Men",
+    category: "Crossbody Bags",
+    discount: 0,
+    sizes: ["ONE SIZE"],
+    description: "Compact tactical fanny pack with multi-zipper compartments and adjustable buckle waist strap.",
+    specifications: [
+      { label: "material", value: "1000D Cordura Nylon" },
+      { label: "color", value: "Stealth Black" },
+      { label: "hardware", value: "YKK Zippers & Fidlock Buckle" },
+      { label: "unisex", value: "made in India" }
+    ]
+  },
+  {
+    id: 853,
+    brand: "URBAN MONKEY",
+    name: "FULL SLEEVE SHIRT // BLACK",
+    price: "RS.1,400.00",
+    image: "/images/urban-essentials/full_sleeve_shirt.png",
+    rating: 5.0,
+    color: "Black",
+    gender: "Men",
+    category: "Shirt",
+    discount: 0,
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    description: "Full sleeve black shirt engineered from PV Lycra with a relaxed fit, chest pocket, button-down collar, and signature urban monkey back print.",
+    specifications: [
+      { label: "relaxed fit", value: "true to size" },
+      { label: "fabric", value: "PV Lycra" },
+      { label: "color", value: "black" },
+      { label: "full sleeves", value: "button-down collar" },
+      { label: "chest pocket", value: "yes" },
+      { label: "unisex", value: "made in India" },
+      { label: "model info", value: "Pravin is wearing a size M and is 5'7\"" }
+    ]
+  },
+  {
+    id: 854,
+    brand: "URBAN MONKEY",
+    name: "RIPSTOP CARGO PANTS // BLACK",
+    price: "RS.2,850.00",
+    image: "/images/urban-essentials/cargo_pants.png",
+    rating: 5.0,
+    color: "Black",
+    gender: "Men",
+    category: "Clothing",
+    discount: 0,
+    sizes: ["XS/S(26-28)", "M/L(30-32)", "XL/2XL(34-36)"],
+    description: "Durable ripstop tactical cargo pants with double knee reinforcement and 6 utility storage pockets.",
+    specifications: [
+      { label: "fit", value: "Relaxed Tapered" },
+      { label: "fabric", value: "Ripstop Cotton-Poly" },
+      { label: "color", value: "black" },
+      { label: "unisex", value: "made in India" }
+    ]
+  },
+  {
+    id: 855,
+    brand: "URBAN MONKEY",
+    name: "BIFOLD WALLET // 001",
+    price: "RS.1,300.00",
+    image: "/images/urban-essentials/bifold_wallet.png",
+    rating: 4.8,
+    color: "Black",
+    gender: "Men",
+    category: "Wallets",
+    discount: 0,
+    sizes: ["ONE SIZE"],
+    description: "Slimline tactical bifold wallet with RFID protection, bill divider, and quick access card slots.",
+    specifications: [
+      { label: "material", value: "Matte Vegan Leather" },
+      { label: "color", value: "Black" },
+      { label: "protection", value: "RFID Shielding" },
+      { label: "unisex", value: "made in India" }
+    ]
+  },
+  {
+    id: 856,
+    brand: "URBAN MONKEY",
+    name: "COIN AND CARD HOLDER // 001",
+    price: "RS.1,000.00",
+    image: "/images/urban-essentials/coin_card_holder.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Men",
+    category: "Wallets",
+    discount: 0,
+    sizes: ["ONE SIZE"],
+    description: "Compact zipper coin pouch with integrated key ring and exterior card organizer.",
+    specifications: [
+      { label: "material", value: "Water Resistant Polyester" },
+      { label: "color", value: "Black" },
+      { label: "unisex", value: "made in India" }
+    ]
+  },
+  {
+    id: 857,
+    brand: "URBAN MONKEY",
+    name: "SHORT SLEEVE SHIRT // BLACK",
+    price: "RS.1,200.00",
+    image: "/images/urban-essentials/short_sleeve_shirt.png",
+    rating: 5.0,
+    color: "Black",
+    gender: "Men",
+    category: "Clothing",
+    discount: 0,
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    description: "Boxy fit short sleeve resort shirt with cuban collar and subtle tonal embroidery.",
+    specifications: [
+      { label: "fit", value: "Boxy Fit" },
+      { label: "fabric", value: "Viscose Rayon Blend" },
+      { label: "color", value: "black" },
+      { label: "unisex", value: "made in India" }
+    ]
+  },
+  {
+    id: 858,
+    brand: "URBAN MONKEY",
+    name: "SLING BAG // 001",
+    price: "RS.1,900.00",
+    image: "/images/urban-essentials/sling_bag.png",
+    rating: 5.0,
+    color: "Black",
+    gender: "Men",
+    category: "Crossbody Bags",
+    discount: 0,
+    sizes: ["ONE SIZE"],
+    description: "Modular crossbody sling bag with removable shoulder strap and padded tech sleeve.",
+    specifications: [
+      { label: "material", value: "Ballistic Nylon" },
+      { label: "color", value: "Black" },
+      { label: "unisex", value: "made in India" }
+    ]
+  },
+  {
+    id: 861,
+    brand: "SUPERVEK INDIA",
+    name: "Oversized Streetwear Tee // Black",
+    price: "RS.1,400.00",
+    image: "/images/urban-essentials/oversized_tshirt_black.png",
+    rating: 5.0,
+    color: "Black",
+    gender: "Men",
+    category: "Tshirts",
+    discount: 0,
+    sizes: ["S", "M", "L", "XL", "2XL"],
+    description: "Heavyweight drop-shoulder oversized cotton tee featuring a custom neon punk chest print. Breathable and designed for a perfect streetwear silhouette.",
+    specifications: [
+      { label: "relaxed fit", value: "true to size" },
+      { label: "fabric", value: "100% Cotton" },
+      { label: "color", value: "Stealth Black" },
+      { label: "style", value: "Cyberpunk Graphic" },
+      { label: "unisex", value: "made in India" }
+    ]
+  },
+  {
+    id: 862,
+    brand: "SUPERVEK INDIA",
+    name: "Oversized Streetwear Tee // Cream",
+    price: "RS.1,400.00",
+    image: "https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&w=600&q=80",
+    rating: 4.8,
+    color: "Cream",
+    gender: "Men",
+    category: "Tshirts",
+    discount: 0,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Drop-shoulder off-white cotton oversized graphic tee featuring aesthetic retro typography.",
+    specifications: [
+      { label: "fit", value: "Drop Shoulder Oversized" },
+      { label: "fabric", value: "100% Heavy Cotton" },
+      { label: "color", value: "Off-white Cream" },
+      { label: "unisex", value: "made in India" }
+    ]
+  },
+  {
+    id: 863,
+    brand: "URBAN MONKEY",
+    name: "Vintage Wash Oversized Tee",
+    price: "RS.1,600.00",
+    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
+    rating: 4.9,
+    color: "Blue",
+    gender: "Men",
+    category: "Tshirts",
+    discount: 0,
+    sizes: ["S", "M", "L", "XL"],
+    description: "Vintage faded washed blue streetwear oversized graphic tee.",
+    specifications: [
+      { label: "fit", value: "Vintage Oversized" },
+      { label: "fabric", value: "100% Combed Cotton" },
+      { label: "color", value: "Washed Indigo" },
+      { label: "unisex", value: "made in India" }
+    ]
   }
 ];

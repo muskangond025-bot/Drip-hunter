@@ -19,6 +19,11 @@ import { TikTokReels } from "@/components/features/TikTokReels";
 import { NoticeBoard } from "@/components/common/NoticeBoard";
 import { RetroTechBanner } from "@/components/common/RetroTechBanner";
 import { SupervekShowcase } from "@/components/features/SupervekShowcase";
+import { UrbanPromoGrid } from "@/components/features/UrbanPromoGrid";
+import { UrbanTrendingSection } from "@/components/catalog/UrbanTrendingSection";
+import { UrbanBlogSection } from "@/components/features/UrbanBlogSection";
+import { UrbanStreetStyleCreators } from "@/components/features/UrbanStreetStyleCreators";
+import { UrbanSystemsHeroShowcase } from "@/components/features/UrbanSystemsHeroShowcase";
 import { Footer } from "@/components/common/Footer";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -56,19 +61,21 @@ export default function Home() {
   const [searchCategory, setSearchCategory] = useState("All");
   const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
 
-  // Smooth scroll to product grid when a category is selected
-  useEffect(() => {
-    if (selectedSubCategory) {
-      const element = document.getElementById("tshirt-grid");
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-  }, [selectedSubCategory]);
-
-  // Sync state with localStorage
+  // 1. Initial mount effect: scroll to top, set scrollRestoration manual, and load local storage
   useEffect(() => {
     if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+
+      const forceTop = () => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+      };
+
+      forceTop();
+      window.addEventListener("popstate", forceTop);
+
+      // Restore cart & wishlist from localStorage
       const savedCart = localStorage.getItem("drip-cart");
       if (savedCart) {
         try { setCart(JSON.parse(savedCart)); } catch (e) { console.error(e); }
@@ -77,15 +84,21 @@ export default function Home() {
       if (savedWishlist) {
         try { setWishlist(JSON.parse(savedWishlist)); } catch (e) { console.error(e); }
       }
+
+      return () => {
+        window.removeEventListener("popstate", forceTop);
+      };
     }
   }, []);
 
+  // 2. Sync cart changes to localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("drip-cart", JSON.stringify(cart));
     }
   }, [cart]);
 
+  // 3. Sync wishlist changes to localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("drip-wishlist", JSON.stringify(wishlist));
@@ -175,7 +188,11 @@ export default function Home() {
         {/* Horizontal Category Slider */}
         <CategorySelector 
           selectedSubCategory={selectedSubCategory}
-          onSelectSubCategory={setSelectedSubCategory}
+          onSelectSubCategory={(categoryName) => {
+            if (categoryName) {
+              window.location.href = `/shop?category=${encodeURIComponent(categoryName)}`;
+            }
+          }}
         />
 
         {/* Category Filter Tabs */}
@@ -187,6 +204,16 @@ export default function Home() {
             setSelectedSubCategory(categoryName);
           }}
           onExploreCollections={() => {
+            const element = document.getElementById("tshirt-grid");
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }}
+        />
+
+        {/* Urban Systems Hero Showcase (From Reference Screenshot) */}
+        <UrbanSystemsHeroShowcase 
+          onShopCollection={() => {
             const element = document.getElementById("tshirt-grid");
             if (element) {
               element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -216,6 +243,12 @@ export default function Home() {
         {/* Urban Essentials & Streetwear Showcase (From Reference Images) */}
         <SupervekShowcase onAddToCart={handleAddToCart} />
 
+        {/* Urban Promo Banners Grid */}
+        <UrbanPromoGrid />
+
+        {/* Urban Trending Products Section */}
+        <UrbanTrendingSection onAddToCart={handleAddToCart} />
+
         {/* Squarespace Style Templates Showcase */}
         <TemplatesShowcase />
 
@@ -228,6 +261,12 @@ export default function Home() {
             setSelectedSubCategory(categoryName);
           }}
         />
+
+        {/* Urban Streetwear Blog Section */}
+        <UrbanBlogSection />
+
+        {/* Urban Redefining Street Style Creators Section */}
+        <UrbanStreetStyleCreators onAddToCart={handleAddToCart} />
 
         {/* User history recently viewed */}
         <RecentlyViewed
