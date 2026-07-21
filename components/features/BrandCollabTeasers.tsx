@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { PlusCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CollaborationsSection } from "./CollaborationsSection";
 
 // Section 2 Data
 interface ProductLineItem {
@@ -187,6 +188,9 @@ export function BrandCollabTeasers() {
 
   return (
     <section className="bg-white py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <CollaborationsSection />
+      </div>
       
       {/* Responsive variables for small card stack deals */}
       <style>{`

@@ -4,6 +4,8 @@ import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
+import { RetroTechBanner } from "@/components/common/RetroTechBanner";
+import { BrandHeroShowcase } from "@/components/features/BrandHeroShowcase";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
@@ -526,6 +528,9 @@ export default function BrandsDirectory() {
       />
 
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        {/* Brand Hero Showcase Section (as shown in image) */}
+        <BrandHeroShowcase />
+
         {/* Sub-tabs Row */}
         <div className="flex justify-center items-center gap-2.5 py-6 bg-zinc-50 border-b border-zinc-200 sticky top-20 z-40 select-none mb-8 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
           {([
@@ -1544,6 +1549,9 @@ export default function BrandsDirectory() {
           </div>
         )}
       </main>
+
+      {/* Retro Tech & Social Collage Banner before Footer */}
+      <RetroTechBanner />
 
       {/* Footer */}
       <Footer />
