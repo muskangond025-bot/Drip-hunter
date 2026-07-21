@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { ProductCard } from "@/components/ui/product-card";
-import { Heart, X, User, ShoppingBag, Check, Save, LogOut } from "lucide-react";
+import { Heart, X, User, ShoppingBag, Check, Save, LogOut, Sparkles } from "lucide-react";
 import { MixMatchCreator } from "@/components/features/MixMatchCreator";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -43,7 +43,12 @@ export default function WishlistPage() {
   const [codeError, setCodeError] = useState("");
 
   // Tab Dashboard State
-  const [activeTab, setActiveTab] = useState<"profile" | "orders" | "wishlist">("wishlist");
+  const [activeTab, setActiveTab] = useState<"profile" | "orders" | "wishlist" | "subscription">("wishlist");
+
+  // Subscription inner states
+  const [subBillingCycle, setSubBillingCycle] = useState<"monthly" | "yearly">("monthly");
+  const [subSelectedPlan, setSubSelectedPlan] = useState<"Basic" | "Super" | "Premium">("Super");
+  const [subViewStyle, setSubViewStyle] = useState<"cards" | "comparison">("cards");
 
   // Profile fields state
   const [profileFirstName, setProfileFirstName] = useState("Drip");
@@ -65,8 +70,8 @@ export default function WishlistPage() {
       // Read current tab parameter
       const params = new URLSearchParams(window.location.search);
       const tabParam = params.get("tab");
-      if (tabParam === "profile" || tabParam === "orders" || tabParam === "wishlist") {
-        setActiveTab(tabParam);
+      if (tabParam === "profile" || tabParam === "orders" || tabParam === "wishlist" || tabParam === "subscription") {
+        setActiveTab(tabParam as any);
       }
 
       // 2. Load cart and wishlist from localStorage
@@ -93,7 +98,7 @@ export default function WishlistPage() {
       const interval = setInterval(() => {
         const activeParams = new URLSearchParams(window.location.search);
         const activeTabParam = activeParams.get("tab");
-        if (activeTabParam === "profile" || activeTabParam === "orders" || activeTabParam === "wishlist") {
+        if (activeTabParam === "profile" || activeTabParam === "orders" || activeTabParam === "wishlist" || activeTabParam === "subscription") {
           setActiveTab(activeTabParam as any);
         }
       }, 400);
@@ -150,7 +155,7 @@ export default function WishlistPage() {
     setWishlist((prevWishlist) => prevWishlist.filter((item) => item.id !== id));
   };
 
-  const handleTabChange = (tab: "profile" | "orders" | "wishlist") => {
+  const handleTabChange = (tab: "profile" | "orders" | "wishlist" | "subscription") => {
     setActiveTab(tab);
     if (typeof window !== "undefined") {
       window.history.pushState(null, "", `/wishlist?tab=${tab}`);
@@ -402,6 +407,16 @@ export default function WishlistPage() {
                     }`}
                   >
                     <Heart className="w-4 h-4" /> Wishlist
+                  </button>
+
+                  <button
+                    onClick={() => handleTabChange("subscription")}
+                    className={`flex items-center justify-between px-5 py-4 text-xs font-semibold tracking-wider uppercase text-left transition-all border-b border-zinc-100 cursor-pointer ${
+                      activeTab === "subscription" ? "bg-zinc-950 text-white font-bold" : "text-zinc-700 hover:bg-zinc-50"
+                    }`}
+                  >
+                    <span className="flex items-center gap-3"><Sparkles className="w-4 h-4 text-yellow-400" /> Subscription</span>
+                    <span className="text-[9px] bg-[#facc15] text-black font-black px-1.5 py-0.5 rounded font-mono uppercase">VIP</span>
                   </button>
 
                   <button
@@ -710,6 +725,184 @@ export default function WishlistPage() {
                               <MixMatchCreator wishlist={wishlist} />
                             </div>
                           </>
+                        )}
+                      </div>
+                    )}
+
+                    {/* TAB: SUBSCRIPTION */}
+                    {activeTab === "subscription" && (
+                      <div className="space-y-6">
+                        <div className="border-b border-zinc-100 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div>
+                            <h1 className="text-xl font-black uppercase tracking-wider text-zinc-950 font-mono flex items-center gap-2">
+                              VIP Subscription <Sparkles className="w-5 h-5 text-amber-500 fill-amber-400" />
+                            </h1>
+                            <p className="text-xs text-zinc-400 mt-1 font-sans">
+                              Unlock exclusive perks, early access to drops, and birthday rewards.
+                            </p>
+                          </div>
+
+                          <div className="flex items-center bg-zinc-100 p-1 rounded-xl border border-zinc-200 shrink-0">
+                            <button
+                              onClick={() => setSubViewStyle("cards")}
+                              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                                subViewStyle === "cards"
+                                  ? "bg-black text-[#facc15] shadow-xs"
+                                  : "text-zinc-500 hover:text-black"
+                              }`}
+                            >
+                              Cards View
+                            </button>
+                            <button
+                              onClick={() => setSubViewStyle("comparison")}
+                              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                                subViewStyle === "comparison"
+                                  ? "bg-black text-[#facc15] shadow-xs"
+                                  : "text-zinc-500 hover:text-black"
+                              }`}
+                            >
+                              Matrix View
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* CARDS VIEW */}
+                        {subViewStyle === "cards" ? (
+                          <div className="bg-[#ffd500] text-black rounded-3xl p-6 sm:p-8 space-y-6 shadow-md border border-yellow-400">
+                            <div className="text-center space-y-2">
+                              <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tight">
+                                Subscribe now, for more benefits*
+                              </h2>
+                              
+                              <div className="flex items-center justify-center gap-3 text-xs font-bold pt-2">
+                                <span>Monthly</span>
+                                <button
+                                  onClick={() => setSubBillingCycle(subBillingCycle === "monthly" ? "yearly" : "monthly")}
+                                  className="w-12 h-6 bg-blue-700 rounded-full p-1 flex items-center transition-all cursor-pointer relative"
+                                >
+                                  <div className={`w-4 h-4 bg-white rounded-full transition-transform duration-300 ${subBillingCycle === "yearly" ? "translate-x-6" : "translate-x-0"}`} />
+                                </button>
+                                <span>Yearly <span className="bg-black text-[#ffd500] text-[9px] px-1.5 py-0.5 rounded font-mono">SAVE 20%</span></span>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                              {/* Basic */}
+                              <div className="bg-[#4f46e5] text-white rounded-2xl p-5 flex flex-col justify-between shadow-lg text-left">
+                                <div className="space-y-3">
+                                  <div className="text-center">
+                                    <h4 className="font-bold">Basic</h4>
+                                    <div className="text-3xl font-black font-mono mt-1">₹0.00</div>
+                                  </div>
+                                  <ul className="space-y-2 text-xs">
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> Welcome offer on first purchase</li>
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> 2x points in Birthday Month</li>
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> Exclusive Partner Perks</li>
+                                  </ul>
+                                </div>
+                                <button onClick={() => alert("Subscribed to Basic Plan!")} className="mt-6 w-full bg-white text-black font-extrabold text-xs py-2.5 rounded-xl cursor-pointer hover:bg-zinc-100 transition-colors">
+                                  Get Started Now
+                                </button>
+                              </div>
+
+                              {/* Super */}
+                              <div className="bg-[#4338ca] text-white rounded-2xl p-5 flex flex-col justify-between shadow-xl text-left border-2 border-white/40 relative">
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-black text-[#ffd500] font-black text-[9px] px-3 py-0.5 rounded-full font-mono uppercase">POPULAR</div>
+                                <div className="space-y-3 pt-1">
+                                  <div className="text-center">
+                                    <h4 className="font-bold">Super</h4>
+                                    <div className="text-3xl font-black font-mono mt-1">{subBillingCycle === "monthly" ? "₹149" : "₹1,499"}</div>
+                                  </div>
+                                  <ul className="space-y-2 text-xs">
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> Welcome offer on first purchase</li>
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> Early access to sales</li>
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> 2x points in Birthday Month</li>
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> Special Birthday Benefit</li>
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> Exclusive Partner Perks</li>
+                                  </ul>
+                                </div>
+                                <button onClick={() => alert("Subscribed to Super Plan!")} className="mt-6 w-full bg-white text-black font-extrabold text-xs py-2.5 rounded-xl cursor-pointer hover:bg-zinc-100 transition-colors">
+                                  Get Started Now
+                                </button>
+                              </div>
+
+                              {/* Premium */}
+                              <div className="bg-[#4f46e5] text-white rounded-2xl p-5 flex flex-col justify-between shadow-lg text-left">
+                                <div className="space-y-3">
+                                  <div className="text-center">
+                                    <h4 className="font-bold">Premium</h4>
+                                    <div className="text-3xl font-black font-mono mt-1">{subBillingCycle === "monthly" ? "₹219" : "₹2,199"}</div>
+                                  </div>
+                                  <ul className="space-y-2 text-xs">
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> All Super Benefits</li>
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> Welcome gift when you reach Premium</li>
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> Surprise experience</li>
+                                    <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-white shrink-0" /> Exclusive Partner Perks</li>
+                                  </ul>
+                                </div>
+                                <button onClick={() => alert("Subscribed to Premium Plan!")} className="mt-6 w-full bg-white text-black font-extrabold text-xs py-2.5 rounded-xl cursor-pointer hover:bg-zinc-100 transition-colors">
+                                  Get Started Now
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          /* MATRIX VIEW */
+                          <div className="bg-black text-white rounded-3xl p-6 space-y-6 shadow-md border border-zinc-800">
+                            <h2 className="text-2xl font-black text-center text-[#facc15] uppercase">
+                              Subscribe now*
+                            </h2>
+
+                            <div className="grid grid-cols-4 gap-2 text-xs font-bold text-center">
+                              <div className="bg-white text-black p-3 rounded-xl text-left space-y-3">
+                                <span className="text-blue-700 font-extrabold">Features</span>
+                                <div className="text-[10px] space-y-2 border-t pt-2 text-zinc-700">
+                                  <div>Welcome offer</div>
+                                  <div>Early access</div>
+                                  <div>2x points</div>
+                                  <div>Birthday benefit</div>
+                                  <div>Surprise gift</div>
+                                </div>
+                              </div>
+
+                              <div className="bg-white text-black p-3 rounded-xl space-y-3">
+                                <span className="text-blue-700 font-extrabold">Basic</span>
+                                <div className="text-xs space-y-2 border-t pt-2">
+                                  <div>✓</div>
+                                  <div className="text-zinc-400">✕</div>
+                                  <div>✓</div>
+                                  <div className="text-zinc-400">✕</div>
+                                  <div className="text-zinc-400">✕</div>
+                                </div>
+                              </div>
+
+                              <div className="bg-[#facc15] text-black p-3 rounded-xl space-y-3 border-2 border-yellow-400">
+                                <span className="font-extrabold">Super</span>
+                                <div className="text-xs space-y-2 border-t border-black/20 pt-2 font-bold">
+                                  <div>✓</div>
+                                  <div>✓</div>
+                                  <div>✓</div>
+                                  <div>✓</div>
+                                  <div className="text-black/40">✕</div>
+                                </div>
+                              </div>
+
+                              <div className="bg-white text-black p-3 rounded-xl space-y-3">
+                                <span className="text-blue-700 font-extrabold">Premium</span>
+                                <div className="text-xs space-y-2 border-t pt-2">
+                                  <div>✓</div>
+                                  <div>✓</div>
+                                  <div>✓</div>
+                                  <div>✓</div>
+                                  <div>✓</div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <button onClick={() => alert(`Subscribed to ${subSelectedPlan} Plan!`)} className="w-full bg-[#0052cc] hover:bg-[#0043a8] text-[#facc15] font-extrabold text-xs py-3.5 rounded-xl transition-all cursor-pointer text-center uppercase tracking-wide">
+                              Continue with {subSelectedPlan} &gt;
+                            </button>
+                          </div>
                         )}
                       </div>
                     )}

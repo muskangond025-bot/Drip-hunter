@@ -7,37 +7,42 @@ import { UmenOrbit } from "./UmenOrbit";
 import { CollectionShowcase } from "./CollectionShowcase";
 import { CollaborationsSection } from "./CollaborationsSection";
 import { SlayStreetsSection } from "./SlayStreetsSection";
+import { useCarousel } from "@/hooks/useCarousel";
 
 export function BrandHeroShowcase() {
-  const [activeDot, setActiveDot] = useState(1); // 0, 1 (active orange), 2
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const bestSellers = [
-    {
-      id: 1,
-      name: "Name",
-      price: "Price",
-      image: "/images/bestseller_model_1.png",
-    },
-    {
-      id: 2,
-      name: "Name",
-      price: "Price",
-      image: "/images/bestseller_model_2.png",
-    },
-    {
-      id: 3,
-      name: "Name",
-      price: "Price",
-      image: "/images/bestseller_model_3.png",
-    },
-    {
-      id: 4,
-      name: "Name",
-      price: "Price",
-      image: "/images/bestseller_model_4.png",
-    },
+  const heroBanners = [
+    "/images/bestseller_top_banner.png",
+    "/images/collab_header.png",
+    "/images/bestseller_top_banner.png",
   ];
+
+  const heroCarousel = useCarousel({
+    itemsCount: heroBanners.length,
+    autoPlay: true,
+    intervalMs: 4000,
+  });
+
+  const allBestSellers = [
+    { id: 1, name: "Street Oversized Tee", price: "$49.99", image: "/images/bestseller_model_1.png" },
+    { id: 2, name: "Urban Cargo Joggers", price: "$69.99", image: "/images/bestseller_model_2.png" },
+    { id: 3, name: "Tactical Vest Hoodie", price: "$89.99", image: "/images/bestseller_model_3.png" },
+    { id: 4, name: "Graphic Drop Cap", price: "$29.99", image: "/images/bestseller_model_4.png" },
+    { id: 5, name: "Vintage Wash Crewneck", price: "$59.99", image: "/images/collab_thumb_2.png" },
+    { id: 6, name: "Heavyweight Track Pants", price: "$74.99", image: "/images/collab_thumb_4.png" },
+    { id: 7, name: "Embossed Barstool Hoodie", price: "$84.99", image: "/images/collab_bot_2.png" },
+    { id: 8, name: "NFL Limited Collab Jacket", price: "$119.99", image: "/images/collection_hero.png" },
+  ];
+
+  const bestSellersCarousel = useCarousel({
+    itemsCount: Math.ceil(allBestSellers.length / 4),
+  });
+
+  const visibleBestSellers = allBestSellers.slice(
+    bestSellersCarousel.currentIndex * 4,
+    bestSellersCarousel.currentIndex * 4 + 4
+  );
 
   const faqs = [
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
@@ -58,16 +63,38 @@ export function BrandHeroShowcase() {
       </div>
 
       {/* 1. Top Banner Carousel */}
-      <div className="space-y-4">
+      <div
+        className="space-y-4 relative group"
+        onMouseEnter={() => heroCarousel.setIsHovered(true)}
+        onMouseLeave={() => heroCarousel.setIsHovered(false)}
+      >
         <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-zinc-200 shadow-lg bg-zinc-900">
           <Image
-            src="/images/bestseller_top_banner.png"
+            src={heroBanners[heroCarousel.currentIndex]}
             alt="Streetwear Banner"
             width={1200}
             height={720}
             priority
-            className="w-full h-auto object-contain block"
+            className="w-full h-auto object-contain block transition-opacity duration-500"
           />
+
+          {/* Previous Arrow */}
+          <button
+            onClick={heroCarousel.prevSlide}
+            className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white hover:text-[#facc15] w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 cursor-pointer shadow-lg active:scale-95"
+            aria-label="Previous banner"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+
+          {/* Next Arrow */}
+          <button
+            onClick={heroCarousel.nextSlide}
+            className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white hover:text-[#facc15] w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 cursor-pointer shadow-lg active:scale-95"
+            aria-label="Next banner"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
 
           {/* Clickable Overlay for top-right 'Visit Our Website' button */}
           <a
@@ -82,31 +109,23 @@ export function BrandHeroShowcase() {
 
         {/* Carousel Pagination Dots */}
         <div className="flex justify-center items-center gap-2 pt-1">
-          <button
-            onClick={() => setActiveDot(0)}
-            className={`h-2.5 rounded-full transition-all cursor-pointer ${activeDot === 0 ? "w-2.5 bg-[#f05a28]" : "w-2.5 bg-zinc-300 hover:bg-zinc-400"
+          {heroBanners.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => heroCarousel.goToSlide(idx)}
+              className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                heroCarousel.currentIndex === idx ? "w-6 bg-[#f05a28]" : "w-2.5 bg-zinc-300 hover:bg-zinc-400"
               }`}
-            aria-label="Slide 1"
-          />
-          <button
-            onClick={() => setActiveDot(1)}
-            className={`h-2.5 rounded-full transition-all cursor-pointer ${activeDot === 1 ? "w-6 bg-[#f05a28]" : "w-2.5 bg-zinc-300 hover:bg-zinc-400"
-              }`}
-            aria-label="Slide 2"
-          />
-          <button
-            onClick={() => setActiveDot(2)}
-            className={`h-2.5 rounded-full transition-all cursor-pointer ${activeDot === 2 ? "w-2.5 bg-[#f05a28]" : "w-2.5 bg-zinc-300 hover:bg-zinc-400"
-              }`}
-            aria-label="Slide 3"
-          />
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </div>
 
       {/* 2. Slay The Streets / Our Story Section */}
       <SlayStreetsSection />
 
-      {/* 2. Best Sellers Section */}
+      {/* 3. Best Sellers Section */}
       <div className="space-y-6 pt-2">
         <h2 className="text-2xl sm:text-3xl font-black text-center text-[#facc15] tracking-tight">
           Best Sellers
@@ -115,7 +134,8 @@ export function BrandHeroShowcase() {
         <div className="relative flex items-center gap-3 sm:gap-5">
           {/* Left Nav Arrow */}
           <button
-            className="shrink-0 bg-zinc-800 hover:bg-zinc-900 text-white p-2.5 rounded-lg shadow-md transition-transform active:scale-95 cursor-pointer z-10"
+            onClick={bestSellersCarousel.prevSlide}
+            className="shrink-0 bg-zinc-800 hover:bg-black text-white hover:text-[#facc15] p-2.5 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer z-10 border border-zinc-700"
             aria-label="Previous best sellers"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -123,16 +143,16 @@ export function BrandHeroShowcase() {
 
           {/* 4 Cards Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 flex-grow">
-            {bestSellers.map((item) => (
+            {visibleBestSellers.map((item) => (
               <div
                 key={item.id}
-                className="bg-[#ebebeb] rounded-2xl sm:rounded-3xl p-4 flex flex-col justify-between border border-zinc-200 shadow-xs hover:shadow-md transition-all group"
+                className="bg-[#ebebeb] rounded-2xl sm:rounded-3xl p-4 flex flex-col justify-between border border-zinc-200 shadow-xs hover:shadow-md transition-all group cursor-pointer"
               >
                 <div className="space-y-0.5">
-                  <span className="block text-zinc-500 font-bold text-xs tracking-wide">
+                  <span className="block text-zinc-800 font-bold text-xs tracking-wide group-hover:text-[#f05a28] transition-colors">
                     {item.name}
                   </span>
-                  <span className="block text-[#facc15] font-extrabold text-sm tracking-wide">
+                  <span className="block text-[#f05a28] font-extrabold text-sm tracking-wide">
                     {item.price}
                   </span>
                 </div>
@@ -142,7 +162,8 @@ export function BrandHeroShowcase() {
                     src={item.image}
                     alt={item.name}
                     fill
-                    className="object-contain group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
               </div>
@@ -151,7 +172,8 @@ export function BrandHeroShowcase() {
 
           {/* Right Nav Arrow */}
           <button
-            className="shrink-0 bg-zinc-800 hover:bg-zinc-900 text-white p-2.5 rounded-lg shadow-md transition-transform active:scale-95 cursor-pointer z-10"
+            onClick={bestSellersCarousel.nextSlide}
+            className="shrink-0 bg-zinc-800 hover:bg-black text-white hover:text-[#facc15] p-2.5 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer z-10 border border-zinc-700"
             aria-label="Next best sellers"
           >
             <ChevronRight className="w-5 h-5" />

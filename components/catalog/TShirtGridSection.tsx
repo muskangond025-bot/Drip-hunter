@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { Search } from "lucide-react";
+import { usePagination } from "@/hooks/usePagination";
 
 interface Product {
   id: number;
@@ -99,15 +100,12 @@ export function TShirtGridSection({
 
   // Global search & sort state
   const [sortOrder, setSortOrder] = useState<string>("Recommended");
-  const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 8; // 2 rows of 4 cards
 
   // Search within categories
   const [categorySearch, setCategorySearch] = useState("");
   const [brandSearch, setBrandSearch] = useState("");
   const [colorSearch, setColorSearch] = useState("");
-
-  const resetPage = () => setCurrentPage(0);
 
   // Toggle helpers for temporary filters
   const handleTempCategoryToggle = (cat: string) => {
@@ -138,41 +136,6 @@ export function TShirtGridSection({
     setTempDiscounts(prev => 
       prev.includes(disc) ? prev.filter(d => d !== disc) : [...prev, disc]
     );
-  };
-
-  // APPLY and CLOSE buttons handlers
-  const handleApplyFilters = () => {
-    setAppliedGender(tempGender);
-    setAppliedCategories(tempCategories);
-    setAppliedBrands(tempBrands);
-    setAppliedPriceTier(tempPriceTier);
-    setAppliedRatings(tempRatings);
-    setAppliedDiscounts(tempDiscounts);
-    setAppliedColors(tempColors);
-    resetPage();
-    alert("Filters applied successfully!");
-  };
-
-  const handleCloseOrReset = () => {
-    // Reset temporary filters to baseline defaults
-    setTempGender("Men");
-    setTempCategories(["Top Wear"]);
-    setTempBrands([]);
-    setTempPriceTier("all");
-    setTempRatings([]);
-    setTempDiscounts([]);
-    setTempColors(["Red"]);
-    
-    // Copy to applied
-    setAppliedGender("Men");
-    setAppliedCategories(["Top Wear"]);
-    setAppliedBrands([]);
-    setAppliedPriceTier("all");
-    setAppliedRatings([]);
-    setAppliedDiscounts([]);
-    setAppliedColors(["Red"]);
-    resetPage();
-    alert("Filters reset to defaults!");
   };
 
   // Filter & Sort Pipeline
@@ -297,11 +260,56 @@ export function TShirtGridSection({
     return result;
   }, [appliedGender, appliedCategories, appliedColors, appliedBrands, appliedRatings, appliedDiscounts, appliedPriceTier, sortOrder, selectedSubCategory, searchQuery]);
 
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const paginatedItems = filteredProducts.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
+  const {
+    currentPage,
+    totalPages,
+    paginatedItems,
+    goToPage,
+    nextPage,
+    prevPage,
+    canPrev,
+    canNext,
+    pageNumbers,
+  } = usePagination<Product>({
+    items: filteredProducts,
+    itemsPerPage,
+    scrollToTopId: "tshirt-grid",
+  });
+
+  // APPLY and CLOSE buttons handlers
+  const handleApplyFilters = () => {
+    setAppliedGender(tempGender);
+    setAppliedCategories(tempCategories);
+    setAppliedBrands(tempBrands);
+    setAppliedPriceTier(tempPriceTier);
+    setAppliedRatings(tempRatings);
+    setAppliedDiscounts(tempDiscounts);
+    setAppliedColors(tempColors);
+    goToPage(1);
+    alert("Filters applied successfully!");
+  };
+
+  const handleCloseOrReset = () => {
+    // Reset temporary filters to baseline defaults
+    setTempGender("Men");
+    setTempCategories(["Top Wear"]);
+    setTempBrands([]);
+    setTempPriceTier("all");
+    setTempRatings([]);
+    setTempDiscounts([]);
+    setTempColors(["Red"]);
+    
+    // Copy to applied
+    setAppliedGender("Men");
+    setAppliedCategories(["Top Wear"]);
+    setAppliedBrands([]);
+    setAppliedPriceTier("all");
+    setAppliedRatings([]);
+    setAppliedDiscounts([]);
+    setAppliedColors(["Red"]);
+    goToPage(1);
+    alert("Filters reset to defaults!");
+  };
 
   return (
     <section id="tshirt-grid" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 select-none font-sans bg-white text-black">
@@ -322,7 +330,7 @@ export function TShirtGridSection({
             value={sortOrder}
             onChange={(e) => {
               setSortOrder(e.target.value);
-              resetPage();
+              goToPage(1);
             }}
             className="bg-white border border-zinc-200 rounded-xl px-3 py-2 text-xs font-black text-zinc-800 outline-none focus:border-zinc-500 cursor-pointer"
           >
@@ -502,34 +510,39 @@ export function TShirtGridSection({
           {/* Pagination Controls */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 mt-10">
+              {/* Previous Button (disabled/hidden when on Page 1) */}
               <button 
-                onClick={() => setCurrentPage(prev => Math.max(0, prev - 1))}
-                disabled={currentPage === 0}
-                className="w-8 h-8 rounded-xl bg-zinc-50 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center border-none cursor-pointer"
+                onClick={prevPage}
+                disabled={!canPrev}
+                className="px-3.5 py-2 rounded-xl bg-zinc-50 hover:bg-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed text-xs font-bold text-zinc-700 flex items-center gap-1 border border-zinc-200 transition-all active:scale-95 cursor-pointer focus-visible:ring-2 focus-visible:ring-orange-500"
+                aria-label="Previous page"
               >
-                &lt;
+                &lt; Prev
               </button>
               
-              {Array.from({ length: totalPages }).map((_, idx) => (
+              {/* Page Number Buttons */}
+              {pageNumbers.map((page) => (
                 <button
-                  key={idx}
-                  onClick={() => setCurrentPage(idx)}
-                  className={`w-8 h-8 rounded-xl text-xs font-bold font-mono transition-colors border-none cursor-pointer ${
-                    currentPage === idx 
-                      ? "bg-orange-500 text-white shadow-xs" 
-                      : "bg-zinc-50 text-zinc-655 hover:bg-zinc-150"
+                  key={page}
+                  onClick={() => goToPage(page)}
+                  className={`w-9 h-9 rounded-xl text-xs font-bold font-mono transition-all border cursor-pointer focus-visible:ring-2 focus-visible:ring-orange-500 ${
+                    currentPage === page 
+                      ? "bg-[#f05a28] text-white border-[#f05a28] shadow-sm scale-105" 
+                      : "bg-white text-zinc-700 border-zinc-200 hover:bg-zinc-100 hover:border-zinc-300"
                   }`}
                 >
-                  {idx + 1}
+                  {page}
                 </button>
               ))}
 
+              {/* Next Button (disabled/hidden when on Last Page) */}
               <button 
-                onClick={() => setCurrentPage(prev => Math.min(totalPages - 1, prev + 1))}
-                disabled={currentPage === totalPages - 1}
-                className="w-8 h-8 rounded-xl bg-zinc-50 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center border-none cursor-pointer"
+                onClick={nextPage}
+                disabled={!canNext}
+                className="px-3.5 py-2 rounded-xl bg-zinc-50 hover:bg-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed text-xs font-bold text-zinc-700 flex items-center gap-1 border border-zinc-200 transition-all active:scale-95 cursor-pointer focus-visible:ring-2 focus-visible:ring-orange-500"
+                aria-label="Next page"
               >
-                &gt;
+                Next &gt;
               </button>
             </div>
           )}

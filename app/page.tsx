@@ -18,6 +18,7 @@ import { LiveEvents } from "@/components/features/LiveEvents";
 import { TikTokReels } from "@/components/features/TikTokReels";
 import { NoticeBoard } from "@/components/common/NoticeBoard";
 import { RetroTechBanner } from "@/components/common/RetroTechBanner";
+import { SupervekShowcase } from "@/components/features/SupervekShowcase";
 import { Footer } from "@/components/common/Footer";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -144,6 +145,33 @@ export default function Home() {
       />
 
       <main className="flex-grow">
+        {/* Sub-Navbar (Categories Row) */}
+        <div className="border-y border-zinc-200 bg-zinc-50/90 sticky top-20 z-30 select-none">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center gap-6 text-xs font-bold font-mono overflow-x-auto no-scrollbar">
+            <span className="text-zinc-400 uppercase tracking-widest font-black shrink-0">SHOP &gt;</span>
+            {[
+              { label: "OG", href: "/shop" },
+              { label: "Bags", href: "/shop?category=Bags" },
+              { label: "Headwear", href: "/shop?category=Headwear" },
+              { label: "Clothing", href: "/shop?category=Clothing" },
+              { label: "Wallets", href: "/shop?category=Wallets" },
+              { label: "Accessories", href: "/shop?category=Accessories" },
+              { label: "Blog", href: "/blog" },
+              { label: "SALE ⚡", href: "/shop?sale=true" },
+            ].map((nav) => (
+              <a
+                key={nav.label}
+                href={nav.href}
+                className={`uppercase tracking-wider cursor-pointer transition-colors shrink-0 text-[#15803d] hover:text-[#0b4d26] ${
+                  nav.label.includes("SALE") ? "text-amber-600 font-extrabold" : ""
+                }`}
+              >
+                {nav.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
         {/* Horizontal Category Slider */}
         <CategorySelector 
           selectedSubCategory={selectedSubCategory}
@@ -184,6 +212,9 @@ export default function Home() {
           searchCategory={searchCategory}
           selectedSubCategory={selectedSubCategory}
         />
+
+        {/* Urban Essentials & Streetwear Showcase (From Reference Images) */}
+        <SupervekShowcase onAddToCart={handleAddToCart} />
 
         {/* Squarespace Style Templates Showcase */}
         <TemplatesShowcase />

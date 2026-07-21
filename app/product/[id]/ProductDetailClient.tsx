@@ -2345,6 +2345,63 @@ export default function ProductDetailClient({ productId }: { productId: number }
             </div>
           )}
         </AnimatePresence>
+        {/* STICKY BOTTOM QUICK PURCHASE BAR (Matching Reference Screenshot) */}
+        <div className="sticky bottom-0 z-40 bg-zinc-900/95 backdrop-blur-md text-white border-t border-zinc-800 py-3 px-4 sm:px-8 shadow-2xl transition-all">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            
+            {/* Left: Product Thumbnail & Info */}
+            <div className="flex items-center gap-3">
+              <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-white shrink-0 border border-zinc-700">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="hidden sm:block text-left">
+                <h4 className="text-xs font-bold text-white truncate max-w-[200px]">
+                  {product.name}
+                </h4>
+                <span className="text-xs font-mono text-red-500 font-black">
+                  {product.price}
+                </span>
+              </div>
+            </div>
+
+            {/* Right: Selectors & Add To Cart Button */}
+            <div className="flex items-center gap-3">
+              <div className="hidden md:flex items-center gap-2 text-xs font-mono">
+                <select
+                  value={selectedSize || "M"}
+                  onChange={(e) => setSelectedSize(e.target.value)}
+                  className="bg-black border border-zinc-700 text-white text-xs font-mono py-1.5 px-3 rounded-lg outline-none cursor-pointer"
+                >
+                  {["S", "M", "L", "XL", "XXL", "XXXL"].map((sz) => (
+                    <option key={sz} value={sz}>Size: {sz}</option>
+                  ))}
+                </select>
+
+                <select
+                  className="bg-black border border-zinc-700 text-white text-xs font-mono py-1.5 px-3 rounded-lg outline-none cursor-pointer"
+                >
+                  <option value="Black">Black</option>
+                  <option value="White">White</option>
+                  <option value="Blue">Blue</option>
+                  <option value="Red">Red</option>
+                </select>
+              </div>
+
+              <button
+                onClick={handleAddToCart}
+                className="bg-[#d92626] hover:bg-red-700 text-white font-extrabold text-xs uppercase tracking-wider px-6 py-2.5 rounded-xl shadow-lg transition-all active:scale-95 cursor-pointer border-none shrink-0"
+              >
+                ADD TO CART
+              </button>
+            </div>
+
+          </div>
+        </div>
 
       </main>
 

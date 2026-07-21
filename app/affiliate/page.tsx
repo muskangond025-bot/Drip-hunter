@@ -526,27 +526,6 @@ export default function AffiliatePage() {
       />
 
       <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        {/* Sub-tabs Row */}
-        <div className="flex justify-center items-center gap-2.5 py-6 bg-zinc-50 border-b border-zinc-200 sticky top-20 z-40 select-none mb-8 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
-          {([
-            { label: "Blogs", id: "Blogs" },
-            { label: "Stories", id: "Stories" },
-            { label: "DripSpot", id: "DripSpot" },
-            { label: "DripVision", id: "DripVision" }
-          ] as const).map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => handleSubTabChange(tab.id)}
-              className={`px-5 py-2 rounded-full border text-[10px] font-black uppercase tracking-widest cursor-pointer transition-all active:scale-95 ${
-                activeSubTab === tab.id
-                  ? "bg-[#f05a28] border-[#f05a28] text-white shadow-xs"
-                  : "bg-white border-zinc-200 text-zinc-650 hover:bg-zinc-100 hover:text-[#f05a28]"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
 
         {/* CONDITION 1: Blogs Tab */}
         {activeSubTab === "Blogs" && (

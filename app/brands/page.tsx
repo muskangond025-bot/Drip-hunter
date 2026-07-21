@@ -6,6 +6,7 @@ import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { RetroTechBanner } from "@/components/common/RetroTechBanner";
 import { BrandHeroShowcase } from "@/components/features/BrandHeroShowcase";
+import { VendorOnboardingModal } from "@/components/features/VendorOnboardingModal";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
@@ -399,6 +400,7 @@ export default function BrandsDirectory() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("All");
   const [loginOpen, setLoginOpen] = useState(false);
+  const [vendorModalOpen, setVendorModalOpen] = useState(false);
   const [activeLetter, setActiveLetter] = useState<string>("ALL");
 
   // Affiliate tab states
@@ -1552,6 +1554,9 @@ export default function BrandsDirectory() {
 
       {/* Retro Tech & Social Collage Banner before Footer */}
       <RetroTechBanner />
+
+      {/* Multi-Step Vendor Onboarding Modal */}
+      <VendorOnboardingModal isOpen={vendorModalOpen} onClose={() => setVendorModalOpen(false)} />
 
       {/* Footer */}
       <Footer />

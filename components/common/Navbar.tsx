@@ -269,12 +269,20 @@ export function Navbar({
                         </button>
                         <div className="border-t border-zinc-100 pt-2 space-y-1">
                           <a 
-                            href="/affiliate" 
+                            href="/subscription" 
+                            className="flex items-center justify-between py-2 px-2 hover:bg-yellow-50 rounded-lg cursor-pointer text-zinc-900 font-bold transition-colors text-[11px] font-sans"
+                            onClick={() => setProfileDropdownOpen(false)}
+                          >
+                            <span>Subscription</span>
+                            <span className="text-[9px] bg-[#facc15] text-black font-black px-1.5 py-0.5 rounded font-mono uppercase">VIP</span>
+                          </a>
+                          <a 
+                            href="/seller" 
                             className="flex items-center justify-between py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors text-[11px] font-semibold font-sans"
                             onClick={() => setProfileDropdownOpen(false)}
                           >
-                            <span>Affiliate Program</span>
-                            <span className="text-[9px] bg-amber-100 text-amber-900 font-bold px-1.5 py-0.5 rounded font-mono uppercase">Earn 10%</span>
+                            <span>Become a Seller</span>
+                            <span className="text-[9px] bg-[#f05a28] text-white font-bold px-1.5 py-0.5 rounded font-mono uppercase">Sell</span>
                           </a>
                           <a 
                             href="/brands" 
@@ -291,6 +299,22 @@ export function Navbar({
                           <span className="text-[9px] font-mono text-zinc-400 block uppercase tracking-wider">Logged in as</span>
                           <strong className="text-zinc-900 text-sm font-bold block truncate">{userEmail}</strong>
                         </div>
+                        <a 
+                          href="/subscription" 
+                          className="flex items-center justify-between py-2 px-2 hover:bg-yellow-50 rounded-lg cursor-pointer text-zinc-900 font-bold transition-colors animate-fade-in"
+                          onClick={() => setProfileDropdownOpen(false)}
+                        >
+                          <span>Subscription</span>
+                          <span className="text-[9px] bg-[#facc15] text-[#000] font-black px-1.5 py-0.5 rounded font-mono uppercase">VIP Perks</span>
+                        </a>
+                        <a 
+                          href="/seller" 
+                          className="flex items-center justify-between py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          onClick={() => setProfileDropdownOpen(false)}
+                        >
+                          <span>Become a Seller</span>
+                          <span className="text-[9px] bg-[#f05a28] text-white font-bold px-1.5 py-0.5 rounded font-mono uppercase">Earn</span>
+                        </a>
                         <a 
                           href="/wishlist?tab=profile" 
                           className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
@@ -311,14 +335,6 @@ export function Navbar({
                           onClick={() => setProfileDropdownOpen(false)}
                         >
                           Wishlist
-                        </a>
-                        <a 
-                          href="/affiliate" 
-                          className="flex items-center justify-between py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
-                          onClick={() => setProfileDropdownOpen(false)}
-                        >
-                          <span>Affiliate Program</span>
-                          <span className="text-[9px] bg-amber-100 text-amber-900 font-bold px-1.5 py-0.5 rounded font-mono uppercase">Earn 10%</span>
                         </a>
                         <a 
                           href="/brands" 
