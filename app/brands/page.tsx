@@ -451,6 +451,16 @@ export default function BrandsDirectory() {
     }
   }, [wishlist]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const searchParam = params.get("search");
+      if (searchParam) {
+        setSearchQuery(searchParam);
+      }
+    }
+  }, []);
+
   // Affiliate FAQ data
   const faqData = [
     {

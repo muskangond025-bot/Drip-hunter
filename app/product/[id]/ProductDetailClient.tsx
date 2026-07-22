@@ -215,6 +215,13 @@ export default function ProductDetailClient({ productId }: { productId: number }
   const [showSizeChart, setShowSizeChart] = useState(false);
   const [sizeChartUnit, setSizeChartUnit] = useState<"in" | "cm">("in");
 
+  // Premium dialogue overlay states
+  const [policyOpen, setPolicyOpen] = useState(false);
+  const [offersDrawerOpen, setOffersDrawerOpen] = useState(false);
+  const [selectedOfferTerms, setSelectedOfferTerms] = useState<string | null>(null);
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  const [selectedSortOption, setSelectedSortOption] = useState("Newest review");
+
   // Load from local storage on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -278,6 +285,74 @@ export default function ProductDetailClient({ productId }: { productId: number }
       ];
     });
     alert(`Added ${product.name} (Size: ${selectedSize}) to your bag!`);
+  };
+
+  const handleMannequinAddToCart = () => {
+    const itemsToAdd: any[] = [];
+    if (equippedOutfit.top) {
+      itemsToAdd.push({
+        id: 8881,
+        brand: "URBAN MONKEY",
+        name: equippedOutfit.top.title,
+        price: equippedOutfit.top.price,
+        image: equippedOutfit.top.img,
+      });
+    }
+    if (equippedOutfit.outerwear) {
+      itemsToAdd.push({
+        id: 8882,
+        brand: "URBAN MONKEY",
+        name: equippedOutfit.outerwear.title,
+        price: equippedOutfit.outerwear.price,
+        image: equippedOutfit.outerwear.img,
+      });
+    }
+    if (equippedOutfit.cap) {
+      itemsToAdd.push({
+        id: 8883,
+        brand: "URBAN MONKEY",
+        name: equippedOutfit.cap.title,
+        price: equippedOutfit.cap.price,
+        image: equippedOutfit.cap.img,
+      });
+    }
+    if (equippedOutfit.shoes) {
+      itemsToAdd.push({
+        id: 8884,
+        brand: "PUMA",
+        name: equippedOutfit.shoes.title,
+        price: equippedOutfit.shoes.price,
+        image: equippedOutfit.shoes.img,
+      });
+    }
+
+    if (itemsToAdd.length === 0) {
+      alert("No items are currently equipped on the statue!");
+      return;
+    }
+
+    setCart((prev) => {
+      let updatedCart = [...prev];
+      itemsToAdd.forEach((newItem) => {
+        const itemKey = `${newItem.id}-M`;
+        const existingIdx = updatedCart.findIndex((item) => `${item.id}-${(item as any).size}` === itemKey);
+        if (existingIdx > -1) {
+          updatedCart[existingIdx] = {
+            ...updatedCart[existingIdx],
+            quantity: updatedCart[existingIdx].quantity + 1,
+          };
+        } else {
+          updatedCart.push({
+            ...newItem,
+            quantity: 1,
+            size: "M"
+          });
+        }
+      });
+      return updatedCart;
+    });
+
+    alert("Mannequin outfit items have been added to your bag!");
   };
 
   const handleToggleFavorite = () => {
@@ -1033,7 +1108,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                         </span>
                       </div>
                       <button 
-                        onClick={() => alert("Return & Exchange Policy:\nItems can be returned within 12 days of delivery in unused condition with tags intact.")}
+                        onClick={() => setPolicyOpen(true)}
                         className="text-xs font-semibold text-[#fbc02d] hover:underline bg-transparent border-none cursor-pointer flex-shrink-0"
                       >
                         More Info
@@ -1060,13 +1135,19 @@ export default function ProductDetailClient({ productId }: { productId: number }
                         className="border border-zinc-200 rounded-lg p-3 bg-white space-y-1 hover:border-zinc-350 transition-colors"
                       >
                         <h4 className="text-xs font-bold text-zinc-900">
-                          7.5% Discount on Myntra Kotak Credit Card
+                          {idx === 1 ? "7.5% Discount on Myntra Kotak Credit Card" : idx === 2 ? "10% Instant Discount on HDFC Cards" : "Flat ₹500 Cashback on UPI Transactions"}
                         </h4>
                         <p className="text-[11px] text-zinc-500 font-medium">
-                          Max Discount Up to ₹750 on every spends.
+                          {idx === 1 ? "Max Discount Up to ₹750 on every spends." : idx === 2 ? "Max Discount Up to ₹1,500 on fashion purchase." : "Min transaction of ₹2,499 required."}
                         </p>
                         <button 
-                          onClick={() => alert("Offer Terms & Conditions:\n- Valid on transactions above ₹1,999.\n- Maximum discount capped at ₹750.\n- Applicable once per user per month.")}
+                          onClick={() => setSelectedOfferTerms(
+                            idx === 1 
+                              ? "Offer Terms & Conditions (Kotak Card):\n- Valid on transactions above ₹1,999.\n- Maximum discount capped at ₹750.\n- Applicable once per user per month." 
+                              : idx === 2 
+                                ? "Offer Terms & Conditions (HDFC Card):\n- Valid on transactions above ₹4,999.\n- Maximum discount capped at ₹1,500.\n- Applicable on Credit Card EMI only." 
+                                : "Offer Terms & Conditions (UPI Cashback):\n- Valid on transactions above ₹2,499.\n- Flat ₹500 cashback credited within 48 hours.\n- Applicable on GPay and PhonePe payments."
+                          )}
                           className="text-[11px] font-semibold text-[#f05a28] hover:underline bg-transparent border-none cursor-pointer pt-0.5 block"
                         >
                           Terms &amp; Condition
@@ -1078,7 +1159,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                   {/* View More Link */}
                   <div className="text-center pt-1">
                     <button 
-                      onClick={() => alert("More Available Offers:\n- 10% Instant Discount on HDFC Cards\n- Flat ₹500 Cashback on UPI Transactions\n- Free Shipping on orders above ₹999")}
+                      onClick={() => setOffersDrawerOpen(true)}
                       className="text-xs font-semibold text-[#fbc02d] hover:underline bg-transparent border-none cursor-pointer"
                     >
                       View More
@@ -1188,11 +1269,35 @@ export default function ProductDetailClient({ productId }: { productId: number }
                   <div className="space-y-10 animate-in fade-in duration-300 w-full font-sans select-none">
                     
                     {/* Top Sort By Dropdown */}
-                    <div className="flex justify-end">
-                      <div className="border border-zinc-300 rounded-lg px-4 py-2 bg-white flex items-center gap-3 text-xs font-medium text-zinc-800 shadow-2xs">
-                        <span>Sort by : <strong className="font-bold text-zinc-950">Newest review</strong></span>
-                        <ChevronRight className="w-4 h-4 text-zinc-500 rotate-90" />
-                      </div>
+                    <div className="flex justify-end relative">
+                      <button
+                        onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+                        className="border border-zinc-300 rounded-lg px-4 py-2 bg-white flex items-center gap-3 text-xs font-semibold text-zinc-800 shadow-2xs cursor-pointer hover:border-zinc-400 active:scale-98 transition-all"
+                      >
+                        <span>Sort by : <strong className="font-bold text-zinc-950">{selectedSortOption}</strong></span>
+                        <ChevronRight className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${isSortDropdownOpen ? "-rotate-90" : "rotate-90"}`} />
+                      </button>
+
+                      {isSortDropdownOpen && (
+                        <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-zinc-200 rounded-xl shadow-lg py-1.5 z-30 animate-in fade-in slide-in-from-top-2 duration-200">
+                          {["Newest review", "Oldest review", "Highest rating", "Lowest rating"].map((option) => (
+                            <button
+                              key={option}
+                              onClick={() => {
+                                setSelectedSortOption(option);
+                                setIsSortDropdownOpen(false);
+                              }}
+                              className={`w-full text-left px-4 py-2.5 text-xs font-semibold transition-colors border-none bg-transparent cursor-pointer ${
+                                selectedSortOption === option 
+                                  ? "text-zinc-950 bg-zinc-100" 
+                                  : "text-[#4b5563] hover:bg-zinc-50 hover:text-zinc-900"
+                              }`}
+                            >
+                              {option}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
                     {/* Left Score + Right Progress Rating Breakdown */}
@@ -1243,13 +1348,25 @@ export default function ProductDetailClient({ productId }: { productId: number }
                     {/* Review Item Cards List (Left Review Text + Right 4 Donut Gauges) */}
                     <div className="space-y-12 divide-y divide-zinc-150">
                       {[
-                        { date: "May 17, 2024", name: "Emily R.", avatar: "ER", comment: "The fabric quality and athletic fit on these shorts are top tier! Perfect for workout sessions and street style.", quality: 85, comfort: 90, fit: 80, value: 95 },
-                        { date: "May 14, 2024", name: "Marcus T.", avatar: "MT", comment: "Super breathable materials with classic Puma T7 stripe branding. High-grade stitching that lasts.", quality: 90, comfort: 85, fit: 85, value: 90 },
-                        { date: "May 10, 2024", name: "Sarah K.", avatar: "SK", comment: "Fast delivery and 100% authentic Puma gear. Size fits true to chart with great flex.", quality: 95, comfort: 95, fit: 90, value: 85 },
-                        { date: "May 02, 2024", name: "David L.", avatar: "DL", comment: "Scuderia Ferrari accents look premium in person. Worth every rupee!", quality: 80, comfort: 90, fit: 85, value: 90 },
-                        { date: "Apr 28, 2024", name: "Ananya S.", avatar: "AS", comment: "Looks amazing paired with oversized graphic tees. High comfort waistband.", quality: 90, comfort: 95, fit: 90, value: 95 },
-                        { date: "Apr 21, 2024", name: "Vikram P.", avatar: "VP", comment: "Heavyweight comfort and lightweight breathability combined perfectly.", quality: 85, comfort: 85, fit: 85, value: 85 }
+                        { date: "May 17, 2024", timestamp: 1715904000000, score: 5, name: "Emily R.", avatar: "ER", comment: "The fabric quality and athletic fit on these shorts are top tier! Perfect for workout sessions and street style.", quality: 85, comfort: 90, fit: 80, value: 95 },
+                        { date: "May 14, 2024", timestamp: 1715644800000, score: 5, name: "Marcus T.", avatar: "MT", comment: "Super breathable materials with classic Puma T7 stripe branding. High-grade stitching that lasts.", quality: 90, comfort: 85, fit: 85, value: 90 },
+                        { date: "May 10, 2024", timestamp: 1715302400000, score: 5, name: "Sarah K.", avatar: "SK", comment: "Fast delivery and 100% authentic Puma gear. Size fits true to chart with great flex.", quality: 95, comfort: 95, fit: 90, value: 85 },
+                        { date: "May 02, 2024", timestamp: 1714608000000, score: 4, name: "David L.", avatar: "DL", comment: "Scuderia Ferrari accents look premium in person. Worth every rupee!", quality: 80, comfort: 90, fit: 85, value: 90 },
+                        { date: "Apr 28, 2024", timestamp: 1714262400000, score: 5, name: "Ananya S.", avatar: "AS", comment: "Looks amazing paired with oversized graphic tees. High comfort waistband.", quality: 90, comfort: 95, fit: 90, value: 95 },
+                        { date: "Apr 21, 2024", timestamp: 1713657600000, score: 4, name: "Vikram P.", avatar: "VP", comment: "Heavyweight comfort and lightweight breathability combined perfectly.", quality: 85, comfort: 85, fit: 85, value: 85 }
                       ]
+                      .sort((a, b) => {
+                        if (selectedSortOption === "Newest review") {
+                          return b.timestamp - a.timestamp;
+                        } else if (selectedSortOption === "Oldest review") {
+                          return a.timestamp - b.timestamp;
+                        } else if (selectedSortOption === "Highest rating") {
+                          return b.score - a.score || b.timestamp - a.timestamp;
+                        } else if (selectedSortOption === "Lowest rating") {
+                          return a.score - b.score || b.timestamp - a.timestamp;
+                        }
+                        return 0;
+                      })
                       .slice(0, showAllReviews ? 6 : 2)
                       .map((review, itemIdx) => (
                         <div key={itemIdx} className="pt-8 first:pt-0 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center animate-in fade-in duration-300">
@@ -1261,11 +1378,12 @@ export default function ProductDetailClient({ productId }: { productId: number }
                             </p>
 
                             <div className="flex items-center gap-1 text-[#ffeb3b]">
-                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
-                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
-                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
-                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
-                              <Star className="w-4 h-4 fill-[#ffeb3b]" />
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star 
+                                  key={star} 
+                                  className={`w-4 h-4 ${star <= review.score ? "fill-[#ffeb3b]" : "text-zinc-200 fill-zinc-200"}`} 
+                                />
+                              ))}
                             </div>
 
                             <div className="flex items-center gap-3 pt-1">
@@ -1698,7 +1816,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                           Like the outfit, <strong className="text-zinc-955 font-extrabold">Buy it Now!</strong>
                         </span>
                         <button
-                          onClick={handleAddToCart}
+                          onClick={handleMannequinAddToCart}
                           className="bg-[#222222] hover:bg-black text-white font-extrabold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md transition-all active:scale-95 cursor-pointer border-none tracking-wide"
                         >
                           <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-black text-white">
@@ -1717,7 +1835,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                 <div className="flex items-center justify-center gap-8 sm:gap-14 pt-8 pb-4 text-xs sm:text-sm font-bold text-zinc-800 font-sans border-t border-zinc-200">
                   <button 
                     onClick={() => {
-                      window.location.href = `/explore?brand=${encodeURIComponent(product.brand)}`;
+                      window.location.href = `/brands?search=${encodeURIComponent(product.brand)}`;
                     }}
                     className="hover:text-[#f05a28] hover:underline cursor-pointer border-none bg-transparent"
                   >
@@ -1725,7 +1843,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                   </button>
                   <button 
                     onClick={() => {
-                      window.location.href = `/explore?color=white`;
+                      window.location.href = `/shop?search=${encodeURIComponent(product.color || "white")}`;
                     }}
                     className="hover:text-[#f05a28] hover:underline cursor-pointer border-none bg-transparent"
                   >
@@ -2404,6 +2522,196 @@ export default function ProductDetailClient({ productId }: { productId: number }
         </div>
 
       </main>
+
+      {/* Return & Exchange Policy Modal */}
+      <AnimatePresence>
+        {policyOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-center justify-center p-4 font-sans text-black"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative border border-zinc-200 text-left space-y-6"
+            >
+              <button
+                onClick={() => setPolicyOpen(false)}
+                className="absolute top-4 right-4 text-zinc-400 hover:text-black cursor-pointer bg-transparent border-none p-1"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="space-y-1">
+                <h3 className="text-xl font-black uppercase tracking-tight text-zinc-950">
+                  Return & Exchange Policy
+                </h3>
+                <p className="text-xs text-zinc-500 font-medium">
+                  Hassle-free 12-day window for all domestic orders
+                </p>
+              </div>
+
+              {/* Progress Steps Illustration */}
+              <div className="grid grid-cols-4 gap-2 text-center select-none py-2">
+                {[
+                  { step: "1", label: "Request", desc: "Via portal" },
+                  { step: "2", label: "Pickup", desc: "In 48 hours" },
+                  { step: "3", label: "Verify", desc: "Quality check" },
+                  { step: "4", label: "Refund", desc: "Instant credit" }
+                ].map((item) => (
+                  <div key={item.step} className="space-y-1">
+                    <div className="w-8 h-8 rounded-full bg-zinc-955 bg-zinc-900 text-[#facc15] font-black text-xs flex items-center justify-center mx-auto shadow-sm">
+                      {item.step}
+                    </div>
+                    <div className="text-[10px] font-bold text-zinc-900">{item.label}</div>
+                    <div className="text-[8px] text-zinc-400 font-medium leading-tight">{item.desc}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="space-y-3 bg-zinc-550/5 bg-zinc-50 p-4 rounded-2xl border border-zinc-150 text-xs text-zinc-750 leading-relaxed font-medium">
+                <p>● Items must be returned in their original condition: unworn, unwashed, with all original tags attached and packaging intact.</p>
+                <p>● Footwear must be returned in the original branded box without any postage stickers or tape applied directly to it.</p>
+                <p>● Innerwear, face masks, socks, and limited collaboration collectibles are non-returnable due to hygiene and rarity guidelines.</p>
+              </div>
+
+              <button
+                onClick={() => setPolicyOpen(false)}
+                className="w-full bg-zinc-950 hover:bg-black text-[#facc15] font-extrabold text-xs uppercase tracking-widest py-3 px-6 rounded-xl transition-all cursor-pointer border-none"
+              >
+                Got It, Thanks!
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Offers & Coupons Slider Drawer */}
+      <AnimatePresence>
+        {offersDrawerOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md flex justify-end font-sans text-black"
+          >
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="bg-white w-full max-w-md h-full shadow-2xl p-6 relative flex flex-col justify-between text-left"
+            >
+              <button
+                onClick={() => setOffersDrawerOpen(false)}
+                className="absolute top-4 right-4 text-zinc-400 hover:text-black cursor-pointer bg-transparent border-none p-1 z-10"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="space-y-6 flex-1 overflow-y-auto pr-2 pt-4">
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-black uppercase tracking-tight text-zinc-950 flex items-center gap-2">
+                    Available Offers <Tag className="w-5 h-5 text-red-500 fill-red-500" />
+                  </h3>
+                  <p className="text-xs text-zinc-500 font-semibold">
+                    Apply these promo codes at checkout for maximum savings!
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    { code: "KOTAK7.5", title: "7.5% Kotak Credit Card Discount", desc: "Flat 7.5% off on transactions above ₹1,999.", terms: "Max discount ₹750. Valid on Credit Cards." },
+                    { code: "HDFC10", title: "10% HDFC Instant Discount", desc: "Get 10% off instantly on purchases above ₹4,999.", terms: "Max discount ₹1,500. EMI transactions only." },
+                    { code: "UPI500", title: "Flat ₹500 UPI Cashback", desc: "Flat cashback when paying via UPI apps.", terms: "Minimum order of ₹2,499. One usage per customer." },
+                    { code: "FREESHIP", title: "Free Express Shipping", desc: "No delivery charges on your order.", terms: "Automatically applicable on orders above ₹999." }
+                  ].map((coupon) => (
+                    <div key={coupon.code} className="border border-zinc-200 rounded-2xl p-4 bg-zinc-50/50 space-y-3 relative overflow-hidden group">
+                      <div className="space-y-1 pr-20">
+                        <span className="text-[9px] font-bold bg-zinc-200 text-zinc-700 px-2 py-0.5 rounded-full font-mono uppercase">
+                          PROMO
+                        </span>
+                        <h4 className="text-sm font-bold text-zinc-950">{coupon.title}</h4>
+                        <p className="text-xs text-zinc-505 font-medium leading-relaxed">{coupon.desc}</p>
+                        <p className="text-[10px] text-zinc-400 font-medium">*{coupon.terms}</p>
+                      </div>
+
+                      <button
+                        onClick={(e) => {
+                          navigator.clipboard.writeText(coupon.code);
+                          const btn = e.currentTarget;
+                          btn.innerText = "COPIED!";
+                          btn.classList.add("bg-emerald-500", "text-white");
+                          setTimeout(() => {
+                            btn.innerText = "COPY CODE";
+                            btn.classList.remove("bg-emerald-500", "text-white");
+                          }, 1500);
+                        }}
+                        className="absolute right-4 top-4 bg-zinc-950 hover:bg-black text-[#facc15] font-extrabold text-[10px] uppercase py-2 px-3.5 rounded-xl cursor-pointer transition-all border-none font-mono tracking-wider active:scale-95"
+                      >
+                        COPY CODE
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-zinc-200 mt-4">
+                <button
+                  onClick={() => setOffersDrawerOpen(false)}
+                  className="w-full bg-zinc-955 bg-zinc-900 hover:bg-black text-[#facc15] font-extrabold text-xs uppercase tracking-widest py-4 rounded-xl shadow-md transition-colors cursor-pointer border-none"
+                >
+                  Back To Product Details
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Selected Offer Terms Alert Modal */}
+      <AnimatePresence>
+        {selectedOfferTerms && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-md flex items-center justify-center p-4 font-sans text-black"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl relative border border-zinc-200 text-left space-y-4"
+            >
+              <button
+                onClick={() => setSelectedOfferTerms(null)}
+                className="absolute top-4 right-4 text-zinc-400 hover:text-black cursor-pointer bg-transparent border-none p-1"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <h3 className="text-base font-black uppercase tracking-tight text-zinc-950">
+                Terms & Conditions
+              </h3>
+
+              <div className="bg-zinc-50 border border-zinc-150 rounded-2xl p-4 font-mono text-[10px] text-zinc-700 leading-relaxed font-medium whitespace-pre-line">
+                {selectedOfferTerms}
+              </div>
+
+              <button
+                onClick={() => setSelectedOfferTerms(null)}
+                className="w-full bg-zinc-950 hover:bg-black text-[#facc15] font-extrabold text-xs uppercase tracking-widest py-3 rounded-xl transition-all cursor-pointer border-none"
+              >
+                Accept & Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
     </div>

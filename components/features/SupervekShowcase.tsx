@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Play, ShoppingBag, ArrowRight, ShieldCheck, Zap, Layers, Sparkles, Heart, Star, Check } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, ShoppingBag, ArrowRight, ShieldCheck, Zap, Layers, Sparkles, Heart, Star, Check, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SupervekShowcaseProps {
   onAddToCart?: (product: {
@@ -12,18 +13,37 @@ interface SupervekShowcaseProps {
     price: string;
     image: string;
   }) => void;
+  favorites?: number[];
+  onToggleFavorite?: (product: {
+    id: number;
+    brand: string;
+    name: string;
+    price: string;
+    image: string;
+  }) => void;
 }
 
-export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
+export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite }: SupervekShowcaseProps) {
   const [activeTab, setActiveTab] = useState<"BEST SELLERS" | "NEW RELEASES" | "SALE">("BEST SELLERS");
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [activeEssentialTab, setActiveEssentialTab] = useState<"ALL" | "CROSSBODY BAGS" | "CLOTHING" | "HEADWEAR" | "WALLETS" | "ACCESSORIES">("ALL");
   const [selectedColor, setSelectedColor] = useState<Record<number, string>>({});
   const [wishlistState, setWishlistState] = useState<Record<number, boolean>>({});
   const [addedState, setAddedState] = useState<Record<number, boolean>>({});
   const [selectedSizes, setSelectedSizes] = useState<Record<number, string>>({});
 
-  const toggleFav = (id: number) => {
-    setWishlistState((prev) => ({ ...prev, [id]: !prev[id] }));
+  const toggleFav = (item: { id: number; name: string; price: string; image: string }) => {
+    if (onToggleFavorite) {
+      onToggleFavorite({
+        id: item.id,
+        brand: "URBAN MONKEY",
+        name: item.name,
+        price: item.price,
+        image: item.image,
+      });
+    } else {
+      setWishlistState((prev) => ({ ...prev, [item.id]: !prev[item.id] }));
+    }
   };
 
   const handleAddEssential = (item: { id: number; name: string; price: string; image: string }) => {
@@ -92,6 +112,112 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
       originalPrice: "Rs. 3,995.00",
       image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80",
       colors: ["#18181b"],
+    },
+  ];
+
+  const newReleases = [
+    {
+      id: 811,
+      name: "Cyber Shield Sunglasses",
+      badge: "NEW",
+      badgeColor: "bg-blue-600",
+      price: "Rs. 1,299.00",
+      originalPrice: "Rs. 1,999.00",
+      image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=80",
+      colors: ["#000000", "#ffffff"],
+    },
+    {
+      id: 812,
+      name: "Stealth Tactical Chest Rig",
+      badge: "NEW",
+      badgeColor: "bg-blue-600",
+      price: "Rs. 2,499.00",
+      originalPrice: "Rs. 3,499.00",
+      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80",
+      colors: ["#18181b"],
+    },
+    {
+      id: 813,
+      name: "Utility Cargo Shorts",
+      badge: "NEW",
+      badgeColor: "bg-blue-600",
+      price: "Rs. 1,899.00",
+      originalPrice: "Rs. 2,599.00",
+      image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=500&q=80",
+      colors: ["#3f6212", "#18181b"],
+    },
+    {
+      id: 814,
+      name: "Heavyweight Graphic Tee",
+      badge: "NEW",
+      badgeColor: "bg-blue-600",
+      price: "Rs. 1,499.00",
+      originalPrice: "Rs. 2,199.00",
+      image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80",
+      colors: ["#ffffff", "#18181b"],
+    },
+    {
+      id: 815,
+      name: "Retro Tech Beanie",
+      badge: "NEW",
+      badgeColor: "bg-blue-600",
+      price: "Rs. 899.00",
+      originalPrice: "Rs. 1,299.00",
+      image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=500&q=80",
+      colors: ["#dc2626", "#18181b", "#ffffff"],
+    },
+  ];
+
+  const saleItems = [
+    {
+      id: 821,
+      name: "Urban Utility Sling",
+      badge: "SAVE 50%",
+      badgeColor: "bg-[#d92626]",
+      price: "Rs. 1,249.00",
+      originalPrice: "Rs. 2,499.00",
+      image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=500&q=80",
+      colors: ["#18181b"],
+    },
+    {
+      id: 822,
+      name: "Reflective Street Vest",
+      badge: "SAVE 30%",
+      badgeColor: "bg-[#d92626]",
+      price: "Rs. 2,799.00",
+      originalPrice: "Rs. 3,999.00",
+      image: "https://images.unsplash.com/photo-1520975954732-35dd22299614?auto=format&fit=crop&w=500&q=80",
+      colors: ["#eab308"],
+    },
+    {
+      id: 823,
+      name: "Classic Skate Deck",
+      badge: "SAVE 25%",
+      badgeColor: "bg-[#d92626]",
+      price: "Rs. 2,999.00",
+      originalPrice: "Rs. 3,999.00",
+      image: "https://images.unsplash.com/photo-1547447134-cd3f5c716030?auto=format&fit=crop&w=500&q=80",
+      colors: ["#ffffff"],
+    },
+    {
+      id: 824,
+      name: "Minimalist Card Wallet",
+      badge: "SAVE 40%",
+      badgeColor: "bg-[#d92626]",
+      price: "Rs. 599.00",
+      originalPrice: "Rs. 999.00",
+      image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=500&q=80",
+      colors: ["#3f3f46"],
+    },
+    {
+      id: 825,
+      name: "Corduroy Dad Hat",
+      badge: "SAVE 60%",
+      badgeColor: "bg-[#d92626]",
+      price: "Rs. 799.00",
+      originalPrice: "Rs. 1,999.00",
+      image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=500&q=80",
+      colors: ["#b45309"],
     },
   ];
 
@@ -199,10 +325,13 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
 
         {/* Product Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
-          {bestSellers.map((item) => (
+          {((activeTab === "BEST SELLERS" ? bestSellers : activeTab === "NEW RELEASES" ? newReleases : saleItems)).map((item) => (
             <div
               key={item.id}
-              className="group flex flex-col justify-between bg-[#f8f8f9] rounded-2xl p-3 border border-zinc-100 shadow-2xs hover:shadow-lg transition-all duration-300 cursor-pointer"
+              onClick={() => {
+                window.location.href = `/shop`;
+              }}
+              className="group flex flex-col justify-between bg-[#f8f8f9] rounded-2xl p-3 border border-zinc-100 shadow-2xs hover:shadow-lg transition-all duration-300 cursor-pointer animate-in fade-in duration-300"
             >
               <div>
                 {/* Image & Discount Badge */}
@@ -253,15 +382,16 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
 
               {/* Add to Cart Trigger */}
               <button
-                onClick={() =>
+                onClick={(e) => {
+                  e.stopPropagation();
                   onAddToCart?.({
                     id: item.id,
                     brand: "Supervek",
                     name: item.name,
                     price: item.price,
                     image: item.image,
-                  })
-                }
+                  });
+                }}
                 className="mt-4 w-full bg-zinc-950 hover:bg-black text-[#facc15] font-black text-[10px] uppercase tracking-wider py-2.5 rounded-xl cursor-pointer transition-colors border-none"
               >
                 Add To Cart
@@ -276,7 +406,7 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
             onClick={() => (window.location.href = "/shop")}
             className="bg-black hover:bg-zinc-800 text-white font-extrabold text-xs uppercase tracking-widest px-8 py-4 rounded-xl cursor-pointer shadow-md transition-all active:scale-95 border-none"
           >
-            VIEW ALL BEST SELLERS
+            VIEW ALL {activeTab}
           </button>
         </div>
 
@@ -372,7 +502,7 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
             {urbanEssentials
               .filter((item) => activeEssentialTab === "ALL" || item.category === activeEssentialTab)
               .map((item) => {
-                const isFav = wishlistState[item.id];
+                const isFav = favorites.includes(item.id) || !!wishlistState[item.id];
                 const isAdded = addedState[item.id];
 
                 return (
@@ -397,7 +527,7 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            toggleFav(item.id);
+                            toggleFav(item);
                           }}
                           className="absolute top-2 right-2 p-1.5 rounded-full bg-white/90 hover:bg-white text-zinc-700 hover:text-black transition-colors z-10 border border-zinc-200 shadow-2xs cursor-pointer"
                           aria-label="Add to Wishlist"
@@ -628,7 +758,7 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
             </h2>
 
             <button
-              onClick={() => alert("Playing Supervek Official Campaign Video...")}
+              onClick={() => setVideoModalOpen(true)}
               className="w-16 h-16 bg-[#facc15] hover:bg-yellow-400 text-black rounded-full flex items-center justify-center mx-auto shadow-2xl cursor-pointer transition-all duration-300 transform hover:scale-110 border-none active:scale-95"
               aria-label="Play Campaign Video"
             >
@@ -638,6 +768,43 @@ export function SupervekShowcase({ onAddToCart }: SupervekShowcaseProps) {
         </div>
 
       </div>
+
+      {/* Campaign Video Modal Overlay */}
+      <AnimatePresence>
+        {videoModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="relative w-full max-w-4xl aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl border border-zinc-800"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setVideoModalOpen(false)}
+                className="absolute top-4 right-4 z-10 bg-black/60 hover:bg-black text-white p-2 rounded-full cursor-pointer transition-all border-none"
+                aria-label="Close Video"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Loop video loop embed */}
+              <iframe
+                className="w-full h-full border-none"
+                src="https://www.youtube.com/embed/9GzBszhJ014?autoplay=1&mute=0&controls=1&loop=1&playlist=9GzBszhJ014"
+                title="Supervek Campaign Streetwear Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </section>
   );

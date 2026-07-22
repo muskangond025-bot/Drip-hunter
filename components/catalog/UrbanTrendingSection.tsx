@@ -7,6 +7,8 @@ import { ProductItem } from "@/app/page";
 
 interface UrbanTrendingSectionProps {
   onAddToCart?: (product: ProductItem) => void;
+  favorites?: number[];
+  onToggleFavorite?: (product: ProductItem) => void;
 }
 
 const TRENDING_PRODUCTS: ProductItem[] = [
@@ -44,9 +46,11 @@ const TRENDING_PRODUCTS: ProductItem[] = [
   },
 ];
 
-export function UrbanTrendingSection({ onAddToCart }: UrbanTrendingSectionProps) {
+export function UrbanTrendingSection({ onAddToCart, favorites: propFavorites, onToggleFavorite }: UrbanTrendingSectionProps) {
   const [addedIds, setAddedIds] = useState<number[]>([]);
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [localFavorites, setLocalFavorites] = useState<number[]>([]);
+
+  const favorites = propFavorites || localFavorites;
 
   const handleAdd = (product: ProductItem) => {
     if (onAddToCart) {
@@ -58,10 +62,14 @@ export function UrbanTrendingSection({ onAddToCart }: UrbanTrendingSectionProps)
     }, 1800);
   };
 
-  const toggleFav = (id: number) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+  const toggleFav = (product: ProductItem) => {
+    if (onToggleFavorite) {
+      onToggleFavorite(product);
+    } else {
+      setLocalFavorites((prev) =>
+        prev.includes(product.id) ? prev.filter((item) => item !== product.id) : [...prev, product.id]
+      );
+    }
   };
 
   return (
@@ -109,7 +117,7 @@ export function UrbanTrendingSection({ onAddToCart }: UrbanTrendingSectionProps)
 
                   {/* Wishlist Button */}
                   <button
-                    onClick={() => toggleFav(product.id)}
+                    onClick={() => toggleFav(product)}
                     className={`absolute top-3 right-3 p-2 rounded-full transition-all z-10 ${
                       isFav
                         ? "bg-red-500 text-white"

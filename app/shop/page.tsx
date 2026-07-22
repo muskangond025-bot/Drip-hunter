@@ -318,15 +318,15 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
     const arr = [...filteredProducts];
     if (sortBy === 'price-low') {
       return arr.sort((a, b) => {
-        const valA = parseFloat(a.price.replace('$', '').replace('Rs. ', '').replace(',', '')) || 0;
-        const valB = parseFloat(b.price.replace('$', '').replace('Rs. ', '').replace(',', '')) || 0;
+        const valA = parseFloat(a.price.replace(/[^0-9.]/g, '')) || 0;
+        const valB = parseFloat(b.price.replace(/[^0-9.]/g, '')) || 0;
         return valA - valB;
       });
     }
     if (sortBy === 'price-high') {
       return arr.sort((a, b) => {
-        const valA = parseFloat(a.price.replace('$', '').replace('Rs. ', '').replace(',', '')) || 0;
-        const valB = parseFloat(b.price.replace('$', '').replace('Rs. ', '').replace(',', '')) || 0;
+        const valA = parseFloat(a.price.replace(/[^0-9.]/g, '')) || 0;
+        const valB = parseFloat(b.price.replace(/[^0-9.]/g, '')) || 0;
         return valB - valA;
       });
     }
@@ -451,7 +451,10 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
               <span className="text-zinc-400 font-medium">Sort by</span>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => {
+                  setSortBy(e.target.value as any);
+                  setCurrentPage(1);
+                }}
                 className="bg-white border border-zinc-300 text-zinc-900 text-xs font-mono py-1.5 px-3 rounded-lg outline-none cursor-pointer focus:border-black"
               >
                 <option value="featured">Featured</option>

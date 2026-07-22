@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
@@ -83,6 +83,94 @@ export default function About() {
 
   // Blog filter category state
   const [activeBlogFilter, setActiveBlogFilter] = useState("All");
+  const [sortBy, setSortBy] = useState<"Default" | "Newest" | "Most Read">("Default");
+
+  const blogsDataList = useMemo<Array<{
+    id: number;
+    category: "Trends" | "How To" | "Celebs" | "Opinion";
+    date: string;
+    timestamp: number;
+    views: number;
+    title: string;
+    desc: string;
+    img: string;
+  }>>(() => [
+    {
+      id: 1,
+      category: "Trends",
+      date: "July 20, 2026",
+      timestamp: 1784505600,
+      views: 4500,
+      title: "The Rise of Neo-Goth Streetwear",
+      desc: "How dark aesthetics, heavy leather outerwear, and metallic hardware are redefining the modern metropolitan wardrobe.",
+      img: "/images/blog_sub_1.png"
+    },
+    {
+      id: 2,
+      category: "How To",
+      date: "June 15, 2026",
+      timestamp: 1781481600,
+      views: 12000,
+      title: "Styling Cargo Pants: 5 Modern Rules",
+      desc: "A comprehensive guide on balancing proportions, choosing the right footwear, and selecting utility accessories for cargos.",
+      img: "/images/blog_sub_2.png"
+    },
+    {
+      id: 3,
+      category: "Celebs",
+      date: "July 10, 2026",
+      timestamp: 1783641600,
+      views: 9500,
+      title: "Spotted: A$AP Rocky in Custom Techwear",
+      desc: "Breaking down the modular chest vest, industrial glasses, and oversized techwear pants worn at the recent Paris fashion showcase.",
+      img: "/images/blog_sub_3.png"
+    },
+    {
+      id: 4,
+      category: "Opinion",
+      date: "May 28, 2026",
+      timestamp: 1779926400,
+      views: 3100,
+      title: "Is Fast Fashion Streetwear Dead?",
+      desc: "An in-depth analysis of the shift towards sustainability, vintage archives, and limited-edition quality craftsmanship.",
+      img: "/images/blog_hero.png"
+    },
+    {
+      id: 5,
+      category: "Trends",
+      date: "July 22, 2026",
+      timestamp: 1784678400,
+      views: 6200,
+      title: "Bright Neon vs. Slate Grey Palettes",
+      desc: "Exploring the clash of vibrant cyber aesthetics and minimal slate/stealth techwear color schemes this season.",
+      img: "/images/blog_skater.png"
+    },
+    {
+      id: 6,
+      category: "How To",
+      date: "April 12, 2026",
+      timestamp: 1775952000,
+      views: 15400,
+      title: "How to Spot Fake Vintage Streetwear",
+      desc: "Important markers, tag checks, and stitching quality patterns to examine before buying rare archive pieces online.",
+      img: "/images/blog_ghost.png"
+    }
+  ], []);
+
+  const filteredAndSortedBlogs = useMemo(() => {
+    let items = [...blogsDataList];
+    if (activeBlogFilter !== "All") {
+      items = items.filter(
+        (item) => item.category.toLowerCase() === activeBlogFilter.toLowerCase()
+      );
+    }
+    if (sortBy === "Newest") {
+      items.sort((a, b) => b.timestamp - a.timestamp);
+    } else if (sortBy === "Most Read") {
+      items.sort((a, b) => b.views - a.views);
+    }
+    return items;
+  }, [activeBlogFilter, sortBy, blogsDataList]);
 
   // DripSpot, DripVision & Instagram interaction states
   const [dripSpotView, setDripSpotView] = useState<"A" | "B" | "C">("A");
@@ -111,6 +199,7 @@ export default function About() {
 
   const [likedPosts, setLikedPosts] = useState<boolean[]>(Array(6).fill(false));
   const [bookmarkedPosts, setBookmarkedPosts] = useState<boolean[]>(Array(6).fill(false));
+  const [postComments, setPostComments] = useState<Record<number, string[]>>({});
 
   const toggleLike = (idx: number) => {
     setLikedPosts(prev => {
@@ -190,6 +279,10 @@ export default function About() {
     });
   };
 
+  const heroBlog = filteredAndSortedBlogs[0];
+  const secondaryBlogs = filteredAndSortedBlogs.slice(1);
+  const stackBlogs = filteredAndSortedBlogs.slice(1, 4);
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Navigation Header */}
@@ -256,127 +349,113 @@ export default function About() {
             
             <div className="absolute right-0 flex items-center gap-2">
               <span className="text-[10px] text-zinc-400 font-black uppercase tracking-widest hidden sm:inline">Sort by:</span>
-              <select className="bg-white border border-zinc-200 rounded-xl px-3 py-2 text-xs font-black text-zinc-800 outline-none focus:border-zinc-400 cursor-pointer">
-                <option>Default</option>
-                <option>Newest</option>
-                <option>Most Read</option>
+              <select 
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as any)}
+                className="bg-white border border-zinc-200 rounded-xl px-3 py-2 text-xs font-black text-zinc-800 outline-none focus:border-zinc-400 cursor-pointer"
+              >
+                <option value="Default">Default</option>
+                <option value="Newest">Newest</option>
+                <option value="Most Read">Most Read</option>
               </select>
             </div>
           </div>
 
           {/* Hero Blog Section: Overlapping Stack of 3 Thumbnails on the Right of Large Image */}
-          <div className="space-y-6 text-left mb-16 select-none">
-            <div className="relative w-full aspect-[16/9] sm:aspect-[2.2/1] lg:aspect-[2.6/1] max-h-[380px] sm:max-h-[420px] lg:max-h-[440px] flex items-stretch">
-              
-              {/* Large Image Card (Left side, takes 89% width) */}
-              <div className="w-[89%] sm:w-[90%] relative h-full rounded-[28px] sm:rounded-[32px] overflow-hidden border border-zinc-200 shadow-sm group">
-                <Image
-                  src="/images/blog_hero.png"
-                  alt="Today Feature Blog"
-                  fill
-                  className="object-cover group-hover:scale-[1.01] transition-transform duration-500"
-                />
+          {heroBlog ? (
+            <div className="space-y-6 text-left mb-16 select-none animate-in fade-in duration-300">
+              <div className="relative w-full aspect-[16/9] sm:aspect-[2.2/1] lg:aspect-[2.6/1] max-h-[380px] sm:max-h-[420px] lg:max-h-[440px] flex items-stretch">
+                
+                {/* Large Image Card (Left side, takes 89% width) */}
+                <div className="w-[89%] sm:w-[90%] relative h-full rounded-[28px] sm:rounded-[32px] overflow-hidden border border-zinc-200 shadow-sm group">
+                  <Image
+                    src={heroBlog.img}
+                    alt={heroBlog.title}
+                    fill
+                    className="object-cover group-hover:scale-[1.01] transition-transform duration-500"
+                  />
+                </div>
+
+                {/* Stack of overlapping thumbnails on the right */}
+                <div className="absolute right-0 top-0 bottom-0 w-[15%] sm:w-[14%] lg:w-[13%] flex flex-col justify-between py-2 sm:py-3 z-20">
+                  {stackBlogs.map((blog: any) => (
+                    <div 
+                      key={blog.id}
+                      className="relative w-full max-h-[30%] aspect-square rounded-[14px] sm:rounded-[18px] lg:rounded-[20px] overflow-hidden border-[3px] sm:border-4 border-white shadow-xl hover:scale-105 transition-transform hover:z-30 cursor-pointer"
+                    >
+                      <Image 
+                        src={blog.img} 
+                        alt={blog.title} 
+                        fill 
+                        className="object-cover" 
+                      />
+                    </div>
+                  ))}
+                </div>
+
               </div>
 
-              {/* Stack of 3 overlapping thumbnails on the right with distinct gaps */}
-              <div className="absolute right-0 top-0 bottom-0 w-[15%] sm:w-[14%] lg:w-[13%] flex flex-col justify-between py-2 sm:py-3 z-20">
-                {[
-                  "/images/blog_ghost.png",
-                  "/images/blog_boombox.png",
-                  "/images/blog_skater.png"
-                ].map((img, idx) => (
-                  <div 
-                    key={idx}
-                    className="relative w-full max-h-[30%] aspect-square rounded-[14px] sm:rounded-[18px] lg:rounded-[20px] overflow-hidden border-[3px] sm:border-4 border-white shadow-xl hover:scale-105 transition-transform hover:z-30 cursor-pointer"
-                  >
-                    <Image 
-                      src={img} 
-                      alt={`Thumbnail stack ${idx + 1}`} 
-                      fill 
-                      className="object-cover" 
-                    />
-                  </div>
-                ))}
-              </div>
-
-            </div>
-
-            {/* Hero text description under images */}
-            <div className="max-w-5xl space-y-3 pt-2">
-              <div className="flex items-center gap-2.5 text-[10px] text-zinc-455 font-bold uppercase tracking-wider font-mono">
-                <span>Category</span>
-                <span>&bull;</span>
-                <span>Date of upload</span>
-              </div>
-              
-              <h3 className="text-2xl sm:text-3xl font-black text-zinc-955 uppercase tracking-tight font-sans leading-none">
-                Title
-              </h3>
-
-              <p className="text-zinc-550 text-xs sm:text-sm leading-relaxed max-w-4xl pt-1">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
-
-              <button className="flex items-center gap-1.5 text-xs font-black text-zinc-800 hover:text-[#f05a28] transition-colors uppercase tracking-widest border-none bg-transparent cursor-pointer font-sans">
-                <span>Read more</span>
-                <Eye className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* 3 Secondary Cards Row using exact illustration cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-12 select-none">
-            {[
-              { 
-                category: "Category", 
-                date: "Date of Upload", 
-                title: "Title", 
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.", 
-                img: "/images/blog_sub_1.png" // Blue sculpture head
-              },
-              { 
-                category: "Category", 
-                date: "Date of Upload", 
-                title: "Title", 
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.", 
-                img: "/images/blog_sub_2.png" // Yellow runner
-              },
-              { 
-                category: "Category", 
-                date: "Date of Upload", 
-                title: "Title", 
-                desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.", 
-                img: "/images/blog_sub_3.png" // Cartoon illustration
-              }
-            ].map((card, idx) => (
-              <div key={idx} className="space-y-4">
-                <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden border border-zinc-150 shadow-xs group cursor-pointer">
-                  <Image src={card.img} alt={card.title} fill className="object-cover group-hover:scale-103 transition-transform" />
+              {/* Hero text description under images */}
+              <div className="max-w-5xl space-y-3 pt-2">
+                <div className="flex items-center gap-2.5 text-[10px] text-zinc-455 font-bold uppercase tracking-wider font-mono">
+                  <span>{heroBlog.category}</span>
+                  <span>&bull;</span>
+                  <span>{heroBlog.date}</span>
                 </div>
                 
-                <div className="space-y-2">
-                  <div className="flex items-center gap-1.5 text-[9px] text-zinc-455 font-bold uppercase tracking-wider font-mono">
-                    <span>{card.category}</span>
-                    <span>&bull;</span>
-                    <span>{card.date}</span>
-                  </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-zinc-955 uppercase tracking-tight font-sans leading-none">
+                  {heroBlog.title}
+                </h3>
 
-                  <h4 className="text-xl font-black text-zinc-955 uppercase tracking-tight">
-                    {card.title}
-                  </h4>
+                <p className="text-zinc-550 text-xs sm:text-sm leading-relaxed max-w-4xl pt-1">
+                  {heroBlog.desc}
+                </p>
 
-                  <p className="text-zinc-500 text-xs leading-relaxed font-medium">
-                    {card.desc}
-                  </p>
-
-                  <button className="flex items-center gap-1 text-[10px] font-black text-zinc-800 hover:text-orange-500 uppercase tracking-widest border-none bg-transparent cursor-pointer">
-                    <span>Read more</span>
-                    <Eye className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                <button className="flex items-center gap-1.5 text-xs font-black text-zinc-800 hover:text-[#f05a28] transition-colors uppercase tracking-widest border-none bg-transparent cursor-pointer font-sans">
+                  <span>Read more</span>
+                  <Eye className="w-4 h-4" />
+                </button>
               </div>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <div className="text-center py-12 text-zinc-500 font-mono text-sm border border-dashed border-zinc-200 rounded-3xl">
+              No blogs found in this category.
+            </div>
+          )}
+
+          {/* Secondary Cards Row */}
+          {secondaryBlogs.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-12 select-none">
+              {secondaryBlogs.map((blog: any) => (
+                <div key={blog.id} className="space-y-4 animate-in fade-in duration-300">
+                  <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden border border-zinc-155 shadow-xs group cursor-pointer">
+                    <Image src={blog.img} alt={blog.title} fill className="object-cover group-hover:scale-103 transition-transform" />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-1.5 text-[9px] text-zinc-455 font-bold uppercase tracking-wider font-mono">
+                      <span>{blog.category}</span>
+                      <span>&bull;</span>
+                      <span>{blog.date}</span>
+                    </div>
+
+                    <h4 className="text-xl font-black text-zinc-955 uppercase tracking-tight">
+                      {blog.title}
+                    </h4>
+
+                    <p className="text-zinc-500 text-xs leading-relaxed font-medium">
+                      {blog.desc}
+                    </p>
+
+                    <button className="flex items-center gap-1 text-[10px] font-black text-zinc-800 hover:text-orange-500 uppercase tracking-widest border-none bg-transparent cursor-pointer">
+                      <span>Read more</span>
+                      <Eye className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Pagination */}
           <div className="flex justify-center items-center gap-1.5 pt-8 border-t border-zinc-100">
@@ -1187,10 +1266,29 @@ export default function About() {
                       >
                         <Heart className={`w-4 h-4 transition-colors ${likedPosts[i] ? "text-red-500 fill-red-500" : "text-zinc-950"}`} />
                       </motion.button>
-                      <button className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center">
+                      <button 
+                        onClick={() => {
+                          const comment = prompt("Enter your comment for this street style post:");
+                          if (comment && comment.trim() !== "") {
+                            setPostComments(prev => ({
+                              ...prev,
+                              [i]: [...(prev[i] || []), comment]
+                            }));
+                          }
+                        }}
+                        className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center hover:scale-110 transition-transform"
+                      >
                         <MessageCircle className="w-4 h-4 text-zinc-950" />
                       </button>
-                      <button className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center">
+                      <button 
+                        onClick={() => {
+                          if (typeof window !== "undefined") {
+                            navigator.clipboard.writeText(`${window.location.origin}/about#post-${i}`);
+                            alert("Post share link copied to clipboard!");
+                          }
+                        }}
+                        className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center hover:scale-110 transition-transform"
+                      >
                         <Send className="w-4 h-4 text-zinc-950" />
                       </button>
                     </div>
@@ -1199,9 +1297,15 @@ export default function About() {
                       onClick={() => toggleBookmark(i)}
                       className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"
                     >
-                      <Bookmark className={`w-4 h-4 transition-colors ${bookmarkedPosts[i] ? "text-zinc-955 fill-zinc-955" : "text-zinc-950"}`} />
+                      <Bookmark className={`w-4 h-4 transition-colors ${bookmarkedPosts[i] ? "text-zinc-950 fill-zinc-950" : "text-zinc-950"}`} />
                     </motion.button>
                   </div>
+                  {/* Comments Display List */}
+                  {postComments[i] && postComments[i].map((comment, idx) => (
+                    <div key={idx} className="text-[10px] text-zinc-600 bg-zinc-50 border border-zinc-150 rounded-lg px-2 py-1 mt-1 block truncate max-w-full font-mono">
+                      💬 {comment}
+                    </div>
+                  ))}
                 </div>
               ))}
             </motion.div>

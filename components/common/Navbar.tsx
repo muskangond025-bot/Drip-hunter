@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Search, User, Heart, ShoppingBag, Menu, X, ArrowRight, Eye, EyeOff, ChevronDown, Mic, Camera } from "lucide-react";
+import { Search, User, Heart, ShoppingBag, Menu, X, ArrowRight, Eye, EyeOff, ChevronDown, Mic, Camera, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface CartItem {
@@ -98,6 +98,56 @@ export function Navbar({
   const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
   const [searchCategoryOpen, setSearchCategoryOpen] = useState(false);
   const [localSearchCategory, setLocalSearchCategory] = useState(searchCategory || "All");
+
+  // Voice & Visual Search simulation states
+  const [voiceSearchOpen, setVoiceSearchOpen] = useState(false);
+  const [voiceSearchStatus, setVoiceSearchStatus] = useState("Listening...");
+  const [voiceSearchTranscript, setVoiceSearchTranscript] = useState("");
+  
+  const [visualSearchOpen, setVisualSearchOpen] = useState(false);
+  const [visualSearchScanning, setVisualSearchScanning] = useState(false);
+  const [visualSearchImage, setVisualSearchImage] = useState<string | null>(null);
+
+  const startVoiceSearch = () => {
+    setVoiceSearchOpen(true);
+    setVoiceSearchStatus("Listening...");
+    setVoiceSearchTranscript("");
+    
+    // Simulate speech recognition
+    setTimeout(() => {
+      setVoiceSearchStatus("Transcribing...");
+      setVoiceSearchTranscript("Kanji Oversized Tee");
+    }, 1200);
+
+    // Complete speech recognition
+    setTimeout(() => {
+      setVoiceSearchStatus("Done!");
+      setLocalSearch("Kanji");
+      onSearchChange?.("Kanji");
+      setVoiceSearchOpen(false);
+      setSearchOverlayOpen(false);
+      if (typeof window !== "undefined") {
+        window.location.href = `/shop?search=${encodeURIComponent("Kanji")}`;
+      }
+    }, 2400);
+  };
+
+  const handleVisualFileSelect = (imgSrc: string, queryText: string) => {
+    setVisualSearchImage(imgSrc);
+    setVisualSearchScanning(true);
+    
+    // Simulate image scanning line animation
+    setTimeout(() => {
+      setVisualSearchScanning(false);
+      setVisualSearchOpen(false);
+      setSearchOverlayOpen(false);
+      setLocalSearch(queryText);
+      onSearchChange?.(queryText);
+      if (typeof window !== "undefined") {
+        window.location.href = `/shop?search=${encodeURIComponent(queryText)}&category=T-Shirts`;
+      }
+    }, 2000);
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -1113,14 +1163,18 @@ export function Navbar({
                   {/* Mic & Camera Action Icons */}
                   <div className="flex items-center gap-2 border-l border-zinc-300 pl-3 text-zinc-600 shrink-0">
                     <button
-                      onClick={() => alert("Voice Search active... Speak your query.")}
+                      onClick={() => startVoiceSearch()}
                       className="hover:text-black transition-colors cursor-pointer p-0.5 border-none bg-transparent"
                       title="Voice Search"
                     >
                       <Mic className="w-4 h-4 text-zinc-700 hover:text-black" />
                     </button>
                     <button
-                      onClick={() => alert("Visual Search active: Upload an image to find matching streetwear.")}
+                      onClick={() => {
+                        setVisualSearchOpen(true);
+                        setVisualSearchImage(null);
+                        setVisualSearchScanning(false);
+                      }}
                       className="hover:text-black transition-colors cursor-pointer p-0.5 border-none bg-transparent"
                       title="Search by Image"
                     >
@@ -1309,9 +1363,174 @@ export function Navbar({
                     ))}
                   </div>
                 </div>
-
               </div>
             </div>
+
+            {/* Voice Search Modal Overlay */}
+            <AnimatePresence>
+              {voiceSearchOpen && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
+                >
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.9, opacity: 0 }}
+                    className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 max-w-sm w-full text-center text-white space-y-6 shadow-2xl relative"
+                  >
+                    <button
+                      onClick={() => setVoiceSearchOpen(false)}
+                      className="absolute top-4 right-4 text-zinc-400 hover:text-white cursor-pointer bg-transparent border-none"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                    
+                    <div className="flex justify-center py-4">
+                      <div className="relative flex items-center justify-center">
+                        <div className="absolute inset-0 w-24 h-24 bg-red-500/20 rounded-full animate-ping" />
+                        <div className="absolute inset-0 w-20 h-20 bg-red-500/40 rounded-full animate-pulse" />
+                        <div className="relative w-16 h-16 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center shadow-lg">
+                          <Mic className="w-8 h-8 text-white" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-black uppercase tracking-widest font-mono text-yellow-400">
+                        {voiceSearchStatus}
+                      </h3>
+                      <p className="text-xs text-zinc-400 font-medium">
+                        {voiceSearchStatus === "Listening..." 
+                          ? "Try saying: 'Kanji Oversized Tee'"
+                          : "Processing audio signal..."
+                        }
+                      </p>
+                    </div>
+
+                    {voiceSearchTranscript && (
+                      <div className="bg-zinc-800/80 border border-zinc-700/50 rounded-2xl p-4 font-mono text-xs text-green-400 tracking-wider text-left min-h-[3.5rem] flex items-center gap-2">
+                        <span className="shrink-0 animate-pulse">●</span>
+                        <span className="text-zinc-200">"{voiceSearchTranscript}"</span>
+                      </div>
+                    )}
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Visual Search Modal Overlay */}
+            <AnimatePresence>
+              {visualSearchOpen && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
+                >
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.9, opacity: 0 }}
+                    className="bg-white border border-zinc-200 rounded-3xl p-6 sm:p-8 max-w-md w-full text-zinc-950 text-left space-y-6 shadow-2xl relative"
+                  >
+                    <style>{`
+                      @keyframes scan {
+                        0%, 100% { top: 0%; }
+                        50% { top: 100%; }
+                      }
+                    `}</style>
+                    <button
+                      onClick={() => setVisualSearchOpen(false)}
+                      className="absolute top-4 right-4 text-zinc-500 hover:text-black cursor-pointer bg-transparent border-none"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+
+                    <div className="space-y-1">
+                      <h3 className="text-lg font-black uppercase tracking-wider font-mono text-black">
+                        Visual Search
+                      </h3>
+                      <p className="text-xs text-zinc-500 font-medium">
+                        Search by uploading an image or selecting a sample style
+                      </p>
+                    </div>
+
+                    {visualSearchScanning ? (
+                      <div className="relative bg-zinc-900 rounded-2xl aspect-video flex flex-col items-center justify-center overflow-hidden border border-zinc-800">
+                        {visualSearchImage && (
+                          <img
+                            src={visualSearchImage}
+                            alt="Scanning Preview"
+                            className="absolute inset-0 w-full h-full object-cover opacity-60"
+                          />
+                        )}
+                        <div 
+                          className="absolute left-0 w-full h-1 bg-green-500 shadow-[0_0_10px_#22c55e]" 
+                          style={{ animation: "scan 2s infinite ease-in-out" }}
+                        />
+                        
+                        <div className="relative z-10 flex flex-col items-center gap-2 bg-black/40 px-4 py-2 rounded-xl backdrop-blur-xs">
+                          <Loader2 className="w-5 h-5 text-green-400 animate-spin" />
+                          <span className="text-xs text-green-400 font-bold uppercase tracking-wider font-mono">
+                            Analyzing Garment...
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <label className="border-2 border-dashed border-zinc-300 hover:border-zinc-500 rounded-2xl p-8 flex flex-col items-center justify-center gap-2 cursor-pointer bg-zinc-50 hover:bg-zinc-100/50 transition-colors">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onload = () => {
+                                  handleVisualFileSelect(reader.result as string, "Retro");
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                          />
+                          <Camera className="w-8 h-8 text-zinc-400" />
+                          <span className="text-xs font-bold text-zinc-700">Upload streetwear photo</span>
+                          <span className="text-[10px] text-zinc-400">PNG, JPG or WEBP up to 5MB</span>
+                        </label>
+
+                        <div className="space-y-2">
+                          <span className="text-[10px] font-black uppercase text-zinc-400 tracking-wider">
+                            Or test with a sample look:
+                          </span>
+                          <div className="grid grid-cols-3 gap-2">
+                            {[
+                              { label: "Retro", query: "Retro Graphic", img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=150&q=80" },
+                              { label: "Classic", query: "Kanji Oversized", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=150&q=80" },
+                              { label: "Cargo", query: "Cargo Utility", img: "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=150&q=80" }
+                            ].map((sample) => (
+                              <button
+                                key={sample.label}
+                                onClick={() => handleVisualFileSelect(sample.img, sample.query)}
+                                className="flex flex-col gap-1 items-center p-1.5 border border-zinc-200 hover:border-black rounded-xl hover:bg-zinc-50 transition-all cursor-pointer text-[10px] font-bold"
+                              >
+                                <div className="relative w-full aspect-square rounded-lg overflow-hidden bg-zinc-100">
+                                  <img src={sample.img} alt={sample.label} className="w-full h-full object-cover" />
+                                </div>
+                                <span>{sample.label}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>

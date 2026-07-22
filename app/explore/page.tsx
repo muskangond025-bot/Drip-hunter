@@ -408,6 +408,81 @@ export default function Explore() {
   const [activeSubTab, setActiveSubTab] = useState<"Blogs" | "Stories" | "DripSpot" | "DripVision">("Blogs");
   const [showLaundryBlogPage, setShowLaundryBlogPage] = useState<boolean>(true);
   const [activeStoryIndex, setActiveStoryIndex] = useState<number>(0);
+  const [hasRecommended, setHasRecommended] = useState<boolean>(false);
+  const [recommendCount, setRecommendCount] = useState<number>(120);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedBlogPost, setSelectedBlogPost] = useState<{
+    title: string;
+    company: string;
+    date: string;
+    imgMain: string;
+    imgDetail: string;
+    text1: string;
+    text2: string;
+    text3: string;
+  }>({
+    title: "Eco-Friendly Streetwear & Laundry Practices",
+    company: "Company",
+    date: "Date of Upload",
+    imgMain: "/images/laundry_orange.png",
+    imgDetail: "/images/laundry_blue.png",
+    text1: "Torem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    text2: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Streetwear culture has always been about pushing boundaries and finding your own voice. Each piece, from hoodies to sneakers, acts as a canvas of self-expression.",
+    text3: "Driphunter continues to catalog and showcase the very best archives of custom designs, helping creators and enthusiasts stay ahead of trends."
+  });
+
+  const handleBlogClick = (blog: any) => {
+    setSelectedBlogPost({
+      title: blog.title || "The Rise of Techwear in Urban Fashion",
+      company: blog.category || "Trends",
+      date: blog.date || "Date of Upload",
+      imgMain: blog.img || "/images/laundry_orange.png",
+      imgDetail: blog.img || "/images/laundry_blue.png",
+      text1: blog.text1 || blog.desc || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+      text2: blog.text2 || "Explore the hottest drops, stylings, and subcultures. Combining tech fabrics and utilities makes a strong statement in the city.",
+      text3: blog.text3 || "Keep following Driphunter to stay ahead of the fashion curves and get exclusive drops of customized premium outfits."
+    });
+    setShowLaundryBlogPage(true);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const getRecommendedBlogs = (page: number) => {
+    const seed = page % 2 === 0;
+    return [
+      { 
+        category: "Trends", 
+        date: `July ${18 + page}, 2026`, 
+        title: `Streetwear Revolution Vol. ${page}`, 
+        desc: "Explore the new patterns of heavy graphics, custom prints, and industrial metal buckles that are dominating the modern youth culture.", 
+        img: seed ? "/images/blog_ghost.png" : "/images/blog_sub_1.png",
+        text1: `The streetwear revolution (Volume ${page}) is hitting new peaks with bold graphic overlays and heavy industrial metal accents. Designers are shifting from standard utility wear to tech-oriented retro-futurism.`,
+        text2: "With the rise of neo-goth and cyber themes, oversized hoodies are now styled with metallic chokers, hardware straps, and drop-crotch cargo joggers to create high-contrast silhouettes.",
+        text3: "Whether you are hitting local skate parks or heading to an elite streetwear showcase, this collection offers the ultimate blend of custom aesthetics and daily functional comfort."
+      },
+      { 
+        category: "How To", 
+        date: `June ${10 + page}, 2026`, 
+        title: `Sizing Guide for Oversized Tops`, 
+        desc: "Tips on styling dropped shoulder sweatshirts, baggy utility hoods, and choosing regular fit vs boxy profiles correctly.", 
+        img: seed ? "/images/blog_boombox.png" : "/images/blog_sub_2.png",
+        text1: "Oversized fit doesn't mean buying clothing that is simply too large. It is a carefully engineered design about key shoulder proportions, dropped seams, and shorter body lengths.",
+        text2: "We recommend pairing boxy utility hoodies with slim-fit tech joggers or relaxed straight-leg cargo pants to balance out the width and create a clean streetwear posture.",
+        text3: "Always check the specific shoulder-to-shoulder measurements and choose your standard size for the intended designer profile, or size down if you prefer a standard regular fit."
+      },
+      { 
+        category: "Celebs", 
+        date: `May ${25 + page}, 2026`, 
+        title: `Spotted: Skate Icons at Tokyo Showcase`, 
+        desc: "Behind the scenes of the legendary capsule collections, cargo designs, and custom sneaker accessories at the Tokyo event.", 
+        img: seed ? "/images/blog_skater.png" : "/images/blog_sub_3.png",
+        text1: "Tokyo's underground fashion scene is welcoming the world's most influential skate legends for an exclusive pop-up gallery of custom sneakers and apparel.",
+        text2: "Expect a massive drop of hand-distressed canvas sneaker models, limited edition graphic tees, and multi-functional tactical vests with built-in accessories.",
+        text3: "Local Japanese street style crews are leading the movement by combining neon cyber accessories with modular stealth black techwear gears."
+      }
+    ];
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -769,18 +844,20 @@ export default function Explore() {
                 <div className="space-y-10 animate-in fade-in duration-300 select-none text-left">
                   {/* Blog Header Title */}
                   <div className="text-center space-y-2">
-                    <h3 className="text-2xl font-black uppercase text-zinc-955">Title</h3>
+                    <h3 className="text-2xl font-black uppercase text-zinc-955">
+                      {selectedBlogPost.title}
+                    </h3>
                     <div className="text-xs text-zinc-400 font-bold uppercase tracking-wider font-mono">
-                      <span>Company</span>
+                      <span>{selectedBlogPost.company}</span>
                       <span>&bull;</span>
-                      <span>Date of Upload</span>
+                      <span>{selectedBlogPost.date}</span>
                     </div>
                   </div>
 
                   {/* Main Landscape Image */}
                   <div className="relative w-full aspect-[21/9] rounded-[32px] overflow-hidden border border-zinc-200 shadow-sm">
                     <Image
-                      src="/images/laundry_orange.png"
+                      src={selectedBlogPost.imgMain}
                       alt="Featured Post Banner"
                       fill
                       className="object-cover"
@@ -792,13 +869,13 @@ export default function Explore() {
                     {/* Left Column: Text (takes 2 cols) */}
                     <div className="lg:col-span-2 space-y-6 font-medium text-zinc-650 leading-relaxed text-sm">
                       <p className="first-letter:text-5xl first-letter:font-black first-letter:text-[#f05a28] first-letter:float-left first-letter:mr-3 first-letter:leading-none">
-                        Torem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        {selectedBlogPost.text1}
                       </p>
                       <p>
-                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Streetwear culture has always been about pushing boundaries and finding your own voice. Each piece, from hoodies to sneakers, acts as a canvas of self-expression.
+                        {selectedBlogPost.text2}
                       </p>
                       <p>
-                        Driphunter continues to catalog and showcase the very best archives of custom designs, helping creators and enthusiasts stay ahead of trends.
+                        {selectedBlogPost.text3}
                       </p>
                     </div>
 
@@ -806,14 +883,14 @@ export default function Explore() {
                     <div className="space-y-6 bg-zinc-50 p-6 rounded-[28px] border border-zinc-200/80 shadow-xs">
                       <div className="relative aspect-[4/3] rounded-[20px] overflow-hidden border border-zinc-150">
                         <Image
-                          src="/images/laundry_blue.png"
+                          src={selectedBlogPost.imgDetail}
                           alt="Detailed View"
                           fill
                           className="object-cover"
                         />
                       </div>
-                      <p className="text-zinc-500 text-[11px] font-mono uppercase tracking-tight text-center">
-                        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                      <p className="text-zinc-500 text-[11px] font-mono uppercase tracking-tight text-center truncate">
+                        {selectedBlogPost.title}
                       </p>
 
                       <div className="border-t border-zinc-200/80 pt-4 flex items-center justify-between">
@@ -823,13 +900,29 @@ export default function Explore() {
                           <span>Date of Upload</span>
                         </div>
                         <div className="flex items-center gap-1 text-zinc-800">
-                          <Heart className="w-4 h-4 text-red-500 fill-red-500" />
-                          <span className="text-[10px] font-bold">120</span>
+                          <Heart className={`w-4 h-4 transition-all duration-300 ${hasRecommended ? "text-red-500 fill-red-500 scale-110" : "text-zinc-400"}`} />
+                          <span className="text-[10px] font-bold transition-all">{recommendCount}</span>
                         </div>
                       </div>
 
-                      <button className="w-full bg-[#f05a28] hover:bg-orange-600 text-white font-black text-xs uppercase tracking-widest py-3 px-6 rounded-full transition-colors cursor-pointer border-none shadow-xs">
-                        Recommend
+                      <button 
+                        onClick={() => {
+                          if (hasRecommended) {
+                            setRecommendCount(prev => prev - 1);
+                            setHasRecommended(false);
+                          } else {
+                            setRecommendCount(prev => prev + 1);
+                            setHasRecommended(true);
+                            alert("Thank you for recommending this blog post!");
+                          }
+                        }}
+                        className={`w-full font-black text-xs uppercase tracking-widest py-3 px-6 rounded-full transition-all cursor-pointer border-none shadow-xs active:scale-98 ${
+                          hasRecommended 
+                            ? "bg-zinc-800 hover:bg-zinc-950 text-white" 
+                            : "bg-[#f05a28] hover:bg-orange-600 text-white"
+                        }`}
+                      >
+                        {hasRecommended ? "Recommended ✓" : "Recommend"}
                       </button>
                     </div>
                   </div>
@@ -861,15 +954,11 @@ export default function Explore() {
 
                     {/* 3 cards grid */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-12 select-none">
-                      {[
-                        { category: "Trends", date: "Date of Upload", title: "Title", desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", img: "/images/blog_sub_1.png" },
-                        { category: "How To", date: "Date of Upload", title: "Title", desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", img: "/images/blog_sub_2.png" },
-                        { category: "Celebs", date: "Date of Upload", title: "Title", desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", img: "/images/blog_sub_3.png" }
-                      ].map((card, idx) => (
+                      {getRecommendedBlogs(currentPage).map((card, idx) => (
                         <div key={idx} className="space-y-4">
                           <div
                             className="relative aspect-[4/3] rounded-[24px] overflow-hidden border border-zinc-150 shadow-xs group cursor-pointer"
-                            onClick={() => setShowLaundryBlogPage(true)}
+                            onClick={() => handleBlogClick(card)}
                           >
                             <Image src={card.img} alt={card.title} fill className="object-cover group-hover:scale-103 transition-transform" />
                           </div>
@@ -881,13 +970,13 @@ export default function Explore() {
                             </div>
                             <h4
                               className="text-xl font-black text-zinc-955 uppercase tracking-tight cursor-pointer hover:text-orange-500"
-                              onClick={() => setShowLaundryBlogPage(true)}
+                              onClick={() => handleBlogClick(card)}
                             >
                               {card.title}
                             </h4>
                             <p className="text-zinc-500 text-xs leading-relaxed font-medium">{card.desc}</p>
                             <button
-                              onClick={() => setShowLaundryBlogPage(true)}
+                              onClick={() => handleBlogClick(card)}
                               className="flex items-center gap-1 text-[10px] font-black text-zinc-800 hover:text-orange-500 uppercase tracking-widest border-none bg-transparent cursor-pointer font-sans"
                             >
                               <span>Read more</span>
@@ -1145,18 +1234,29 @@ export default function Explore() {
 
               {/* Pagination */}
               <div className="flex justify-center items-center gap-1.5 pt-8 border-t border-zinc-100">
-                <button className="w-8 h-8 rounded-full bg-zinc-50 hover:bg-zinc-100 border-none cursor-pointer flex items-center justify-center transition-colors">
+                <button 
+                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                  className="w-8 h-8 rounded-full bg-zinc-50 hover:bg-zinc-100 border-none cursor-pointer flex items-center justify-center transition-colors"
+                >
                   <ChevronLeft className="w-3.5 h-3.5 text-zinc-600" />
                 </button>
-                <button className="w-8 h-8 rounded-full bg-orange-500 text-white font-black text-xs border-none cursor-pointer flex items-center justify-center shadow-xs">
-                  1
-                </button>
-                {[2, 3, 4, 5].map((page) => (
-                  <button key={page} className="w-8 h-8 rounded-full bg-transparent hover:bg-zinc-50 text-zinc-600 font-black text-xs border-none cursor-pointer flex items-center justify-center transition-colors">
+                {[1, 2, 3, 4, 5].map((page) => (
+                  <button 
+                    key={page} 
+                    onClick={() => setCurrentPage(page)}
+                    className={`w-8 h-8 rounded-full font-black text-xs border-none cursor-pointer flex items-center justify-center transition-colors ${
+                      currentPage === page
+                        ? "bg-orange-500 text-white shadow-xs"
+                        : "bg-transparent hover:bg-zinc-50 text-zinc-650"
+                    }`}
+                  >
                     {page}
                   </button>
                 ))}
-                <button className="w-8 h-8 rounded-full bg-zinc-50 hover:bg-zinc-100 border-none cursor-pointer flex items-center justify-center transition-colors">
+                <button 
+                  onClick={() => setCurrentPage((prev) => Math.min(5, prev + 1))}
+                  className="w-8 h-8 rounded-full bg-zinc-50 hover:bg-zinc-100 border-none cursor-pointer flex items-center justify-center transition-colors"
+                >
                   <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
                 </button>
               </div>

@@ -559,6 +559,81 @@ export default function CompleteYourDrip() {
     .reduce((sum, item) => sum + (item?.price || 0), 0);
 
   const handleAddToCart = () => {
+    const itemsToAdd: any[] = [];
+    if (equippedItems.tshirt) {
+      itemsToAdd.push({
+        id: 8881,
+        brand: "URBAN MONKEY",
+        name: equippedItems.tshirt.name,
+        price: `₹${equippedItems.tshirt.price.toLocaleString("en-IN")}`,
+        image: equippedItems.tshirt.image,
+      });
+    }
+    if (equippedItems.jacket) {
+      itemsToAdd.push({
+        id: 8882,
+        brand: "URBAN MONKEY",
+        name: equippedItems.jacket.name,
+        price: `₹${equippedItems.jacket.price.toLocaleString("en-IN")}`,
+        image: equippedItems.jacket.image,
+      });
+    }
+    if (equippedItems.headwear) {
+      itemsToAdd.push({
+        id: 8883,
+        brand: "URBAN MONKEY",
+        name: equippedItems.headwear.name,
+        price: `₹${equippedItems.headwear.price.toLocaleString("en-IN")}`,
+        image: equippedItems.headwear.image,
+      });
+    }
+    if (equippedItems.shoes) {
+      itemsToAdd.push({
+        id: 8884,
+        brand: "PUMA",
+        name: equippedItems.shoes.name,
+        price: `₹${equippedItems.shoes.price.toLocaleString("en-IN")}`,
+        image: equippedItems.shoes.image,
+      });
+    }
+
+    if (itemsToAdd.length === 0) {
+      alert("No items are currently equipped on the statue!");
+      return;
+    }
+
+    if (typeof window !== "undefined") {
+      const savedCart = localStorage.getItem("drip-cart");
+      let currentCart: any[] = [];
+      if (savedCart) {
+        try {
+          currentCart = JSON.parse(savedCart);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      itemsToAdd.forEach((newItem) => {
+        const itemKey = `${newItem.id}-M`;
+        const existingIdx = currentCart.findIndex((item) => `${item.id}-${(item as any).size}` === itemKey);
+        if (existingIdx > -1) {
+          currentCart[existingIdx] = {
+            ...currentCart[existingIdx],
+            quantity: currentCart[existingIdx].quantity + 1,
+          };
+        } else {
+          currentCart.push({
+            ...newItem,
+            quantity: 1,
+            size: "M"
+          });
+        }
+      });
+
+      localStorage.setItem("drip-cart", JSON.stringify(currentCart));
+      window.dispatchEvent(new Event("storage"));
+    }
+
     setAddedToCartToast(true);
     setTimeout(() => setAddedToCartToast(false), 3000);
   };

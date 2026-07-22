@@ -198,16 +198,20 @@ export default function Home() {
         {/* Category Filter Tabs */}
         <CategoryTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {/* Hero Slider & Banner */}
         <HeroSection 
           onShopTheLook={(categoryName) => {
-            setSelectedSubCategory(categoryName);
+            if (categoryName === "Graphic Tees") {
+              window.location.href = `/shop?category=Top%20Wear&search=Tee`;
+            } else if (categoryName === "Tactical Vests") {
+              window.location.href = `/shop?category=Outerwear&search=Vest`;
+            } else if (categoryName === "Utility Caps") {
+              window.location.href = `/shop?category=Caps&search=Cap`;
+            } else {
+              window.location.href = `/shop`;
+            }
           }}
           onExploreCollections={() => {
-            const element = document.getElementById("tshirt-grid");
-            if (element) {
-              element.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
+            window.location.href = `/explore`;
           }}
         />
 
@@ -241,13 +245,21 @@ export default function Home() {
         />
 
         {/* Urban Essentials & Streetwear Showcase (From Reference Images) */}
-        <SupervekShowcase onAddToCart={handleAddToCart} />
+        <SupervekShowcase 
+          onAddToCart={handleAddToCart} 
+          favorites={wishlist.map((item) => item.id)}
+          onToggleFavorite={handleToggleFavorite}
+        />
 
         {/* Urban Promo Banners Grid */}
         <UrbanPromoGrid />
 
         {/* Urban Trending Products Section */}
-        <UrbanTrendingSection onAddToCart={handleAddToCart} />
+        <UrbanTrendingSection 
+          onAddToCart={handleAddToCart} 
+          favorites={wishlist.map((item) => item.id)}
+          onToggleFavorite={handleToggleFavorite}
+        />
 
         {/* Squarespace Style Templates Showcase */}
         <TemplatesShowcase />

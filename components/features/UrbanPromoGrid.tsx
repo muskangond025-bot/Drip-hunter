@@ -20,6 +20,7 @@ const PROMO_ITEMS: PromoCardProps[] = [
     badge: "NEW ARRIVALS",
     tagline: "ESSENTIAL ACCESSORIES",
     image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&q=80&w=800",
+    linkHref: "/shop?search=Bag",
   },
   {
     title: "OVERSIZED HEAVYWEIGHT TEES",
@@ -27,6 +28,7 @@ const PROMO_ITEMS: PromoCardProps[] = [
     badge: "BESTSELLER",
     tagline: "STREETWEAR CORE",
     image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&q=80&w=800",
+    linkHref: "/shop?category=Top%20Wear&search=Oversized",
   },
   {
     title: "SIGNATURE HEADWEAR & CAPS",
@@ -34,6 +36,7 @@ const PROMO_ITEMS: PromoCardProps[] = [
     badge: "LIMITED EDITION",
     tagline: "URBAN ICONIC",
     image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=800",
+    linkHref: "/shop?category=Caps",
   },
 ];
 
@@ -53,9 +56,10 @@ export function UrbanPromoGrid() {
         {/* 3 Column Promo Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PROMO_ITEMS.map((item, idx) => (
-            <div
+            <a
               key={idx}
-              className="group relative bg-zinc-950 border border-zinc-800 hover:border-zinc-500 transition-all duration-300 overflow-hidden flex flex-col justify-between h-96 p-6 cursor-pointer"
+              href={item.linkHref || "/shop"}
+              className="group relative bg-zinc-950 border border-zinc-800 hover:border-zinc-500 transition-all duration-300 overflow-hidden flex flex-col justify-between h-96 p-6 cursor-pointer no-underline text-white block"
             >
               {/* Background Image with Overlay */}
               <div className="absolute inset-0 z-0 opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-500">
@@ -101,7 +105,7 @@ export function UrbanPromoGrid() {
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>
