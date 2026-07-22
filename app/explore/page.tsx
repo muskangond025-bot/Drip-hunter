@@ -408,6 +408,7 @@ export default function Explore() {
   const [activeSubTab, setActiveSubTab] = useState<"Blogs" | "Stories" | "DripSpot" | "DripVision">("Blogs");
   const [showLaundryBlogPage, setShowLaundryBlogPage] = useState<boolean>(true);
   const [activeStoryIndex, setActiveStoryIndex] = useState<number>(0);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const [hasRecommended, setHasRecommended] = useState<boolean>(false);
   const [recommendCount, setRecommendCount] = useState<number>(120);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -421,7 +422,7 @@ export default function Explore() {
     text2: string;
     text3: string;
   }>({
-    title: "Eco-Friendly Streetwear & Laundry Practices",
+    title: "Title",
     company: "Company",
     date: "Date of Upload",
     imgMain: "/images/laundry_orange.png",
@@ -485,6 +486,7 @@ export default function Explore() {
   };
 
   useEffect(() => {
+    setIsMounted(true);
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const tab = params.get("tab");

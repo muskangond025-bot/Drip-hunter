@@ -13,9 +13,9 @@ export function BrandHeroShowcase() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const heroBanners = [
-    "/images/bestseller_top_banner.png",
+    "/images/brand_hero_new.jpg",
     "/images/collab_header.png",
-    "/images/bestseller_top_banner.png",
+    "/images/brand_hero_new.jpg",
   ];
 
   const heroCarousel = useCarousel({
@@ -68,14 +68,13 @@ export function BrandHeroShowcase() {
         onMouseEnter={() => heroCarousel.setIsHovered(true)}
         onMouseLeave={() => heroCarousel.setIsHovered(false)}
       >
-        <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-zinc-200 shadow-lg bg-zinc-900">
+        <div className="relative w-full aspect-[16/7] sm:aspect-[21/9] rounded-2xl sm:rounded-3xl overflow-hidden border border-zinc-200 shadow-lg bg-zinc-900">
           <Image
             src={heroBanners[heroCarousel.currentIndex]}
             alt="Streetwear Banner"
-            width={1200}
-            height={720}
+            fill
             priority
-            className="w-full h-auto object-contain block transition-opacity duration-500"
+            className="object-cover transition-opacity duration-500"
           />
 
           {/* Previous Arrow */}
