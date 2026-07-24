@@ -1,33 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "@/components/common/Navbar";
 import { CategorySelector } from "@/components/catalog/CategorySelector";
-import { CategoryTabs } from "@/components/catalog/CategoryTabs";
 import { HeroSection } from "@/components/features/HeroSection";
-import { TShirtGridSection } from "@/components/catalog/TShirtGridSection";
-import { FootwearShowcase } from "@/components/catalog/FootwearShowcase";
 import { NewArrivals } from "@/components/catalog/NewArrivals";
 import { TemplatesShowcase } from "@/components/features/TemplatesShowcase";
 import { BrandCollabTeasers } from "@/components/features/BrandCollabTeasers";
-import { BrandShowcase } from "@/components/catalog/BrandShowcase";
-import { FeaturedLookbook } from "@/components/features/FeaturedLookbook";
 import { RecentlyViewed } from "@/components/catalog/RecentlyViewed";
-import { MediaCollage } from "@/components/features/MediaCollage";
 import { LiveEvents } from "@/components/features/LiveEvents";
-import { TikTokReels } from "@/components/features/TikTokReels";
-import { NoticeBoard } from "@/components/common/NoticeBoard";
-import { RetroTechBanner } from "@/components/common/RetroTechBanner";
-import { SupervekShowcase } from "@/components/features/SupervekShowcase";
-import { UrbanPromoGrid } from "@/components/features/UrbanPromoGrid";
-import { UrbanTrendingSection } from "@/components/catalog/UrbanTrendingSection";
-import { UrbanBlogSection } from "@/components/features/UrbanBlogSection";
-import { UrbanStreetStyleCreators } from "@/components/features/UrbanStreetStyleCreators";
-import { UrbanSystemsHeroShowcase } from "@/components/features/UrbanSystemsHeroShowcase";
-import { SpotlightBuyNow } from "@/components/features/SpotlightBuyNow";
 import { Footer } from "@/components/common/Footer";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface CartItem {
   id: number;
@@ -62,6 +44,8 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchCategory, setSearchCategory] = useState("All");
   const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
+
+
 
   // 1. Initial mount effect: scroll to top, set scrollRestoration manual, and load local storage
   useEffect(() => {
@@ -160,46 +144,24 @@ export default function Home() {
       />
 
       <main className="flex-grow">
-        {/* Sub-Navbar (Categories Row) */}
-        <div className="border-y border-zinc-200 bg-zinc-50/90 sticky top-20 z-30 select-none">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center gap-6 text-xs font-bold font-mono overflow-x-auto no-scrollbar">
-            <span className="text-zinc-400 uppercase tracking-widest font-black shrink-0">SHOP &gt;</span>
-            {[
-              { label: "OG", href: "/shop" },
-              { label: "Bags", href: "/shop?category=Bags" },
-              { label: "Headwear", href: "/shop?category=Headwear" },
-              { label: "Clothing", href: "/shop?category=Clothing" },
-              { label: "Wallets", href: "/shop?category=Wallets" },
-              { label: "Accessories", href: "/shop?category=Accessories" },
-              { label: "Blog", href: "/blog" },
-              { label: "SALE ⚡", href: "/shop?sale=true" },
-            ].map((nav) => (
-              <a
-                key={nav.label}
-                href={nav.href}
-                className={`uppercase tracking-wider cursor-pointer transition-colors shrink-0 text-[#15803d] hover:text-[#0b4d26] ${
-                  nav.label.includes("SALE") ? "text-amber-600 font-extrabold" : ""
-                }`}
-              >
-                {nav.label}
-              </a>
-            ))}
+        {/* Secondary Sub-Navbar (Home, About Us, Explore) */}
+        <div className="border-b border-zinc-200 bg-white select-none">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-center gap-8 text-xs font-bold font-mono tracking-widest uppercase">
+            <a href="/" className="hover:text-orange-500 transition-colors text-zinc-700 font-extrabold">
+              Home
+            </a>
+            <span className="text-zinc-300 select-none">•</span>
+            <a href="/about" className="hover:text-orange-500 transition-colors text-zinc-700 font-extrabold">
+              About Us
+            </a>
+            <span className="text-zinc-300 select-none">•</span>
+            <a href="/explore" className="hover:text-orange-500 transition-colors text-zinc-700 font-extrabold">
+              Explore
+            </a>
           </div>
         </div>
 
-        {/* Horizontal Category Slider */}
-        <CategorySelector 
-          selectedSubCategory={selectedSubCategory}
-          onSelectSubCategory={(categoryName) => {
-            if (categoryName) {
-              window.location.href = `/shop?category=${encodeURIComponent(categoryName)}`;
-            }
-          }}
-        />
-
-        {/* Category Filter Tabs */}
-        <CategoryTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
+        {/* Hero Sneaker 3D Canvas Showcase */}
         <HeroSection 
           onShopTheLook={(categoryName) => {
             if (categoryName === "Graphic Tees") {
@@ -217,29 +179,14 @@ export default function Home() {
           }}
         />
 
-        {/* Urban Systems Hero Showcase (From Reference Screenshot) */}
-        <UrbanSystemsHeroShowcase 
-          onShopCollection={() => {
-            const element = document.getElementById("tshirt-grid");
-            if (element) {
-              element.scrollIntoView({ behavior: "smooth", block: "start" });
+        {/* Horizontal Category Slider (Moved below Hero Banner) */}
+        <CategorySelector 
+          selectedSubCategory={selectedSubCategory}
+          onSelectSubCategory={(categoryName) => {
+            if (categoryName) {
+              window.location.href = `/shop?category=${encodeURIComponent(categoryName)}`;
             }
           }}
-        />
-
-        {/* Dynamic T-Shirt Grid Section from Figma */}
-        <TShirtGridSection 
-          onAddToCart={handleAddToCart}
-          selectedSubCategory={selectedSubCategory}
-          onClearSubCategory={() => setSelectedSubCategory(null)}
-          searchQuery={searchQuery}
-        />
-
-        {/* Dorian Horvat Inspired Footwear Showcase with Flying Cart Animations */}
-        <FootwearShowcase 
-          onAddToCart={handleAddToCart} 
-          favorites={wishlist.map((item) => item.id)}
-          onToggleFavorite={handleToggleFavorite}
         />
 
         {/* New Arrivals Product Showcase */}
@@ -253,44 +200,12 @@ export default function Home() {
           selectedSubCategory={selectedSubCategory}
         />
 
-        {/* Urban Essentials & Streetwear Showcase (From Reference Images) */}
-        <SupervekShowcase 
-          onAddToCart={handleAddToCart} 
-          favorites={wishlist.map((item) => item.id)}
-          onToggleFavorite={handleToggleFavorite}
-        />
 
-        {/* Urban Promo Banners Grid */}
-        <UrbanPromoGrid />
-
-        {/* Urban Trending Products Section */}
-        <UrbanTrendingSection 
-          onAddToCart={handleAddToCart} 
-          favorites={wishlist.map((item) => item.id)}
-          onToggleFavorite={handleToggleFavorite}
-        />
-
-        {/* Spotlight Buy It Now Featured Showcase */}
-        <SpotlightBuyNow onAddToCart={handleAddToCart} />
-
-        {/* Squarespace Style Templates Showcase */}
+        {/* Deal of the Day/Week Section */}
         <TemplatesShowcase />
 
-        {/* Brand Collabs & Teasers Grid */}
+        {/* Brand Collabs & Teasers Grid (renders Product Lines carousel & Brand Teasers grid) */}
         <BrandCollabTeasers onAddToCart={handleAddToCart} />
-
-        {/* Custom lookbook street vibes */}
-        <FeaturedLookbook 
-          onSelectCategory={(categoryName) => {
-            setSelectedSubCategory(categoryName);
-          }}
-        />
-
-        {/* Urban Streetwear Blog Section */}
-        <UrbanBlogSection />
-
-        {/* Urban Redefining Street Style Creators Section */}
-        <UrbanStreetStyleCreators onAddToCart={handleAddToCart} />
 
         {/* User history recently viewed */}
         <RecentlyViewed
@@ -299,20 +214,8 @@ export default function Home() {
           onToggleFavorite={handleToggleFavorite}
         />
 
-        {/* Facebook ads collage showcase */}
-        <MediaCollage />
-
         {/* Live Events Section */}
         <LiveEvents />
-
-        {/* TikTok / Reels scrolling video list */}
-        <TikTokReels />
-
-        {/* Corkboard sticky notice board */}
-        <NoticeBoard />
-
-        {/* Cyber retro TV and social highlights */}
-        <RetroTechBanner />
       </main>
 
       {/* Brand Footer */}

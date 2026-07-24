@@ -439,12 +439,11 @@ export function HeroSection({ onShopTheLook, onExploreCollections }: HeroSection
 
     const updateEnvironment = (env: "cyber" | "forest" | "desert") => {
       if (textures[env]) {
-        scene.background = textures[env];
         scene.environment = textures[env];
       } else {
-        scene.background = new THREE.Color(env === "cyber" ? 0x0a0a0c : env === "forest" ? 0x050a07 : 0x0f0601);
         scene.environment = null;
       }
+      scene.background = null;
 
       if (env === "cyber") {
         spotLight1.color.setHex(0x06b6d4);
@@ -532,9 +531,9 @@ export function HeroSection({ onShopTheLook, onExploreCollections }: HeroSection
     <section 
       className={cn(
         "relative w-full min-h-[90vh] flex items-center overflow-hidden transition-all duration-1000",
-        activeEnv === "cyber" && "bg-[#050507]",
-        activeEnv === "forest" && "bg-[#020503]",
-        activeEnv === "desert" && "bg-[#0c0501]"
+        activeEnv === "cyber" && "bg-gradient-to-b from-zinc-50 to-[#050507]",
+        activeEnv === "forest" && "bg-gradient-to-b from-zinc-50 to-[#020503]",
+        activeEnv === "desert" && "bg-gradient-to-b from-zinc-50 to-[#0c0501]"
       )}
     >
       {/* 1. Full-bleed background WebGL canvas */}
@@ -637,26 +636,6 @@ export function HeroSection({ onShopTheLook, onExploreCollections }: HeroSection
       {/* Floating help hint overlays in screen bottom right */}
       <div className="absolute bottom-16 right-4 text-[9px] font-mono uppercase tracking-widest text-zinc-500 bg-zinc-950/70 backdrop-blur-md px-3.5 py-2 rounded-lg border border-zinc-800/50 pointer-events-none select-none z-10">
         Drag anywhere to Rotate
-      </div>
-
-      {/* Reset control */}
-      <div className="absolute bottom-14 right-44 z-20">
-        <button
-          onClick={() => resetTrigger.current && resetTrigger.current()}
-          className="w-10 h-10 rounded-xl bg-zinc-950/80 border border-zinc-800 text-zinc-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
-          title="Reset View"
-        >
-          <RotateCcw className="w-4 h-4" />
-        </button>
-      </div>
-
-      {/* Footer announcement marquee */}
-      <div className="absolute bottom-0 left-0 w-full bg-yellow-400 py-3 text-black text-xs font-mono font-black overflow-hidden z-10 border-t border-b border-black">
-        <div className="animate-marquee whitespace-nowrap flex gap-8 text-black">
-          {Array(10).fill("DRIP HUNTER STREET STYLE • ARCHIVE 2026 • PREMIUM COUTURE • NO RULES APPLIED •").map((text, idx) => (
-            <span key={idx} className="tracking-widest uppercase">{text}</span>
-          ))}
-        </div>
       </div>
     </section>
   );

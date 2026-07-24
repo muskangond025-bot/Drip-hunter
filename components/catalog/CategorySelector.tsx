@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 
 interface SubCategory {
@@ -16,36 +16,27 @@ interface Category {
 
 const categoriesData: Category[] = [
   {
-    id: "topwear",
-    name: "Top Wear",
+    id: "skate-shop",
+    name: "Skate Shop",
     subCategories: [
-      { name: "Graphic Tees", image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=150&q=80" },
-      { name: "Heavy Hoodies", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=150&q=80" },
-      { name: "Flannel Shirts", image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=150&q=80" },
-      { name: "Tactical Vests", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=150&q=80" },
-      { name: "Sweaters", image: "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?auto=format&fit=crop&w=150&q=80" },
-    ],
-  },
-  {
-    id: "bottomwear",
-    name: "Bottom Wear",
-    subCategories: [
-      { name: "Tactical Cargo", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=150&q=80" },
-      { name: "Loose Shorts", image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=150&q=80" },
-      { name: "Relaxed Denim", image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=150&q=80" },
-      { name: "Tech Sweatpants", image: "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=150&q=80" },
-      { name: "Track Joggers", image: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&w=150&q=80" },
-    ],
-  },
-  {
-    id: "accessories",
-    name: "Accessories",
-    subCategories: [
-      { name: "Utility Caps", image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=150&q=80" },
-      { name: "Knit Beanies", image: "https://images.unsplash.com/photo-1576871337622-98d48d4aa53e?auto=format&fit=crop&w=150&q=80" },
-      { name: "Street Shades", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=150&q=80" },
-      { name: "Chest Bags", image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=150&q=80" },
-      { name: "Socks", image: "https://images.unsplash.com/photo-1582966772680-860e372bb558?auto=format&fit=crop&w=150&q=80" },
+      { name: "Accessories", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=150&q=80" },
+      { name: "Apparel", image: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=150&q=80" },
+      { name: "Bearings", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=150&q=80" },
+      { name: "Cruisers", image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Eyewear", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=150&q=80" },
+      { name: "Face Mask", image: "https://images.unsplash.com/photo-1582966772680-860e372bb558?auto=format&fit=crop&w=150&q=80" },
+      { name: "Grip Tape", image: "https://images.unsplash.com/photo-1547447134-cd3f5c71752e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Handbags, Wallets & Cases", image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=150&q=80" },
+      { name: "Headwear", image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=150&q=80" },
+      { name: "Keychains", image: "https://images.unsplash.com/photo-1576871337622-98d48d4aa53e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Misc. Hardgood Items", image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Skateboard", image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Skateboard Complete", image: "https://images.unsplash.com/photo-1547447134-cd3f5c71752e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Skateboard Deck", image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Skateboard Decks", image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Truck Accessories", image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Trucks", image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=150&q=80" },
+      { name: "Wheels", image: "https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=150&q=80" },
     ],
   },
 ];
@@ -58,17 +49,150 @@ interface CategorySelectorProps {
 export function CategorySelector({ selectedSubCategory, onSelectSubCategory }: CategorySelectorProps) {
   const allSubCategories = categoriesData.flatMap((cat) => cat.subCategories);
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isHovered = useRef(false);
+  const isMouseDown = useRef(false);
+  const startX = useRef(0);
+  const scrollLeftStart = useRef(0);
+  const isDragging = useRef(false);
+  const dragMoved = useRef(false);
+  const scrollPos = useRef(0);
+
+  // Auto-scroll loop effect
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    let animationFrameId: number;
+    let lastTime = performance.now();
+    const speed = 0.035; // px per millisecond (approx 35px per second)
+
+    // Wait a brief tick for layout to fully render and have width, then initialize middle position
+    const initTimer = setTimeout(() => {
+      const halfWidth = container.scrollWidth / 2;
+      container.scrollLeft = halfWidth;
+      scrollPos.current = halfWidth;
+    }, 150);
+
+    const animate = (time: number) => {
+      const delta = time - lastTime;
+      lastTime = time;
+
+      if (container) {
+        if (!isHovered.current && !isMouseDown.current && !isDragging.current) {
+          // If container's scrollLeft was modified outside our loop (e.g. native scroll/swipe),
+          // sync scrollPos to it first to avoid jumps
+          if (Math.abs(scrollPos.current - container.scrollLeft) > 5) {
+            scrollPos.current = container.scrollLeft;
+          }
+
+          scrollPos.current += speed * delta;
+
+          const halfWidth = container.scrollWidth / 2;
+          if (scrollPos.current >= 1.5 * halfWidth) {
+            scrollPos.current -= halfWidth;
+          }
+
+          container.scrollLeft = Math.round(scrollPos.current);
+        } else {
+          // Sync scrollPos during manual hover, scroll, drag
+          scrollPos.current = container.scrollLeft;
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => {
+      clearTimeout(initTimer);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  // Desktop Drag-to-Scroll handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    isMouseDown.current = true;
+    isDragging.current = true;
+    dragMoved.current = false;
+    startX.current = e.pageX - container.offsetLeft;
+    scrollLeftStart.current = container.scrollLeft;
+    container.style.scrollBehavior = "auto";
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isMouseDown.current) return;
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    e.preventDefault();
+    const x = e.pageX - container.offsetLeft;
+    const walk = (x - startX.current) * 1.5;
+    if (Math.abs(walk) > 4) {
+      dragMoved.current = true;
+    }
+    container.scrollLeft = scrollLeftStart.current - walk;
+    scrollPos.current = container.scrollLeft;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    isMouseDown.current = false;
+    isDragging.current = false;
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.style.scrollBehavior = "auto";
+    }
+  };
+
+  const handleScroll = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const halfWidth = container.scrollWidth / 2;
+    
+    // Wrap scroll position between [0.5 * halfWidth, 1.5 * halfWidth] to keep it looping seamlessly
+    if (container.scrollLeft >= 1.5 * halfWidth) {
+      container.scrollLeft -= halfWidth;
+    } else if (container.scrollLeft <= 0.5 * halfWidth) {
+      container.scrollLeft += halfWidth;
+    }
+    scrollPos.current = container.scrollLeft;
+  };
+
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 select-none">
-      <div className="bg-zinc-50 border border-zinc-200 rounded-3xl p-6 shadow-sm overflow-hidden">
+    <section className="w-full bg-zinc-50 border-y border-zinc-200 py-6 select-none overflow-hidden relative">
+      <div 
+        className="w-full px-4 sm:px-6 lg:px-8"
+        onMouseEnter={() => { isHovered.current = true; }}
+        onMouseLeave={() => { isHovered.current = false; }}
+        onTouchStart={() => { isHovered.current = true; }}
+        onTouchEnd={() => { isHovered.current = false; }}
+      >
         {/* Horizontal scrollable wrapper for all subcategories combined */}
-        <div className="flex items-center gap-6 overflow-x-auto scrollbar-none py-1 -my-1 w-full flex-nowrap justify-start lg:justify-between">
+        <div 
+          ref={scrollContainerRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
+          onMouseLeave={handleMouseUpOrLeave}
+          onScroll={handleScroll}
+          style={{ scrollBehavior: "auto" }}
+          className="flex items-center gap-8 overflow-x-auto no-scrollbar py-1 -my-1 w-full flex-nowrap justify-start cursor-grab active:cursor-grabbing select-none"
+        >
+          {/* First set of items */}
           {allSubCategories.map((sub, idx) => {
             const isSelected = selectedSubCategory === sub.name;
             return (
               <button
-                key={idx}
-                onClick={() => {
+                key={`first-${idx}`}
+                onClick={(e) => {
+                  if (dragMoved.current) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dragMoved.current = false;
+                    return;
+                  }
                   if (onSelectSubCategory) {
                     onSelectSubCategory(isSelected ? null : sub.name);
                   }
@@ -86,7 +210,52 @@ export function CategorySelector({ selectedSubCategory, onSelectSubCategory }: C
                     alt={sub.name}
                     fill
                     sizes="64px"
-                    className="object-cover"
+                    className="object-cover pointer-events-none"
+                  />
+                </div>
+                {/* Subcategory Name */}
+                <span className={`text-[10px] sm:text-xs font-bold text-center leading-tight group-hover:underline line-clamp-1 max-w-full ${
+                  isSelected 
+                    ? "text-black underline font-black" 
+                    : "text-zinc-700 group-hover:text-black"
+                }`}>
+                  {sub.name}
+                </span>
+              </button>
+            );
+          })}
+
+          {/* Second set of items for seamless loop */}
+          {allSubCategories.map((sub, idx) => {
+            const isSelected = selectedSubCategory === sub.name;
+            return (
+              <button
+                key={`second-${idx}`}
+                onClick={(e) => {
+                  if (dragMoved.current) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dragMoved.current = false;
+                    return;
+                  }
+                  if (onSelectSubCategory) {
+                    onSelectSubCategory(isSelected ? null : sub.name);
+                  }
+                }}
+                className="flex flex-col items-center gap-2 group flex-shrink-0 cursor-pointer min-w-[75px] sm:min-w-[85px] focus:outline-none"
+              >
+                {/* Circular Image Container */}
+                <div className={`w-12 h-12 sm:w-16 sm:h-16 relative bg-white border rounded-full overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-md ${
+                  isSelected 
+                    ? "border-black ring-2 ring-black scale-105 shadow-md" 
+                    : "border-zinc-200 shadow-sm group-hover:border-black"
+                }`}>
+                  <Image
+                    src={sub.image}
+                    alt={sub.name}
+                    fill
+                    sizes="64px"
+                    className="object-cover pointer-events-none"
                   />
                 </div>
                 {/* Subcategory Name */}

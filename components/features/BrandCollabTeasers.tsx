@@ -2,10 +2,8 @@
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { PlusCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CollaborationsSection } from "./CollaborationsSection";
-import { InteractiveBuyNowButton } from "@/components/ui/InteractiveBuyNowButton";
 
 // Section 2 Data
 interface ProductLineItem {
@@ -110,41 +108,11 @@ interface BrandCollabTeasersProps {
 export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}) {
   const productLineRef = useRef<HTMLDivElement>(null);
   const teaserRef = useRef<HTMLDivElement>(null);
-  const collabRef = useRef<HTMLDivElement>(null);
-  
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleBuyNow = () => {
-    onAddToCart?.({
-      id: 9992,
-      brand: "Bonkers Corner",
-      name: "Bonkers Collab Hoodie // 01",
-      price: "₹3,499",
-      image: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=300&q=80"
-    });
-  };
+
   const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
-  const [collabRevealed, setCollabRevealed] = useState(false);
   const [shakeDirection, setShakeDirection] = useState<"left" | "right" | null>(null);
-
-  // Trigger collab animation when section enters viewport
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setCollabRevealed(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    if (collabRef.current) {
-      observer.observe(collabRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   // Core slide transition that applies physical inertia shake
   const transitionToCard = useCallback((nextIndex: number) => {
@@ -209,9 +177,6 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
 
   return (
     <section className="bg-white py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <CollaborationsSection />
-      </div>
       
       {/* Responsive variables for small card stack deals */}
       <style>{`
@@ -229,94 +194,7 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
         }
       `}</style>
 
-      {/* 1. BONKERS CORNER Collaboration Highlight Grid */}
-      <div ref={collabRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20 overflow-hidden lg:overflow-visible">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          {/* Large Collab Banner */}
-          <div className="lg:col-span-9 relative bg-zinc-950 text-white rounded-3xl overflow-hidden h-[400px] lg:h-[450px] flex flex-col justify-end p-8 md:p-12 shadow-xl group z-20">
-            {/* Background Image */}
-            <div className="absolute inset-0 z-0 select-none">
-              <Image
-                src="https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=900&q=80"
-                alt="Bonkers Corner Varsity Collab"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-103"
-              />
-              {/* Dark Overlay for typography */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent z-10" />
-            </div>
 
-            {/* Bonkers Corner Logo Badge */}
-            <div className="absolute top-6 left-6 md:top-8 md:left-8 bg-white w-24 h-24 md:w-28 md:h-28 rounded-2xl flex items-center justify-center p-4 shadow-lg z-20">
-              <span className="font-chaney-title text-[9px] md:text-[11px] font-black text-black leading-none text-center uppercase tracking-tighter">
-                BONKERS<br />CORNER
-              </span>
-            </div>
-
-            {/* Info details */}
-            <div className="relative z-20 max-w-xl">
-              <span className="text-yellow-400 font-mono text-xs font-black uppercase tracking-wider block mb-2">
-                Out now
-              </span>
-              <p className="text-xs sm:text-sm text-zinc-300 font-mono leading-relaxed mb-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
-              </p>
-              
-              <div className="flex flex-wrap items-center gap-4">
-                <InteractiveBuyNowButton
-                  onClick={handleBuyNow}
-                  buttonText="Buy Now"
-                  className="bg-zinc-800 hover:bg-black text-yellow-400 border border-zinc-700 text-xs font-black uppercase tracking-widest py-4 px-8 rounded-xl border-none cursor-pointer"
-                />
-                <button className="text-white hover:text-yellow-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-colors">
-                  <PlusCircle className="w-5 h-5 text-white/80" />
-                  Add to wishlist
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Sidebar SpongeBob Thumbnails with dealing stack animations */}
-          <div className="lg:col-span-3 grid grid-cols-2 lg:flex lg:flex-col gap-4 lg:h-[450px] lg:justify-between relative z-10">
-            {[
-              { id: 1, img: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=300&q=80" },
-              { id: 2, img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=300&q=80" },
-              { id: 3, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80" },
-              { id: 4, img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=300&q=80" },
-            ].map((thumb, index) => {
-              const delay = collabRevealed ? `${index * 120}ms` : "0ms";
-              const cardStyle: React.CSSProperties = {
-                transitionProperty: "transform, opacity, border-color",
-                transitionDuration: "800ms",
-                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                transitionDelay: delay,
-                transform: collabRevealed
-                  ? "translate(0, 0) rotate(0deg) scale(1)"
-                  : "translate(var(--collab-stack-x), var(--collab-stack-y)) rotate(var(--collab-stack-rotate)) scale(0.9)",
-                opacity: collabRevealed ? 1 : 0,
-                pointerEvents: collabRevealed ? "auto" : "none",
-                zIndex: collabRevealed ? 10 : 0,
-              };
-
-              return (
-                <div
-                  key={thumb.id}
-                  style={cardStyle}
-                  className="bg-zinc-100 rounded-2xl relative overflow-hidden aspect-[4/3] lg:aspect-auto lg:h-[100px] border border-transparent hover:border-black/20 shadow-xs hover:shadow-md transition-all cursor-pointer group"
-                >
-                  <Image
-                    src={thumb.img}
-                    alt={`Collaboration product ${thumb.id}`}
-                    fill
-                    sizes="(max-width: 1024px) 150px, 300px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
 
       {/* 2. Other Product Line Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">

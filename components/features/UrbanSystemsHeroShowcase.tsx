@@ -21,25 +21,13 @@ const SYSTEM_SLIDES = [
     patchImage: "/images/urban-systems/v9_patch.png",
     walletFrontBackImage: "/images/urban-systems/wallet_front_back.png",
     unfoldedWalletImage: "/images/urban-systems/unfolded_wallet.png",
-  },
-  {
-    id: 2,
-    dropCode: "DROP004",
-    year: "2K26",
-    systemTitle: "_STREETOUTERWEARSYSTEMS",
-    subTitle: "HEAVYWEIGHT DENIM & MODULAR TACTICAL FITS.",
-    specsLine: "[ STRT-OTRWR-SYSTMS ] DENIM JACKET_{ HEAVY EDC } , SML004_{ SHIRT } , +_-V10-_{ EMBROIDERY }",
-    centerImage: "/images/urban-essentials/denim_jacket.png",
-    patchImage: "/images/urban-systems/v9_patch.png",
-    walletFrontBackImage: "/images/urban-systems/wallet_front_back.png",
-    unfoldedWalletImage: "/images/urban-systems/unfolded_wallet.png",
-  },
+  }
 ];
 
 export function UrbanSystemsHeroShowcase({ onShopCollection }: UrbanSystemsHeroShowcaseProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const activeSlide = SYSTEM_SLIDES[currentSlide];
+  const activeSlide = SYSTEM_SLIDES[currentSlide] || SYSTEM_SLIDES[0];
 
   const handleNext = () => {
     setCurrentSlide((prev) => (prev + 1) % SYSTEM_SLIDES.length);
@@ -80,22 +68,26 @@ export function UrbanSystemsHeroShowcase({ onShopCollection }: UrbanSystemsHeroS
       <div className="max-w-7xl mx-auto relative z-10 space-y-12">
 
         {/* Carousel Navigation Arrow (Left Floating Glass Circle) */}
-        <button
-          onClick={handlePrev}
-          className="absolute left-2 sm:left-4 top-1/3 -translate-y-1/2 z-30 w-12 h-12 rounded-full border border-zinc-300 bg-white/70 backdrop-blur-md text-zinc-800 hover:text-white hover:bg-black hover:border-black flex items-center justify-center transition-all cursor-pointer shadow-sm active:scale-95"
-          aria-label="Previous System Slide"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
+        {SYSTEM_SLIDES.length > 1 && (
+          <button
+            onClick={handlePrev}
+            className="absolute left-2 sm:left-4 top-1/3 -translate-y-1/2 z-30 w-12 h-12 rounded-full border border-zinc-300 bg-white/70 backdrop-blur-md text-zinc-800 hover:text-white hover:bg-black hover:border-black flex items-center justify-center transition-all cursor-pointer shadow-sm active:scale-95"
+            aria-label="Previous System Slide"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+        )}
 
         {/* Carousel Navigation Arrow (Right Floating Glass Circle) */}
-        <button
-          onClick={handleNext}
-          className="absolute right-2 sm:right-4 top-1/3 -translate-y-1/2 z-30 w-12 h-12 rounded-full border border-zinc-300 bg-white/70 backdrop-blur-md text-zinc-800 hover:text-white hover:bg-black hover:border-black flex items-center justify-center transition-all cursor-pointer shadow-sm active:scale-95"
-          aria-label="Next System Slide"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+        {SYSTEM_SLIDES.length > 1 && (
+          <button
+            onClick={handleNext}
+            className="absolute right-2 sm:right-4 top-1/3 -translate-y-1/2 z-30 w-12 h-12 rounded-full border border-zinc-300 bg-white/70 backdrop-blur-md text-zinc-800 hover:text-white hover:bg-black hover:border-black flex items-center justify-center transition-all cursor-pointer shadow-sm active:scale-95"
+            aria-label="Next System Slide"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        )}
 
         {/* ========================================================================= */}
         {/* MAIN PRODUCT BLUEPRINT CARDS SHOWCASE GRID */}
@@ -354,18 +346,20 @@ export function UrbanSystemsHeroShowcase({ onShopCollection }: UrbanSystemsHeroS
           </div>
 
           {/* Slider Pagination Dots at Bottom */}
-          <div className="flex items-center justify-center gap-2.5 pt-4">
-            {SYSTEM_SLIDES.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentSlide(idx)}
-                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  currentSlide === idx ? "w-8 bg-zinc-950" : "w-2.5 bg-zinc-300 hover:bg-zinc-500"
-                }`}
-                aria-label={`Go to system slide ${idx + 1}`}
-              />
-            ))}
-          </div>
+          {SYSTEM_SLIDES.length > 1 && (
+            <div className="flex items-center justify-center gap-2.5 pt-4">
+              {SYSTEM_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    currentSlide === idx ? "w-8 bg-zinc-950" : "w-2.5 bg-zinc-300 hover:bg-zinc-500"
+                  }`}
+                  aria-label={`Go to system slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
 
         </div>
 

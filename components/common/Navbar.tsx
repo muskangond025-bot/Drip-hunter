@@ -22,27 +22,6 @@ interface WishlistItem {
   image: string;
 }
 
-const CATEGORY_MENU_ITEMS = [
-  "All Categories",
-  "Accessories",
-  "Apparel",
-  "Bearings",
-  "Cruisers",
-  "Eyewear",
-  "Face Mask",
-  "Grip Tape",
-  "Handbags, Wallets & Cases",
-  "Headwear",
-  "Keychains",
-  "Misc. Hardgood Items",
-  "Skateboard",
-  "Skateboard Complete",
-  "Skateboard Deck",
-  "Skateboard Decks",
-  "Truck Accessories",
-  "Trucks",
-  "Wheels",
-];
 
 interface NavbarProps {
   cart: CartItem[];
@@ -94,8 +73,6 @@ export function Navbar({
   const [exploreDropdownOpen, setExploreDropdownOpen] = useState(false);
   const [localSearch, setLocalSearch] = useState(searchQuery);
   const [mounted, setMounted] = useState(false);
-  const [allCategoriesOpen, setAllCategoriesOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
   const [searchCategoryOpen, setSearchCategoryOpen] = useState(false);
   const [localSearchCategory, setLocalSearchCategory] = useState(searchCategory || "All");
@@ -251,102 +228,12 @@ export function Navbar({
             DRIP HUNTER
           </a>
 
-          {/* All Categories Dropdown Menu Tab */}
-          <div 
-            className="relative hidden sm:block"
-            onMouseEnter={() => setAllCategoriesOpen(true)}
-            onMouseLeave={() => setAllCategoriesOpen(false)}
-          >
-            <button
-              onClick={() => setAllCategoriesOpen(!allCategoriesOpen)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold font-sans text-zinc-800 hover:text-black bg-zinc-100 hover:bg-zinc-200/80 rounded-md transition-all cursor-pointer border border-zinc-200"
-            >
-              <span>{selectedCategory}</span>
-              <ChevronDown className={`w-3.5 h-3.5 text-zinc-500 transition-transform duration-200 ${allCategoriesOpen ? "rotate-180" : ""}`} />
-            </button>
 
-            {/* All Categories Dropdown Menu List matching reference screenshot */}
-            <AnimatePresence>
-              {allCategoriesOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 4, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 4, scale: 0.98 }}
-                  transition={{ duration: 0.12 }}
-                  className="absolute left-0 top-full pt-1 z-50 min-w-[220px]"
-                >
-                  <div className="bg-white border border-zinc-200 rounded-md shadow-2xl py-1 max-h-[360px] overflow-y-auto font-sans text-xs">
-                    {CATEGORY_MENU_ITEMS.map((cat) => {
-                      const isSelected = selectedCategory === cat;
-                      return (
-                        <button
-                          key={cat}
-                          onClick={() => {
-                            setSelectedCategory(cat);
-                            setAllCategoriesOpen(false);
-                            onCategoryChange?.(cat === "All Categories" ? "All" : cat);
-                            if (typeof window !== "undefined") {
-                              if (cat === "All Categories") {
-                                window.location.href = "/shop";
-                              } else {
-                                window.location.href = `/shop?category=${encodeURIComponent(cat)}`;
-                              }
-                            }
-                          }}
-                          className={`w-full text-left px-3.5 py-1.5 cursor-pointer transition-colors flex items-center justify-between ${
-                            isSelected
-                              ? "bg-blue-600 text-white font-medium"
-                              : "text-zinc-700 hover:bg-zinc-100 hover:text-black"
-                          }`}
-                        >
-                          <span>{cat}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
         </div>
 
         {/* Center: Centered Navigation Links & Sleek Search Bar */}
         <div className="hidden lg:flex flex-1 items-center justify-center gap-8">
           <nav className="flex items-center gap-6 text-sm font-semibold tracking-wide">
-            {[
-              { label: "Home", href: "/" },
-              { label: "About", href: "/about" },
-              { label: "Explore", href: "/explore" }
-            ].map((link) => {
-              const isActive = activePath === link.href;
-              return (
-                <div 
-                  key={link.label}
-                  className="relative py-2 select-none group"
-                >
-                  <a 
-                    href={link.href}
-                    className="flex items-center gap-1 cursor-pointer"
-                  >
-                    <motion.span
-                      animate={{ color: isActive ? "#f05a28" : "#27272a" }}
-                      whileHover={{ color: "#f05a28" }}
-                      transition={{ duration: 0.15 }}
-                      className="font-sans font-bold"
-                    >
-                      {link.label}
-                    </motion.span>
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeIndicator"
-                        className="absolute bottom-0 inset-x-0 h-0.5 bg-orange-500 rounded-full"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      />
-                    )}
-                  </a>
-                </div>
-              );
-            })}
           </nav>
 
           {/* Search Bar with Category Dropdown Arrow & Overlay Trigger */}
@@ -568,9 +455,6 @@ export function Navbar({
             />
           </div>
           <nav className="flex flex-col space-y-3 font-semibold text-sm">
-            <a href="/" className="block py-2 hover:bg-zinc-50 px-2 rounded">Home</a>
-            <a href="/about" className="block py-2 hover:bg-zinc-50 px-2 rounded">About</a>
-            <a href="/explore" className="block py-2 hover:bg-zinc-50 px-2 rounded">Explore</a>
           </nav>
         </div>
       )}

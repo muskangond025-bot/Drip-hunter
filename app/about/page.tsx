@@ -304,9 +304,7 @@ export default function About() {
 
         <div className="flex justify-center items-center gap-2.5 py-6 bg-zinc-50 border-b border-zinc-200 sticky top-20 z-40 select-none">
           {[
-            { label: "Terms & Conditions", id: "terms-section" },
             { label: "Blogs", id: "blogs-section" },
-            { label: "Stories", id: "stories-section" },
             { label: "DripSpot", id: "dripspot-section" },
             { label: "DripVision", id: "dripvision-section" }
           ].map((tab) => (
@@ -1351,127 +1349,6 @@ export default function About() {
           </div>
         </section>
 
-        {/* SLAY THE STREETS & OUR STORY + TERMS AND CONDITION SECTION */}
-        <section id="terms-section" className="border-t border-zinc-150 pt-16 pb-20">
-          {/* SLAY THE STREETS & OUR STORY */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 border-b border-zinc-150">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-              
-              {/* Left Column: Yellow/Orange Card with Blue Outer Border & Guy Vector Art */}
-              <div className="lg:col-span-6 w-full">
-                <div className="relative w-full aspect-square max-w-[540px] mx-auto rounded-[28px] overflow-hidden bg-gradient-to-br from-[#ffd54f] via-[#ffa726] to-[#ff9800] p-1.5 shadow-xl border-[3px] border-[#0084ff]">
-                  <div className="relative w-full h-full rounded-[24px] overflow-hidden">
-                    <Image
-                      src="/images/about_slay_exact.png"
-                      alt="SLAY THE STREETS - Our Story Vector Artwork"
-                      fill
-                      priority
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover object-center"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: SLAY THE STREETS Title & Exact Our Story Text */}
-              <div className="lg:col-span-6 flex flex-col justify-center space-y-6 select-none">
-                <div>
-                  <h1 className="text-6xl sm:text-7xl lg:text-[92px] font-slay-ultra-bold font-black text-black uppercase tracking-tighter leading-[0.88]">
-                    SLAY<br />THE<br />STREETS
-                  </h1>
-                </div>
-
-                <div className="space-y-3 pt-2">
-                  <h2 className="text-lg sm:text-xl font-bold text-zinc-900 tracking-tight font-sans">
-                    Our Story
-                  </h2>
-                  <div className="space-y-3 font-sans max-w-xl text-xs sm:text-[13px] leading-relaxed">
-                    <p className="font-bold text-zinc-900 text-xs sm:text-[13px] leading-relaxed">
-                      Main mission is to build a website-building platform that is affordable for everyone around the world.
-                    </p>
-                    <p className="text-zinc-700 font-medium text-xs sm:text-[13px] leading-relaxed">
-                      Combining the ease-of-use and flexibility to make it possible for anyone from any corner of the world to build a website We took the name from the word &quot;Doric&quot; which was one of the three orders of ancient Greek and later Roman architecture We have started getting requests for early access from the day we launched our landing page.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* TERMS AND CONDITION & PLATFORM SHOWCASE */}
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-            
-            {/* Top Orange Pill Badge */}
-            <div className="flex justify-center mb-6">
-              <span className="bg-gradient-to-r from-orange-500 to-rose-500 text-white text-xs font-bold px-6 py-2 rounded-full shadow-md tracking-wide">
-                Terms and Condition
-              </span>
-            </div>
-
-            {/* Center Main Heading */}
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-zinc-900 text-center tracking-tight font-sans max-w-3xl mx-auto mb-10 leading-tight">
-              Over trillions pixels showcased. What are you working on?
-            </h2>
-
-            {/* Paragraph Copy Text */}
-            <div className="space-y-6 text-zinc-700 text-xs sm:text-[13px] leading-relaxed font-sans select-text">
-              <p>
-                Hundreds of millions of people look for design inspiration and feedback on Dribbble. We help players like you share small screenshots (shots) to show off your current projects, boost your portfolio, and love what you do—no matter what kind of creative professional you are. Founded in 2009, we are a bootstrapped and profitable company helping design talent share, grow, and get hired by over tens of thousands of today&apos;s most innovative brands around the world.
-              </p>
-
-              <p>
-                Practically every single website worth anything out there has a Privacy Policy page that it can turn to whenever issues about privacy come up with users. That&apos;s why you really need to have a privacy policy, but it&apos;s not exactly that easy to make one, not if you really want to cover all of your bases. This is why you may want to look into the matter of privacy policy template generator (like ours here!) since it comes with quite a few benefits. A privacy policy is a legal document that details how a website gathers, stores, shares, and sells data about its visitors. This data typically includes items such as a user&apos;s name, address, birthday, marital status, medical history, and consumer behavior.
-              </p>
-
-              <p>
-                The specific contents of a privacy policy document depend upon the laws in the legal jurisdiction in which your business operates. Most countries have their own set of guidelines regarding what information is eligible for collection, and how that information may be used. Privacy laws include GDPR, CCPA, CalOPPA, PIPEDA, Australia Privacy Act and many more.
-              </p>
-
-              <p>
-                When it comes to legal documents, it is best not to take chances. Fortunately, it&apos;s easy to get a free privacy policy in just a few minutes. All you have to do is fill up the blank spaces on the right and we will create help you create your own personalized privacy policy template for your business.
-              </p>
-
-              {/* Types of technologies subheading */}
-              <div className="pt-4 space-y-3">
-                <h3 className="text-sm sm:text-base font-bold text-zinc-900 font-sans">
-                  Types of technologies that we use
-                </h3>
-                
-                <p>
-                  <strong className="text-zinc-900 font-semibold">Cookies:</strong> A cookie is a small piece of data (text file) that a website – when visited by a user – asks your browser to store on your device in order to remember information about you, such as your language preference or log in information. These cookies are set by us and called &quot;first-party cookies&quot;. We also use &quot;third-party cookies&quot; – which are cookies originating from a domain different from the domain of the website you are visiting (e.g., one of our Sites) – generally for our advertising and marketing efforts. More specifically, we use cookies and other tracking technologies for the following purposes: to enable our Sites to function and maintain security (for example, shopping cart functionality, security, customer support); to track, measure, and improve performance of our Sites; allow personalization of our Sites; and to target our own ads to prior visitors of our Sites on third party websites (see below on &quot;Why We Use Cookies and Similar Technologies&quot;).
-                </p>
-
-                {/* Bullet points list */}
-                <ul className="space-y-2.5 pl-4 text-zinc-700 list-disc marker:text-zinc-400 pt-2">
-                  <li>
-                    A persistent cookie remains on your hard drive after you close your browser. Persistent cookies may be used by your browser on subsequent visits to one of our Sites until you choose to delete them, and otherwise typically delete themselves at expiration. Persistent cookies can be removed by following your web browser&apos;s directions.
-                  </li>
-                  <li>
-                    A session cookie is temporary and disappears after you close your browser.
-                  </li>
-                  <li>
-                    A third-party cookie is placed by someone other than the Dribbble Group, and may gather browsing activity across multiple websites and across multiple sessions. They are usually a type of persistent cookie and are stored until you delete them or they expire based on the time set in each third-party cookie.
-                  </li>
-                </ul>
-
-                <p className="pt-2">
-                  You can reset your web browser to refuse all cookies or to indicate when a cookie is being sent. However, some features of our service may not function properly if the ability to accept cookies is disabled. For more information about cookies, you may visit <a href="http://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline hover:text-blue-800">http://www.allaboutcookies.org</a>.
-                </p>
-              </div>
-            </div>
-
-            {/* Bottom Image Banner */}
-            <div className="mt-12 relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden border border-zinc-200 shadow-lg">
-              <Image
-                src="/images/about_terms_conditions.png"
-                alt="Terms and Conditions Document and Pen"
-                fill
-                sizes="(max-width: 1024px) 100vw, 80vw"
-                className="object-cover object-center"
-              />
-            </div>
-          </div>
-        </section>
 
       </main>
 
