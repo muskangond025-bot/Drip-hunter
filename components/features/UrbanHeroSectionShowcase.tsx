@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Flame, ArrowUpRight, Sparkles, ShieldCheck, Tag } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ChevronLeft, ChevronRight, Flame, ArrowUpRight, ShieldCheck, Tag } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface UrbanHeroSectionShowcaseProps {
   onSelectCategory?: (category: string) => void;
@@ -64,13 +66,14 @@ const HERO_SLIDES = [
 ];
 
 export function UrbanHeroSectionShowcase({ onSelectCategory }: UrbanHeroSectionShowcaseProps) {
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto slide cycle every 4 seconds
+  // Auto slide cycle every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -90,33 +93,36 @@ export function UrbanHeroSectionShowcase({ onSelectCategory }: UrbanHeroSectionS
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
     } else {
-      window.location.href = `/shop?category=${encodeURIComponent(category)}`;
+      router.push(`/shop?category=${encodeURIComponent(category)}`);
     }
   };
 
   const activeSlideData = HERO_SLIDES[currentSlide];
 
   return (
-    <section className="w-full bg-zinc-100 text-black border-y border-zinc-300 py-6 px-4 sm:px-6 lg:px-8 select-none overflow-hidden font-sans">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <section className="w-full bg-[#f5f5f3] text-black border-y border-zinc-200/80 py-12 px-4 sm:px-6 lg:px-8 select-none overflow-hidden relative">
+      {/* Blueprint Grid Background Accent */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02] bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:3rem_3rem]" />
+      
+      <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         
         {/* ========================================================================= */}
-        {/* 1. TOP CATEGORY RIBBON ROW (Icons bar right under hero banner) */}
+        {/* 1. TOP CATEGORY RIBBON ROW (Modular Technical Navigation Bar) */}
         {/* ========================================================================= */}
-        <div className="bg-white border border-zinc-200 rounded-xl p-2.5 shadow-xs overflow-x-auto no-scrollbar flex items-center justify-between gap-4">
+        <div className="bg-white/80 backdrop-blur-md border border-zinc-200/60 rounded-2xl p-3 shadow-xs overflow-x-auto no-scrollbar flex items-center justify-between gap-3">
           {CATEGORY_RIBBON.map((cat, idx) => {
             const Icon = cat.icon;
             return (
               <button
                 key={idx}
                 onClick={() => handleCategoryClick(cat.category)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase tracking-wider shrink-0 transition-all cursor-pointer border ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-widest shrink-0 transition-all cursor-pointer border group/tab ${
                   cat.isHot
-                    ? "bg-black text-amber-400 border-black hover:bg-zinc-800"
-                    : "bg-zinc-50 text-zinc-800 border-zinc-200 hover:bg-black hover:text-white hover:border-black"
+                    ? "bg-zinc-950 text-amber-400 border-zinc-950 hover:bg-zinc-800 shadow-sm"
+                    : "bg-zinc-50/50 text-zinc-600 border-zinc-200/60 hover:bg-zinc-950 hover:text-white hover:border-zinc-950"
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${cat.isHot ? "animate-pulse text-amber-400" : ""}`} />
+                <Icon className={`w-3.5 h-3.5 transition-transform group-hover/tab:scale-110 ${cat.isHot ? "animate-pulse text-amber-400" : "text-zinc-400 group-hover/tab:text-white"}`} />
                 <span>{cat.label}</span>
               </button>
             );
@@ -124,136 +130,208 @@ export function UrbanHeroSectionShowcase({ onSelectCategory }: UrbanHeroSectionS
         </div>
 
         {/* ========================================================================= */}
-        {/* 2. HERO BANNER CAROUSEL SHOWCASE (Urban Watermark Banner & Product Cards) */}
+        {/* 2. HERO BANNER CAROUSEL SHOWCASE (Editorial Layout & Spotlight Collage) */}
         {/* ========================================================================= */}
-        <div className="relative bg-white border border-zinc-300 rounded-2xl p-6 sm:p-10 shadow-md overflow-hidden min-h-[420px] flex flex-col justify-between">
+        <div className="relative bg-white border border-zinc-200/80 rounded-[32px] p-6 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.02)] overflow-hidden min-h-[460px] flex flex-col justify-between">
           
           {/* Watermark Background Graphic */}
-          <div className="absolute inset-0 pointer-events-none opacity-5 flex items-center justify-center overflow-hidden">
-            <span className="text-[120px] sm:text-[180px] font-black tracking-tighter font-mono uppercase text-black select-none whitespace-nowrap">
-              URBAN MONKEY // DRIP
+          <div className="absolute inset-0 pointer-events-none opacity-[0.03] flex items-center justify-center overflow-hidden">
+            <span className="text-[120px] sm:text-[190px] font-black tracking-tighter font-sans uppercase text-black select-none whitespace-nowrap">
+              URBAN MONKEY // SYS
             </span>
           </div>
 
-          {/* Left Arrow Button */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 hover:bg-black hover:text-white text-zinc-800 border border-zinc-300 flex items-center justify-center transition-all shadow-md cursor-pointer"
-            aria-label="Previous Hero Slide"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          {/* Right Arrow Button */}
-          <button
-            onClick={nextSlide}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/90 hover:bg-black hover:text-white text-zinc-800 border border-zinc-300 flex items-center justify-center transition-all shadow-md cursor-pointer"
-            aria-label="Next Hero Slide"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
+          {/* Dotted Grid Pattern Details */}
+          <div className="absolute inset-0 pointer-events-none opacity-[0.1] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]" />
 
           {/* Main Slide Content Grid */}
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
-            {/* 3 Product Cards Feature Grid */}
-            <div className="lg:col-span-7 grid grid-cols-3 gap-3 sm:gap-4 items-center">
-              
-              {/* Left Secondary Card */}
-              <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-zinc-50 border border-zinc-200 shadow-2xs group cursor-pointer hover:border-black transition-colors"
-                   onClick={() => handleCategoryClick(activeSlideData.primaryCategory)}>
-                <Image
-                  src={activeSlideData.leftImage}
-                  alt="Feature Left"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="20vw"
-                />
-                <div className="absolute bottom-2 left-2 bg-black/80 text-white text-[9px] font-mono px-1.5 py-0.5 rounded font-bold">
-                  // 001
-                </div>
-              </div>
+            {/* 3 Product Cards Collage Grid */}
+            <div className="lg:col-span-7 grid grid-cols-3 gap-3 sm:gap-6 items-center">
+              <AnimatePresence mode="wait">
+                {/* Left Card */}
+                <motion.div
+                  key={`left-${currentSlide}`}
+                  initial={{ opacity: 0, x: -20, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -20, scale: 0.95 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="relative aspect-[4/5] rounded-[20px] overflow-hidden bg-gradient-to-b from-zinc-50 to-zinc-100 border border-zinc-200/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] group cursor-pointer hover:border-zinc-400 transition-colors"
+                  onClick={() => handleCategoryClick(activeSlideData.primaryCategory)}
+                >
+                  <Image
+                    src={activeSlideData.leftImage}
+                    alt="Feature Left"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="20vw"
+                  />
+                  {/* Sheen sheen sweep overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out z-15" />
+                  
+                  {/* Technical details */}
+                  <div className="absolute top-3 left-3 z-10 opacity-30">
+                    <span className="block w-1.5 h-1.5 border-t border-l border-black"></span>
+                  </div>
+                  <div className="absolute bottom-3 left-3 bg-black/85 text-white text-[8px] font-mono px-2 py-0.5 rounded-md font-bold tracking-wider">
+                    {"// SPEC_01"}
+                  </div>
+                </motion.div>
 
-              {/* Center Main Spotlight Card */}
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-white border-2 border-black shadow-lg group cursor-pointer scale-105 z-10"
-                   onClick={() => handleCategoryClick(activeSlideData.primaryCategory)}>
-                <Image
-                  src={activeSlideData.mainImage}
-                  alt="Feature Center Main"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="30vw"
-                />
-                <span className="absolute top-2 left-2 bg-black text-amber-400 text-[9px] font-black font-mono px-2 py-0.5 uppercase tracking-widest z-10">
-                  FEATURED DROP
-                </span>
-              </div>
+                {/* Center Spotlight Card */}
+                <motion.div
+                  key={`center-${currentSlide}`}
+                  initial={{ opacity: 0, y: 15, scale: 1.02 }}
+                  animate={{ opacity: 1, y: 0, scale: 1.05 }}
+                  exit={{ opacity: 0, y: 15, scale: 1.02 }}
+                  transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+                  className="relative aspect-[4/5] rounded-[24px] overflow-hidden bg-white border-2 border-zinc-950 shadow-[0_16px_36px_-12px_rgba(0,0,0,0.12)] group cursor-pointer scale-105 z-10 hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.18)] transition-all"
+                  onClick={() => handleCategoryClick(activeSlideData.primaryCategory)}
+                >
+                  <Image
+                    src={activeSlideData.mainImage}
+                    alt="Feature Center Main"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="30vw"
+                    priority
+                  />
+                  {/* Sheen sheen sweep overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out z-15" />
 
-              {/* Right Secondary Card */}
-              <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-zinc-50 border border-zinc-200 shadow-2xs group cursor-pointer hover:border-black transition-colors"
-                   onClick={() => handleCategoryClick(activeSlideData.primaryCategory)}>
-                <Image
-                  src={activeSlideData.rightImage}
-                  alt="Feature Right"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="20vw"
-                />
-                <div className="absolute bottom-2 right-2 bg-black/80 text-white text-[9px] font-mono px-1.5 py-0.5 rounded font-bold">
-                  // 002
-                </div>
-              </div>
+                  {/* Corner crosshairs focus details */}
+                  <div className="absolute top-4 left-4 z-10 opacity-60">
+                    <span className="block w-2.5 h-2.5 border-t-2 border-l-2 border-black"></span>
+                  </div>
+                  <div className="absolute top-4 right-4 z-10 opacity-60">
+                    <span className="block w-2.5 h-2.5 border-t-2 border-r-2 border-black"></span>
+                  </div>
+                  
+                  <span className="absolute top-4 left-4 right-4 text-center bg-zinc-950 text-amber-400 text-[8.5px] font-black font-mono py-1 rounded-md uppercase tracking-[0.2em] z-10 shadow-sm mx-4">
+                    SPOTLIGHT DROP
+                  </span>
+                </motion.div>
 
+                {/* Right Card */}
+                <motion.div
+                  key={`right-${currentSlide}`}
+                  initial={{ opacity: 0, x: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="relative aspect-[4/5] rounded-[20px] overflow-hidden bg-gradient-to-b from-zinc-50 to-zinc-100 border border-zinc-200/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] group cursor-pointer hover:border-zinc-400 transition-colors"
+                  onClick={() => handleCategoryClick(activeSlideData.primaryCategory)}
+                >
+                  <Image
+                    src={activeSlideData.rightImage}
+                    alt="Feature Right"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="20vw"
+                  />
+                  {/* Sheen sheen sweep overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out z-15" />
+                  
+                  {/* Technical details */}
+                  <div className="absolute top-3 right-3 z-10 opacity-30">
+                    <span className="block w-1.5 h-1.5 border-t border-r border-black"></span>
+                  </div>
+                  <div className="absolute bottom-3 right-3 bg-black/85 text-white text-[8px] font-mono px-2 py-0.5 rounded-md font-bold tracking-wider">
+                    {"// SPEC_02"}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Slide Information & Action Buttons */}
-            <div className="lg:col-span-5 space-y-4 text-left">
-              <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full uppercase tracking-wider">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                {activeSlideData.tag}
-              </div>
-
-              <h2 className="text-2xl sm:text-3xl font-black font-mono uppercase tracking-tight text-zinc-900 leading-tight">
-                {activeSlideData.headline}
-              </h2>
-
-              <p className="text-xs sm:text-sm font-sans text-zinc-600 leading-relaxed">
-                {activeSlideData.description}
-              </p>
-
-              {/* Working Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3 pt-2">
-                <button
-                  onClick={() => handleCategoryClick(activeSlideData.primaryCategory)}
-                  className="bg-black hover:bg-zinc-800 text-white font-mono font-black text-xs uppercase tracking-widest px-6 py-3.5 rounded-lg transition-all shadow-md hover:scale-105 cursor-pointer border border-black flex items-center gap-2"
+            <div className="lg:col-span-5 space-y-6 text-left lg:pl-6">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`text-${currentSlide}`}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="space-y-5"
                 >
-                  <span>{activeSlideData.primaryActionText}</span>
-                  <ArrowUpRight className="w-4 h-4 text-amber-400" />
-                </button>
+                  {/* Drop ID Badge */}
+                  <div className="inline-flex items-center gap-2 text-[10px] font-mono font-bold text-emerald-800 bg-emerald-50 border border-emerald-200/60 px-3.5 py-1.5 rounded-lg uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                    {activeSlideData.tag}
+                  </div>
 
-                <button
-                  onClick={() => handleCategoryClick(activeSlideData.secondaryCategory)}
-                  className="bg-white hover:bg-zinc-100 text-black font-mono font-bold text-xs uppercase tracking-widest px-5 py-3.5 rounded-lg transition-all cursor-pointer border border-zinc-300 hover:border-black"
-                >
-                  {activeSlideData.secondaryActionText}
-                </button>
-              </div>
+                  {/* Headline */}
+                  <h2 className="text-3xl sm:text-4xl font-black font-sans uppercase tracking-tight text-zinc-950 leading-[1.1] [text-shadow:0_1px_1px_rgba(0,0,0,0.01)]">
+                    {activeSlideData.headline}
+                  </h2>
+
+                  {/* Narrative Description */}
+                  <p className="text-xs sm:text-sm font-sans text-zinc-500 leading-relaxed font-medium">
+                    {activeSlideData.description}
+                  </p>
+
+                  {/* Working Action Buttons */}
+                  <div className="flex flex-wrap items-center gap-3 pt-3">
+                    <button
+                      onClick={() => handleCategoryClick(activeSlideData.primaryCategory)}
+                      className="bg-zinc-950 hover:bg-zinc-800 text-white font-mono font-bold text-[11px] uppercase tracking-[0.18em] px-7 py-4 rounded-xl transition-all shadow-md hover:shadow-lg active:scale-98 cursor-pointer border border-zinc-950 flex items-center gap-2.5 group/btn"
+                    >
+                      <span>{activeSlideData.primaryActionText}</span>
+                      <ArrowUpRight className="w-4 h-4 text-amber-400 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                    </button>
+
+                    <button
+                      onClick={() => handleCategoryClick(activeSlideData.secondaryCategory)}
+                      className="bg-white hover:bg-zinc-50 text-zinc-800 font-mono font-bold text-[11px] uppercase tracking-[0.15em] px-6 py-4 rounded-xl transition-all cursor-pointer border border-zinc-200 hover:border-zinc-400"
+                    >
+                      {activeSlideData.secondaryActionText}
+                    </button>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
           </div>
 
-          {/* Slider Pagination Dots at Bottom */}
-          <div className="relative z-10 flex items-center justify-center gap-2 pt-6">
-            {HERO_SLIDES.map((_, idx) => (
+          {/* ========================================================================= */}
+          {/* BOTTOM DOCK (Unified Arrow controls & Slide Progress indicators) */}
+          {/* ========================================================================= */}
+          <div className="flex items-center justify-between border-t border-zinc-100 pt-8 mt-10 z-15 relative">
+            
+            {/* Pagination Line / Dots */}
+            <div className="flex items-center gap-3">
+              {HERO_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                    currentSlide === idx ? "w-9 bg-zinc-950" : "w-2.5 bg-zinc-200 hover:bg-zinc-400"
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+
+            {/* Custom Control Dock Arrows */}
+            <div className="flex gap-2">
               <button
-                key={idx}
-                onClick={() => setCurrentSlide(idx)}
-                className={`h-2 rounded-full transition-all cursor-pointer ${
-                  currentSlide === idx ? "w-8 bg-black" : "w-2 bg-zinc-300 hover:bg-zinc-500"
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
+                onClick={prevSlide}
+                className="w-10 h-10 rounded-full border border-zinc-200 bg-white hover:border-zinc-950 hover:bg-zinc-950 text-zinc-700 hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 group/arrow"
+                aria-label="Previous Slide"
+              >
+                <ChevronLeft className="w-4 h-4 transition-transform group-hover/arrow:-translate-x-0.5" />
+              </button>
+
+              <button
+                onClick={nextSlide}
+                className="w-10 h-10 rounded-full border border-zinc-200 bg-white hover:border-zinc-950 hover:bg-zinc-950 text-zinc-700 hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95 group/arrow"
+                aria-label="Next Slide"
+              >
+                <ChevronRight className="w-4 h-4 transition-transform group-hover/arrow:translate-x-0.5" />
+              </button>
+            </div>
+
           </div>
 
         </div>

@@ -6,6 +6,7 @@ import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { InteractiveHeartButton } from "@/components/ui/InteractiveHeartButton";
 import {
   Search,
   Compass,
@@ -2101,7 +2102,12 @@ export default function Explore() {
                             <div className="flex justify-between items-center px-1">
                               <div className="flex justify-between items-center px-1 w-full">
                                 <div className="flex gap-2.5 items-center">
-                                  <motion.button whileTap={{ scale: 1.3 }} onClick={() => toggleLike(i)} className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"><Heart className={`w-4 h-4 transition-colors ${likedPosts[i] ? "text-red-500 fill-red-500" : "text-zinc-955"}`} /></motion.button>
+                                  <InteractiveHeartButton
+                                    isFavorite={!!likedPosts[i]}
+                                    onClick={() => toggleLike(i)}
+                                    plain={true}
+                                    className="text-zinc-955"
+                                  />
                                   <button className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"><MessageCircle className="w-4 h-4 text-zinc-955" /></button>
                                   <button className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"><Send className="w-4 h-4 text-zinc-955" /></button>
                                 </div>
@@ -2511,7 +2517,12 @@ export default function Explore() {
                       <div className="flex justify-between items-center px-1">
                         <div className="flex justify-between items-center px-1 w-full">
                           <div className="flex gap-2.5 items-center">
-                            <motion.button whileTap={{ scale: 1.3 }} onClick={() => toggleLike(i)} className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"><Heart className={`w-4 h-4 transition-colors ${likedPosts[i] ? "text-red-500 fill-red-500" : "text-zinc-955"}`} /></motion.button>
+                            <InteractiveHeartButton
+                              isFavorite={!!likedPosts[i]}
+                              onClick={() => toggleLike(i)}
+                              plain={true}
+                              className="text-zinc-955"
+                            />
                             <button className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"><MessageCircle className="w-4 h-4 text-zinc-955" /></button>
                             <button className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"><Send className="w-4 h-4 text-zinc-955" /></button>
                           </div>

@@ -142,7 +142,7 @@ export function Footer() {
               SUPPORT
             </h3>
             <ul className="space-y-2 text-xs font-medium text-emerald-400">
-              <li><a href="/subscription" className="hover:text-emerald-300 transition-colors">Login</a></li>
+              <li><a href="/login" className="hover:text-emerald-300 transition-colors">Login</a></li>
               <li><a href="/wishlist?tab=orders" className="hover:text-emerald-300 transition-colors">Track Order</a></li>
               <li><a href="/terms" className="hover:text-emerald-300 transition-colors">Return/ Exchange</a></li>
               <li><a href="/about" className="hover:text-emerald-300 transition-colors">Recycle</a></li>

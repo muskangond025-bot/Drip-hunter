@@ -5,6 +5,7 @@ import Image from "next/image";
 import { PlusCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CollaborationsSection } from "./CollaborationsSection";
+import { InteractiveBuyNowButton } from "@/components/ui/InteractiveBuyNowButton";
 
 // Section 2 Data
 interface ProductLineItem {
@@ -96,12 +97,32 @@ const brandColors: Record<number, { border: string; pillBorder: string; pillText
   5: { border: "hover:border-yellow-500", pillBorder: "border-yellow-500", pillText: "text-yellow-600", pillName: "BATMAN" },
 };
 
-export function BrandCollabTeasers() {
+interface BrandCollabTeasersProps {
+  onAddToCart?: (product: {
+    id: number;
+    brand: string;
+    name: string;
+    price: string;
+    image: string;
+  }) => void;
+}
+
+export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}) {
   const productLineRef = useRef<HTMLDivElement>(null);
   const teaserRef = useRef<HTMLDivElement>(null);
   const collabRef = useRef<HTMLDivElement>(null);
   
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleBuyNow = () => {
+    onAddToCart?.({
+      id: 9992,
+      brand: "Bonkers Corner",
+      name: "Bonkers Collab Hoodie // 01",
+      price: "₹3,499",
+      image: "https://images.unsplash.com/photo-1607344645866-009c320c5ab8?auto=format&fit=crop&w=300&q=80"
+    });
+  };
   const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
   const [collabRevealed, setCollabRevealed] = useState(false);
   const [shakeDirection, setShakeDirection] = useState<"left" | "right" | null>(null);
@@ -242,9 +263,11 @@ export function BrandCollabTeasers() {
               </p>
               
               <div className="flex flex-wrap items-center gap-4">
-                <button className="bg-zinc-800 hover:bg-black text-yellow-400 border border-zinc-700 text-xs font-black uppercase tracking-widest px-8 py-4 rounded-xl transition-all cursor-pointer shadow-lg active:scale-95">
-                  Buy Now
-                </button>
+                <InteractiveBuyNowButton
+                  onClick={handleBuyNow}
+                  buttonText="Buy Now"
+                  className="bg-zinc-800 hover:bg-black text-yellow-400 border border-zinc-700 text-xs font-black uppercase tracking-widest py-4 px-8 rounded-xl border-none cursor-pointer"
+                />
                 <button className="text-white hover:text-yellow-400 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer transition-colors">
                   <PlusCircle className="w-5 h-5 text-white/80" />
                   Add to wishlist

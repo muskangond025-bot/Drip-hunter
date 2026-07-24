@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import { Heart, ShoppingBag, Eye, Star, Flame, Check } from "lucide-react";
+import { Flame } from "lucide-react";
 import { ProductItem } from "@/app/page";
+import { ProductCard } from "@/components/ui/product-card";
 
 interface UrbanTrendingSectionProps {
   onAddToCart?: (product: ProductItem) => void;
@@ -47,7 +47,6 @@ const TRENDING_PRODUCTS: ProductItem[] = [
 ];
 
 export function UrbanTrendingSection({ onAddToCart, favorites: propFavorites, onToggleFavorite }: UrbanTrendingSectionProps) {
-  const [addedIds, setAddedIds] = useState<number[]>([]);
   const [localFavorites, setLocalFavorites] = useState<number[]>([]);
 
   const favorites = propFavorites || localFavorites;
@@ -56,10 +55,6 @@ export function UrbanTrendingSection({ onAddToCart, favorites: propFavorites, on
     if (onAddToCart) {
       onAddToCart(product);
     }
-    setAddedIds((prev) => [...prev, product.id]);
-    setTimeout(() => {
-      setAddedIds((prev) => prev.filter((id) => id !== product.id));
-    }, 1800);
   };
 
   const toggleFav = (product: ProductItem) => {
@@ -90,87 +85,23 @@ export function UrbanTrendingSection({ onAddToCart, favorites: propFavorites, on
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {TRENDING_PRODUCTS.map((product) => {
-            const isAdded = addedIds.includes(product.id);
             const isFav = favorites.includes(product.id);
 
             return (
-              <div
+              <ProductCard
                 key={product.id}
-                className="group relative bg-zinc-50 border border-zinc-200 hover:border-zinc-900 transition-all duration-300 flex flex-col justify-between"
-              >
-                {/* Image Container */}
-                <div className="relative aspect-square w-full bg-zinc-100 overflow-hidden">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  />
-
-                  {/* Badge */}
-                  {product.badge && (
-                    <span className="absolute top-3 left-3 bg-black text-white text-[10px] font-black uppercase px-2 py-0.5 tracking-wider z-10">
-                      {product.badge}
-                    </span>
-                  )}
-
-                  {/* Wishlist Button */}
-                  <button
-                    onClick={() => toggleFav(product)}
-                    className={`absolute top-3 right-3 p-2 rounded-full transition-all z-10 ${
-                      isFav
-                        ? "bg-red-500 text-white"
-                        : "bg-white/80 hover:bg-white text-zinc-700 hover:text-black"
-                    }`}
-                    aria-label="Add to Wishlist"
-                  >
-                    <Heart className={`w-4 h-4 ${isFav ? "fill-white" : ""}`} />
-                  </button>
-
-                  {/* Quick Overlay Action */}
-                  <div className="absolute inset-x-0 bottom-0 bg-black/80 backdrop-blur-sm p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
-                    <button
-                      onClick={() => handleAdd(product)}
-                      className="w-full bg-white text-black hover:bg-amber-400 font-mono font-bold text-xs py-2 px-3 uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors"
-                    >
-                      {isAdded ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                          ADDED TO BAG
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingBag className="w-3.5 h-3.5" />
-                          ADD TO CART
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Details */}
-                <div className="p-4 flex flex-col flex-grow justify-between">
-                  <div>
-                    <span className="text-[10px] font-mono font-bold tracking-widest text-zinc-500 uppercase">
-                      {product.brand}
-                    </span>
-                    <h3 className="text-sm font-bold text-zinc-900 mt-1 uppercase line-clamp-1 font-mono">
-                      {product.name}
-                    </h3>
-                  </div>
-
-                  <div className="mt-3 flex items-center justify-between border-t border-zinc-200 pt-2">
-                    <span className="text-sm font-black text-zinc-900 font-mono">
-                      {product.price}
-                    </span>
-                    <div className="flex items-center text-amber-500 text-xs font-bold gap-1">
-                      <Star className="w-3.5 h-3.5 fill-amber-500" />
-                      <span>4.9</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                id={product.id}
+                brand={product.brand}
+                name={product.name}
+                price={product.price}
+                image={product.image}
+                badge={product.badge}
+                isFavorite={isFav}
+                rating={4.9}
+                onFavoriteToggle={() => toggleFav(product)}
+                onAddToCart={() => handleAdd(product)}
+                variant="catalog"
+              />
             );
           })}
         </div>

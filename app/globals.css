@@ -221,3 +221,107 @@
   -webkit-text-stroke: 2px #000000;
   paint-order: stroke fill;
 }
+
+/* --- Heart Button Mashup Animations (Pure CSS Love) --- */
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.3) rotate(-10deg); }
+  30% { transform: scale(0.9) rotate(5deg); }
+  45% { transform: scale(1.15) rotate(-3deg); }
+  60% { transform: scale(0.95) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes heart-ring {
+  0% { transform: scale(0); opacity: 1; border-color: rgba(255, 46, 86, 0.8); }
+  60% { border-color: rgba(255, 46, 86, 0.4); }
+  100% { transform: scale(2.2); opacity: 0; border-width: 0.5px; }
+}
+
+@keyframes heart-bubble-1 {
+  0% { transform: translate(0, 0) scale(0.4) rotate(0deg); opacity: 0; }
+  15% { opacity: 0.95; }
+  50% { transform: translate(-15px, -30px) scale(1.1) rotate(-15deg); opacity: 0.95; }
+  100% { transform: translate(-22px, -55px) scale(0.6) rotate(-30deg); opacity: 0; }
+}
+
+@keyframes heart-bubble-2 {
+  0% { transform: translate(0, 0) scale(0.4) rotate(0deg); opacity: 0; }
+  15% { opacity: 0.95; }
+  50% { transform: translate(16px, -32px) scale(1.2) rotate(15deg); opacity: 0.95; }
+  100% { transform: translate(25px, -60px) scale(0.5) rotate(25deg); opacity: 0; }
+}
+
+@keyframes heart-bubble-3 {
+  0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+  20% { opacity: 0.85; }
+  60% { transform: translate(-24px, -18px) scale(0.95) rotate(-20deg); opacity: 0.85; }
+  100% { transform: translate(-36px, -36px) scale(0.4) rotate(-10deg); opacity: 0; }
+}
+
+@keyframes heart-bubble-4 {
+  0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+  20% { opacity: 0.85; }
+  60% { transform: translate(22px, -12px) scale(0.95) rotate(20deg); opacity: 0.85; }
+  100% { transform: translate(32px, -24px) scale(0.4) rotate(10deg); opacity: 0; }
+}
+
+@keyframes heart-spark-1 {
+  0% { transform: translate(-50%, -50%) translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(-28px, -24px) scale(0.1); opacity: 0; }
+}
+
+@keyframes heart-spark-2 {
+  0% { transform: translate(-50%, -50%) translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(26px, -28px) scale(0.1); opacity: 0; }
+}
+
+@keyframes heart-spark-3 {
+  0% { transform: translate(-50%, -50%) translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(-20px, 24px) scale(0.1); opacity: 0; }
+}
+
+@keyframes heart-spark-4 {
+  0% { transform: translate(-50%, -50%) translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) translate(24px, 20px) scale(0.1); opacity: 0; }
+}
+
+.animate-heart-pop {
+  animation: heart-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.animate-heart-ring {
+  animation: heart-ring 0.6s ease-out both;
+}
+
+.animate-heart-bubble-1 {
+  animation: heart-bubble-1 1.2s ease-out both;
+}
+
+.animate-heart-bubble-2 {
+  animation: heart-bubble-2 1.3s ease-out both;
+}
+
+.animate-heart-bubble-3 {
+  animation: heart-bubble-3 1.1s ease-out both;
+}
+
+.animate-heart-bubble-4 {
+  animation: heart-bubble-4 1.1s ease-out both;
+}
+
+.animate-heart-spark-1 {
+  animation: heart-spark-1 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+}
+
+.animate-heart-spark-2 {
+  animation: heart-spark-2 0.75s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+}
+
+.animate-heart-spark-3 {
+  animation: heart-spark-3 0.65s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+}
+
+.animate-heart-spark-4 {
+  animation: heart-spark-4 0.72s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+}

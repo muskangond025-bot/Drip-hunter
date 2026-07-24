@@ -2,14 +2,16 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Heart, ShoppingBag, MapPin, Truck, Star, Sparkles, RotateCw, RefreshCw, Folder, X, Share2, Info, Tag, Check, Mail, HandCoins, ArrowLeftRight, ChevronRight } from "lucide-react";
+import { ShoppingBag, MapPin, Truck, Star, Sparkles, RotateCw, RefreshCw, Folder, X, Share2, Info, Tag, Check, Mail, HandCoins, ArrowLeftRight, ChevronRight } from "lucide-react";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
+import { InteractiveHeartButton } from "@/components/ui/InteractiveHeartButton";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { StarRating } from "@/components/ui/star-rating";
 import { motion, AnimatePresence } from "framer-motion";
 import { masterProducts, Product } from "./data";
 import CompleteYourDrip from "@/components/features/CompleteYourDrip";
+import { InteractiveAddToCartButton } from "@/components/ui/InteractiveAddToCartButton";
 
 interface CartItem {
   id: number;
@@ -1016,12 +1018,15 @@ export default function ProductDetailClient({ productId }: { productId: number }
                 {/* Action Buttons: Add to Cart & Add to Wishlist */}
                 <div className="space-y-1.5 pt-2">
                   <div className="flex items-center gap-3">
-                    <button
+                    <InteractiveAddToCartButton
                       onClick={handleAddToCart}
-                      className="flex-1 bg-[#222222] hover:bg-black text-amber-300 font-bold text-xs py-3.5 px-4 rounded-lg shadow-sm transition-colors cursor-pointer border-none flex items-center justify-center gap-2 uppercase tracking-wide"
-                    >
-                      <span>Add to Cart</span>
-                    </button>
+                      buttonText="Add to Cart"
+                      addedText="Added to Cart"
+                      animationStyle="truck"
+                      size="md"
+                      className="w-full !bg-[#222222] hover:!bg-black text-amber-300 font-bold text-xs py-3.5 rounded-lg border-none tracking-wide"
+                      wrapperClassName="flex-1"
+                    />
 
                     <button
                       onClick={handleToggleFavorite}
@@ -1738,13 +1743,13 @@ export default function ProductDetailClient({ productId }: { productId: number }
                         {/* 1. EQUIPPED CAP / HEADWEAR (Perfectly Centered on Mannequin Head) */}
                         {equippedOutfit.cap && (
                           <div 
-                            className="absolute top-[8.5%] left-[51%] -translate-x-1/2 w-[16%] h-[12%] z-20 pointer-events-none transition-all duration-300 drop-shadow-md"
+                            className="absolute top-[3.5%] left-[53.5%] -translate-x-1/2 w-[18%] h-[12%] z-20 pointer-events-none transition-all duration-300 drop-shadow-md"
                           >
                             <Image
                               src={equippedOutfit.cap.img}
                               alt={equippedOutfit.cap.title}
                               fill
-                              className="object-contain"
+                              className="object-contain mix-blend-multiply"
                             />
                           </div>
                         )}
@@ -1752,13 +1757,13 @@ export default function ProductDetailClient({ productId }: { productId: number }
                         {/* 2. EQUIPPED TORSO (T-SHIRT / JACKET) (Perfectly Centered on Shoulders & Chest) */}
                         {(equippedOutfit.outerwear || equippedOutfit.top) && (
                           <div 
-                            className="absolute top-[24.5%] left-[50.5%] -translate-x-1/2 w-[33%] h-[32%] z-20 pointer-events-none transition-all duration-300 drop-shadow-lg"
+                            className="absolute top-[18%] left-[52.5%] -translate-x-1/2 w-[37%] h-[34%] z-20 pointer-events-none transition-all duration-300 drop-shadow-lg"
                           >
                             <Image
                               src={(equippedOutfit.outerwear || equippedOutfit.top)!.img}
                               alt={(equippedOutfit.outerwear || equippedOutfit.top)!.title}
                               fill
-                              className="object-contain"
+                              className="object-contain mix-blend-multiply"
                             />
                           </div>
                         )}
@@ -1766,14 +1771,14 @@ export default function ProductDetailClient({ productId }: { productId: number }
                         {/* 3. EQUIPPED SHOES (Perfectly Centered on Left & Right Feet) */}
                         {equippedOutfit.shoes && (
                           <div 
-                            className="absolute bottom-[3.5%] left-[50%] -translate-x-1/2 w-[36%] h-[12%] z-20 pointer-events-none transition-all duration-300 flex justify-between items-center px-1 drop-shadow-md"
+                            className="absolute bottom-[3.5%] left-[52.5%] -translate-x-1/2 w-[28%] h-[14%] z-20 pointer-events-none transition-all duration-300 flex justify-between items-center px-1 drop-shadow-md"
                           >
                             <div className="relative w-[45%] h-full transform scale-x-[-1] -rotate-6">
                               <Image
                                 src={equippedOutfit.shoes.img}
                                 alt={equippedOutfit.shoes.title}
                                 fill
-                                className="object-contain"
+                                className="object-contain mix-blend-multiply"
                               />
                             </div>
                             <div className="relative w-[45%] h-full transform rotate-6">
@@ -1781,7 +1786,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                                 src={equippedOutfit.shoes.img}
                                 alt={equippedOutfit.shoes.title}
                                 fill
-                                className="object-contain"
+                                className="object-contain mix-blend-multiply"
                               />
                             </div>
                           </div>
@@ -1815,15 +1820,15 @@ export default function ProductDetailClient({ productId }: { productId: number }
                         <span className="text-[10px] text-zinc-600 font-medium tracking-tight">
                           Like the outfit, <strong className="text-zinc-955 font-extrabold">Buy it Now!</strong>
                         </span>
-                        <button
+                        <InteractiveAddToCartButton
                           onClick={handleMannequinAddToCart}
-                          className="bg-[#222222] hover:bg-black text-white font-extrabold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md transition-all active:scale-95 cursor-pointer border-none tracking-wide"
-                        >
-                          <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-black text-white">
-                            +
-                          </div>
-                          <span>Add to Cart</span>
-                        </button>
+                          buttonText="Add to Cart"
+                          addedText="Added!"
+                          animationStyle="truck"
+                          size="sm"
+                          className="w-full !bg-[#222222] hover:!bg-black text-white font-extrabold text-[10px] py-2 rounded-xl shadow-md border-none tracking-wide"
+                          wrapperClassName="w-[110px]"
+                        />
                       </div>
 
                     </div>
@@ -1882,22 +1887,15 @@ export default function ProductDetailClient({ productId }: { productId: number }
                             <div className="relative aspect-[3/4] w-full bg-[#f6f6f7] rounded-2xl overflow-hidden p-4 flex items-center justify-center border border-zinc-150 group-hover:border-zinc-300 transition-colors">
                               
                               {/* Wishlist Heart Icon (Top Right) */}
-                              <button 
+                              <InteractiveHeartButton
+                                isFavorite={!!isWishlisted}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleToggleItemWishlist(item);
                                 }}
-                                className="absolute top-3 right-3 z-10 hover:scale-115 transition-all bg-white/70 backdrop-blur-xs p-1.5 rounded-full shadow-2xs border-none cursor-pointer"
-                                aria-label="Add to Wishlist"
-                              >
-                                <Heart 
-                                  className={`w-4 h-4 transition-colors ${
-                                    isWishlisted 
-                                      ? "fill-red-500 text-red-500 scale-110" 
-                                      : "fill-black text-black hover:fill-red-400 hover:text-red-400"
-                                  }`} 
-                                />
-                              </button>
+                                className="absolute top-3 right-3 bg-white/70 backdrop-blur-xs border-none"
+                                size="sm"
+                              />
 
                               {/* Product Image */}
                               <div className="relative w-full h-full">
@@ -2510,12 +2508,15 @@ export default function ProductDetailClient({ productId }: { productId: number }
                 </select>
               </div>
 
-              <button
+              <InteractiveAddToCartButton
                 onClick={handleAddToCart}
-                className="bg-[#d92626] hover:bg-red-700 text-white font-extrabold text-xs uppercase tracking-wider px-6 py-2.5 rounded-xl shadow-lg transition-all active:scale-95 cursor-pointer border-none shrink-0"
-              >
-                ADD TO CART
-              </button>
+                buttonText="ADD TO CART"
+                addedText="ADDED!"
+                animationStyle="truck"
+                size="sm"
+                className="w-full !bg-[#d92626] hover:!bg-red-700 text-white font-extrabold text-xs uppercase tracking-wider py-2.5 rounded-xl shadow-lg border-none"
+                wrapperClassName="w-[120px] shrink-0"
+              />
             </div>
 
           </div>

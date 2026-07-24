@@ -8,7 +8,9 @@ import { RetroTechBanner } from "@/components/common/RetroTechBanner";
 import { BrandHeroShowcase } from "@/components/features/BrandHeroShowcase";
 import { VendorOnboardingModal } from "@/components/features/VendorOnboardingModal";
 import { motion, AnimatePresence } from "framer-motion";
+import { InteractiveAddToCartButton } from "@/components/ui/InteractiveAddToCartButton";
 import { useRouter } from "next/navigation";
+import { InteractiveHeartButton } from "@/components/ui/InteractiveHeartButton";
 import {
   Search,
   Compass,
@@ -1166,7 +1168,16 @@ export default function BrandsDirectory() {
                           <p className="text-xs text-zinc-500 font-mono leading-relaxed">
                             Previewing detailed product shots for our selected look-alike variants. Shop or register matching items.
                           </p>
-                          <button onClick={() => { handleAddToCart({ id: 999, brand: "Celebrity Fit", name: "Styled Variant", price: "₹1,299", image: selectedVariantImage }); alert("Added styled variant to cart!"); }} className="w-full bg-[#f05a28] hover:bg-orange-600 text-white font-black text-xs uppercase tracking-widest py-4 rounded-xl shadow-md transition-colors cursor-pointer border-none font-sans">Add to cart</button>
+                          <InteractiveAddToCartButton
+                            onClick={() => {
+                              handleAddToCart({ id: 999, brand: "Celebrity Fit", name: "Styled Variant", price: "₹1,299", image: selectedVariantImage });
+                            }}
+                            buttonText="Add to cart"
+                            addedText="Added to cart"
+                            animationStyle="truck"
+                            size="lg"
+                            className="w-full !bg-[#f05a28] hover:!bg-orange-600 text-white font-black text-xs uppercase tracking-widest py-4 rounded-xl shadow-md transition-colors border-none font-sans"
+                          />
                         </div>
                       </div>
                     </motion.div>
@@ -1247,7 +1258,12 @@ export default function BrandsDirectory() {
                       </div>
                       <div className="flex justify-between items-center px-1">
                         <div className="flex gap-2.5 items-center">
-                          <motion.button whileTap={{ scale: 1.3 }} onClick={() => toggleLike(i)} className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"><Heart className={`w-4 h-4 transition-colors ${likedPosts[i] ? "text-red-500 fill-red-500" : "text-zinc-955"}`} /></motion.button>
+                          <InteractiveHeartButton
+                            isFavorite={!!likedPosts[i]}
+                            onClick={() => toggleLike(i)}
+                            plain={true}
+                            className="text-zinc-955"
+                          />
                           <button className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"><MessageCircle className="w-4 h-4 text-zinc-955" /></button>
                           <button className="bg-transparent border-none cursor-pointer p-0 flex items-center justify-center"><Send className="w-4 h-4 text-zinc-955" /></button>
                         </div>

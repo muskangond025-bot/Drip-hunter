@@ -7,6 +7,7 @@ import { CategorySelector } from "@/components/catalog/CategorySelector";
 import { CategoryTabs } from "@/components/catalog/CategoryTabs";
 import { HeroSection } from "@/components/features/HeroSection";
 import { TShirtGridSection } from "@/components/catalog/TShirtGridSection";
+import { FootwearShowcase } from "@/components/catalog/FootwearShowcase";
 import { NewArrivals } from "@/components/catalog/NewArrivals";
 import { TemplatesShowcase } from "@/components/features/TemplatesShowcase";
 import { BrandCollabTeasers } from "@/components/features/BrandCollabTeasers";
@@ -24,6 +25,7 @@ import { UrbanTrendingSection } from "@/components/catalog/UrbanTrendingSection"
 import { UrbanBlogSection } from "@/components/features/UrbanBlogSection";
 import { UrbanStreetStyleCreators } from "@/components/features/UrbanStreetStyleCreators";
 import { UrbanSystemsHeroShowcase } from "@/components/features/UrbanSystemsHeroShowcase";
+import { SpotlightBuyNow } from "@/components/features/SpotlightBuyNow";
 import { Footer } from "@/components/common/Footer";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -233,6 +235,13 @@ export default function Home() {
           searchQuery={searchQuery}
         />
 
+        {/* Dorian Horvat Inspired Footwear Showcase with Flying Cart Animations */}
+        <FootwearShowcase 
+          onAddToCart={handleAddToCart} 
+          favorites={wishlist.map((item) => item.id)}
+          onToggleFavorite={handleToggleFavorite}
+        />
+
         {/* New Arrivals Product Showcase */}
         <NewArrivals
           activeTab={activeTab}
@@ -261,11 +270,14 @@ export default function Home() {
           onToggleFavorite={handleToggleFavorite}
         />
 
+        {/* Spotlight Buy It Now Featured Showcase */}
+        <SpotlightBuyNow onAddToCart={handleAddToCart} />
+
         {/* Squarespace Style Templates Showcase */}
         <TemplatesShowcase />
 
         {/* Brand Collabs & Teasers Grid */}
-        <BrandCollabTeasers />
+        <BrandCollabTeasers onAddToCart={handleAddToCart} />
 
         {/* Custom lookbook street vibes */}
         <FeaturedLookbook 

@@ -2,8 +2,9 @@
 
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
-import { Search } from "lucide-react";
+import { Search, ShoppingBag } from "lucide-react";
 import { usePagination } from "@/hooks/usePagination";
+import { InteractiveAddToCartButton } from "@/components/ui/InteractiveAddToCartButton";
 
 interface Product {
   id: number;
@@ -100,7 +101,11 @@ export function TShirtGridSection({
 
   // Global search & sort state
   const [sortOrder, setSortOrder] = useState<string>("Recommended");
-  const itemsPerPage = 8; // 2 rows of 4 cards
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [flyingItems, setFlyingItems] = useState<{ id: string; src: string; startX: number; startY: number; endX: number; endY: number }[]>([]);
+  const [animatingProdId, setAnimatingProdId] = useState<number | null>(null);
+  const [animationStep, setAnimationStep] = useState<'idle' | 'bag-in' | 'drop' | 'fly'>('idle');
+  const itemsPerPage = isFilterOpen ? 8 : 10;
 
   // Search within categories
   const [categorySearch, setCategorySearch] = useState("");
@@ -308,7 +313,71 @@ export function TShirtGridSection({
     setAppliedDiscounts([]);
     setAppliedColors(["Red"]);
     goToPage(1);
-    alert("Filters reset to defaults!");
+  };
+
+  const handleAddToBag = (e: React.MouseEvent<HTMLButtonElement>, prod: Product) => {
+    e.preventDefault();
+    const buttonEl = e.currentTarget;
+    const cardEl = buttonEl.closest(".group");
+    
+    // Step 1: Slide up the shopping bag overlay
+    setAnimatingProdId(prod.id);
+    setAnimationStep('bag-in');
+
+    // Step 2: Scale down and drop the product image into the bag
+    setTimeout(() => {
+      setAnimationStep('drop');
+
+      // Step 3: Trigger flying bag animation
+      setTimeout(() => {
+        setAnimationStep('fly');
+
+        const bagContainer = cardEl?.querySelector(".animate-slide-up-bag");
+
+        if (bagContainer) {
+          const rect = bagContainer.getBoundingClientRect();
+          const cartEl = document.getElementById("navbar-cart-icon");
+          const cartRect = cartEl 
+            ? cartEl.getBoundingClientRect() 
+            : { left: window.innerWidth - 100, top: 24, width: 40, height: 40 };
+
+          const flightId = Math.random().toString(36).substring(2, 9);
+          const startX = rect.left + rect.width / 2;
+          const startY = rect.top + rect.height / 2;
+          const endX = cartRect.left + cartRect.width / 2;
+          const endY = cartRect.top + cartRect.height / 2;
+
+          setFlyingItems(prev => [...prev, {
+            id: flightId,
+            src: "bag", // Tells flight overlay to render a flying orange bag
+            startX,
+            startY,
+            endX,
+            endY
+          }]);
+        }
+
+        onAddToCart({
+          id: prod.id,
+          brand: prod.brand,
+          name: prod.name,
+          price: prod.price,
+          image: prod.image
+        });
+
+        // Step 4: Reset card animations after flight finishes
+        setTimeout(() => {
+          setAnimatingProdId(null);
+          setAnimationStep('idle');
+        }, 800);
+
+      }, 350);
+
+    }, 350);
+  };
+
+  const removeFlight = (id: string) => {
+    setFlyingItems(prev => prev.filter(f => f.id !== id));
   };
 
   return (
@@ -325,20 +394,23 @@ export function TShirtGridSection({
         </div>
         
         <div className="flex items-center gap-2">
-          <span className="text-zinc-400 font-bold text-xs uppercase tracking-wide">Sort by:</span>
-          <select 
-            value={sortOrder}
-            onChange={(e) => {
-              setSortOrder(e.target.value);
-              goToPage(1);
-            }}
-            className="bg-white border border-zinc-200 rounded-xl px-3 py-2 text-xs font-black text-zinc-800 outline-none focus:border-zinc-500 cursor-pointer"
-          >
-            <option>Recommended</option>
-            <option>Price: Low to High</option>
-            <option>Price: High to Low</option>
-            <option>Ratings</option>
-          </select>
+
+          <div className="flex items-center gap-2">
+            <span className="text-zinc-400 font-bold text-xs uppercase tracking-wide">Sort by:</span>
+            <select 
+              value={sortOrder}
+              onChange={(e) => {
+                setSortOrder(e.target.value);
+                goToPage(1);
+              }}
+              className="bg-white border border-zinc-200 rounded-xl px-3 py-2 text-xs font-black text-zinc-800 outline-none focus:border-zinc-500 cursor-pointer"
+            >
+              <option>Recommended</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Ratings</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -362,11 +434,11 @@ export function TShirtGridSection({
         </div>
       </div>
 
-      {/* Main Layout: Grid (3/4 width) & Tabbed Accordion Filter Sidebar (1/4 width) */}
-      <div className="flex flex-col lg:flex-row gap-8 items-start">
+      {/* Main Layout: Grid (dynamic width) & Tabbed Accordion Filter Sidebar (1/4 width) */}
+      <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
         
         {/* Left: Product Grid */}
-        <div className="flex-grow w-full lg:w-3/4 order-2 lg:order-1">
+        <div className={`flex-grow w-full order-2 lg:order-1 ${isFilterOpen ? "lg:w-3/4" : "w-full"}`}>
           
           {/* Active Filter Badges */}
           <div className="flex flex-wrap items-center justify-between gap-3 mb-6 bg-zinc-50/50 p-4 border border-zinc-150 rounded-2xl">
@@ -431,8 +503,21 @@ export function TShirtGridSection({
                 Reset
               </button>
             </div>
-            <div className="text-xs font-bold text-zinc-450 uppercase tracking-widest">
-              {filteredProducts.length} Items
+            <div className="flex items-center gap-4.5">
+              {!isFilterOpen && (
+                <button
+                  onClick={() => setIsFilterOpen(true)}
+                  className="flex items-center gap-1.5 border border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50 bg-white text-zinc-800 px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all active:scale-95 cursor-pointer shadow-xs"
+                >
+                  Filters
+                  <svg className="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
+                </button>
+              )}
+              <div className="text-xs font-bold text-zinc-450 uppercase tracking-widest">
+                {filteredProducts.length} Items
+              </div>
             </div>
           </div>
 
@@ -445,7 +530,7 @@ export function TShirtGridSection({
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            <div className={`grid grid-cols-2 sm:grid-cols-4 gap-6 ${isFilterOpen ? "" : "lg:grid-cols-5"}`}>
               {paginatedItems.map((prod) => (
                 <div 
                   key={prod.id}
@@ -453,17 +538,52 @@ export function TShirtGridSection({
                 >
                   <div className="cursor-pointer" onClick={() => window.location.href = `/product/${prod.id}`}>
                     <div className="relative w-full aspect-[4/5] bg-zinc-50 rounded-xl overflow-hidden mb-3">
-                      <Image
-                        src={prod.image}
-                        alt={prod.name}
-                        fill
-                        sizes="(max-w-768px) 150px, 220px"
-                        className="object-cover group-hover:scale-103 transition-transform duration-300"
-                      />
+                      
+                      {/* Bag Back Layer */}
+                      {animatingProdId === prod.id && (animationStep === "bag-in" || animationStep === "drop") && (
+                        <div className="absolute inset-x-0 bottom-3 flex justify-center z-5 animate-slide-up-bag">
+                          <div className="relative w-32 h-24 bg-[#1e1e1e] rounded-b-xl border border-zinc-800 shadow-inner">
+                            {/* Back handle string */}
+                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-5 border-2 border-zinc-700 rounded-t-full" />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Product Image Wrapper */}
+                      <div 
+                        className={`w-full h-full transition-all duration-300 z-10 relative ${
+                          animatingProdId === prod.id && animationStep === "drop" ? "scale-40 translate-y-16 opacity-0" : ""
+                        } ${
+                          animatingProdId === prod.id && animationStep === "bag-in" ? "scale-90" : ""
+                        }`}
+                      >
+                        <Image
+                          src={prod.image}
+                          alt={prod.name}
+                          fill
+                          sizes="(max-w-768px) 150px, 220px"
+                          className="object-cover group-hover:scale-103 transition-transform duration-300"
+                        />
+                      </div>
+
                       {prod.discount > 0 && (
-                        <span className="absolute top-2 left-2 text-[9px] font-black px-2 py-0.5 rounded-md text-white uppercase bg-red-650 tracking-wider">
+                        <span className="absolute top-2 left-2 text-[9px] font-black px-2 py-0.5 rounded-md text-white uppercase bg-red-650 tracking-wider z-20">
                           {prod.discount}% Off
                         </span>
+                      )}
+                      
+                      {/* Bag Front Layer */}
+                      {animatingProdId === prod.id && (animationStep === "bag-in" || animationStep === "drop") && (
+                        <div className="absolute inset-x-0 bottom-3 flex justify-center z-15 animate-slide-up-bag">
+                          <div className="relative w-32 h-24 bg-[#0d0d0d] rounded-b-xl border-t border-zinc-700 shadow-lg flex flex-col justify-center items-center">
+                            {/* Front handle string */}
+                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-5 border-2 border-zinc-650 rounded-t-full" />
+                            {/* Brand label text */}
+                            <span className="text-[6px] font-mono text-zinc-500 font-black tracking-widest uppercase mt-4">
+                              DRIP HUNTER
+                            </span>
+                          </div>
+                        </div>
                       )}
                     </div>
 
@@ -479,29 +599,21 @@ export function TShirtGridSection({
                     </h3>
                   </div>
 
-                  <div>
-                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-zinc-50">
-                      <span className="text-xs font-black text-zinc-950 font-mono">
-                        {prod.price}
-                      </span>
+                    <div className="mt-2 pt-2 border-t border-zinc-100 flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-black text-zinc-950 font-mono">
+                          {prod.price}
+                        </span>
+                      </div>
                       
-                      <button
-                        onClick={() => {
-                          onAddToCart({
-                            id: prod.id,
-                            brand: prod.brand,
-                            name: prod.name,
-                            price: prod.price,
-                            image: prod.image
-                          });
-                          alert(`${prod.name} added to cart!`);
-                        }}
-                        className="bg-zinc-950 hover:bg-black text-[#ebd26b] font-black text-[9px] uppercase tracking-wider px-3 py-2 rounded-xl cursor-pointer transition-colors border-none"
-                      >
-                        Add To Cart
-                      </button>
+                      <InteractiveAddToCartButton
+                        onClick={(e) => handleAddToBag(e, prod)}
+                        buttonText="Add To Cart"
+                        animationStyle="truck"
+                        size="sm"
+                        className="w-full"
+                      />
                     </div>
-                  </div>
                 </div>
               ))}
             </div>
@@ -550,7 +662,8 @@ export function TShirtGridSection({
         </div>
 
         {/* Right: Vertical Tabbed Accordion Filter Sidebar (1/4 width) */}
-        <div className="w-full lg:w-1/4 bg-white border border-zinc-200 rounded-3xl overflow-hidden order-1 lg:order-2 flex flex-col justify-between min-h-[460px] shadow-sm">
+        {isFilterOpen && (
+          <div className="w-full lg:w-1/4 bg-white border border-zinc-200 rounded-3xl overflow-hidden order-1 lg:order-2 flex flex-col justify-between min-h-[460px] shadow-sm">
           
           {/* Header */}
           <div className="px-5 py-4 border-b border-zinc-200 flex items-center justify-between bg-zinc-50/50">
@@ -796,7 +909,7 @@ export function TShirtGridSection({
           {/* Footer applying CLOSE / APPLY actions */}
           <div className="border-t border-zinc-200 grid grid-cols-2 text-center text-xs font-black uppercase select-none tracking-widest bg-zinc-50">
             <button 
-              onClick={handleCloseOrReset}
+              onClick={() => setIsFilterOpen(false)}
               className="py-4 hover:bg-zinc-100 text-zinc-500 font-bold tracking-widest hover:text-black transition-colors cursor-pointer border-none bg-transparent"
             >
               Close
@@ -810,8 +923,80 @@ export function TShirtGridSection({
           </div>
 
         </div>
+        )}
 
       </div>
+
+      {/* Dynamic styles injected for flight path coordinates */}
+      <style>{`
+        @keyframes flyItemToCart {
+          0% {
+            transform: translate(0, 0) scale(1.0) rotate(0deg);
+            opacity: 1;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+          }
+          50% {
+            opacity: 0.85;
+          }
+          100% {
+            transform: translate(var(--dx), var(--dy)) scale(0.08) rotate(180deg);
+            opacity: 0.05;
+            filter: drop-shadow(0 0px 0px rgba(0,0,0,0));
+          }
+        }
+        .animate-flying-item {
+          animation: flyItemToCart 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes slideUpBag {
+          0% { transform: translateY(120px) scale(0.8); }
+          60% { transform: translateY(-10px) scale(1.1); }
+          100% { transform: translateY(0) scale(1); }
+        }
+        .animate-slide-up-bag {
+          animation: slideUpBag 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+      `}</style>
+
+      {/* Fly-to-Cart Portal Overlay */}
+      {flyingItems.map(item => {
+        const dx = item.endX - item.startX;
+        const dy = item.endY - item.startY;
+        return (
+          <div
+            key={item.id}
+            className="animate-flying-item"
+            onAnimationEnd={() => removeFlight(item.id)}
+            style={{
+              position: "fixed",
+              left: item.startX - 24, // centers 48px frame
+              top: item.startY - 24,
+              width: "48px",
+              height: "48px",
+              zIndex: 99999,
+              pointerEvents: "none",
+              "--dx": `${dx}px`,
+              "--dy": `${dy}px`
+            } as any}
+          >
+            {item.src === "bag" ? (
+              <div className="relative w-12 h-12 flex flex-col justify-end">
+                {/* Loop handles */}
+                <div className="absolute top-1 left-1/2 -translate-x-1/2 w-4 h-2 border border-zinc-600 rounded-t-full" />
+                {/* Bag Body */}
+                <div className="w-12 h-9 bg-[#0d0d0d] rounded-b-md border-t border-zinc-700 shadow-lg flex flex-col items-center justify-center">
+                  <span className="text-[3px] font-mono text-zinc-500 font-extrabold tracking-widest">DRIP</span>
+                </div>
+              </div>
+            ) : (
+              <img 
+                src={item.src} 
+                alt="Flying Clothes" 
+                className="w-full h-full object-cover rounded-lg"
+              />
+            )}
+          </div>
+        );
+      })}
 
     </section>
   );

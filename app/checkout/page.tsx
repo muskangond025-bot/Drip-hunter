@@ -6,6 +6,7 @@ import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { ChevronDown, Tag, Check, Heart, RefreshCw, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { InteractivePlaceOrderButton } from "@/components/ui/InteractivePlaceOrderButton";
 
 interface CartItem {
   id: number;
@@ -339,32 +340,44 @@ export default function CheckoutPage() {
     }
   };
 
-  const handleCodSubmit = () => {
+  const validateCod = () => {
     if (captchaInput.trim().toLowerCase() !== captchaText.toLowerCase()) {
       setCaptchaError("Invalid Captcha code!");
-      return;
+      return false;
     }
-    handlePlaceOrder();
+    setCaptchaError("");
+    return true;
   };
 
-  const handleCardSubmit = () => {
+  const validateCard = () => {
     if (!cardNumber || cardNumber.length < 16) {
       setCardError("Please enter a valid 16-digit card number");
-      return;
+      return false;
     }
     if (!cardName.trim()) {
       setCardError("Please enter the cardholder's name");
-      return;
+      return false;
     }
     if (!cardExpiry || !cardExpiry.includes("/")) {
       setCardError("Please enter expiry in MM/YY format");
-      return;
+      return false;
     }
     if (!cardCvv || cardCvv.length < 3) {
       setCardError("Please enter a valid 3-digit CVV");
-      return;
+      return false;
     }
-    handlePlaceOrder();
+    setCardError("");
+    return true;
+  };
+
+  const validateGeneric = () => {
+    if (activePaymentTab === "cod") {
+      return validateCod();
+    }
+    if (activePaymentTab === "card") {
+      return validateCard();
+    }
+    return true;
   };
 
   // Static recommendations
@@ -1071,12 +1084,13 @@ export default function CheckoutPage() {
                         <p className="text-[10px] text-zinc-500 font-mono">You can pay via Cash/UPI on delivery</p>
                       </div>
 
-                      <button 
-                        onClick={handleCodSubmit}
-                        className="w-full bg-[#f05a28] hover:bg-[#d84e20] text-white font-extrabold text-xs uppercase tracking-wider py-4 rounded-xl transition-colors shadow-lg cursor-pointer text-center"
-                      >
-                        Place Order
-                      </button>
+                      <InteractivePlaceOrderButton
+                        onClick={validateCod}
+                        onAnimationComplete={handlePlaceOrder}
+                        buttonText="Place Order"
+                        className="w-full"
+                        wrapperClassName="w-full"
+                      />
                     </div>
                   )}
 
@@ -1137,12 +1151,12 @@ export default function CheckoutPage() {
                         </label>
                       </div>
 
-                      <button 
-                        onClick={handlePlaceOrder}
-                        className="w-full bg-[#f05a28] hover:bg-[#d84e20] text-white font-extrabold text-xs uppercase tracking-wider py-4 rounded-xl transition-colors shadow-lg cursor-pointer text-center"
-                      >
-                        Place Order
-                      </button>
+                      <InteractivePlaceOrderButton
+                        onAnimationComplete={handlePlaceOrder}
+                        buttonText="Place Order"
+                        className="w-full"
+                        wrapperClassName="w-full"
+                      />
                     </div>
                   )}
 
@@ -1215,12 +1229,13 @@ export default function CheckoutPage() {
                         )}
                       </div>
 
-                      <button 
-                        onClick={handleCardSubmit}
-                        className="w-full bg-[#f05a28] hover:bg-[#d84e20] text-white font-extrabold text-xs uppercase tracking-wider py-4 rounded-xl transition-colors shadow-lg cursor-pointer text-center"
-                      >
-                        Place Order
-                      </button>
+                      <InteractivePlaceOrderButton
+                        onClick={validateCard}
+                        onAnimationComplete={handlePlaceOrder}
+                        buttonText="Place Order"
+                        className="w-full"
+                        wrapperClassName="w-full"
+                      />
                     </div>
                   )}
 
@@ -1252,12 +1267,12 @@ export default function CheckoutPage() {
                         ))}
                       </div>
 
-                      <button 
-                        onClick={handlePlaceOrder}
-                        className="w-full bg-[#f05a28] hover:bg-[#d84e20] text-white font-extrabold text-xs uppercase tracking-wider py-4 rounded-xl transition-colors shadow-lg cursor-pointer text-center"
-                      >
-                        Place Order
-                      </button>
+                      <InteractivePlaceOrderButton
+                        onAnimationComplete={handlePlaceOrder}
+                        buttonText="Place Order"
+                        className="w-full"
+                        wrapperClassName="w-full"
+                      />
                     </div>
                   )}
 
@@ -1325,12 +1340,12 @@ export default function CheckoutPage() {
                         <option value="union">Union Bank of India</option>
                       </select>
 
-                      <button 
-                        onClick={handlePlaceOrder}
-                        className="w-full bg-[#f05a28] hover:bg-[#d84e20] text-white font-extrabold text-xs uppercase tracking-wider py-4 rounded-xl transition-colors shadow-lg cursor-pointer text-center"
-                      >
-                        Place Order
-                      </button>
+                      <InteractivePlaceOrderButton
+                        onAnimationComplete={handlePlaceOrder}
+                        buttonText="Place Order"
+                        className="w-full"
+                        wrapperClassName="w-full"
+                      />
                     </div>
                   )}
 
@@ -1397,12 +1412,13 @@ export default function CheckoutPage() {
                   <span>${totalAmount.toFixed(2)}</span>
                 </div>
 
-                <button 
-                  onClick={activePaymentTab === "cod" ? handleCodSubmit : activePaymentTab === "card" ? handleCardSubmit : handlePlaceOrder}
-                  className="w-full bg-[#f05a28] hover:bg-[#d84e20] text-white font-extrabold text-xs uppercase tracking-wider py-4 rounded-xl transition-colors shadow-lg cursor-pointer text-center"
-                >
-                  Place Order
-                </button>
+                <InteractivePlaceOrderButton
+                  onClick={validateGeneric}
+                  onAnimationComplete={handlePlaceOrder}
+                  buttonText="Place Order"
+                  className="w-full"
+                  wrapperClassName="w-full"
+                />
               </div>
             </div>
 

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { ChevronLeft, ChevronRight, RotateCw, Plus, Check, Sparkles } from "lucide-react";
+import { InteractiveAddToCartButton } from "@/components/ui/InteractiveAddToCartButton";
 
 // --- Types & Data Definitions ---
 export type CategoryKey = "tshirt" | "jacket" | "headwear" | "shoes";
@@ -757,15 +758,15 @@ export default function CompleteYourDrip() {
                 Like the outfit, <strong className="text-zinc-955 font-extrabold">Buy it Now!</strong>
               </span>
               
-              <button
+              <InteractiveAddToCartButton
                 onClick={handleAddToCart}
-                className="bg-[#222222] hover:bg-black text-white font-extrabold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md transition-all active:scale-95 cursor-pointer border-none tracking-wide"
-              >
-                <div className="w-3.5 h-3.5 rounded-full bg-white/20 flex items-center justify-center text-[10px] font-black text-white">
-                  +
-                </div>
-                <span>Add to Cart</span>
-              </button>
+                buttonText="Add to Cart"
+                addedText="Added!"
+                animationStyle="truck"
+                size="sm"
+                className="w-full !bg-[#222222] hover:!bg-black text-white font-extrabold text-[10px] py-2 rounded-xl shadow-md border-none tracking-wide"
+                wrapperClassName="w-[110px]"
+              />
             </div>
           </div>
 

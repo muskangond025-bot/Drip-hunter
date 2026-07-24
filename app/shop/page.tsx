@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { ProductCard } from "@/components/ui/product-card";
+import { InteractiveAddToCartButton } from "@/components/ui/InteractiveAddToCartButton";
+import { InteractiveBuyNowButton } from "@/components/ui/InteractiveBuyNowButton";
 import { CategorySelector } from "@/components/catalog/CategorySelector";
 import { StarRating } from "@/components/ui/star-rating";
 import { Pagination } from "@/components/ui/pagination";
@@ -192,7 +194,11 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [flyingItems, setFlyingItems] = useState<{ id: string; src: string; startX: number; startY: number; endX: number; endY: number }[]>([]);
+  const [drawerAnimating, setDrawerAnimating] = useState(false);
+  const [drawerStep, setDrawerStep] = useState<'idle' | 'bag-in' | 'drop' | 'fly'>('idle');
+  const itemsPerPage = isFilterOpen ? 12 : 15;
 
   const toggleFilter = <T,>(item: T, list: T[], setList: React.Dispatch<React.SetStateAction<T[]>>) => {
     setCurrentPage(1);
@@ -443,9 +449,22 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
           
           {/* Top Bar Controls */}
           <div className="flex items-center justify-between pb-6 border-b border-zinc-200 text-xs font-mono">
-            <span className="text-zinc-600 font-bold">
-              {sortedProducts.length} products
-            </span>
+            <div className="flex items-center gap-3">
+              {!isFilterOpen && (
+                <button
+                  onClick={() => setIsFilterOpen(true)}
+                  className="flex items-center gap-1.5 border border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50 bg-white text-zinc-800 px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all active:scale-95 cursor-pointer shadow-xs"
+                >
+                  Filters
+                  <svg className="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
+                </button>
+              )}
+              <span className="text-zinc-600 font-bold">
+                {sortedProducts.length} products
+              </span>
+            </div>
 
             <div className="flex items-center gap-2">
               <span className="text-zinc-400 font-medium">Sort by</span>
@@ -468,10 +487,19 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
           <div className="flex flex-col lg:flex-row gap-10 pt-8 items-start">
             
             {/* LEFT SIDEBAR FILTERS PANEL */}
-            <aside className="w-full lg:w-64 shrink-0 space-y-6 text-left">
-              <h2 className="text-sm font-black uppercase tracking-widest text-zinc-950 font-mono border-b border-zinc-200 pb-3">
-                FILTERS
-              </h2>
+            {isFilterOpen && (
+              <aside className="w-full lg:w-64 shrink-0 space-y-6 text-left">
+                <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
+                  <h2 className="text-sm font-black uppercase tracking-widest text-zinc-950 font-mono">
+                    FILTERS
+                  </h2>
+                  <button
+                    onClick={() => setIsFilterOpen(false)}
+                    className="text-[10px] font-mono font-bold text-zinc-400 hover:text-zinc-800 transition-colors uppercase tracking-wider cursor-pointer border-none bg-transparent"
+                  >
+                    Close ✕
+                  </button>
+                </div>
 
               {/* Audience / Gender Filter Section (Girls, Boys, Men, Women, All) */}
               <div className="border-b border-zinc-200 pb-4 space-y-3">
@@ -620,7 +648,8 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
                 )}
               </div>
 
-            </aside>
+              </aside>
+            )}
 
             {/* RIGHT PRODUCT GRID */}
             <div className="flex-grow space-y-12 w-full">
@@ -646,7 +675,7 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
                       <p className="text-sm font-mono text-zinc-500">No products found matching "{searchQuery}"</p>
                     </div>
                   ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 ${isFilterOpen ? "" : "lg:grid-cols-4"}`}>
                     {(paginatedCatalogList.length > 0 ? paginatedCatalogList : products.slice(0, 6)).map((product) => (
                         <a
                           key={product.id}
@@ -698,7 +727,7 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
                 </div>
               ) : (
                 /* Regular Catalog 4-Column Grid */
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                 <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ${isFilterOpen ? "" : "lg:grid-cols-5"}`}>
                   {paginatedCatalogList.map((product) => {
                     const isFav = wishlist.some(item => item.id === product.id);
                     return (
@@ -893,12 +922,47 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
                 {/* Product Summary Header Card */}
                 <div className="flex gap-4 items-start text-left bg-zinc-50 p-4 rounded-2xl border border-zinc-200">
                   <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-white shrink-0 border border-zinc-200">
-                    <Image
-                      src={selectedOptionsProduct.image}
-                      alt={selectedOptionsProduct.name}
-                      fill
-                      className="object-cover"
-                    />
+                    
+                    {/* Bag Back Layer */}
+                    {drawerAnimating && (drawerStep === "bag-in" || drawerStep === "drop") && (
+                      <div className="absolute inset-x-0 bottom-1 flex justify-center z-5 animate-slide-up-bag">
+                        <div className="relative w-16 h-12 bg-[#1e1e1e] rounded-b-md border border-zinc-800 shadow-inner">
+                          {/* Back handle string */}
+                          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-6 h-3 border border-zinc-700 rounded-t-full" />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Image Wrapper */}
+                    <div 
+                      className={`w-full h-full transition-all duration-300 z-10 relative ${
+                        drawerAnimating && drawerStep === "drop" ? "scale-40 translate-y-8 opacity-0" : ""
+                      } ${
+                        drawerAnimating && drawerStep === "bag-in" ? "scale-95" : ""
+                      }`}
+                    >
+                      <Image
+                        src={selectedOptionsProduct.image}
+                        alt={selectedOptionsProduct.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    {/* Bag Front Layer */}
+                    {drawerAnimating && (drawerStep === "bag-in" || drawerStep === "drop") && (
+                      <div className="absolute inset-x-0 bottom-1 flex justify-center z-15 animate-slide-up-bag">
+                        <div className="relative w-16 h-12 bg-[#0d0d0d] rounded-b-md border-t border-zinc-700 shadow-lg flex flex-col justify-center items-center">
+                          {/* Front handle string */}
+                          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-6 h-3 border border-zinc-650 rounded-t-full" />
+                          {/* Gold brand text */}
+                          <span className="text-[3px] font-mono text-zinc-500 font-extrabold tracking-widest uppercase mt-1">
+                            DRIP
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
                   </div>
 
                   <div className="space-y-1">
@@ -994,27 +1058,35 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
 
                 {/* Action Buttons */}
                 <div className="space-y-3 pt-4">
-                  <button
+                  <InteractiveAddToCartButton
                     onClick={() => {
                       handleAddToCart(selectedOptionsProduct, selectedQty);
-                      setSelectedOptionsProduct(null);
-                      alert(`🛒 Added ${selectedQty}x ${selectedOptionsProduct.name} (${selectedSize} / ${selectedColorName}) to cart!`);
+                      // Close drawer after success animation completes
+                      setTimeout(() => {
+                        setDrawerAnimating(false);
+                        setDrawerStep('idle');
+                        setSelectedOptionsProduct(null);
+                      }, 2200);
                     }}
-                    className="w-full bg-[#d92626] hover:bg-red-700 text-white font-extrabold text-xs uppercase tracking-widest py-4 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer border-none"
-                  >
-                    ADD TO CART
-                  </button>
+                    buttonText="ADD TO CART"
+                    addedText="ADDED!"
+                    animationStyle="truck"
+                    size="lg"
+                    className="w-full !bg-[#d92626] hover:!bg-red-700 text-white font-extrabold text-xs uppercase tracking-widest py-4 rounded-xl shadow-md transition-all border-none"
+                  />
 
-                  <button
+                  <InteractiveBuyNowButton
                     onClick={() => {
                       handleAddToCart(selectedOptionsProduct, selectedQty);
-                      setSelectedOptionsProduct(null);
-                      window.location.href = "/checkout";
+                      setTimeout(() => {
+                        setSelectedOptionsProduct(null);
+                      }, 2000);
                     }}
-                    className="w-full bg-black hover:bg-zinc-800 text-white font-extrabold text-xs uppercase tracking-widest py-4 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer border-none"
-                  >
-                    BUY IT NOW
-                  </button>
+                    buttonText="BUY IT NOW"
+                    size="lg"
+                    className="w-full font-extrabold text-xs uppercase tracking-widest py-4 rounded-xl border-none cursor-pointer"
+                    wrapperClassName="w-full"
+                  />
                 </div>
 
                 {/* View Details Link */}
@@ -1033,6 +1105,66 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Dynamic styles injected for flight path coordinates */}
+      <style>{`
+        @keyframes flyItemToCart {
+          0% {
+            transform: translate(0, 0) scale(1.0) rotate(0deg);
+            opacity: 1;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+          }
+          50% {
+            opacity: 0.85;
+          }
+          100% {
+            transform: translate(var(--dx), var(--dy)) scale(0.08) rotate(180deg);
+            opacity: 0.05;
+            filter: drop-shadow(0 0px 0px rgba(0,0,0,0));
+          }
+        }
+        .animate-flying-item {
+          animation: flyItemToCart 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes slideUpBag {
+          0% { transform: translateY(120px) scale(0.8); }
+          60% { transform: translateY(-10px) scale(1.1); }
+          100% { transform: translateY(0) scale(1); }
+        }
+        .animate-slide-up-bag {
+          animation: slideUpBag 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+      `}</style>
+
+      {/* Fly-to-Cart Portal Overlay */}
+      {flyingItems.map(item => {
+        const dx = item.endX - item.startX;
+        const dy = item.endY - item.startY;
+        return (
+          <div
+            key={item.id}
+            className="animate-flying-item"
+            onAnimationEnd={() => setFlyingItems(prev => prev.filter(f => f.id !== item.id))}
+            style={{
+              position: "fixed",
+              left: item.startX - 40,
+              top: item.startY - 40,
+              width: "80px",
+              height: "80px",
+              zIndex: 99999,
+              pointerEvents: "none",
+              "--dx": `${dx}px`,
+              "--dy": `${dy}px`
+            } as any}
+          >
+            <img 
+              src={item.src} 
+              alt="Flying Clothes" 
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
+        );
+      })}
 
       {/* Social Banner & Footer */}
       <Footer />

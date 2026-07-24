@@ -867,5 +867,710 @@ export const masterProducts: Product[] = [
       { label: "color", value: "Washed Indigo" },
       { label: "unisex", value: "made in India" }
     ]
+  },
+  {
+    id: 901,
+    brand: "NIKE SPORTSWEAR",
+    name: "AIR MAX INTRLK LITE // HYPER VIBE",
+    price: "₹8,999",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
+    rating: 4.9,
+    color: "Red",
+    gender: "Men",
+    category: "Footwear",
+    discount: 10,
+    sizes: ["UK 7", "UK 8", "UK 9", "UK 10"],
+    description: "Futuristic redesign of the classic Air Max silhouette. Dynamic Max Air unit provides ultimate impact protection, paired with a sleek translucent woven upper.",
+    specifications: [
+      { label: "cushioning", value: "Max Air Sole" },
+      { label: "material", value: "Translucent Mesh & Synthetic Overlays" },
+      { label: "fit", value: "True to Size" },
+      { label: "style", value: "Futuristic Streetwear" }
+    ]
+  },
+  {
+    id: 902,
+    brand: "PUMA STREET",
+    name: "FUTURE RIDER // ELECTRIC CYAN",
+    price: "₹6,499",
+    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80",
+    rating: 4.8,
+    color: "Cyan",
+    gender: "Women",
+    category: "Footwear",
+    discount: 0,
+    sizes: ["UK 7", "UK 8", "UK 9", "UK 10"],
+    description: "Retro running shoe updated with bold neon cyberpunk overlays. Features a shock-absorbing Puma Federbein outsole and lightweight rider foam midsole.",
+    specifications: [
+      { label: "outsole", value: "Puma Federbein Shock Absorbing" },
+      { label: "midsole", value: "Rider Foam Cushioning" },
+      { label: "colorway", value: "Cyan / Electric Pink" },
+      { label: "style", value: "Retro Cyber Runner" }
+    ]
+  },
+  {
+    id: 903,
+    brand: "DRIP HUNTER SPECIAL",
+    name: "DRIP MESH RUNNER // VOLT GOLD",
+    price: "₹10,999",
+    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80",
+    rating: 5.0,
+    color: "Yellow",
+    gender: "Men",
+    category: "Footwear",
+    discount: 15,
+    sizes: ["UK 7", "UK 8", "UK 9", "UK 10"],
+    description: "Drip Hunter exclusive luxury runner. Designed for premium street aesthetics, featuring breathable high-density mesh and signature vulcanized shock protection.",
+    specifications: [
+      { label: "midsole", value: "Vulcanized EVA Tech" },
+      { label: "upper", value: "High-density Engineered Mesh" },
+      { label: "colorway", value: "Volt Gold / Stealth Black" },
+      { label: "style", value: "Premium Luxury Streetwear" }
+    ]
+  }
+,
+  {
+    id: 801,
+    brand: "Supervek",
+    name: "Classic Slinger",
+    price: "Rs. 1,499.00",
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80",
+    rating: 4.7,
+    color: "Multi",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 40,
+    sizes: ["One Size"],
+    description: "Premium Classic Slinger designed by Supervek. Blending tactical street aesthetics with everyday urban utility.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Reinforced Water-resistant Fabric"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 802,
+    brand: "Supervek",
+    name: "Carbon Black Slinger",
+    price: "Rs. 1,999.00",
+    image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=500&q=80",
+    rating: 4.7,
+    color: "Multi",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 20,
+    sizes: ["One Size"],
+    description: "Premium Carbon Black Slinger designed by Supervek. Blending tactical street aesthetics with everyday urban utility.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Reinforced Water-resistant Fabric"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 803,
+    brand: "Supervek",
+    name: "Super Shark Camo Wallet",
+    price: "Rs. 1,599.00",
+    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=500&q=80",
+    rating: 4.7,
+    color: "Multi",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 0,
+    sizes: ["One Size"],
+    description: "Premium Super Shark Camo Wallet designed by Supervek. Blending tactical street aesthetics with everyday urban utility.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Reinforced Water-resistant Fabric"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 804,
+    brand: "Supervek",
+    name: "OG Thunder Oversized T-Shirt",
+    price: "Rs. 1,199.00",
+    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80",
+    rating: 4.7,
+    color: "Multi",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 52,
+    sizes: ["One Size"],
+    description: "Premium OG Thunder Oversized T-Shirt designed by Supervek. Blending tactical street aesthetics with everyday urban utility.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Reinforced Water-resistant Fabric"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 805,
+    brand: "Supervek",
+    name: "Oni Oversized Graphic Tee",
+    price: "Rs. 1,999.00",
+    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80",
+    rating: 4.7,
+    color: "Multi",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 50,
+    sizes: ["One Size"],
+    description: "Premium Oni Oversized Graphic Tee designed by Supervek. Blending tactical street aesthetics with everyday urban utility.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Reinforced Water-resistant Fabric"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 811,
+    brand: "Supervek",
+    name: "Cyber Shield Sunglasses",
+    price: "Rs. 1,299.00",
+    image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=80",
+    rating: 4.8,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 0,
+    sizes: ["One Size"],
+    description: "Next-gen Cyber Shield Sunglasses from the latest Supervek collection. Engineered for durability and visual impact.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Tactical Grade Synthetic"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 812,
+    brand: "Supervek",
+    name: "Stealth Tactical Chest Rig",
+    price: "Rs. 2,499.00",
+    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80",
+    rating: 4.8,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 0,
+    sizes: ["One Size"],
+    description: "Next-gen Stealth Tactical Chest Rig from the latest Supervek collection. Engineered for durability and visual impact.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Tactical Grade Synthetic"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 813,
+    brand: "Supervek",
+    name: "Utility Cargo Shorts",
+    price: "Rs. 1,899.00",
+    image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=500&q=80",
+    rating: 4.8,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 0,
+    sizes: ["One Size"],
+    description: "Next-gen Utility Cargo Shorts from the latest Supervek collection. Engineered for durability and visual impact.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Tactical Grade Synthetic"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 814,
+    brand: "Supervek",
+    name: "Heavyweight Graphic Tee",
+    price: "Rs. 1,499.00",
+    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80",
+    rating: 4.8,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 0,
+    sizes: ["One Size"],
+    description: "Next-gen Heavyweight Graphic Tee from the latest Supervek collection. Engineered for durability and visual impact.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Tactical Grade Synthetic"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 815,
+    brand: "Supervek",
+    name: "Retro Tech Beanie",
+    price: "Rs. 899.00",
+    image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=500&q=80",
+    rating: 4.8,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 0,
+    sizes: ["One Size"],
+    description: "Next-gen Retro Tech Beanie from the latest Supervek collection. Engineered for durability and visual impact.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Tactical Grade Synthetic"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 821,
+    brand: "Supervek",
+    name: "Urban Utility Sling",
+    price: "Rs. 1,249.00",
+    image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=500&q=80",
+    rating: 4.5,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 50,
+    sizes: ["One Size"],
+    description: "Special discount release of Urban Utility Sling. Iconic streetwear design at an accessible price.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Durable Poly-blend"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 822,
+    brand: "Supervek",
+    name: "Reflective Street Vest",
+    price: "Rs. 2,799.00",
+    image: "https://images.unsplash.com/photo-1520975954732-35dd22299614?auto=format&fit=crop&w=500&q=80",
+    rating: 4.5,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 30,
+    sizes: ["One Size"],
+    description: "Special discount release of Reflective Street Vest. Iconic streetwear design at an accessible price.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Durable Poly-blend"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 823,
+    brand: "Supervek",
+    name: "Classic Skate Deck",
+    price: "Rs. 2,999.00",
+    image: "https://images.unsplash.com/photo-1547447134-cd3f5c716030?auto=format&fit=crop&w=500&q=80",
+    rating: 4.5,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 25,
+    sizes: ["One Size"],
+    description: "Special discount release of Classic Skate Deck. Iconic streetwear design at an accessible price.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Durable Poly-blend"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 824,
+    brand: "Supervek",
+    name: "Minimalist Card Wallet",
+    price: "Rs. 599.00",
+    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=500&q=80",
+    rating: 4.5,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 40,
+    sizes: ["One Size"],
+    description: "Special discount release of Minimalist Card Wallet. Iconic streetwear design at an accessible price.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Durable Poly-blend"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 825,
+    brand: "Supervek",
+    name: "Corduroy Dad Hat",
+    price: "Rs. 799.00",
+    image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=500&q=80",
+    rating: 4.5,
+    color: "Black",
+    gender: "Unisex",
+    category: "Accessories",
+    discount: 60,
+    sizes: ["One Size"],
+    description: "Special discount release of Corduroy Dad Hat. Iconic streetwear design at an accessible price.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Supervek"
+      },
+      {
+            label: "material",
+            value: "Durable Poly-blend"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 851,
+    brand: "Urban Monkey",
+    name: "DENIM JACKET // 001",
+    price: "RS.2,200.00",
+    image: "/images/urban-essentials/denim_jacket.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Unisex",
+    category: "CLOTHING",
+    discount: 0,
+    sizes: ["S","M","L","XL","2XL"],
+    description: "Premium streetwear capsule: DENIM JACKET // 001 by Urban Monkey. Heavily detailed stitching, boxy comfort fit.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Urban Monkey"
+      },
+      {
+            label: "fabric",
+            value: "100% Combed Heavy Cotton"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 852,
+    brand: "Urban Monkey",
+    name: "FANNY PACK // 001",
+    price: "RS.1,900.00",
+    image: "/images/urban-essentials/fanny_pack.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Unisex",
+    category: "CROSSBODY BAGS",
+    discount: 0,
+    sizes: ["S","M","L","XL"],
+    description: "Premium streetwear capsule: FANNY PACK // 001 by Urban Monkey. Heavily detailed stitching, boxy comfort fit.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Urban Monkey"
+      },
+      {
+            label: "fabric",
+            value: "100% Combed Heavy Cotton"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 853,
+    brand: "Urban Monkey",
+    name: "FULL SLEEVE SHIRT // BLACK",
+    price: "RS.1,400.00",
+    image: "/images/urban-essentials/full_sleeve_shirt.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Unisex",
+    category: "CLOTHING",
+    discount: 0,
+    sizes: ["S","M","L","XL","2XL"],
+    description: "Premium streetwear capsule: FULL SLEEVE SHIRT // BLACK by Urban Monkey. Heavily detailed stitching, boxy comfort fit.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Urban Monkey"
+      },
+      {
+            label: "fabric",
+            value: "100% Combed Heavy Cotton"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 854,
+    brand: "Urban Monkey",
+    name: "RIPSTOP CARGO PANTS // BLACK",
+    price: "RS.2,850.00",
+    image: "/images/urban-essentials/cargo_pants.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Unisex",
+    category: "CLOTHING",
+    discount: 0,
+    sizes: ["XS/S(26-28)","M/L(30-32)","XL/2XL(34-36)"],
+    description: "Premium streetwear capsule: RIPSTOP CARGO PANTS // BLACK by Urban Monkey. Heavily detailed stitching, boxy comfort fit.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Urban Monkey"
+      },
+      {
+            label: "fabric",
+            value: "100% Combed Heavy Cotton"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 855,
+    brand: "Urban Monkey",
+    name: "BIFOLD WALLET // 001",
+    price: "RS.1,300.00",
+    image: "/images/urban-essentials/bifold_wallet.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Unisex",
+    category: "WALLETS",
+    discount: 0,
+    sizes: ["S","M","L","XL"],
+    description: "Premium streetwear capsule: BIFOLD WALLET // 001 by Urban Monkey. Heavily detailed stitching, boxy comfort fit.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Urban Monkey"
+      },
+      {
+            label: "fabric",
+            value: "100% Combed Heavy Cotton"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 856,
+    brand: "Urban Monkey",
+    name: "COIN AND CARD HOLDER // 001",
+    price: "RS.1,000.00",
+    image: "/images/urban-essentials/coin_card_holder.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Unisex",
+    category: "WALLETS",
+    discount: 0,
+    sizes: ["S","M","L","XL"],
+    description: "Premium streetwear capsule: COIN AND CARD HOLDER // 001 by Urban Monkey. Heavily detailed stitching, boxy comfort fit.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Urban Monkey"
+      },
+      {
+            label: "fabric",
+            value: "100% Combed Heavy Cotton"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 857,
+    brand: "Urban Monkey",
+    name: "SHORT SLEEVE SHIRT // BLACK",
+    price: "RS.1,200.00",
+    image: "/images/urban-essentials/short_sleeve_shirt.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Unisex",
+    category: "CLOTHING",
+    discount: 0,
+    sizes: ["S","M","L","XL","2XL"],
+    description: "Premium streetwear capsule: SHORT SLEEVE SHIRT // BLACK by Urban Monkey. Heavily detailed stitching, boxy comfort fit.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Urban Monkey"
+      },
+      {
+            label: "fabric",
+            value: "100% Combed Heavy Cotton"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
+  },
+  {
+    id: 858,
+    brand: "Urban Monkey",
+    name: "SLING BAG // 001",
+    price: "RS.1,900.00",
+    image: "/images/urban-essentials/sling_bag.png",
+    rating: 4.9,
+    color: "Black",
+    gender: "Unisex",
+    category: "CROSSBODY BAGS",
+    discount: 0,
+    sizes: ["S","M","L","XL"],
+    description: "Premium streetwear capsule: SLING BAG // 001 by Urban Monkey. Heavily detailed stitching, boxy comfort fit.",
+    specifications: [
+      {
+            label: "brand",
+            value: "Urban Monkey"
+      },
+      {
+            label: "fabric",
+            value: "100% Combed Heavy Cotton"
+      },
+      {
+            label: "origin",
+            value: "Made in India"
+      }
+]
   }
 ];

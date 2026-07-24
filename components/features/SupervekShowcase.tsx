@@ -2,8 +2,12 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Play, ShoppingBag, ArrowRight, ShieldCheck, Zap, Layers, Sparkles, Heart, Star, Check, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, ShoppingBag, ArrowRight, ShieldCheck, Zap, Layers, Sparkles, Star, Check, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ProductCard } from "@/components/ui/product-card";
+import { InteractiveAddToCartButton } from "@/components/ui/InteractiveAddToCartButton";
+import { InteractiveBuyNowButton } from "@/components/ui/InteractiveBuyNowButton";
+import { InteractiveHeartButton } from "@/components/ui/InteractiveHeartButton";
 
 interface SupervekShowcaseProps {
   onAddToCart?: (product: {
@@ -326,77 +330,19 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
         {/* Product Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
           {((activeTab === "BEST SELLERS" ? bestSellers : activeTab === "NEW RELEASES" ? newReleases : saleItems)).map((item) => (
-            <div
+            <ProductCard
               key={item.id}
-              onClick={() => {
-                window.location.href = `/shop`;
-              }}
-              className="group flex flex-col justify-between bg-[#f8f8f9] rounded-2xl p-3 border border-zinc-100 shadow-2xs hover:shadow-lg transition-all duration-300 cursor-pointer animate-in fade-in duration-300"
-            >
-              <div>
-                {/* Image & Discount Badge */}
-                <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-3 bg-white">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 20vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {item.badge && (
-                    <span className={`absolute top-2 left-2 text-[9px] font-black uppercase text-white px-2 py-0.5 rounded ${item.badgeColor} tracking-wider font-mono`}>
-                      {item.badge}
-                    </span>
-                  )}
-                </div>
-
-                {/* Title & Prices */}
-                <div className="space-y-1 text-center">
-                  <h3 className="text-xs font-bold text-zinc-900 group-hover:text-[#f05a28] transition-colors truncate">
-                    {item.name}
-                  </h3>
-
-                  <div className="flex items-center justify-center gap-2 text-xs font-mono">
-                    <span className="font-extrabold text-[#d92626]">{item.price}</span>
-                    {item.originalPrice && (
-                      <span className="text-zinc-400 line-through text-[11px]">
-                        {item.originalPrice}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Color Swatches */}
-                  {item.colors && (
-                    <div className="flex items-center justify-center gap-1 pt-1.5">
-                      {item.colors.map((c, i) => (
-                        <span
-                          key={i}
-                          style={{ backgroundColor: c }}
-                          className="w-2.5 h-2.5 rounded-full border border-zinc-300 inline-block shadow-2xs cursor-pointer hover:scale-125 transition-transform"
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Add to Cart Trigger */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onAddToCart?.({
-                    id: item.id,
-                    brand: "Supervek",
-                    name: item.name,
-                    price: item.price,
-                    image: item.image,
-                  });
-                }}
-                className="mt-4 w-full bg-zinc-950 hover:bg-black text-[#facc15] font-black text-[10px] uppercase tracking-wider py-2.5 rounded-xl cursor-pointer transition-colors border-none"
-              >
-                Add To Cart
-              </button>
-            </div>
+              id={item.id}
+              brand="Supervek"
+              name={item.name}
+              price={item.price}
+              image={item.image}
+              badge={item.badge}
+              isFavorite={wishlistState[item.id] || favorites.includes(item.id)}
+              onFavoriteToggle={() => toggleFav(item)}
+              onAddToCart={() => handleAddEssential(item)}
+              variant="catalog"
+            />
           ))}
         </div>
 
@@ -523,17 +469,16 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
                         />
 
                         {/* Top-Right Heart Wishlist Trigger */}
-                        <button
+                        <InteractiveHeartButton
+                          isFavorite={!!isFav}
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             toggleFav(item);
                           }}
-                          className="absolute top-2 right-2 p-1.5 rounded-full bg-white/90 hover:bg-white text-zinc-700 hover:text-black transition-colors z-10 border border-zinc-200 shadow-2xs cursor-pointer"
-                          aria-label="Add to Wishlist"
-                        >
-                          <Heart className={`w-3.5 h-3.5 ${isFav ? "fill-red-500 text-red-500" : "text-zinc-600"}`} />
-                        </button>
+                          className="absolute top-2 right-2 border border-zinc-200 shadow-2xs"
+                          size="sm"
+                        />
 
                         {/* Size pills overlay - Appears ON HOVER ONLY matching request */}
                         {item.sizes && (
@@ -585,24 +530,16 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
                       </div>
                     </div>
 
-                    {/* Black Rectangular ADD TO CART Button */}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
+                    <InteractiveAddToCartButton
+                      onClick={() => {
                         handleAddEssential(item);
                       }}
-                      className="mt-3 w-full bg-black hover:bg-zinc-800 text-white font-mono font-bold text-xs uppercase tracking-wider py-2.5 px-3 transition-colors border-none flex items-center justify-center gap-1.5 cursor-pointer"
-                    >
-                      {isAdded ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-400" />
-                          ADDED TO CART
-                        </>
-                      ) : (
-                        "ADD TO CART"
-                      )}
-                    </button>
+                      buttonText={isAdded ? "ADDED TO CART" : "ADD TO CART"}
+                      addedText="ADDED TO CART"
+                      animationStyle="truck"
+                      size="sm"
+                      className="mt-3 font-mono text-[10px] py-2.5 rounded-none font-bold"
+                    />
                   </a>
                 );
               })}
@@ -673,7 +610,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
 
               {/* CTA Buttons */}
               <div className="space-y-3 pt-2">
-                <button
+                <InteractiveAddToCartButton
                   onClick={() =>
                     onAddToCart?.({
                       id: 802,
@@ -683,17 +620,28 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
                       image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=800&q=80",
                     })
                   }
-                  className="w-full bg-[#d92626] hover:bg-red-700 text-white font-black text-sm uppercase tracking-widest py-4 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer border-none"
-                >
-                  ADD TO CART
-                </button>
+                  buttonText="ADD TO CART"
+                  addedText="ADDED!"
+                  animationStyle="truck"
+                  size="lg"
+                  className="w-full !bg-[#d92626] hover:!bg-red-700 text-white font-black text-sm uppercase tracking-widest py-4 rounded-xl shadow-md transition-all border-none"
+                />
 
-                <button
-                  onClick={() => (window.location.href = "/checkout")}
-                  className="w-full bg-black hover:bg-zinc-800 text-white font-black text-sm uppercase tracking-widest py-4 rounded-xl shadow-md transition-all active:scale-95 cursor-pointer border-none"
-                >
-                  BUY IT NOW
-                </button>
+                <InteractiveBuyNowButton
+                  onClick={() =>
+                    onAddToCart?.({
+                      id: 802,
+                      brand: "Supervek",
+                      name: "Carbon Black Slinger",
+                      price: "Rs. 1,999.00",
+                      image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=800&q=80",
+                    })
+                  }
+                  buttonText="BUY IT NOW"
+                  size="lg"
+                  className="w-full font-black text-sm uppercase tracking-widest py-4 rounded-xl border-none cursor-pointer"
+                  wrapperClassName="w-full"
+                />
               </div>
             </div>
 

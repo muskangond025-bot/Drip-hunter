@@ -87,6 +87,7 @@ export function Navbar({
   const [codeError, setCodeError] = useState("");
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [animateCart, setAnimateCart] = useState(false);
   const [userEmail, setUserEmail] = useState("user@driphunter.com");
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [activePath, setActivePath] = useState("/");
@@ -217,6 +218,16 @@ export function Navbar({
   const setLoginOpen = propSetLoginOpen !== undefined ? propSetLoginOpen : setLocalLoginOpen;
 
   const cartTotalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  // Trigger bounce effect on cartTotalQuantity change
+  useEffect(() => {
+    if (cartTotalQuantity > 0) {
+      setAnimateCart(true);
+      const timer = setTimeout(() => setAnimateCart(false), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [cartTotalQuantity]);
+
   const cartSubtotal = cart.reduce((sum, item) => {
     const priceNum = parseFloat(item.price.replace(/[^0-9.]/g, "")) || 0;
     return sum + priceNum * item.quantity;
@@ -390,7 +401,7 @@ export function Navbar({
                         <p className="text-[11px] text-zinc-505 font-medium font-sans">To access your wishlist and orders</p>
                         <button
                           onClick={() => {
-                            setCurrentScreen("login");
+                            window.location.href = "/login";
                             setProfileDropdownOpen(false);
                           }}
                           className="w-full bg-zinc-950 hover:bg-black text-white font-extrabold text-xs uppercase tracking-wider py-3.5 rounded-xl cursor-pointer text-center transition-colors border-none"
@@ -506,8 +517,11 @@ export function Navbar({
 
           {/* Cart Icon */}
           <button 
+            id="navbar-cart-icon"
             onClick={() => setCartOpen(true)}
-            className="p-2 hover:bg-zinc-100 rounded-full transition-colors relative cursor-pointer" 
+            className={`p-2 hover:bg-zinc-100 rounded-full transition-all relative cursor-pointer ${
+              animateCart ? "scale-125 rotate-12 text-orange-500 bg-orange-50 duration-200" : "duration-350"
+            }`} 
             aria-label="Cart"
           >
             <ShoppingBag className="w-5.5 h-5.5" />
@@ -612,8 +626,8 @@ export function Navbar({
                     </div>
                   </div>
                 ) : (
-                  cart.map((item) => (
-                    <div key={item.id} className="flex gap-4 border-b border-zinc-100 pb-6 last:border-0 last:pb-0">
+                  cart.map((item, idx) => (
+                    <div key={`${item.id}-${(item as any).size || idx}`} className="flex gap-4 border-b border-zinc-100 pb-6 last:border-0 last:pb-0">
                       <div className="relative w-20 aspect-[4/5] bg-zinc-100 rounded-xl overflow-hidden flex-shrink-0">
                         <Image src={item.image} alt={item.name} fill sizes="80px" className="object-cover" />
                       </div>
@@ -788,8 +802,8 @@ export function Navbar({
 
                   </div>
                 ) : (
-                  wishlist.map((item) => (
-                    <div key={item.id} className="flex gap-4 border-b border-zinc-100 pb-6 last:border-0 last:pb-0">
+                  wishlist.map((item, idx) => (
+                    <div key={`${item.id}-${idx}`} className="flex gap-4 border-b border-zinc-100 pb-6 last:border-0 last:pb-0">
                       <div className="relative w-20 aspect-[4/5] bg-zinc-100 rounded-xl overflow-hidden flex-shrink-0">
                         <Image src={item.image} alt={item.name} fill sizes="80px" className="object-cover" />
                       </div>

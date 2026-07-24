@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Navbar } from "@/components/common/Navbar";
 import { Footer } from "@/components/common/Footer";
 import { motion, AnimatePresence } from "framer-motion";
+import { InteractiveAddToCartButton } from "@/components/ui/InteractiveAddToCartButton";
 import { useRouter } from "next/navigation";
 import {
   Search,
@@ -1128,7 +1129,16 @@ export default function AffiliatePage() {
                           <p className="text-xs text-zinc-500 font-mono leading-relaxed">
                             Previewing detailed product shots for our selected look-alike variants. Shop or register matching items.
                           </p>
-                          <button onClick={() => { handleAddToCart({ id: 999, brand: "Celebrity Fit", name: "Styled Variant", price: "₹1,299", image: selectedVariantImage }); alert("Added styled variant to cart!"); }} className="w-full bg-[#f05a28] hover:bg-orange-600 text-white font-black text-xs uppercase tracking-widest py-4 rounded-xl shadow-md transition-colors cursor-pointer border-none font-sans">Add to cart</button>
+                          <InteractiveAddToCartButton
+                            onClick={() => {
+                              handleAddToCart({ id: 999, brand: "Celebrity Fit", name: "Styled Variant", price: "₹1,299", image: selectedVariantImage });
+                            }}
+                            buttonText="Add to cart"
+                            addedText="Added to cart"
+                            animationStyle="truck"
+                            size="lg"
+                            className="w-full !bg-[#f05a28] hover:!bg-orange-600 text-white font-black text-xs uppercase tracking-widest py-4 rounded-xl shadow-md transition-colors border-none font-sans"
+                          />
                         </div>
                       </div>
                     </motion.div>
