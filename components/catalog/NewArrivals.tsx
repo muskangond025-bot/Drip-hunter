@@ -226,8 +226,8 @@ export function NewArrivals({
           description={selectedSubCategory ? `Showing premium streetwear items related to "${selectedSubCategory}"` : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et"}
         />
 
-        {/* Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        {/* Layout Grid stacked vertically */}
+        <div className="flex flex-col gap-10">
           
           {/* Injecting dynamic CSS for Ken Burns and Fade In Up animations */}
           <style>{`
@@ -247,8 +247,8 @@ export function NewArrivals({
             }
           `}</style>
 
-          {/* Left Column: 1 Large Hero Card */}
-          <div className="lg:col-span-5 relative bg-zinc-950 rounded-3xl overflow-hidden shadow-lg group flex flex-col justify-end p-6 md:p-8 min-h-[500px] lg:min-h-[640px]">
+          {/* Top: 1 Large Hero Card */}
+          <div className="relative w-full bg-zinc-950 rounded-3xl overflow-hidden shadow-lg group flex flex-col justify-end p-6 md:p-8 min-h-[450px] sm:min-h-[520px] lg:min-h-[580px]">
             {/* Background Model Photos with smooth crossfade */}
             <div className="absolute inset-0 z-0 select-none">
               {heroSlides.map((slide, index) => (
@@ -263,7 +263,7 @@ export function NewArrivals({
                     src={slide.image}
                     alt={slide.title}
                     fill
-                    sizes="(max-width: 1024px) 100vw, 600px"
+                    sizes="(max-width: 1024px) 100vw, 1200px"
                     priority={index === 0}
                     className={cn(
                       "object-cover transition-transform duration-[1000ms]",
@@ -327,7 +327,8 @@ export function NewArrivals({
             </div>
           </div>
 
-          <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-6 self-stretch">
+          {/* Bottom: Product Cards Grid (highlighted part) */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 w-full">
             {displayProducts.map((item) => {
               const isFav = favorites.includes(item.id);
               return (

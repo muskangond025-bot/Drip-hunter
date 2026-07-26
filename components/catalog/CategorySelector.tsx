@@ -197,27 +197,27 @@ export function CategorySelector({ selectedSubCategory, onSelectSubCategory }: C
                     onSelectSubCategory(isSelected ? null : sub.name);
                   }
                 }}
-                className="flex flex-col items-center gap-2 group flex-shrink-0 cursor-pointer min-w-[75px] sm:min-w-[85px] focus:outline-none"
+                className="flex flex-col items-center gap-2 group flex-shrink-0 cursor-pointer min-w-[80px] sm:min-w-[100px] focus:outline-none"
               >
-                {/* Circular Image Container */}
-                <div className={`w-12 h-12 sm:w-16 sm:h-16 relative bg-white border rounded-full overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-md ${
+                {/* Premium Floating Item Container */}
+                <div className={`w-14 h-14 sm:w-20 sm:h-20 relative transition-all duration-300 ${
                   isSelected 
-                    ? "border-black ring-2 ring-black scale-105 shadow-md" 
-                    : "border-zinc-200 shadow-sm group-hover:border-black"
+                    ? "scale-110 filter drop-shadow-md" 
+                    : "opacity-85 group-hover:opacity-100 group-hover:scale-105"
                 }`}>
                   <Image
                     src={sub.image}
                     alt={sub.name}
                     fill
-                    sizes="64px"
-                    className="object-cover pointer-events-none"
+                    sizes="80px"
+                    className="object-contain pointer-events-none transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 {/* Subcategory Name */}
-                <span className={`text-[10px] sm:text-xs font-bold text-center leading-tight group-hover:underline line-clamp-1 max-w-full ${
+                <span className={`text-[9px] sm:text-[10px] font-black tracking-wider uppercase text-center leading-tight mt-1 line-clamp-1 max-w-full ${
                   isSelected 
-                    ? "text-black underline font-black" 
-                    : "text-zinc-700 group-hover:text-black"
+                    ? "text-black font-extrabold tracking-widest underline underline-offset-4" 
+                    : "text-zinc-500 group-hover:text-zinc-950"
                 }`}>
                   {sub.name}
                 </span>
@@ -242,27 +242,27 @@ export function CategorySelector({ selectedSubCategory, onSelectSubCategory }: C
                     onSelectSubCategory(isSelected ? null : sub.name);
                   }
                 }}
-                className="flex flex-col items-center gap-2 group flex-shrink-0 cursor-pointer min-w-[75px] sm:min-w-[85px] focus:outline-none"
+                className="flex flex-col items-center gap-2 group flex-shrink-0 cursor-pointer min-w-[80px] sm:min-w-[100px] focus:outline-none"
               >
-                {/* Circular Image Container */}
-                <div className={`w-12 h-12 sm:w-16 sm:h-16 relative bg-white border rounded-full overflow-hidden transition-all duration-300 group-hover:scale-105 group-hover:shadow-md ${
+                {/* Premium Floating Item Container */}
+                <div className={`w-14 h-14 sm:w-20 sm:h-20 relative transition-all duration-300 ${
                   isSelected 
-                    ? "border-black ring-2 ring-black scale-105 shadow-md" 
-                    : "border-zinc-200 shadow-sm group-hover:border-black"
+                    ? "scale-110 filter drop-shadow-md" 
+                    : "opacity-85 group-hover:opacity-100 group-hover:scale-105"
                 }`}>
                   <Image
                     src={sub.image}
                     alt={sub.name}
                     fill
-                    sizes="64px"
-                    className="object-cover pointer-events-none"
+                    sizes="80px"
+                    className="object-contain pointer-events-none transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 {/* Subcategory Name */}
-                <span className={`text-[10px] sm:text-xs font-bold text-center leading-tight group-hover:underline line-clamp-1 max-w-full ${
+                <span className={`text-[9px] sm:text-[10px] font-black tracking-wider uppercase text-center leading-tight mt-1 line-clamp-1 max-w-full ${
                   isSelected 
-                    ? "text-black underline font-black" 
-                    : "text-zinc-700 group-hover:text-black"
+                    ? "text-black font-extrabold tracking-widest underline underline-offset-4" 
+                    : "text-zinc-500 group-hover:text-zinc-950"
                 }`}>
                   {sub.name}
                 </span>

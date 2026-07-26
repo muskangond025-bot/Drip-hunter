@@ -57,6 +57,8 @@ export * from "./catalog/UrbanTrendingSection";
 export * from "./features/UrbanBlogSection";
 export * from "./features/UrbanStreetStyleCreators";
 export * from "./features/UrbanSystemsHeroShowcase";
+export * from "./features/UrbanHeroSectionShowcase";
+
 
 
 

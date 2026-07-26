@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Flame, ArrowUpRight, ShieldCheck, Tag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ThreeSneakerShowcase } from "@/components/ui/ThreeSneakerShowcase";
 
 interface UrbanHeroSectionShowcaseProps {
   onSelectCategory?: (category: string) => void;
@@ -62,6 +63,19 @@ const HERO_SLIDES = [
     primaryCategory: "Clothing",
     secondaryActionText: "VIEW CARGOS",
     secondaryCategory: "Clothing",
+  },
+  {
+    id: 4,
+    tag: "HYBRID SNEAKERS // DROP 04",
+    headline: "INTERACTIVE 3D PLATFORM KICKS",
+    description: "Experience our prototype hybrid sneakers in full interactive 3D. Fully rotating sole, tactical lock laces, and mesh weave.",
+    mainImage: "3d-sneaker",
+    leftImage: "/images/puma_red_exact.png",
+    rightImage: "/images/puma_black_pink_exact.png",
+    primaryActionText: "SHOP SNEAKERS",
+    primaryCategory: "Footwear",
+    secondaryActionText: "VIEW FOOTWEAR",
+    secondaryCategory: "Footwear",
   },
 ];
 
@@ -186,19 +200,27 @@ export function UrbanHeroSectionShowcase({ onSelectCategory }: UrbanHeroSectionS
                   animate={{ opacity: 1, y: 0, scale: 1.05 }}
                   exit={{ opacity: 0, y: 15, scale: 1.02 }}
                   transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
-                  className="relative aspect-[4/5] rounded-[24px] overflow-hidden bg-white border-2 border-zinc-950 shadow-[0_16px_36px_-12px_rgba(0,0,0,0.12)] group cursor-pointer scale-105 z-10 hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.18)] transition-all"
-                  onClick={() => handleCategoryClick(activeSlideData.primaryCategory)}
+                  className="relative aspect-[4/5] rounded-[24px] overflow-hidden bg-white border-2 border-zinc-950 shadow-[0_16px_36px_-12px_rgba(0,0,0,0.12)] group cursor-pointer scale-105 z-10 hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.18)] transition-all flex items-center justify-center"
+                  onClick={() => activeSlideData.mainImage !== "3d-sneaker" && handleCategoryClick(activeSlideData.primaryCategory)}
                 >
-                  <Image
-                    src={activeSlideData.mainImage}
-                    alt="Feature Center Main"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                    sizes="30vw"
-                    priority
-                  />
+                  {activeSlideData.mainImage === "3d-sneaker" ? (
+                    <div className="w-full h-full bg-zinc-950 relative">
+                      <ThreeSneakerShowcase />
+                    </div>
+                  ) : (
+                    <Image
+                      src={activeSlideData.mainImage}
+                      alt="Feature Center Main"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      sizes="30vw"
+                      priority
+                    />
+                  )}
                   {/* Sheen sheen sweep overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out z-15" />
+                  {activeSlideData.mainImage !== "3d-sneaker" && (
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out z-15" />
+                  )}
 
                   {/* Corner crosshairs focus details */}
                   <div className="absolute top-4 left-4 z-10 opacity-60">

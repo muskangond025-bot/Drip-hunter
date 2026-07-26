@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "@/components/common/Navbar";
-import { CategorySelector } from "@/components/catalog/CategorySelector";
 import { HeroSection } from "@/components/features/HeroSection";
+
 import { NewArrivals } from "@/components/catalog/NewArrivals";
 import { TemplatesShowcase } from "@/components/features/TemplatesShowcase";
 import { BrandCollabTeasers } from "@/components/features/BrandCollabTeasers";
@@ -144,23 +144,6 @@ export default function Home() {
       />
 
       <main className="flex-grow">
-        {/* Secondary Sub-Navbar (Home, About Us, Explore) */}
-        <div className="border-b border-zinc-200 bg-white select-none">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-center gap-8 text-xs font-bold font-mono tracking-widest uppercase">
-            <a href="/" className="hover:text-orange-500 transition-colors text-zinc-700 font-extrabold">
-              Home
-            </a>
-            <span className="text-zinc-300 select-none">•</span>
-            <a href="/about" className="hover:text-orange-500 transition-colors text-zinc-700 font-extrabold">
-              About Us
-            </a>
-            <span className="text-zinc-300 select-none">•</span>
-            <a href="/explore" className="hover:text-orange-500 transition-colors text-zinc-700 font-extrabold">
-              Explore
-            </a>
-          </div>
-        </div>
-
         {/* Hero Sneaker 3D Canvas Showcase */}
         <HeroSection 
           onShopTheLook={(categoryName) => {
@@ -179,15 +162,7 @@ export default function Home() {
           }}
         />
 
-        {/* Horizontal Category Slider (Moved below Hero Banner) */}
-        <CategorySelector 
-          selectedSubCategory={selectedSubCategory}
-          onSelectSubCategory={(categoryName) => {
-            if (categoryName) {
-              window.location.href = `/shop?category=${encodeURIComponent(categoryName)}`;
-            }
-          }}
-        />
+
 
         {/* New Arrivals Product Showcase */}
         <NewArrivals
