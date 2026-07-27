@@ -11,6 +11,7 @@ import { CategorySelector } from "@/components/catalog/CategorySelector";
 import { StarRating } from "@/components/ui/star-rating";
 import { Pagination } from "@/components/ui/pagination";
 import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 import { 
   ShoppingBag, 
@@ -54,6 +55,7 @@ interface ProductItem {
   name: string;
   price: string;
   image: string;
+  hoverImage?: string;
   badge?: string;
   rating: number;
   discount?: string;
@@ -82,6 +84,7 @@ const products: ProductItem[] = masterProducts.map((p, index) => {
     name: p.name,
     price: p.price,
     image: p.image,
+    hoverImage: p.hoverImage,
     rating: Math.round(p.rating),
     discount: p.discount > 0 ? `SAVE ${p.discount}%` : undefined,
     badge: index % 3 === 0 ? "OVERSIZE" : index % 4 === 0 ? "RELAXED FIT" : undefined,
@@ -402,7 +405,7 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black font-sans selection:bg-[#facc15] selection:text-black relative">
+    <div className="flex flex-col min-h-screen bg-background text-foreground font-sans selection:bg-sage-green selection:text-white relative">
       {/* Header Navbar */}
       <Navbar
         cart={cart}
@@ -690,8 +693,19 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
                                   src={product.image}
                                   alt={product.name}
                                   fill
-                                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                  className={cn(
+                                    "object-cover transition-all duration-700 ease-out",
+                                    product.hoverImage ? "group-hover:opacity-0 group-hover:scale-95" : "group-hover:scale-105"
+                                  )}
                                 />
+                                {product.hoverImage && (
+                                  <Image
+                                    src={product.hoverImage}
+                                    alt={`${product.name} alternative view`}
+                                    fill
+                                    className="object-cover absolute inset-0 opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100 transition-all duration-700 ease-out"
+                                  />
+                                )}
                               </div>
                             </div>
 
@@ -744,8 +758,20 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
                               alt={product.name}
                               fill
                               sizes="(max-width: 768px) 50vw, 25vw"
-                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              className={cn(
+                                "object-cover transition-all duration-700 ease-out",
+                                product.hoverImage ? "group-hover:opacity-0 group-hover:scale-95" : "group-hover:scale-105"
+                              )}
                             />
+                            {product.hoverImage && (
+                              <Image
+                                src={product.hoverImage}
+                                alt={`${product.name} alternative view`}
+                                fill
+                                sizes="(max-width: 768px) 50vw, 25vw"
+                                className="object-cover absolute inset-0 opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100 transition-all duration-700 ease-out"
+                              />
+                            )}
                             
                             {/* Badges */}
                             <div className="absolute top-2 left-2 flex flex-col gap-1">

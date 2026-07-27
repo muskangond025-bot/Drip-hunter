@@ -390,7 +390,7 @@ export default function CheckoutPage() {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-zinc-900 select-none">
+    <div className="flex flex-col min-h-screen bg-background text-foreground select-none">
       
       {/* Navigation Header */}
       <Navbar 

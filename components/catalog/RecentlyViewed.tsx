@@ -4,36 +4,29 @@ import React from "react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ProductCard } from "@/components/ui/product-card";
 
-const recentProducts = [
-  {
-    id: 101,
-    brand: "ESSENTIALS",
-    name: "Classic Cream Cargo Pants",
-    price: "$95.00",
-    image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    id: 102,
-    brand: "STUSSY",
-    name: "Oversized Knit Sweater",
-    price: "$110.00",
-    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    id: 103,
-    brand: "UNRL",
-    name: "Minimalist Lounge Crewneck",
-    price: "$85.00",
-    image: "https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    id: 104,
-    brand: "BAPE",
-    name: "Classic Street Camo Tee",
-    price: "$55.00",
-    image: "https://images.unsplash.com/photo-1609873814058-a8928924184a?auto=format&fit=crop&w=400&q=80",
-  },
-];
+import { masterProducts } from "@/app/product/[id]/data";
+
+const recentProducts = [101, 102, 103, 104].map(id => {
+  const p = masterProducts.find(prod => prod.id === id);
+  if (p) {
+    return {
+      id: p.id,
+      brand: p.brand,
+      name: p.name,
+      price: p.price,
+      image: p.image,
+      hoverImage: p.hoverImage
+    };
+  }
+  return null;
+}).filter(Boolean) as {
+  id: number;
+  brand: string;
+  name: string;
+  price: string;
+  image: string;
+  hoverImage?: string;
+}[];
 
 interface RecentProduct {
   id: number;
@@ -41,6 +34,7 @@ interface RecentProduct {
   name: string;
   price: string;
   image: string;
+  hoverImage?: string;
 }
 
 interface RecentlyViewedProps {
@@ -54,37 +48,42 @@ export function RecentlyViewed({
   favorites = [],
   onToggleFavorite,
 }: RecentlyViewedProps) {
+  if (recentProducts.length === 0) return null;
+
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-zinc-200">
-      
-      {/* Title */}
-      <SectionHeader
-        title="Recently Viewed"
-        titleClassName="font-sans font-bold tracking-tight text-zinc-900"
-      />
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="bg-secondary/20 border border-border rounded-[48px] p-6 sm:p-10 lg:p-12 shadow-[0_24px_70px_rgba(16,29,24,0.015)]">
+        {/* Title */}
+        <SectionHeader
+          title="Recently Viewed"
+          subtitle="Your History"
+          description="Premium items you reviewed in this session. Click to continue your drip."
+          align="center"
+        />
 
-      {/* Grid of Products */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {recentProducts.map((prod, idx) => {
-          const isFav = favorites.includes(prod.id);
-          return (
-            <ProductCard
-              key={idx}
-              id={prod.id}
-              brand={prod.brand}
-              name={prod.name}
-              price={prod.price}
-              image={prod.image}
-              buttonText="Add To Cart"
-              isFavorite={isFav}
-              onFavoriteToggle={() => onToggleFavorite(prod)}
-              onAddToCart={() => onAddToCart(prod)}
-              variant="full-width"
-            />
-          );
-        })}
+        {/* Grid of Products */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+          {recentProducts.map((prod, idx) => {
+            const isFav = favorites.includes(prod.id);
+            return (
+              <ProductCard
+                key={idx}
+                id={prod.id}
+                brand={prod.brand}
+                name={prod.name}
+                price={prod.price}
+                image={prod.image}
+                hoverImage={prod.hoverImage}
+                buttonText="Add To Cart"
+                isFavorite={isFav}
+                onFavoriteToggle={() => onToggleFavorite(prod)}
+                onAddToCart={() => onAddToCart(prod)}
+                variant="full-width"
+              />
+            );
+          })}
+        </div>
       </div>
-
     </section>
   );
 }

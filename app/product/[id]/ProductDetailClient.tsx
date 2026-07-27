@@ -111,6 +111,9 @@ const lookbookItems: LookbookItem[] = [
 ];
 
 export default function ProductDetailClient({ productId }: { productId: number }) {
+  // Find product by id (hoisted to the top for React hook requirements)
+  const product = masterProducts.find((p) => p.id === productId) || masterProducts[0];
+
   // Navigation view modes (Step 1, Steps 2-3, Step 4)
   const [viewMode, setViewMode] = useState<"pdp" | "drip" | "rotate">("pdp");
 
@@ -122,6 +125,37 @@ export default function ProductDetailClient({ productId }: { productId: number }
 
   const [activeThumbnailIndex, setActiveThumbnailIndex] = useState(0);
   const [galleryMode, setGalleryMode] = useState<"grid" | "zoom">("grid");
+
+  // Selection states
+  const [selectedColor, setSelectedColor] = useState(product.color || "Black");
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+
+  // Sync selectedSize to product's available sizes
+  useEffect(() => {
+    if (product.sizes && product.sizes.length > 0) {
+      setSelectedSize(product.sizes[0]);
+    }
+  }, [product]);
+
+  // Derive the active variant image
+  const activeColorVariant = product.colorVariants?.find(v => v.color === selectedColor) || {
+    color: product.color,
+    image: product.image,
+    colorHex: "#18181b"
+  };
+  const displayImage = activeColorVariant.image;
+
+  // Dynamically query 4 other items from masterProducts database for the Recently Viewed section
+  const recentlyViewedItems = masterProducts
+    .filter((p) => p.id !== product.id)
+    .slice(0, 4)
+    .map((p) => ({
+      id: p.id,
+      brand: p.brand,
+      title: p.name,
+      price: p.price,
+      img: p.image
+    }));
 
   // All Media & 3D Interactive Modal States
   const [showAllMediaModal, setShowAllMediaModal] = useState(false);
@@ -186,10 +220,19 @@ export default function ProductDetailClient({ productId }: { productId: number }
   };
 
   // Selection states
-  const [selectedSize, setSelectedSize] = useState<string | null>("M");
   const [pincode, setPincode] = useState("");
   const [pincodeChecked, setPincodeChecked] = useState(false);
   const [pincodeDeliveryText, setPincodeDeliveryText] = useState("");
+
+  // Dynamic pincode delivery calculation
+  useEffect(() => {
+    const code = pincode || "400615";
+    const date = new Date();
+    date.setDate(date.getDate() + 3);
+    const options: Intl.DateTimeFormatOptions = { weekday: 'long', day: 'numeric', month: 'short' };
+    setPincodeDeliveryText(`Expected delivery by ${date.toLocaleDateString('en-IN', options)}`);
+    setPincodeChecked(true);
+  }, [pincode]);
 
   // Live Mannequin Outfit equipped state
   const [equippedItems, setEquippedItems] = useState<{ [key: string]: boolean }>({
@@ -251,8 +294,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
     }
   }, [wishlist]);
 
-  // Find product by id
-  const product = masterProducts.find((p) => p.id === productId) || masterProducts[0];
+  // Find product by id (hoisted to component start)
 
   // Derive pricing details
   const parsedPrice = parseInt(product.price.replace(/[^0-9]/g, "")) || 7999;
@@ -265,12 +307,12 @@ export default function ProductDetailClient({ productId }: { productId: number }
     }
 
     setCart((prev) => {
-      const itemKey = `${product.id}-${selectedSize}`;
-      const existing = prev.find((item) => `${item.id}-${(item as any).size}` === itemKey);
+      const itemKey = `${product.id}-${selectedColor}-${selectedSize}`;
+      const existing = prev.find((item) => `${item.id}-${(item as any).color}-${(item as any).size}` === itemKey);
       
       if (existing) {
         return prev.map((item) =>
-          `${item.id}-${(item as any).size}` === itemKey ? { ...item, quantity: item.quantity + 1 } : item
+          `${item.id}-${(item as any).color}-${(item as any).size}` === itemKey ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
       return [
@@ -278,15 +320,16 @@ export default function ProductDetailClient({ productId }: { productId: number }
         {
           id: product.id,
           brand: product.brand,
-          name: `${product.name} (Size: ${selectedSize})`,
+          name: `${product.name} (${selectedColor} / Size: ${selectedSize})`,
           price: product.price,
-          image: product.image,
+          image: displayImage,
           quantity: 1,
-          size: selectedSize
+          size: selectedSize,
+          color: selectedColor
         } as any
       ];
     });
-    alert(`Added ${product.name} (Size: ${selectedSize}) to your bag!`);
+    alert(`Added ${product.name} (${selectedColor} / Size: ${selectedSize}) to your bag!`);
   };
 
   const handleMannequinAddToCart = () => {
@@ -365,7 +408,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
       }
       return [
         ...prev,
-        { id: product.id, name: product.name, brand: product.brand, price: product.price, image: product.image }
+        { id: product.id, name: product.name, brand: product.brand, price: product.price, image: displayImage }
       ];
     });
   };
@@ -434,7 +477,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-between select-none">
+    <div className="min-h-screen bg-background flex flex-col justify-between select-none">
       <Navbar
         cart={cart}
         wishlist={wishlist}
@@ -507,7 +550,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                         }}
                       >
                         <Image
-                          src={product.image}
+                          src={displayImage}
                           alt={`${product.name} - ${view.label}`}
                           fill
                           sizes="(max-width: 1024px) 100vw, 40vw"
@@ -549,7 +592,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                               }`}
                             >
                               <Image
-                                src={product.image}
+                                src={displayImage}
                                 alt={view.label}
                                 fill
                                 sizes="80px"
@@ -588,7 +631,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                             className="relative w-full h-full cursor-ew-resize active:cursor-grabbing"
                           >
                             <Image
-                              src={product.image}
+                              src={displayImage}
                               alt={product.name}
                               fill
                               priority
@@ -716,12 +759,12 @@ export default function ProductDetailClient({ productId }: { productId: number }
                                 {/* Media Grid */}
                                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                   {[
-                                    { id: 0, title: "Front Studio View", img: product.image, cat: "lookbook", tag: "Photo", class: "" },
-                                    { id: 1, title: "Back Graphic View", img: product.image, cat: "lookbook", tag: "Photo", class: "scale-110" },
-                                    { id: 2, title: "Fabric Zoom Detail", img: product.image, cat: "fabric", tag: "Macro", class: "scale-150" },
-                                    { id: 3, title: "On-Model Street Style", img: product.image, cat: "lookbook", tag: "Lookbook", class: "scale-125" },
-                                    { id: 4, title: "Collab Patch Close-up", img: product.image, cat: "fabric", tag: "Detail", class: "scale-140" },
-                                    { id: 5, title: "Studio Outfit Profile", img: product.image, cat: "lookbook", tag: "Style", class: "scale-105" }
+                                    { id: 0, title: "Front Studio View", img: displayImage, cat: "lookbook", tag: "Photo", class: "" },
+                                    { id: 1, title: "Back Graphic View", img: displayImage, cat: "lookbook", tag: "Photo", class: "scale-110" },
+                                    { id: 2, title: "Fabric Zoom Detail", img: displayImage, cat: "fabric", tag: "Macro", class: "scale-150" },
+                                    { id: 3, title: "On-Model Street Style", img: displayImage, cat: "lookbook", tag: "Lookbook", class: "scale-125" },
+                                    { id: 4, title: "Collab Patch Close-up", img: displayImage, cat: "fabric", tag: "Detail", class: "scale-140" },
+                                    { id: 5, title: "Studio Outfit Profile", img: displayImage, cat: "lookbook", tag: "Style", class: "scale-105" }
                                   ]
                                     .filter((item) => mediaFilter === "all" || item.cat === mediaFilter)
                                     .map((media, idx) => (
@@ -835,7 +878,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                   >
                                     <Image
-                                      src={product.image}
+                                      src={displayImage}
                                       alt={`${product.name} 3D Rotation`}
                                       fill
                                       priority
@@ -891,17 +934,17 @@ export default function ProductDetailClient({ productId }: { productId: number }
               </div>
 
               {/* RIGHT SIDE: Buy specs panel (EXACT MATCH FOR FIGMA IMAGE 1) */}
-              <div className="lg:col-span-5 space-y-5 text-left select-none font-sans">
+              <div className="lg:col-span-5 space-y-6 text-left select-none font-sans">
                 
                 {/* Brand Title Row + ID & Share */}
-                <div>
+                <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <h1 className="text-xl font-bold text-zinc-950 uppercase tracking-tight">
+                    <h1 className="font-heading text-base font-black text-zinc-900 uppercase tracking-wider">
                       {product.brand}
                     </h1>
                     <div className="flex items-center gap-2 text-xs">
-                      <span className="bg-[#fff9c4] text-[#f57f17] text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 font-mono">
-                        <Info className="w-3 h-3 text-amber-500" /> ID: 2S46FF
+                      <span className="bg-amber-50 text-amber-700 text-[10px] font-bold px-2.5 py-1 rounded-md flex items-center gap-1 font-mono border border-amber-200/50">
+                        <Info className="w-3.5 h-3.5 text-amber-600" /> ID: 2S46FF
                       </span>
                       <button 
                         onClick={() => {
@@ -911,101 +954,126 @@ export default function ProductDetailClient({ productId }: { productId: number }
                           }
                         }}
                         aria-label="Share product"
-                        className="text-amber-500 hover:text-amber-600 transition-colors p-1 border-none bg-transparent cursor-pointer"
+                        className="text-zinc-400 hover:text-zinc-900 transition-colors p-1.5 rounded-lg hover:bg-zinc-50 border-none bg-transparent cursor-pointer"
                       >
                         <Share2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
 
-                  <p className="text-xs text-zinc-600 font-medium mt-1 leading-normal">
+                  <h2 className="text-2xl lg:text-3xl font-extrabold text-zinc-900 tracking-tight leading-tight">
                     {product.name}
-                  </p>
+                  </h2>
                 </div>
 
                 {/* Rating & Review Count */}
-                <div className="flex items-center gap-1.5 text-xs text-zinc-600 font-medium">
-                  <span>Product rating</span>
+                <div className="flex items-center gap-2 text-sm text-zinc-800 font-medium">
+                  <span className="bg-zinc-900 text-white font-mono text-xs font-bold px-2 py-0.5 rounded-md">
+                    {product.rating.toFixed(1)}
+                  </span>
                   <div className="flex items-center text-amber-400">
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <Star className="w-3.5 h-3.5 fill-amber-400 opacity-40" />
+                    {Array.from({ length: 5 }).map((_, i) => {
+                      const ratingValue = i + 1;
+                      const isHalf = product.rating > i && product.rating < ratingValue;
+                      const isFull = product.rating >= ratingValue;
+                      return (
+                        <Star 
+                          key={i} 
+                          className={`w-4 h-4 ${
+                            isFull ? "fill-amber-400 text-amber-400" : isHalf ? "fill-amber-400/50 text-amber-400" : "text-zinc-200 fill-zinc-100"
+                          }`} 
+                        />
+                      );
+                    })}
                   </div>
-                  <span className="text-zinc-400">| 2.3K</span>
+                  <span className="text-zinc-400 text-xs font-medium">| 2.3K reviews</span>
                 </div>
 
                 {/* Sold by seller */}
-                <p className="text-xs text-zinc-500 font-medium">
-                  Sold by: <span className="text-zinc-800 font-semibold">Sellers Name</span>
+                <p className="text-sm text-zinc-600 font-medium">
+                  Sold by: <span className="text-zinc-900 font-semibold">Drip Hunter Authorized Retailer</span>
                 </p>
 
                 {/* Pricing Block */}
-                <div className="space-y-0.5 pt-1">
-                  <span className="text-xs text-zinc-400 font-bold line-through font-mono">
-                    ₹{originalMrp}
-                  </span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-extrabold text-zinc-950 font-mono">
-                      {product.price}
+                <div className="space-y-1 bg-zinc-50/50 rounded-2xl p-4 border border-zinc-100 flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <span className="text-xs text-zinc-400 font-bold line-through font-mono">
+                      ₹{originalMrp.toLocaleString('en-IN')}
                     </span>
-                    <span className="text-xs font-bold text-[#f05a28] font-mono">
-                      ({product.discount}% OFF)
-                    </span>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-black text-zinc-900 font-mono tracking-tight">
+                        {product.price}
+                      </span>
+                    </div>
                   </div>
+                  <span className="text-xs font-extrabold px-3 py-1.5 rounded-lg bg-red-50 text-red-500 border border-red-100 font-mono">
+                    {product.discount}% OFF
+                  </span>
                 </div>
 
                 {/* Colour Options */}
-                <div className="space-y-2 pt-1">
-                  <h3 className="text-xs font-semibold text-zinc-700">
-                    Colour Options
+                <div className="space-y-3 pt-2">
+                  <h3 className="text-xs font-bold text-zinc-900 uppercase tracking-wider">
+                    Color: <span className="text-zinc-500 font-normal font-mono normal-case capitalize">{selectedColor}</span>
                   </h3>
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-14 relative rounded-md overflow-hidden border-2 border-zinc-300 cursor-pointer hover:border-black transition-all bg-sky-100">
-                      <Image
-                        src="https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=100&q=80"
-                        alt="Light Blue Swatch"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="w-12 h-14 relative rounded-md overflow-hidden border-2 border-amber-400 ring-2 ring-amber-400/30 cursor-pointer bg-zinc-50">
-                      <Image
-                        src={product.image}
-                        alt="White Swatch"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
+                    {(product.colorVariants || [
+                      {
+                        color: product.color,
+                        image: product.image,
+                        colorHex: "#18181b"
+                      }
+                    ]).map((variant) => {
+                      const isSelected = selectedColor === variant.color;
+                      return (
+                        <button
+                          key={variant.color}
+                          onClick={() => setSelectedColor(variant.color)}
+                          aria-label={`Select color ${variant.color}`}
+                          className={`w-12 h-16 relative rounded-lg overflow-hidden border-2 transition-all cursor-pointer bg-zinc-50 ${
+                            isSelected 
+                              ? "border-black ring-2 ring-black/10 scale-105 shadow-sm" 
+                              : "border-zinc-200 hover:border-zinc-400 hover:scale-102"
+                          }`}
+                        >
+                          <Image
+                            src={variant.image}
+                            alt={`${product.name} in ${variant.color}`}
+                            fill
+                            sizes="50px"
+                            className="object-cover"
+                          />
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
                 {/* Size Options & Size chart link */}
-                <div className="space-y-2 pt-1">
+                <div className="space-y-3 pt-2">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-xs font-semibold text-zinc-700">
+                    <h3 className="text-xs font-bold text-zinc-900 uppercase tracking-wider">
                       Size Options
                     </h3>
                     <button 
                       onClick={() => setShowSizeChart(true)}
-                      className="text-xs font-semibold text-[#fbc02d] hover:underline bg-transparent border-none cursor-pointer"
+                      className="text-xs font-semibold text-[#d4af37] hover:text-[#b3922e] hover:underline bg-transparent border-none cursor-pointer"
                     >
                       Size chart
                     </button>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    {["XS", "S", "M", "L", "XL"].map((size) => {
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {product.sizes.map((size) => {
                       const isSelected = selectedSize === size;
                       return (
                         <button
                           key={size}
                           onClick={() => setSelectedSize(size)}
-                          className={`w-10 h-10 rounded-md border text-xs font-bold transition-all cursor-pointer ${
+                          className={`w-12 h-12 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
                             isSelected 
-                              ? "bg-[#ffeb3b] border-[#fbc02d] text-black font-extrabold shadow-xs scale-105" 
-                              : "bg-white border-zinc-250 text-zinc-700 hover:border-zinc-400"
+                              ? "bg-black border-black text-white font-extrabold shadow-sm scale-105" 
+                              : "bg-white border-zinc-200 text-zinc-800 hover:border-zinc-400 hover:bg-zinc-50"
                           }`}
                         >
                           {size}
@@ -1016,7 +1084,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                 </div>
 
                 {/* Action Buttons: Add to Cart & Add to Wishlist */}
-                <div className="space-y-1.5 pt-2">
+                <div className="space-y-3 pt-2">
                   <div className="flex items-center gap-3">
                     <InteractiveAddToCartButton
                       onClick={handleAddToCart}
@@ -1024,16 +1092,16 @@ export default function ProductDetailClient({ productId }: { productId: number }
                       addedText="Added to Cart"
                       animationStyle="truck"
                       size="md"
-                      className="w-full !bg-[#222222] hover:!bg-black text-amber-300 font-bold text-xs py-3.5 rounded-lg border-none tracking-wide"
+                      className="w-full !bg-black hover:!bg-zinc-900 text-white font-bold text-xs py-4 rounded-xl border-none tracking-widest uppercase cursor-pointer"
                       wrapperClassName="flex-1"
                     />
 
                     <button
                       onClick={handleToggleFavorite}
-                      className={`flex-1 border text-xs font-bold py-3.5 px-4 rounded-lg transition-colors cursor-pointer flex items-center justify-center gap-2 uppercase tracking-wide ${
+                      className={`flex-1 border text-xs font-bold py-4 px-4 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2 uppercase tracking-widest ${
                         isProductInWishlist
                           ? "bg-zinc-900 text-white border-zinc-900"
-                          : "bg-white border-zinc-300 text-zinc-800 hover:bg-zinc-50"
+                          : "bg-white border-zinc-200 text-zinc-800 hover:bg-zinc-50 hover:border-zinc-300"
                       }`}
                     >
                       <span>{isProductInWishlist ? "Wishlisted" : "Add to Wishlist"}</span>
@@ -1041,15 +1109,15 @@ export default function ProductDetailClient({ productId }: { productId: number }
                   </div>
 
                   {/* Warranty Subtext */}
-                  <p className="text-[10px] text-center text-zinc-500 font-mono font-medium">
-                    X Years Warranty*
+                  <p className="text-[10px] text-center text-zinc-450 font-mono uppercase tracking-wider font-semibold">
+                    1 Year Brand Warranty*
                   </p>
                 </div>
 
                 {/* Complete Your Look Banner Button */}
                 <button
                   onClick={() => setViewMode("drip")}
-                  className="w-full flex items-center justify-center gap-2 bg-zinc-950 hover:bg-black text-[#ebd26b] font-black text-xs uppercase tracking-widest py-3.5 rounded-xl border border-zinc-850 shadow-md transition-all cursor-pointer font-sans"
+                  className="w-full flex items-center justify-center gap-2 bg-zinc-900 hover:bg-black text-[#fbc02d] font-bold text-xs uppercase tracking-widest py-4 rounded-xl border border-zinc-850 shadow-md transition-all cursor-pointer font-sans"
                 >
                   <Sparkles className="w-4 h-4 text-yellow-400 animate-pulse fill-yellow-400" />
                   <span>Complete Your Look (Fitting Customizer)</span>
@@ -1184,8 +1252,8 @@ export default function ProductDetailClient({ productId }: { productId: number }
                     onClick={() => setActiveDetailsTab("details")}
                     className={`text-xs sm:text-sm font-bold px-6 py-2.5 rounded-lg transition-all cursor-pointer border-none ${
                       activeDetailsTab === "details"
-                        ? "bg-[#ffeb3b] text-black shadow-xs font-black"
-                        : "bg-transparent text-zinc-600 hover:text-black font-semibold"
+                        ? "bg-accent text-accent-foreground shadow-xs font-black"
+                        : "bg-transparent text-muted-foreground hover:text-foreground font-semibold"
                     }`}
                   >
                     Product Details
@@ -1194,8 +1262,8 @@ export default function ProductDetailClient({ productId }: { productId: number }
                     onClick={() => setActiveDetailsTab("reviews")}
                     className={`text-xs sm:text-sm font-bold px-6 py-2.5 rounded-lg transition-all cursor-pointer border-none ${
                       activeDetailsTab === "reviews"
-                        ? "bg-[#ffeb3b] text-black shadow-xs font-black"
-                        : "bg-transparent text-zinc-600 hover:text-black font-semibold"
+                        ? "bg-accent text-accent-foreground shadow-xs font-black"
+                        : "bg-transparent text-muted-foreground hover:text-foreground font-semibold"
                     }`}
                   >
                     Product Reviews
@@ -1204,8 +1272,8 @@ export default function ProductDetailClient({ productId }: { productId: number }
                     onClick={() => setActiveDetailsTab("tech")}
                     className={`text-xs sm:text-sm font-bold px-6 py-2.5 rounded-lg transition-all cursor-pointer border-none ${
                       activeDetailsTab === "tech"
-                        ? "bg-[#ffeb3b] text-black shadow-xs font-black"
-                        : "bg-transparent text-zinc-600 hover:text-black font-semibold"
+                        ? "bg-accent text-accent-foreground shadow-xs font-black"
+                        : "bg-transparent text-muted-foreground hover:text-foreground font-semibold"
                     }`}
                   >
                     Technical Information
@@ -1860,19 +1928,25 @@ export default function ProductDetailClient({ productId }: { productId: number }
                 <div className="pt-14 pb-8 space-y-8 select-none font-sans border-t border-zinc-200 mt-10">
                   
                   {/* Header */}
-                  <h2 className="text-2xl sm:text-3xl font-bold text-zinc-950 text-center tracking-tight font-sans">
-                    Recently Viewed
-                  </h2>
+                  <div className="flex flex-col sm:flex-row items-baseline justify-between border-b border-zinc-100 pb-4">
+                    <div className="text-left">
+                      <span className="text-[9px] font-mono font-black text-amber-500 uppercase tracking-widest block">
+                        Your History
+                      </span>
+                      <h2 className="text-xl sm:text-2xl font-heading font-black text-zinc-900 tracking-wider uppercase mt-1">
+                        Recently Viewed
+                      </h2>
+                    </div>
+                    <div className="h-[1px] flex-grow mx-8 bg-zinc-100 hidden md:block" />
+                    <span className="text-xs font-mono font-semibold text-zinc-400">
+                      04 ITEMS SHOWCASED
+                    </span>
+                  </div>
 
                   {/* 4 Cards Carousel Grid + Right Arrow */}
                   <div className="relative flex items-center">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
-                      {[
-                        { id: 201, brand: "Puma", title: "Puma Core T7 Track Shorts", price: "₹899", img: "/images/rv_product_1.png" },
-                        { id: 202, brand: "Puma", title: "Puma Printed Graphic Shorts", price: "₹1169", img: "/images/rv_product_2.png" },
-                        { id: 203, brand: "Puma", title: "Puma Tech Woven Trousers", price: "₹1539", img: "/images/rv_product_3.png" },
-                        { id: 204, brand: "Puma", title: "Puma Scuderia Sweatpants", price: "₹2069", img: "/images/rv_product_4.png" }
-                      ].map((item) => {
+                      {recentlyViewedItems.map((item) => {
                         const isWishlisted = wishlist.some((w) => w.id === item.id);
                         return (
                           <div 
@@ -1884,7 +1958,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                           >
                             
                             {/* Image Card Container */}
-                            <div className="relative aspect-[3/4] w-full bg-[#f6f6f7] rounded-2xl overflow-hidden p-4 flex items-center justify-center border border-zinc-150 group-hover:border-zinc-300 transition-colors">
+                            <div className="relative aspect-[3/4] w-full bg-zinc-50/50 rounded-[24px] overflow-hidden p-4 flex items-center justify-center border border-zinc-150 group-hover:border-zinc-300 group-hover:shadow-[0_12px_30px_-10px_rgba(0,0,0,0.08)] group-hover:-translate-y-1.5 transition-all duration-500">
                               
                               {/* Wishlist Heart Icon (Top Right) */}
                               <InteractiveHeartButton
@@ -1893,7 +1967,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                                   e.stopPropagation();
                                   handleToggleItemWishlist(item);
                                 }}
-                                className="absolute top-3 right-3 bg-white/70 backdrop-blur-xs border-none"
+                                className="absolute top-3 right-3 bg-white/70 backdrop-blur-xs border-none z-10"
                                 size="sm"
                               />
 
@@ -1903,21 +1977,22 @@ export default function ProductDetailClient({ productId }: { productId: number }
                                   src={item.img}
                                   alt={item.title}
                                   fill
-                                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                                  sizes="(max-width: 640px) 50vw, 25vw"
+                                  className="object-contain transition-transform duration-500 group-hover:scale-106"
                                 />
                               </div>
 
                             </div>
 
                             {/* Product Details (Left Aligned) */}
-                            <div className="space-y-0.5 px-1 font-sans">
-                              <span className="text-xs text-zinc-500 font-medium block">
+                            <div className="space-y-1 px-2 text-left font-sans">
+                              <span className="text-[10px] font-mono font-bold text-amber-500 uppercase tracking-widest block">
                                 {item.brand}
                               </span>
-                              <span className="text-xs text-zinc-400 font-normal block truncate">
+                              <span className="text-sm font-extrabold text-zinc-900 group-hover:text-amber-600 transition-colors block truncate leading-tight">
                                 {item.title}
                               </span>
-                              <span className="text-sm font-bold text-zinc-950 block pt-0.5">
+                              <span className="text-sm font-black text-zinc-950 font-mono block pt-0.5">
                                 {item.price}
                               </span>
                             </div>
@@ -1969,7 +2044,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
                 </div>
                 <div className="flex gap-4 items-center">
                   <div className="relative w-16 h-20 rounded-xl overflow-hidden border-2 border-white/45 bg-white/10 flex-shrink-0">
-                    <Image src={product.image} alt={product.name} fill className="object-cover" />
+                    <Image src={displayImage} alt={product.name} fill className="object-cover" />
                   </div>
                   <button 
                     onClick={() => setViewMode("rotate")}
@@ -2469,7 +2544,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
             <div className="flex items-center gap-3">
               <div className="relative w-11 h-11 rounded-lg overflow-hidden bg-white shrink-0 border border-zinc-700">
                 <Image
-                  src={product.image}
+                  src={displayImage}
                   alt={product.name}
                   fill
                   className="object-cover"

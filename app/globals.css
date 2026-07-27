@@ -87,49 +87,93 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-deep-forest: #101D18;
+  --color-forest-green: #244B3A;
+  --color-sage-green: #5F8C6D;
+  --color-mist-green: #DFE8D9;
+  --color-warm-ivory: #F7F4EA;
+  --color-hover-green: #6F9B78;
+
+  /* Global high-contrast gray color palette mappings */
+  --color-zinc-50: #FFFFFF;
+  --color-zinc-100: #F1EFE6;
+  --color-zinc-200: #E5E2D5;
+  --color-zinc-300: #D8D4C5;
+  --color-zinc-400: rgba(36, 75, 58, 0.55);
+  --color-zinc-500: rgba(36, 75, 58, 0.75);
+  --color-zinc-600: rgba(20, 35, 28, 0.85);
+  --color-zinc-700: #244B3A;
+  --color-zinc-800: #1C382C;
+  --color-zinc-900: #101D18;
+  --color-zinc-950: #08100D;
+
+  --color-neutral-50: #FFFFFF;
+  --color-neutral-100: #F1EFE6;
+  --color-neutral-200: #E5E2D5;
+  --color-neutral-300: #D8D4C5;
+  --color-neutral-400: rgba(36, 75, 58, 0.55);
+  --color-neutral-500: rgba(36, 75, 58, 0.75);
+  --color-neutral-600: rgba(20, 35, 28, 0.85);
+  --color-neutral-700: #244B3A;
+  --color-neutral-800: #1C382C;
+  --color-neutral-900: #101D18;
+  --color-neutral-950: #08100D;
+
+  --color-gray-50: #FFFFFF;
+  --color-gray-100: #F1EFE6;
+  --color-gray-200: #E5E2D5;
+  --color-gray-300: #D8D4C5;
+  --color-gray-400: rgba(36, 75, 58, 0.55);
+  --color-gray-500: rgba(36, 75, 58, 0.75);
+  --color-gray-600: rgba(20, 35, 28, 0.85);
+  --color-gray-700: #244B3A;
+  --color-gray-800: #1C382C;
+  --color-gray-900: #101D18;
+  --color-gray-950: #08100D;
 }
 
 :root {
-  --background: #FFFFFF;
-  --foreground: #000000;
+  --background: #F7F4EA;
+  --foreground: #101D18;
   --card: #FFFFFF;
-  --card-foreground: #000000;
-  --popover: #FFFFFF;
-  --popover-foreground: #000000;
-  --primary: #000000;
+  --card-foreground: #101D18;
+  --popover: #F7F4EA;
+  --popover-foreground: #101D18;
+  --primary: #101D18;
   --primary-foreground: #FFFFFF;
-  --secondary: #F3F4F6;
-  --secondary-foreground: #000000;
-  --muted: #F3F4F6;
-  --muted-foreground: #6B7280;
-  --accent: #F3F4F6;
-  --accent-foreground: #000000;
+  --secondary: #DFE8D9;
+  --secondary-foreground: #244B3A;
+  --muted: #DFE8D9;
+  --muted-foreground: rgba(36, 75, 58, 0.75);
+  --accent: #5F8C6D;
+  --accent-foreground: #FFFFFF;
   --destructive: #EF4444;
-  --border: #E5E7EB;
-  --input: #E5E7EB;
-  --ring: #000000;
-  --radius: 0.5rem;
+  --border: rgba(95, 140, 109, 0.20);
+  --input: rgba(95, 140, 109, 0.20);
+  --ring: #5F8C6D;
+  --radius: 0.75rem;
 }
 
 .dark {
-  --background: #0A0A0A;
-  --foreground: #FFFFFF;
-  --card: #121212;
-  --card-foreground: #FFFFFF;
-  --popover: #121212;
-  --popover-foreground: #FFFFFF;
-  --primary: #FFFFFF;
-  --primary-foreground: #000000;
-  --secondary: #1F2937;
-  --secondary-foreground: #FFFFFF;
-  --muted: #1F2937;
-  --muted-foreground: #9CA3AF;
-  --accent: #1F2937;
+  --background: #101D18;
+  --foreground: #F7F4EA;
+  --card: #244B3A;
+  --card-foreground: #F7F4EA;
+  --popover: #101D18;
+  --popover-foreground: #F7F4EA;
+  --primary: #5F8C6D;
+  --primary-foreground: #101D18;
+  --secondary: #244B3A;
+  --secondary-foreground: #F7F4EA;
+  --muted: #244B3A;
+  --muted-foreground: rgba(223, 232, 217, 0.75);
+  --accent: #5F8C6D;
   --accent-foreground: #FFFFFF;
   --destructive: #EF4444;
-  --border: #374151;
-  --input: #374151;
-  --ring: #FFFFFF;
+  --border: rgba(95, 140, 109, 0.25);
+  --input: rgba(95, 140, 109, 0.25);
+  --ring: #5F8C6D;
 }
 
 @layer base {
@@ -137,10 +181,16 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-sans selection:bg-yellow-400 selection:text-black;
+    @apply bg-background text-foreground font-sans selection:bg-sage-green selection:text-white;
   }
   html {
     @apply font-sans scroll-smooth;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-foreground font-bold tracking-tight;
+  }
+  p, span, li, button, input, select, textarea {
+    @apply font-sans;
   }
 }
 
@@ -324,4 +374,21 @@
 
 .animate-heart-spark-4 {
   animation: heart-spark-4 0.72s cubic-bezier(0.165, 0.84, 0.44, 1) both;
+}
+
+/* Custom Luxury Green Gradients and Utilities */
+@utility bg-gradient-premium-green {
+  background: linear-gradient(135deg, #101D18, #244B3A, #5F8C6D);
+}
+
+@utility bg-gradient-soft-background {
+  background: linear-gradient(180deg, #F7F4EA, #DFE8D9);
+}
+
+@utility bg-gradient-button {
+  background: linear-gradient(135deg, #5F8C6D, #244B3A);
+}
+
+@utility bg-gradient-hero-glow {
+  background: radial-gradient(circle, rgba(95, 140, 109, 0.35), transparent 70%);
 }

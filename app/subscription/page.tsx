@@ -122,11 +122,11 @@ export default function SubscriptionPage() {
   };
 
   if (isRegistered === null) {
-    return <div className="min-h-screen bg-white" />;
+    return <div className="min-h-screen bg-background" />;
   }
 
   return (
-    <div className="bg-black min-h-screen flex flex-col justify-between text-white selection:bg-[#facc15] selection:text-black font-sans select-none">
+    <div className="bg-deep-forest min-h-screen flex flex-col justify-between text-white selection:bg-sage-green selection:text-white font-sans select-none">
       {/* Header Navbar */}
       <Navbar
         cart={cart}

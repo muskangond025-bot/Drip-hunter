@@ -284,7 +284,7 @@ export default function About() {
   const stackBlogs = filteredAndSortedBlogs.slice(1, 4);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-background">
       {/* Navigation Header */}
       <Navbar
         cart={cart}

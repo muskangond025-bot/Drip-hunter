@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -98,182 +98,125 @@ const brandLookbooks: Record<string, LookbookData> = {
   }
 };
 
-const dealPages = [
-  // Page 1
-  [
-    {
-      bg: "bg-gradient-to-br from-[#7c2d12] via-[#581c87] to-[#3b0764]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none">
-          <span className="text-yellow-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">DEAL</span>
-          <span className="text-cyan-300 text-sm block italic my-1.5 font-bold font-sans">of the</span>
-          <span className="text-yellow-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">DAY</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-[#e11d48]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
-          <span className="bg-yellow-400 text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">DEAL OF THE</span>
-          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">WEEK</span>
-          <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">SHOP NOW!</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-gradient-to-br from-[#f59e0b] to-[#ea580c]",
-      content: (
-        <div className="text-center flex flex-col items-center gap-1.5">
-          <span className="bg-red-650 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">THIS WEEK ONLY</span>
-          <span className="bg-cyan-400 text-white text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BEST DEAL</span>
-          <span className="bg-black text-white text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">BIG OFFER</span>
-          <span className="text-red-600 text-[9px] font-extrabold uppercase tracking-widest bg-white px-2 py-0.5 rounded-full border border-red-500 mt-1">UP TO 50% OFF</span>
-        </div>
-      )
-    }
-  ],
-  // Page 2
-  [
-    {
-      bg: "bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none">
-          <span className="text-orange-455 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">FLASH</span>
-          <span className="text-white text-sm block italic my-1.5 font-bold font-sans">SALE</span>
-          <span className="text-orange-455 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">70% OFF</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-[#059669]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
-          <span className="bg-[#fef08a] text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">MID-SEASON</span>
-          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">SPECIAL</span>
-          <span className="text-[#fef08a] text-[10px] font-bold uppercase tracking-widest mt-1">LIMITED STOCKS</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-gradient-to-br from-[#be123c] to-[#9f1239]",
-      content: (
-        <div className="text-center flex flex-col items-center gap-1.5">
-          <span className="bg-black text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">EXCLUSIVE CODES</span>
-          <span className="bg-yellow-400 text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BUY 1 GET 1</span>
-          <span className="bg-white text-zinc-900 text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">FREE TEES</span>
-          <span className="text-yellow-500 text-[9px] font-extrabold uppercase tracking-widest bg-zinc-900 px-2 py-0.5 rounded-full mt-1">CODE: FREE20</span>
-        </div>
-      )
-    }
-  ],
-  // Page 3
-  [
-    {
-      bg: "bg-gradient-to-br from-[#4c1d95] via-[#2e1065] to-[#1e1b4b]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none">
-          <span className="text-cyan-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">HOODIE</span>
-          <span className="text-yellow-400 text-sm block italic my-1.5 font-bold font-sans">SPECIAL</span>
-          <span className="text-cyan-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">DROP DEALS</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-gradient-to-br from-[#0d9488] to-[#115e59]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
-          <span className="bg-black text-yellow-400 text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">WEEKEND ONLY</span>
-          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">STEALS</span>
-          <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">Flat 40% Off</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-gradient-to-br from-[#3f3f46] to-[#18181b]",
-      content: (
-        <div className="text-center flex flex-col items-center gap-1.5">
-          <span className="bg-yellow-400 text-black text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">WORLDWIDE</span>
-          <span className="bg-white text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">FREE SHIPPING</span>
-          <span className="bg-zinc-800 text-white text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">NO MINIMUM</span>
-          <span className="text-yellow-400 text-[9px] font-extrabold uppercase tracking-widest mt-1">AUTOMATIC APPLY</span>
-        </div>
-      )
-    }
-  ],
-  // Page 4
-  [
-    {
-      bg: "bg-gradient-to-br from-[#365314] via-[#1a2e05] to-[#0f1d02]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none">
-          <span className="text-yellow-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">CARGO</span>
-          <span className="text-white text-sm block italic my-1.5 font-bold font-sans">PANTS</span>
-          <span className="text-yellow-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">SAVINGS</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-gradient-to-br from-[#3730a3] to-[#1e1b4b]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
-          <span className="bg-yellow-400 text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">MEMBERS ONLY</span>
-          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">DRIP CLUB</span>
-          <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">Get Extra 20% Off</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-gradient-to-br from-[#78350f] to-[#451a03]",
-      content: (
-        <div className="text-center flex flex-col items-center gap-1.5">
-          <span className="bg-black text-yellow-500 text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">LUCKY BOX</span>
-          <span className="bg-white text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">MYSTERY BOX</span>
-          <span className="bg-yellow-500 text-black text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">DROPS ONCE</span>
-          <span className="text-white text-[9px] font-extrabold uppercase tracking-widest mt-1">LIMITED 100 PIECES</span>
-        </div>
-      )
-    }
-  ],
-  // Page 5
-  [
-    {
-      bg: "bg-gradient-to-br from-[#ea580c] via-[#ca8a04] to-[#854d0e]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none">
-          <span className="text-white text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">VINTAGE</span>
-          <span className="text-black text-sm block italic my-1.5 font-bold font-sans">TEE</span>
-          <span className="text-white text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">SPECIALS</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-gradient-to-br from-[#e11d48] to-[#be123c]",
-      content: (
-        <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
-          <span className="bg-black text-[#fecdd3] text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">FINAL CALL</span>
-          <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">CLEANOUT</span>
-          <span className="text-[#fecdd3] text-[10px] font-bold uppercase tracking-widest mt-1">Everything Must Go</span>
-        </div>
-      )
-    },
-    {
-      bg: "bg-gradient-to-br from-[#0284c7] to-[#0369a1]",
-      content: (
-        <div className="text-center flex flex-col items-center gap-1.5">
-          <span className="bg-black text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">FINANCE SUPPORT</span>
-          <span className="bg-[#e0f2fe] text-[#0369a1] text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BUY NOW</span>
-          <span className="bg-white text-black text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">PAY LATER</span>
-          <span className="text-yellow-400 text-[9px] font-extrabold uppercase tracking-widest mt-1">INTEREST FREE</span>
-        </div>
-      )
-    }
-  ]
+const dealCards = [
+  {
+    bg: "bg-gradient-to-br from-[#7c2d12] via-[#581c87] to-[#3b0764]",
+    content: (
+      <div className="text-center font-black tracking-tighter leading-none">
+        <span className="text-yellow-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">DEAL</span>
+        <span className="text-cyan-300 text-sm block italic my-1.5 font-bold font-sans">of the</span>
+        <span className="text-yellow-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">DAY</span>
+      </div>
+    )
+  },
+  {
+    bg: "bg-[#e11d48]",
+    content: (
+      <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
+        <span className="bg-yellow-400 text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">DEAL OF THE</span>
+        <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">WEEK</span>
+        <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">SHOP NOW!</span>
+      </div>
+    )
+  },
+  {
+    bg: "bg-gradient-to-br from-[#f59e0b] to-[#ea580c]",
+    content: (
+      <div className="text-center flex flex-col items-center gap-1.5">
+        <span className="bg-red-650 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">THIS WEEK ONLY</span>
+        <span className="bg-cyan-400 text-white text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BEST DEAL</span>
+        <span className="bg-black text-white text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">BIG OFFER</span>
+        <span className="text-red-600 text-[9px] font-extrabold uppercase tracking-widest bg-white px-2 py-0.5 rounded-full border border-red-500 mt-1">UP TO 50% OFF</span>
+      </div>
+    )
+  },
+  {
+    bg: "bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155]",
+    content: (
+      <div className="text-center font-black tracking-tighter leading-none">
+        <span className="text-[#ea580c] text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">FLASH</span>
+        <span className="text-white text-sm block italic my-1.5 font-bold font-sans">SALE</span>
+        <span className="text-[#ea580c] text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">70% OFF</span>
+      </div>
+    )
+  },
+  {
+    bg: "bg-[#059669]",
+    content: (
+      <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
+        <span className="bg-[#fef08a] text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">MID-SEASON</span>
+        <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">SPECIAL</span>
+        <span className="text-[#fef08a] text-[10px] font-bold uppercase tracking-widest mt-1">LIMITED STOCKS</span>
+      </div>
+    )
+  },
+  {
+    bg: "bg-gradient-to-br from-[#be123c] to-[#9f1239]",
+    content: (
+      <div className="text-center flex flex-col items-center gap-1.5">
+        <span className="bg-black text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">EXCLUSIVE CODES</span>
+        <span className="bg-yellow-400 text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BUY 1 GET 1</span>
+        <span className="bg-white text-zinc-900 text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">FREE TEES</span>
+        <span className="text-yellow-500 text-[9px] font-extrabold uppercase tracking-widest bg-zinc-900 px-2 py-0.5 rounded-full mt-1">CODE: FREE20</span>
+      </div>
+    )
+  },
+  {
+    bg: "bg-gradient-to-br from-[#4c1d95] via-[#2e1065] to-[#1e1b4b]",
+    content: (
+      <div className="text-center font-black tracking-tighter leading-none">
+        <span className="text-cyan-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">HOODIE</span>
+        <span className="text-yellow-400 text-sm block italic my-1.5 font-bold font-sans">SPECIAL</span>
+        <span className="text-cyan-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">DROP DEALS</span>
+      </div>
+    )
+  },
+  {
+    bg: "bg-gradient-to-br from-[#0d9488] to-[#115e59]",
+    content: (
+      <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
+        <span className="bg-black text-yellow-400 text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">WEEKEND ONLY</span>
+        <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">STEALS</span>
+        <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">Flat 40% Off</span>
+      </div>
+    )
+  },
+  {
+    bg: "bg-gradient-to-br from-[#3f3f46] to-[#18181b]",
+    content: (
+      <div className="text-center flex flex-col items-center gap-1.5">
+        <span className="bg-yellow-400 text-black text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">WORLDWIDE</span>
+        <span className="bg-white text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">FREE SHIPPING</span>
+        <span className="bg-zinc-800 text-white text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">NO MINIMUM</span>
+        <span className="text-yellow-400 text-[9px] font-extrabold uppercase tracking-widest mt-1">AUTOMATIC APPLY</span>
+      </div>
+    )
+  }
 ];
 
 export function TemplatesShowcase() {
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
-  const [currentDealPage, setCurrentDealPage] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const totalWidth = el.scrollWidth - el.clientWidth;
+    if (totalWidth <= 0) return;
+    const progress = (el.scrollLeft / totalWidth) * 100;
+    setScrollProgress(progress);
+  };
+
+  const scroll = (direction: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const scrollAmount = el.clientWidth * 0.8;
+    el.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth"
+    });
+  };
 
   const handleBrandClick = (brandName: string) => {
     if (activeBrand === brandName) {
@@ -287,76 +230,66 @@ export function TemplatesShowcase() {
   const currentLookbook = activeBrand ? brandLookbooks[activeBrand] : null;
 
   return (
-    <section className="bg-white text-black py-20 border-t border-b border-zinc-100 font-sans select-none">
+    <section className="bg-background text-foreground py-20 border-t border-b border-border/40 font-sans select-none">
       
       {/* 1. DEAL OF THE DAY/WEEK SECTION */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
-        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16 relative">
+        <h2 className="text-3xl sm:text-4xl font-heading font-black tracking-wider text-foreground uppercase">
           Deal Of The Day/Week
         </h2>
-        <p className="text-zinc-500 text-xs sm:text-sm max-w-2xl mx-auto mt-3 leading-relaxed">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+        <p className="text-muted-foreground text-xs sm:text-sm max-w-2xl mx-auto mt-3 leading-relaxed font-sans">
+          Discover exclusive limited offers and hot seasonal discount drops across our custom street aesthetic selection.
         </p>
 
-        {/* Banners Grid */}
-        <div className="relative overflow-hidden mt-10 max-w-5xl mx-auto min-h-[220px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentDealPage}
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -30 }}
-              transition={{ duration: 0.23 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
-              {dealPages[currentDealPage].map((card, i) => (
-                <div 
-                  key={i} 
-                  className={`${card.bg} rounded-3xl aspect-[1.6] flex flex-col items-center justify-center p-6 shadow-md relative overflow-hidden group hover:scale-[1.01] transition-transform duration-300`}
-                >
-                  <div className="absolute -top-10 -right-10 w-28 h-28 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-                  {card.content}
-                </div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
+        {/* Scrollable Carousel Wrapper */}
+        <div className="relative mt-10 max-w-6xl mx-auto">
+          <div 
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="flex overflow-x-auto gap-6 pb-6 pt-4 scrollbar-none snap-x snap-mandatory scroll-smooth"
+          >
+            {dealCards.map((card, i) => (
+              <div 
+                key={i} 
+                className={`${card.bg} rounded-[28px] min-w-[280px] sm:min-w-[340px] md:min-w-[360px] aspect-[1.6] snap-center flex flex-col items-center justify-center p-6 shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden group border border-white/10`}
+              >
+                <div className="absolute -top-10 -right-10 w-28 h-28 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+                {card.content}
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Pagination Dots Row */}
-        <div className="flex items-center justify-center gap-2.5 mt-8">
-          <button 
-            onClick={() => setCurrentDealPage(prev => (prev === 0 ? dealPages.length - 1 : prev - 1))}
-            className="w-7 h-7 rounded-lg bg-zinc-100 text-zinc-600 flex items-center justify-center hover:bg-zinc-200 transition-colors text-xs font-bold font-mono cursor-pointer border-none"
+        {/* Custom Progress Track Bar and Navigation Arrows */}
+        <div className="flex items-center justify-between mt-6 max-w-md mx-auto">
+          <button
+            onClick={() => scroll("left")}
+            className="w-10 h-10 rounded-full bg-zinc-100/80 backdrop-blur-xs text-foreground flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer border border-zinc-200/50 shadow-xs text-lg font-bold"
+            aria-label="Scroll left"
           >
-            &lt;
+            ‹
           </button>
           
-          {dealPages.map((_, idx) => (
-            <button 
-              key={idx} 
-              onClick={() => setCurrentDealPage(idx)}
-              className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold font-mono transition-all cursor-pointer border-none ${
-                currentDealPage === idx 
-                  ? "bg-orange-500 text-white shadow-xs" 
-                  : "bg-zinc-50 text-zinc-500 hover:bg-zinc-200"
-              }`}
-            >
-              {idx + 1}
-            </button>
-          ))}
+          <div className="h-[2px] bg-zinc-200/60 rounded-full flex-grow mx-6 relative overflow-hidden">
+            <div 
+              className="absolute top-0 bottom-0 left-0 bg-primary rounded-full transition-all duration-300 ease-out"
+              style={{ width: `${scrollProgress}%` }}
+            />
+          </div>
 
-          <button 
-            onClick={() => setCurrentDealPage(prev => (prev === dealPages.length - 1 ? 0 : prev + 1))}
-            className="w-7 h-7 rounded-lg bg-zinc-100 text-zinc-600 flex items-center justify-center hover:bg-zinc-200 transition-colors text-xs font-bold font-mono cursor-pointer border-none"
+          <button
+            onClick={() => scroll("right")}
+            className="w-10 h-10 rounded-full bg-zinc-100/80 backdrop-blur-xs text-foreground flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer border border-zinc-200/50 shadow-xs text-lg font-bold"
+            aria-label="Scroll right"
           >
-            &gt;
+            ›
           </button>
         </div>
       </div>
 
       {/* 2. BRAND SHOW-CASE SECTION */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-zinc-150 pt-16 mt-16 text-center">
-        <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-800 mb-12 animate-pulse">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-border pt-16 mt-16 text-center">
+        <h3 className="text-xl sm:text-2xl font-heading font-black tracking-widest text-foreground/80 mb-12 uppercase">
           Brand Show-Case
         </h3>
 
@@ -367,7 +300,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("UNRL")}
             className={`font-black text-xl sm:text-2xl tracking-tighter flex items-baseline font-sans cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "UNRL" ? "text-orange-500 scale-102" : "text-black"
+              activeBrand === "UNRL" ? "text-accent scale-102 font-extrabold" : "text-foreground"
             }`}
           >
             UNRL<span className="text-[10px] align-super font-bold ml-0.5">®</span>
@@ -376,7 +309,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("BURBERRY")}
             className={`font-extrabold text-[10px] sm:text-xs tracking-[0.25em] font-sans cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "BURBERRY" ? "text-orange-500 scale-102" : "text-black"
+              activeBrand === "BURBERRY" ? "text-accent scale-102 font-extrabold" : "text-foreground"
             }`}
           >
             BURBERRY
@@ -385,7 +318,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("STUSSY")}
             className={`font-black text-lg sm:text-xl tracking-tighter italic uppercase font-serif cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "STUSSY" ? "text-orange-500 scale-102 font-bold" : "text-zinc-400"
+              activeBrand === "STUSSY" ? "text-accent scale-102 font-bold" : "text-foreground/50"
             }`}
           >
             STUSSY
@@ -394,7 +327,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("ESSENTIALS")}
             className={`font-bold text-[9px] sm:text-[10px] tracking-[0.3em] font-sans uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "ESSENTIALS" ? "text-orange-500 scale-102" : "text-zinc-400"
+              activeBrand === "ESSENTIALS" ? "text-accent scale-102 font-extrabold" : "text-foreground/50"
             }`}
           >
             ESSENTIALS
@@ -403,7 +336,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("BAPE")}
             className={`font-black text-base sm:text-lg tracking-tight font-mono uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "BAPE" ? "text-orange-500 scale-102" : "text-zinc-600"
+              activeBrand === "BAPE" ? "text-accent scale-102 font-extrabold" : "text-foreground/70"
             }`}
           >
             BAPE
@@ -414,7 +347,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("STUSSY")}
             className={`font-black text-lg sm:text-xl tracking-tighter italic uppercase font-serif cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "STUSSY" ? "text-orange-500 scale-102" : "text-zinc-400"
+              activeBrand === "STUSSY" ? "text-accent scale-102 font-bold" : "text-foreground/50"
             }`}
           >
             STUSSY
@@ -423,7 +356,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("ESSENTIALS")}
             className={`font-bold text-[9px] sm:text-[10px] tracking-[0.3em] font-sans uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "ESSENTIALS" ? "text-orange-500 scale-102" : "text-zinc-400"
+              activeBrand === "ESSENTIALS" ? "text-accent scale-102 font-extrabold" : "text-foreground/50"
             }`}
           >
             ESSENTIALS
@@ -432,7 +365,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("STUSSY")}
             className={`font-black text-lg sm:text-xl tracking-tighter italic uppercase font-serif cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "STUSSY" ? "text-orange-500 scale-102" : "text-zinc-400"
+              activeBrand === "STUSSY" ? "text-accent scale-102 font-bold" : "text-foreground/50"
             }`}
           >
             STUSSY
@@ -441,7 +374,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("ESSENTIALS")}
             className={`font-bold text-[9px] sm:text-[10px] tracking-[0.3em] font-sans uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "ESSENTIALS" ? "text-orange-500 scale-102" : "text-zinc-400"
+              activeBrand === "ESSENTIALS" ? "text-accent scale-102 font-extrabold" : "text-foreground/50"
             }`}
           >
             ESSENTIALS
@@ -450,7 +383,7 @@ export function TemplatesShowcase() {
           <div 
             onClick={() => handleBrandClick("BAPE")}
             className={`font-black text-base sm:text-lg tracking-tight font-mono uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "BAPE" ? "text-orange-500 scale-102" : "text-zinc-600"
+              activeBrand === "BAPE" ? "text-accent scale-102 font-extrabold" : "text-foreground/70"
             }`}
           >
             BAPE
@@ -460,12 +393,12 @@ export function TemplatesShowcase() {
 
       {/* Brand Details & Lookbook Collage Section (Inline Dynamic Expansion) */}
       {activeBrand && currentLookbook && (
-        <div className="max-w-4xl mx-auto mt-12 bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-md relative animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="max-w-4xl mx-auto mt-12 bg-card p-6 sm:p-8 rounded-3xl border border-border shadow-md relative animate-in fade-in slide-in-from-top-4 duration-300">
           
           {/* Close Button */}
           <button 
             onClick={() => setActiveBrand(null)} 
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-200 text-black flex items-center justify-center font-bold text-sm cursor-pointer z-30 transition-colors"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-zinc-150/80 hover:bg-zinc-200 text-foreground flex items-center justify-center font-bold text-sm cursor-pointer z-30 transition-colors border-none"
             aria-label="Close brand page"
           >
             ✕

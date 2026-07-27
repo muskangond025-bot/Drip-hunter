@@ -4,6 +4,7 @@ export interface Product {
   name: string;
   price: string;
   image: string;
+  hoverImage?: string;
   rating: number;
   color: string;
   gender: string;
@@ -12,6 +13,11 @@ export interface Product {
   sizes: string[];
   description: string;
   specifications: { label: string; value: string }[];
+  colorVariants?: {
+    color: string;
+    image: string;
+    colorHex: string;
+  }[];
 }
 
 export const masterProducts: Product[] = [
@@ -21,6 +27,7 @@ export const masterProducts: Product[] = [
     name: "Puma Scuderia Ferrari Heritage Zip Sweatshirt",
     price: "₹7,999",
     image: "/images/puma_t7_sweatshirt.png",
+    hoverImage: "/images/puma_t7_sweatshirt_worn.png",
     rating: 4.8,
     color: "Cream",
     gender: "Men",
@@ -35,6 +42,28 @@ export const masterProducts: Product[] = [
       { label: "Collar", value: "High Neck Ribbed Collar" },
       { label: "Fastener", value: "Full Zipper Closure" },
       { label: "Brand Details", value: "Embroidered Scuderia Ferrari & Puma Logo Patches" }
+    ],
+    colorVariants: [
+      {
+        color: "Cream",
+        image: "/images/puma_t7_sweatshirt.png",
+        colorHex: "#f5f5dc"
+      },
+      {
+        color: "Black",
+        image: "/images/puma_sweatshirt_2.png",
+        colorHex: "#18181b"
+      },
+      {
+        color: "Red",
+        image: "/images/puma_sweatshirt_4.png",
+        colorHex: "#dc2626"
+      },
+      {
+        color: "Yellow",
+        image: "/images/puma_sweatshirt_5.png",
+        colorHex: "#facc15"
+      }
     ]
   },
   {
@@ -494,7 +523,8 @@ export const masterProducts: Product[] = [
     brand: "SUPREME",
     name: "Vintage Flame Oversized Tee",
     price: "₹1,499",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
+    image: "/images/supreme_flame_tee_black.png",
+    hoverImage: "/images/supreme_flame_tee_black_worn.png",
     rating: 5.0,
     color: "Black",
     gender: "Men",
@@ -509,6 +539,28 @@ export const masterProducts: Product[] = [
       { label: "Neck", value: "Crew Neck" },
       { label: "Pattern", value: "Acid Wash Graphic" },
       { label: "Wash Care", value: "Hand Wash Only" }
+    ],
+    colorVariants: [
+      {
+        color: "Black",
+        image: "/images/supreme_flame_tee_black.png",
+        colorHex: "#18181b"
+      },
+      {
+        color: "White",
+        image: "/images/supreme_flame_tee_white.png",
+        colorHex: "#f4f4f5"
+      },
+      {
+        color: "Blue",
+        image: "/images/supreme_flame_tee_blue.png",
+        colorHex: "#1d4ed8"
+      },
+      {
+        color: "Red",
+        image: "/images/supreme_flame_tee_red.png",
+        colorHex: "#dc2626"
+      }
     ]
   },
   {
@@ -517,6 +569,7 @@ export const masterProducts: Product[] = [
     name: "Retro Palms Resort Shirt",
     price: "₹1,899",
     image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
+    hoverImage: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80&rect=100,50,400,400",
     rating: 4.8,
     color: "White",
     gender: "Men",
@@ -537,6 +590,7 @@ export const masterProducts: Product[] = [
     name: "Distressed Bleach Denim Shirt",
     price: "₹2,999",
     image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80",
+    hoverImage: "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=600&q=80",
     rating: 5.0,
     color: "Blue",
     gender: "Men",
@@ -556,6 +610,7 @@ export const masterProducts: Product[] = [
     name: "Heavyweight Kanji Red Tee",
     price: "₹1,299",
     image: "https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&w=600&q=80",
+    hoverImage: "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=600&q=80",
     rating: 4.7,
     color: "Red",
     gender: "Men",

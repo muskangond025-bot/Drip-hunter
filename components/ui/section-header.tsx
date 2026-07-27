@@ -51,7 +51,7 @@ export function SectionHeader({
         {subtitle && (
           <span
             className={cn(
-              "font-mono text-xs text-yellow-400 font-extrabold uppercase tracking-widest block mb-2",
+              "font-mono text-xs text-accent font-extrabold uppercase tracking-widest block mb-2",
               subtitleClassName
             )}
           >
@@ -60,14 +60,14 @@ export function SectionHeader({
         )}
         <h2
           className={cn(
-            "text-3xl sm:text-5xl font-chaney-title uppercase tracking-tight text-black dark:text-white mt-1",
+            "text-3xl sm:text-5xl font-chaney-title uppercase tracking-tight text-foreground mt-1",
             titleClassName
           )}
         >
           {renderTitle()}
         </h2>
         {description && align === "center" && (
-          <p className="text-xs sm:text-sm font-sans text-zinc-500 max-w-2xl mx-auto mt-3">
+          <p className="text-xs sm:text-sm font-sans text-muted-foreground max-w-2xl mx-auto mt-3">
             {description}
           </p>
         )}
@@ -77,7 +77,7 @@ export function SectionHeader({
       {align !== "center" && (description || children) && (
         <div className="flex items-center gap-4 mt-2 md:mt-0 select-none">
           {description && (
-            <p className="hidden md:block text-xs font-mono text-zinc-500 max-w-[200px] leading-tight text-right uppercase">
+            <p className="hidden md:block text-xs font-mono text-muted-foreground max-w-[200px] leading-tight text-right uppercase">
               {description}
             </p>
           )}

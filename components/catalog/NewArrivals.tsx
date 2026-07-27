@@ -13,6 +13,7 @@ interface Product {
   name: string;
   price: string;
   image: string;
+  hoverImage?: string;
   badge?: string;
   buttonText: string;
 }
@@ -23,7 +24,8 @@ const productsData: Product[] = [
     brand: "Name of the brand",
     name: "Oversized Heavy Hoodie",
     price: "$89.00",
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80",
+    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
+    hoverImage: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
     badge: "Limited Edition",
     buttonText: "Pre Order",
   },
@@ -32,7 +34,8 @@ const productsData: Product[] = [
     brand: "Name of the brand",
     name: "Classic Cotton Crewneck",
     price: "$75.00",
-    image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=300&q=80",
+    image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
+    hoverImage: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
     badge: "Limited Edition",
     buttonText: "Pre Order",
   },
@@ -41,7 +44,8 @@ const productsData: Product[] = [
     brand: "Name of the brand",
     name: "Retro Box Graphic Tee",
     price: "$45.00",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=300&q=80",
+    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80",
+    hoverImage: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
     buttonText: "Add To Cart",
   },
   {
@@ -49,7 +53,8 @@ const productsData: Product[] = [
     brand: "Name of the brand",
     name: "Utility Bomber Jacket",
     price: "$120.00",
-    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80",
+    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80",
+    hoverImage: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
     buttonText: "Add To Cart",
   },
   {
@@ -57,7 +62,8 @@ const productsData: Product[] = [
     brand: "Name of the brand",
     name: "Reflective Technical Jacket",
     price: "$125.00",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
+    hoverImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
     buttonText: "Add To Cart",
   },
   {
@@ -65,7 +71,8 @@ const productsData: Product[] = [
     brand: "Name of the brand",
     name: "Cream Workwear Jacket",
     price: "$110.00",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80",
+    hoverImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
     buttonText: "Add To Cart",
   },
 ];
@@ -311,7 +318,7 @@ export function NewArrivals({
   };
 
   return (
-    <section id="new-arrivals" className="bg-white text-black py-10 lg:py-14">
+    <section id="new-arrivals" className="bg-background text-foreground py-10 lg:py-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Title & Subtitle */}
@@ -327,9 +334,9 @@ export function NewArrivals({
             100% { opacity: 1; transform: translateY(0); }
           }
           @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(250, 204, 21, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(95, 140, 109, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(95, 140, 109, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(95, 140, 109, 0); }
           }
           @keyframes sheenSweep {
             0% { transform: translate(-100%, -100%) rotate(45deg); }
@@ -368,7 +375,7 @@ export function NewArrivals({
         `}</style>
 
         {/* 1. BRIGHT THEME LAPTOP COMPACT COVER-FLOW HORIZONTAL CAROUSEL */}
-        <div className="relative w-full bg-zinc-50/50 border border-zinc-200/50 rounded-[32px] p-4 sm:p-8 overflow-hidden flex flex-col items-center justify-center min-h-[380px] sm:min-h-[480px] shadow-[0_8px_30px_rgba(0,0,0,0.01)] mb-10 select-none">
+        <div className="relative w-full bg-secondary/40 border border-border rounded-[32px] p-4 sm:p-8 overflow-hidden flex flex-col items-center justify-center min-h-[380px] sm:min-h-[480px] shadow-[0_8px_30px_rgba(0,0,0,0.01)] mb-10 select-none">
           
           {/* Ambient center radial soft glow */}
           <div className={cn(
@@ -406,8 +413,8 @@ export function NewArrivals({
                     className={cn(
                       "relative rounded-[24px] overflow-hidden p-5 transition-all duration-500 flex flex-col justify-between border text-black select-none",
                       isCenter 
-                        ? cn("w-[230px] sm:w-[280px] h-[330px] sm:h-[400px] bg-white border-zinc-200", prod.glowClass)
-                        : "w-[150px] sm:w-[190px] h-[190px] sm:h-[230px] bg-white/70 border-zinc-150/60 shadow-[0_4px_12px_rgba(0,0,0,0.01)]"
+                        ? cn("w-[230px] sm:w-[280px] h-[330px] sm:h-[400px] bg-card border-border", prod.glowClass)
+                        : "w-[150px] sm:w-[190px] h-[190px] sm:h-[230px] bg-card/70 border-border/60 shadow-[0_4px_12px_rgba(0,0,0,0.01)]"
                     )}
                     style={isCenter ? {
                       transform: `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
@@ -471,16 +478,16 @@ export function NewArrivals({
                           : "max-h-0 opacity-0 pointer-events-none border-t-0"
                       )}>
                         <div>
-                          <span className="text-[7.5px] font-mono text-zinc-450 font-extrabold uppercase tracking-widest block mb-0.5">
+                          <span className="text-[7.5px] font-mono text-accent font-extrabold uppercase tracking-widest block mb-0.5">
                             {prod.brand}
                           </span>
-                          <h3 className="text-xs sm:text-sm font-sans font-bold uppercase leading-snug tracking-tight text-zinc-800 pr-5">
+                          <h3 className="text-xs sm:text-sm font-sans font-extrabold uppercase leading-snug tracking-tight text-foreground pr-5">
                             {prod.name}
                           </h3>
                         </div>
                         
                         <div className="flex items-center justify-between gap-3 pt-0.5">
-                          <span className="text-xs sm:text-sm font-mono font-bold text-zinc-900">
+                          <span className="text-xs sm:text-sm font-mono font-black text-foreground">
                             {prod.price}
                           </span>
                           
@@ -503,7 +510,7 @@ export function NewArrivals({
                                 });
                               }
                             }}
-                            className="animate-sheen-button animate-glow-button relative overflow-hidden bg-black text-white hover:bg-yellow-400 hover:text-black font-black uppercase text-[8px] sm:text-[9px] tracking-wider px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition-all cursor-pointer border-none shadow-md flex items-center gap-0.5 z-30"
+                            className="animate-sheen-button animate-glow-button relative overflow-hidden bg-accent text-white hover:bg-hover-green font-black uppercase text-[8px] sm:text-[9px] tracking-wider px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition-all cursor-pointer border-none shadow-md flex items-center gap-0.5 z-30"
                           >
                             Buy Now
                             <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
@@ -527,7 +534,7 @@ export function NewArrivals({
                         }}
                       >
                         <div 
-                          className="absolute left-[-26px] opacity-0 group-hover/left:opacity-100 transition-opacity duration-300 pointer-events-none w-11 h-11 rounded-full bg-white text-zinc-800 shadow-[0_4px_16px_rgba(0,0,0,0.12)] border border-zinc-200/80 flex items-center justify-center -translate-y-1/2"
+                          className="absolute left-[-26px] opacity-0 group-hover/left:opacity-100 transition-opacity duration-300 pointer-events-none w-11 h-11 rounded-full bg-card text-foreground shadow-[0_4px_16px_rgba(16,29,24,0.12)] border border-border flex items-center justify-center -translate-y-1/2"
                           style={{ top: `${leftArrowY}px` }}
                         >
                           <ChevronLeft className="w-5 h-5" />
@@ -544,7 +551,7 @@ export function NewArrivals({
                         }}
                       >
                         <div 
-                          className="absolute right-[-26px] opacity-0 group-hover/right:opacity-100 transition-opacity duration-300 pointer-events-none w-11 h-11 rounded-full bg-white text-zinc-800 shadow-[0_4px_16px_rgba(0,0,0,0.12)] border border-zinc-200/80 flex items-center justify-center -translate-y-1/2"
+                          className="absolute right-[-26px] opacity-0 group-hover/right:opacity-100 transition-opacity duration-300 pointer-events-none w-11 h-11 rounded-full bg-card text-foreground shadow-[0_4px_16px_rgba(16,29,24,0.12)] border border-border flex items-center justify-center -translate-y-1/2"
                           style={{ top: `${rightArrowY}px` }}
                         >
                           <ChevronRight className="w-5 h-5" />
@@ -572,6 +579,7 @@ export function NewArrivals({
                 name={item.name}
                 price={item.price}
                 image={item.image}
+                hoverImage={item.hoverImage}
                 badge={item.badge}
                 buttonText={item.buttonText}
                 isFavorite={isFav}

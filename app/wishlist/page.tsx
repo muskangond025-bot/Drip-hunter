@@ -207,11 +207,11 @@ export default function WishlistPage() {
   };
 
   if (isRegistered === null) {
-    return <div className="min-h-screen bg-white" />; // Avoid hydration flicker
+    return <div className="min-h-screen bg-background" />; // Avoid hydration flicker
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-zinc-900 select-none">
+    <div className="flex flex-col min-h-screen bg-background text-foreground select-none">
       {/* Header */}
       <Navbar
         cart={cart}

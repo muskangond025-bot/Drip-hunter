@@ -8,6 +8,7 @@ export function generateStaticParams() {
   }));
 }
 
+// Force route re-compilation to clear Next.js stale dev SSR caches
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const unwrappedParams = await params;
   const productId = parseInt(unwrappedParams.id);

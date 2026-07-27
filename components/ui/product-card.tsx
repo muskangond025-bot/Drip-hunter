@@ -14,6 +14,7 @@ export interface ProductCardProps {
   name: string;
   price: string;
   image: string;
+  hoverImage?: string;
   badge?: string;
   discount?: string;
   rating?: number;
@@ -31,6 +32,7 @@ export function ProductCard({
   name,
   price,
   image,
+  hoverImage,
   badge,
   discount,
   rating,
@@ -108,12 +110,12 @@ export function ProductCard({
   return (
     <div
       className={cn(
-        "bg-white flex flex-col justify-between transition-all duration-300 relative group",
+        "bg-card flex flex-col justify-between transition-all duration-300 relative group overflow-hidden",
         isPadded
           ? "rounded-2xl p-4 shadow-xs hover:shadow-xl hover:-translate-y-1 border border-zinc-150"
           : isCatalog
           ? "rounded-2xl p-3 shadow-xs hover:shadow-lg hover:-translate-y-0.5 border border-zinc-200"
-          : "border border-zinc-200 rounded-3xl shadow-xs hover:shadow-md hover:border-zinc-400",
+          : "border border-border/80 rounded-[32px] shadow-xs hover:shadow-[0_20px_50px_rgba(16,29,24,0.06)] hover:border-border hover:-translate-y-1.5",
         className
       )}
     >
@@ -122,7 +124,7 @@ export function ProductCard({
         onClick={() => id && (window.location.href = `/product/${id}`)}
         className={cn(
           "relative w-full aspect-[4/5] bg-zinc-100 overflow-hidden select-none product-image-container",
-          isPadded || isCatalog ? "rounded-xl" : "rounded-t-[22px]",
+          isPadded || isCatalog ? "rounded-xl" : "rounded-t-[30px]",
           id ? "cursor-pointer" : ""
         )}
       >
@@ -139,21 +141,33 @@ export function ProductCard({
         {/* Product Image Wrapper */}
         <div 
           className={cn(
-            "w-full h-full transition-all duration-300 z-10 relative",
+            "w-full h-full transition-all duration-300 z-10 relative overflow-hidden",
             animating && animationStep === "drop" ? "scale-40 translate-y-12 opacity-0" : "",
             animating && animationStep === "bag-in" ? "scale-90" : ""
           )}
         >
+          {/* Primary Image */}
           <Image
             src={image}
             alt={name}
             fill
             sizes={isPadded ? "(max-width: 768px) 50vw, 200px" : "(max-width: 768px) 100vw, 250px"}
             className={cn(
-              "object-cover transition-transform duration-500",
-              isPadded || isCatalog ? "group-hover:scale-105" : "group-hover:scale-103"
+              "object-cover transition-all duration-700 ease-out",
+              hoverImage ? "group-hover:opacity-0 group-hover:scale-95" : (isPadded || isCatalog ? "group-hover:scale-108" : "group-hover:scale-105")
             )}
           />
+
+          {/* Secondary Hover Image (Outfit-style swap animation) */}
+          {hoverImage && (
+            <Image
+              src={hoverImage}
+              alt={`${name} alternative view`}
+              fill
+              sizes={isPadded ? "(max-width: 768px) 50vw, 200px" : "(max-width: 768px) 100vw, 250px"}
+              className="object-cover absolute inset-0 opacity-0 scale-105 group-hover:opacity-100 group-hover:scale-100 transition-all duration-700 ease-out z-10"
+            />
+          )}
         </div>
 
         {/* Bag Front Layer */}
@@ -236,20 +250,20 @@ export function ProductCard({
         <>
           <div 
             onClick={() => id && (window.location.href = `/product/${id}`)}
-            className={cn("p-5 bg-white flex flex-col gap-1 flex-grow", id ? "cursor-pointer" : "")}
+            className={cn("p-5 bg-card flex flex-col gap-1 flex-grow", id ? "cursor-pointer" : "")}
           >
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-sans text-zinc-400 uppercase tracking-wider block">
+              <span className="text-[10px] font-sans text-muted-foreground uppercase tracking-wider block">
                 {brand}
               </span>
               {rating !== undefined && (
                 <StarRating rating={rating} size="sm" />
               )}
             </div>
-            <h4 className="text-xs font-bold text-zinc-700 tracking-tight uppercase line-clamp-1 hover:text-orange-500 transition-colors">
+            <h4 className="text-xs font-bold text-foreground tracking-tight uppercase line-clamp-1 hover:text-accent transition-colors">
               {name}
             </h4>
-            <strong className="text-sm font-bold text-zinc-955 block mt-0.5">
+            <strong className="text-sm font-bold text-foreground block mt-0.5">
               {price}
             </strong>
           </div>
@@ -259,7 +273,7 @@ export function ProductCard({
             buttonText={buttonText}
             animationStyle="truck"
             size="md"
-            className="rounded-t-none rounded-b-[22px]"
+            className="rounded-t-none rounded-b-[30px]"
           />
         </>
       )}
