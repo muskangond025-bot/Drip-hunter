@@ -146,7 +146,7 @@ export default function Home() {
       <main className="flex-grow">
         {/* Hero Sneaker 3D Canvas Showcase */}
         <HeroSection 
-          onShopTheLook={(categoryName) => {
+          onShopTheLook={(categoryName: string) => {
             if (categoryName === "Graphic Tees") {
               window.location.href = `/shop?category=Top%20Wear&search=Tee`;
             } else if (categoryName === "Tactical Vests") {

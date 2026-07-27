@@ -2,337 +2,197 @@
 
 import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-
-// Modular Hero sub-components
-import { BackgroundEffects } from "./Hero/BackgroundEffects";
-import { ProductDetails } from "./Hero/ProductDetails";
-import { HeroSneaker } from "./Hero/HeroSneaker";
-import { CircularCarousel } from "./Hero/CircularCarousel";
-import { HERO_PRODUCTS } from "./Hero/ProductData";
+import { Play, RotateCcw, ArrowRight } from "lucide-react";
 
 interface HeroSectionProps {
   onShopTheLook?: (category: string) => void;
   onExploreCollections?: () => void;
-  onAddToCart?: (product: any) => void;
 }
 
-export function HeroSection({ onShopTheLook, onExploreCollections, onAddToCart }: HeroSectionProps) {
-  // Navigation between the 2 main Hero layouts (0: Studio Lookbook, 1: Kicks Showcase)
-  const [activeHeroTab, setActiveHeroTab] = useState(1); // Default to Kicks Showcase
+export function HeroSection({ onShopTheLook, onExploreCollections }: HeroSectionProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(1200);
 
-  // --- Slide 1 (Studio Lookbook) States ---
-  const [lookbookClothingIdx, setLookbookClothingIdx] = useState(0);
-  const [lookbookGlassesIdx, setLookbookGlassesIdx] = useState(0);
-  const [lookbookShoesIdx, setLookbookShoesIdx] = useState(0);
-  const [flash1, setFlash1] = useState(false);
-  const [flash2, setFlash2] = useState(false);
-  const [flash3, setFlash3] = useState(false);
-
-  // --- Slide 2 (Circular Kicks Showcase) States ---
-  const [activeProductIdx, setActiveProductIdx] = useState(1); // Default to Cyber 720
-  const [selectedColorIdx, setSelectedColorIdx] = useState(0);
-  const [selectedSizeIdx, setSelectedSizeIdx] = useState(0);
-  const [sizeSystem, setSizeSystem] = useState<"EU" | "US">("EU");
-  
-  // Hover state to pause auto-cycles
-  const [isHovered, setIsHovered] = useState(false);
-
-  // Local state for interactive navbar counts
-  const [cartCount, setCartCount] = useState(1);
-  const [wishlistCount, setWishlistCount] = useState(0);
-
-  // --- Slide 1 (Lookbook) Auto Cycles ---
+  // Dynamic Google Font Injection
   useEffect(() => {
-    if (activeHeroTab !== 0 || isHovered) return;
-    const timer = setInterval(() => {
-      setFlash1(true);
-      setTimeout(() => setFlash1(false), 150);
-      setLookbookClothingIdx((prev) => (prev + 1) % 3);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [activeHeroTab, isHovered]);
+    const link = document.createElement("link");
+    link.href = "https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Montserrat:wght@400;500;600&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
+  // Scroll listener to toggle animation state
   useEffect(() => {
-    if (activeHeroTab !== 0 || isHovered) return;
-    const timer = setInterval(() => {
-      setFlash2(true);
-      setTimeout(() => setFlash2(false), 150);
-      setLookbookGlassesIdx((prev) => (prev + 1) % 3);
-    }, 3300);
-    return () => clearInterval(timer);
-  }, [activeHeroTab, isHovered]);
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+      const handleResize = () => setWindowWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
 
-  useEffect(() => {
-    if (activeHeroTab !== 0 || isHovered) return;
-    const timer = setInterval(() => {
-      setFlash3(true);
-      setTimeout(() => setFlash3(false), 150);
-      setLookbookShoesIdx((prev) => (prev + 1) % 3);
-    }, 3600);
-    return () => clearInterval(timer);
-  }, [activeHeroTab, isHovered]);
+      const handleScroll = () => {
+        if (window.scrollY > 25) {
+          setIsScrolled(true);
+        } else {
+          setIsScrolled(false);
+        }
+      };
+      window.addEventListener("scroll", handleScroll);
+      // Run once on mount
+      handleScroll();
 
-  // --- Slide 2 (Circular Showcase) Auto Cycle (4 Seconds) ---
-  useEffect(() => {
-    if (activeHeroTab !== 1 || isHovered) return;
-    const timer = setInterval(() => {
-      handleNextProduct();
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [activeHeroTab, isHovered]);
-
-  // Reset colors/sizes when main product index changes
-  const handleProductSelect = (idx: number) => {
-    setActiveProductIdx(idx);
-    setSelectedColorIdx(0);
-    setSelectedSizeIdx(0);
-  };
-
-  const handleNextProduct = () => {
-    setActiveProductIdx((prev) => (prev + 1) % HERO_PRODUCTS.length);
-    setSelectedColorIdx(0);
-    setSelectedSizeIdx(0);
-  };
-
-  const handlePrevProduct = () => {
-    setActiveProductIdx((prev) => (prev - 1 + HERO_PRODUCTS.length) % HERO_PRODUCTS.length);
-    setSelectedColorIdx(0);
-    setSelectedSizeIdx(0);
-  };
-
-  const activeProduct = HERO_PRODUCTS[activeProductIdx];
-  const activeColor = activeProduct.colors[selectedColorIdx];
-
-  const handleBuy = () => {
-    const selectedSize = sizeSystem === "EU" ? activeProduct.sizes.EU[selectedSizeIdx] : activeProduct.sizes.US[selectedSizeIdx];
-    
-    // Increment cart badge count locally
-    setCartCount((prev) => prev + 1);
-
-    if (onAddToCart) {
-      onAddToCart({
-        id: activeProduct.id + selectedColorIdx * 10,
-        brand: "Drip Kicks",
-        name: `${activeProduct.name} (${activeColor.name})`,
-        price: activeProduct.price,
-        image: activeColor.img,
-        size: `${selectedSize} (${sizeSystem})`,
-        buttonText: "Add To Cart"
-      });
-    } else {
-      alert(`Added ${activeProduct.name} (${activeColor.name}) Size ${selectedSize} to cart!`);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+        window.removeEventListener("scroll", handleScroll);
+      };
     }
+  }, []);
+
+  const handleReplay = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <section 
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative w-full lg:h-[82vh] lg:max-h-[720px] min-h-[600px] flex items-center overflow-hidden bg-zinc-950 text-white select-none pt-12 lg:pt-14"
-      style={{ backgroundColor: "#050505" }}
+      className="relative w-full h-[88vh] min-h-[420px] sm:min-h-[460px] lg:min-h-[500px] xl:min-h-[580px] lg:max-h-[850px] flex items-center justify-center overflow-hidden bg-[#051119] text-white select-none pt-12"
+      style={{ fontFamily: "'Montserrat', sans-serif" }}
     >
-      {/* Dynamic CSS styles for animations */}
-      <style>{`
-        @keyframes kenBurnsHero {
-          0% { transform: scale(1.02) translateY(0); }
-          100% { transform: scale(1.15) translateY(-5px); }
-        }
-        .animate-hero-zoom {
-          animation: kenBurnsHero 6s ease-in-out infinite alternate;
-        }
-      `}</style>
-
-      {/* Dynamic Neon Background Glow & Outlined Outlines */}
-      <BackgroundEffects accentColor={activeHeroTab === 1 ? activeProduct.accent : "#eab308"} />
-
-
-
-      {/* ==================== HERO VIEW 1: STUDIO LOOKBOOK SPLIT SCREEN ==================== */}
-      {activeHeroTab === 0 && (
-        <div className="absolute inset-0 w-full h-full z-10 flex select-none pointer-events-none opacity-45 sm:opacity-60 transition-opacity duration-1000">
-          
-          {/* Panel 1: Clothing (Men's wear) */}
-          <div className="relative w-1/3 h-full border-r border-white/5 overflow-hidden">
-            {[
-              "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
-              "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
-              "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80"
-            ].map((img, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "absolute inset-0 transition-opacity duration-800 ease-in-out",
-                  lookbookClothingIdx === index ? "opacity-100 z-0" : "opacity-0 -z-10"
-                )}
-              >
-                <img
-                  src={img}
-                  alt="Clothing lookbook"
-                  className={cn(
-                    "w-full h-full object-cover",
-                    lookbookClothingIdx === index ? "animate-hero-zoom" : ""
-                  )}
-                />
-              </div>
-            ))}
-            {/* Flash overlay */}
-            <div className={cn(
-              "absolute inset-0 bg-white transition-opacity duration-150 pointer-events-none z-10",
-              flash1 ? "opacity-35" : "opacity-0"
-            )} />
-          </div>
-
-          {/* Panel 2: Glasses */}
-          <div className="relative w-1/3 h-full border-r border-white/5 overflow-hidden">
-            {[
-              "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80",
-              "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=600&q=80",
-              "https://images.unsplash.com/photo-1508296695146-257a814070b4?auto=format&fit=crop&w=600&q=80"
-            ].map((img, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "absolute inset-0 transition-opacity duration-800 ease-in-out",
-                  lookbookGlassesIdx === index ? "opacity-100 z-0" : "opacity-0 -z-10"
-                )}
-              >
-                <img
-                  src={img}
-                  alt="Glasses lookbook"
-                  className={cn(
-                    "w-full h-full object-cover",
-                    lookbookGlassesIdx === index ? "animate-hero-zoom" : ""
-                  )}
-                />
-              </div>
-            ))}
-            {/* Flash overlay */}
-            <div className={cn(
-              "absolute inset-0 bg-white transition-opacity duration-150 pointer-events-none z-10",
-              flash2 ? "opacity-35" : "opacity-0"
-            )} />
-          </div>
-
-          {/* Panel 3: Shoes */}
-          <div className="relative w-1/3 h-full overflow-hidden">
-            {[
-              "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
-              "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=600&q=80",
-              "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80"
-            ].map((img, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "absolute inset-0 transition-opacity duration-800 ease-in-out",
-                  lookbookShoesIdx === index ? "opacity-100 z-0" : "opacity-0 -z-10"
-                )}
-              >
-                <img
-                  src={img}
-                  alt="Shoes lookbook"
-                  className={cn(
-                    "w-full h-full object-cover",
-                    lookbookShoesIdx === index ? "animate-hero-zoom" : ""
-                  )}
-                />
-              </div>
-            ))}
-            {/* Flash overlay */}
-            <div className={cn(
-              "absolute inset-0 bg-white transition-opacity duration-150 pointer-events-none z-10",
-              flash3 ? "opacity-35" : "opacity-0"
-            )} />
-          </div>
-
-        </div>
-      )}
-
-      {/* Studio Lookbook Copy Overlay text */}
-      {activeHeroTab === 0 && (
-        <div className="relative z-20 w-full px-4 sm:px-10 lg:px-16 xl:px-24 pointer-events-none">
-          <div className="max-w-xl space-y-6 text-white text-left pointer-events-auto">
-            <div className="inline-flex items-center gap-2 bg-yellow-400 text-black text-xs font-black tracking-widest px-4 py-2 rounded shadow-sm">
-              ⚡ NEW DROP
-            </div>
-
-            <div className="space-y-4">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-chaney-title leading-[1.05] uppercase tracking-tighter drop-shadow-[0_4px_12px_rgba(0,0,0,0.85)]">
-                URBAN DRIP 2026
-              </h1>
-              <h2 className="text-sm sm:text-lg font-mono text-zinc-300 font-bold tracking-widest uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-                STREETWEAR FOR THE UNCONVENTIONAL
-              </h2>
-              <p className="text-white text-sm sm:text-[15px] max-w-md leading-relaxed font-sans font-semibold drop-shadow-sm bg-black/40 px-4 py-3 rounded-2xl backdrop-blur-md border border-white/5">
-                Explore our latest curation of oversized fits, bold graphics, and industrial outerwear.
-              </p>
-            </div>
-
-
-          </div>
-        </div>
-      )}
-
-      {/* ==================== HERO VIEW 2: INTERACTIVE KICKS CIRCULAR MENU SHOWCASE ==================== */}
-      {activeHeroTab === 1 && (
-        <div className="relative z-20 w-full max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-8 items-center min-h-[48vh] pointer-events-none mt-2">
-          
-          {/* Left Column: Product Selection Details */}
-          <div className="md:col-span-4">
-            <ProductDetails
-              product={activeProduct}
-              selectedColorIdx={selectedColorIdx}
-              setSelectedColorIdx={setSelectedColorIdx}
-              selectedSizeIdx={selectedSizeIdx}
-              setSelectedSizeIdx={setSelectedSizeIdx}
-              sizeSystem={sizeSystem}
-              setSizeSystem={setSizeSystem}
-              onBuy={handleBuy}
-            />
-          </div>
-
-          {/* Center Column: Big Floating Sneaker Image */}
-          <div className="md:col-span-5 flex items-center justify-center">
-            <HeroSneaker
-              imageSrc={activeColor.img}
-              name={activeProduct.name}
-              activeProductIdx={activeProductIdx}
-              selectedColorIdx={selectedColorIdx}
-            />
-          </div>
-
-          {/* Right Column: Glowing Neon Circular Carousel Menu */}
-          <div className="md:col-span-3 flex items-center justify-center md:justify-end">
-            <CircularCarousel
-              products={HERO_PRODUCTS}
-              activeProductIdx={activeProductIdx}
-              setActiveProductIdx={handleProductSelect}
-              onPrev={handlePrevProduct}
-              onNext={handleNextProduct}
-            />
-          </div>
-
-        </div>
-      )}
-
-      {/* Sleek Tab Switcher (Pill design at bottom center to toggle between Slide 1 and Slide 2) */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-35 bg-black/60 backdrop-blur-md border border-white/10 rounded-full p-1 flex items-center gap-1 shadow-lg pointer-events-auto">
-        <button
-          onClick={() => setActiveHeroTab(0)}
+      {/* 1. Morphing Image Container (Fullscreen Zoom at top/scroll-up -> Shrinks to small preview box on scroll-down) */}
+      <div 
+        className={cn(
+          "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 overflow-hidden shadow-2xl transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] select-none pointer-events-none",
+          isScrolled 
+            ? "w-[240px] h-[310px] sm:w-[320px] sm:h-[420px] rounded-3xl border border-white/5"
+            : "w-full h-full rounded-none"
+        )}
+      >
+        <img
+          src="/images/hero_models_clean.png"
+          alt="Drip Hunter Luxury Campaign Models"
+          style={{ objectPosition: "center 15%" }}
           className={cn(
-            "px-4 py-2 text-[9px] sm:text-xs font-black uppercase tracking-wider rounded-full transition-all cursor-pointer border-none",
-            activeHeroTab === 0 ? "bg-white text-black shadow" : "text-white/60 hover:text-white"
+            "w-full h-full object-cover origin-center transition-transform duration-[4000ms] ease-out",
+            isScrolled ? "scale-[1.01]" : "scale-[1.05]"
+          )}
+        />
+
+        {/* Vignette Spotlight Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#051119]/80 via-transparent to-[#051119]/60" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,#051119/70%)]" />
+      </div>
+
+      {/* 2. Transition Dark Navy screen overlay */}
+      <div 
+        className={cn(
+          "absolute inset-0 bg-[#051119] transition-opacity duration-[1000ms] ease-in-out pointer-events-none z-10",
+          isScrolled ? "opacity-35" : "opacity-0"
+        )}
+      />
+
+      {/* 3. Typography Split Reveal Layer */}
+      <div className="absolute inset-0 w-full h-full flex items-center justify-center z-20 pointer-events-none">
+        
+        {/* Subtle luxurious serif tagline (positioned independently above the left text baseline to prevent push-up) */}
+        <span 
+          className={cn(
+            "absolute left-[4%] md:left-[6%] lg:left-[8%] xl:left-[10%] top-[33%] md:top-[32%] lg:top-[34%] font-serif italic text-amber-100/70 text-sm md:text-lg transition-all duration-1000 z-20 pointer-events-none",
+            isScrolled ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
+          )}
+          style={{ fontFamily: "'Playfair Display', serif" }}
+        >
+          Made from luxurious material
+        </span>
+
+        {/* Standalone Left Heading ("STEP BACK") centered on baseline */}
+        <h1 
+          className={cn(
+            "absolute text-4xl sm:text-6xl md:text-7xl lg:text-[5.5vw] xl:text-[5.2vw] font-black text-[#DFD7C7] tracking-tighter leading-none select-none whitespace-nowrap transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] z-20 pointer-events-none",
+            isScrolled
+              ? "left-1/2 -translate-x-[102%] scale-[1.03]"
+              : "left-[4%] md:left-[6%] lg:left-[8%] xl:left-[10%] translate-x-0 scale-100"
+          )}
+          style={{ 
+            top: "50%", 
+            transform: isScrolled ? "translate(-102%, -50%)" : "translate(0, -50%)",
+            fontFamily: "'Bodoni Moda', serif" 
+          }}
+        >
+          STEP BACK
+        </h1>
+
+        {/* Standalone Right Heading ("INTO STYLE") centered on baseline */}
+        <h1 
+          className={cn(
+            "absolute text-4xl sm:text-6xl md:text-7xl lg:text-[5.5vw] xl:text-[5.2vw] font-black text-[#DFD7C7] tracking-tighter leading-none select-none text-right whitespace-nowrap transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] z-20 pointer-events-none",
+            isScrolled
+              ? "left-1/2 translate-x-[2%] scale-[1.03]"
+              : "right-[4%] md:right-[6%] lg:right-[8%] xl:right-[10%] translate-x-0 scale-100"
+          )}
+          style={{ 
+            top: "50%", 
+            transform: isScrolled ? "translate(2%, -50%)" : "translate(0, -50%)",
+            fontFamily: "'Bodoni Moda', serif" 
+          }}
+        >
+          INTO STYLE
+        </h1>
+
+        {/* Luxury marketing body copy (positioned independently below the left text baseline to prevent push-down) */}
+        <p 
+          className={cn(
+            "absolute left-[4%] md:left-[6%] lg:left-[8%] xl:left-[10%] top-[60%] lg:top-[62%] text-[10px] sm:text-xs text-zinc-300/80 max-w-[240px] md:max-w-[280px] leading-relaxed font-normal transition-all duration-1000 z-20 pointer-events-none",
+            isScrolled ? "opacity-0 -translate-y-2" : "opacity-100 translate-y-0"
           )}
         >
-          Studio Lookbook
-        </button>
-        <button
-          onClick={() => setActiveHeroTab(1)}
-          className={cn(
-            "px-4 py-2 text-[9px] sm:text-xs font-black uppercase tracking-wider rounded-full transition-all cursor-pointer border-none",
-            activeHeroTab === 1 ? "bg-white text-black shadow" : "text-white/60 hover:text-white"
-          )}
+          Explore timeless pieces that blend classic elegance with a modern streetwear twist. Embrace iconic styles and discover your perfect look.
+        </p>
+
+      </div>
+
+      {/* 4. Luxury E-Commerce Interactive Product Tag - Placed higher inside center gap to prevent viewport bottom crop */}
+      <div 
+        className={cn(
+          "absolute left-1/2 bottom-[18%] md:bottom-[20%] lg:bottom-[22%] xl:bottom-[24%] -translate-x-1/2 z-30 transition-all duration-[1000ms] ease-out pointer-events-auto",
+          isScrolled ? "opacity-0 translate-y-4 pointer-events-none" : "opacity-100 translate-y-0 pointer-events-auto"
+        )}
+      >
+        <div 
+          onClick={() => window.location.href = "/shop"}
+          className="flex items-center gap-3 bg-black/60 backdrop-blur-md border border-white/10 rounded-full py-1.5 pl-2.5 pr-4 shadow-xl hover:bg-black/85 hover:border-accent/40 active:scale-95 transition-all duration-300 cursor-pointer"
         >
-          Kicks Showcase
+          {/* Round Mini Jacket Icon */}
+          <div className="relative w-8 h-8 rounded-full bg-[#DFD7C7] overflow-hidden flex items-center justify-center shadow-inner">
+            <img 
+              src="/images/supreme_flame_tee_red.png" 
+              alt="Product thumbnail" 
+              className="w-6 h-6 object-contain"
+            />
+          </div>
+          {/* Product Details */}
+          <div className="flex flex-col text-left">
+            <span className="text-[7px] font-bold text-accent uppercase tracking-widest leading-none">CAMPAIGN HIGHLIGHT</span>
+            <span className="text-[10px] font-bold text-white tracking-tight uppercase mt-0.5 leading-none font-sans">FAUX LEATHER COAT</span>
+            <span className="text-[8px] font-medium text-zinc-300 font-mono mt-0.5 leading-none">₹8,999</span>
+          </div>
+          <ArrowRight className="w-3 h-3 text-zinc-400" />
+        </div>
+      </div>
+
+      {/* 5. Replay Control (Top Right Overlay) */}
+      <div 
+        className={cn(
+          "absolute top-6 right-6 z-30 flex items-center gap-3 transition-opacity duration-1000",
+          isScrolled ? "opacity-0 pointer-events-none" : "opacity-70 hover:opacity-100"
+        )}
+      >
+        <button
+          onClick={handleReplay}
+          aria-label="Replay experience"
+          className="flex items-center gap-2 bg-black/40 hover:bg-black/75 border border-white/10 rounded-full px-3.5 py-1.5 text-[9px] font-bold uppercase tracking-widest text-zinc-300 hover:text-white transition-all cursor-pointer shadow-sm active:scale-95"
+        >
+          <RotateCcw className="w-3 h-3" />
+          <span>Replay Cinematic</span>
         </button>
       </div>
 

@@ -172,19 +172,22 @@ export function NewArrivals({
   // Interactive Custom Card Tilt & Hover Arrow States
   const [tiltX, setTiltX] = useState(0);
   const [tiltY, setTiltY] = useState(0);
-  const [leftArrowY, setLeftArrowY] = useState(130);
-  const [rightArrowY, setRightArrowY] = useState(130);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Auto-cycle slide every 2 seconds - Pauses on Hover!
+  // Swipe / Mouse Drag Scroll States
+  const [startX, setStartX] = useState<number | null>(null);
+  const [draggedX, setDraggedX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+ 
+  // Auto-cycle slide every 3 seconds - Pauses on Hover or Drag!
   useEffect(() => {
-    if (isHovered) return;
+    if (isHovered || isDragging) return;
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % SPOTLIGHT_PRODUCTS.length);
-    }, 2000);
+    }, 3000);
     return () => clearInterval(timer);
-  }, [isHovered]);
-
+  }, [isHovered, isDragging]);
+ 
   // Responsive translation spacing adjustments for card columns on Laptop/Mobile
   useEffect(() => {
     const handleResize = () => {
@@ -200,9 +203,9 @@ export function NewArrivals({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+ 
   let displayProducts = productsByCategory[activeTab] || productsData;
-
+ 
   // Filter by selected subcategory (from CategorySelector)
   if (selectedSubCategory) {
     const sub = selectedSubCategory.toLowerCase();
@@ -246,7 +249,7 @@ export function NewArrivals({
       return name.includes(sub) || brand.includes(sub);
     });
   }
-
+ 
   // Filter by category dropdown select
   if (searchCategory && searchCategory !== "All") {
     displayProducts = displayProducts.filter(item => {
@@ -258,7 +261,7 @@ export function NewArrivals({
       return true;
     });
   }
-
+ 
   // Filter by text search query
   if (searchQuery) {
     const q = searchQuery.toLowerCase().trim();
@@ -266,15 +269,15 @@ export function NewArrivals({
       item => item.name.toLowerCase().includes(q) || item.brand.toLowerCase().includes(q)
     );
   }
-
+ 
   const prevSlide = () => {
     setActiveIndex((prev) => (prev - 1 + SPOTLIGHT_PRODUCTS.length) % SPOTLIGHT_PRODUCTS.length);
   };
-
+ 
   const nextSlide = () => {
     setActiveIndex((prev) => (prev + 1) % SPOTLIGHT_PRODUCTS.length);
   };
-
+ 
   const getOffset = (idx: number) => {
     let diff = idx - activeIndex;
     const len = SPOTLIGHT_PRODUCTS.length;
@@ -282,7 +285,7 @@ export function NewArrivals({
     while (diff > len / 2) diff -= len;
     return diff;
   };
-
+ 
   // Card Parallax Tilt Event Handlers
   const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
@@ -297,26 +300,37 @@ export function NewArrivals({
     setTiltX(rotateX);
     setTiltY(rotateY);
   };
-
+ 
   const handleCardMouseLeave = () => {
     setTiltX(0);
     setTiltY(0);
     setIsHovered(false);
   };
 
-  // Vertical arrow tracking within relative height
-  const handleLeftMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const relativeY = e.clientY - rect.top;
-    setLeftArrowY(relativeY);
+  // Drag and Swipe Handler logic
+  const handleDragStart = (clientX: number) => {
+    setStartX(clientX);
+    setIsDragging(true);
   };
 
-  const handleRightMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const relativeY = e.clientY - rect.top;
-    setRightArrowY(relativeY);
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging || startX === null) return;
+    const diff = clientX - startX;
+    setDraggedX(diff);
   };
 
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    if (draggedX > 55) {
+      prevSlide();
+    } else if (draggedX < -55) {
+      nextSlide();
+    }
+    setStartX(null);
+    setDraggedX(0);
+    setIsDragging(false);
+  };
+ 
   return (
     <section id="new-arrivals" className="bg-background text-foreground py-10 lg:py-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -326,7 +340,7 @@ export function NewArrivals({
           title={selectedSubCategory ? `New Arrival: ${selectedSubCategory}` : "New Arrival"}
           description={selectedSubCategory ? `Showing premium streetwear items related to "${selectedSubCategory}"` : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et"}
         />
-
+ 
         {/* Dynamic CSS for transitions */}
         <style>{`
           @keyframes fadeInUp {
@@ -373,16 +387,25 @@ export function NewArrivals({
             animation: scanSweep 3s infinite linear;
           }
         `}</style>
-
+ 
         {/* 1. BRIGHT THEME LAPTOP COMPACT COVER-FLOW HORIZONTAL CAROUSEL */}
-        <div className="relative w-full bg-secondary/40 border border-border rounded-[32px] p-4 sm:p-8 overflow-hidden flex flex-col items-center justify-center min-h-[380px] sm:min-h-[480px] shadow-[0_8px_30px_rgba(0,0,0,0.01)] mb-10 select-none">
+        <div 
+          onMouseDown={(e) => handleDragStart(e.clientX)}
+          onMouseMove={(e) => handleDragMove(e.clientX)}
+          onMouseUp={handleDragEnd}
+          onMouseLeave={() => { handleCardMouseLeave(); handleDragEnd(); }}
+          onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+          onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
+          onTouchEnd={handleDragEnd}
+          className="relative w-full bg-secondary/40 border border-border rounded-[32px] p-4 sm:p-8 overflow-hidden flex flex-col items-center justify-center min-h-[380px] sm:min-h-[480px] shadow-[0_8px_30px_rgba(0,0,0,0.01)] mb-10 select-none cursor-grab active:cursor-grabbing"
+        >
           
           {/* Ambient center radial soft glow */}
           <div className={cn(
             "absolute w-[240px] sm:w-[380px] h-[240px] sm:h-[380px] rounded-full blur-[90px] opacity-15 transition-all duration-1000 ease-in-out z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
             SPOTLIGHT_PRODUCTS[activeIndex].ambientGlow
           )} />
-
+ 
           {/* Floating Product Cards Carousel - Compact for Laptop Screen resolutions */}
           <div className="relative w-full max-w-2xl h-[240px] sm:h-[300px] flex items-center justify-center overflow-visible z-10">
             {SPOTLIGHT_PRODUCTS.map((prod, idx) => {
@@ -395,9 +418,9 @@ export function NewArrivals({
               return (
                 <div
                   key={idx}
-                  className="absolute transition-all duration-600 ease-in-out flex flex-col items-center justify-center overflow-visible"
+                  className="absolute transition-all duration-300 ease-out flex flex-col items-center justify-center overflow-visible"
                   style={{
-                    transform: `translateX(${offset * translateXSpacing}px) scale(${isCenter ? 1.08 : 0.74})`,
+                    transform: `translateX(${offset * translateXSpacing + draggedX}px) scale(${isCenter ? 1.08 : 0.74})`,
                     zIndex: 30 - Math.abs(offset) * 10,
                     opacity: isCenter ? 1 : offset === 1 || offset === -1 ? 0.65 : 0.22,
                     filter: isCenter ? "none" : `blur(${Math.abs(offset) * 1.5}px)`,
@@ -429,7 +452,7 @@ export function NewArrivals({
                         prod.scanColor
                       )} />
                     )}
-
+ 
                     {/* Corner Tech crosshairs on center card */}
                     {isCenter && (
                       <>
@@ -439,14 +462,14 @@ export function NewArrivals({
                         <div className="absolute bottom-4 right-4 w-1.5 h-1.5 border-b border-r border-zinc-200 opacity-55 pointer-events-none" />
                       </>
                     )}
-
+ 
                     {/* Favorite Heart Button - active card only */}
                     {isCenter && (
                       <button className="absolute top-4 right-4 text-zinc-300 hover:text-red-500 transition-colors cursor-pointer z-25">
                         <Heart className="w-4 h-4" />
                       </button>
                     )}
-
+ 
                     {/* Product Cutout Image container with relative heights to hide details */}
                     <div className={cn(
                       "relative flex items-center justify-center transition-all duration-500 overflow-visible w-full",
@@ -460,15 +483,15 @@ export function NewArrivals({
                         "absolute bottom-2 left-1/2 -translate-x-1/2 w-24 sm:w-32 h-3.5 rounded-full bg-gradient-to-r blur-md border opacity-35 transition-all duration-700",
                         isCenter ? prod.pedestalGlow : "from-transparent to-transparent border-transparent"
                       )} />
-
+ 
                       <img
                         src={prod.image}
                         alt={prod.name}
                         className="max-w-full max-h-full object-contain filter drop-shadow-[0_10px_14px_rgba(0,0,0,0.06)] pointer-events-none"
                       />
-
+ 
                     </div>
-
+ 
                     {/* Product details and CTA - slides and fades up only when hovered */}
                     {isCenter && (
                       <div className={cn(
@@ -520,46 +543,33 @@ export function NewArrivals({
                     )}
                     
                   </div>
-
-                  {/* Hover Arrow Overlay Zones - Positioned on the outer wrapper to prevent card border cutting */}
+ 
+                  {/* Floating Chevron Navigation buttons flanking the active center card */}
                   {isCenter && (
                     <>
-                      {/* Left half hover zone for previous arrow */}
-                      <div 
-                        className="absolute top-0 bottom-[100px] left-0 w-1/2 z-20 group/left pointer-events-auto cursor-pointer"
-                        onMouseMove={handleLeftMouseMove}
+                      <button 
+                        onMouseDown={(e) => e.stopPropagation()}
                         onClick={(e) => {
                           e.stopPropagation();
                           prevSlide();
                         }}
+                        className="absolute left-[-22px] top-[74%] -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg border border-zinc-200/50 flex items-center justify-center text-black hover:scale-105 active:scale-95 transition-all cursor-pointer z-40"
                       >
-                        <div 
-                          className="absolute left-[-26px] opacity-0 group-hover/left:opacity-100 transition-opacity duration-300 pointer-events-none w-11 h-11 rounded-full bg-card text-foreground shadow-[0_4px_16px_rgba(16,29,24,0.12)] border border-border flex items-center justify-center -translate-y-1/2"
-                          style={{ top: `${leftArrowY}px` }}
-                        >
-                          <ChevronLeft className="w-5 h-5" />
-                        </div>
-                      </div>
-
-                      {/* Right half hover zone for next arrow */}
-                      <div 
-                        className="absolute top-0 bottom-[100px] right-0 w-1/2 z-20 group/right pointer-events-auto cursor-pointer"
-                        onMouseMove={handleRightMouseMove}
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                      <button 
+                        onMouseDown={(e) => e.stopPropagation()}
                         onClick={(e) => {
                           e.stopPropagation();
                           nextSlide();
                         }}
+                        className="absolute right-[-22px] top-[74%] -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg border border-zinc-200/50 flex items-center justify-center text-black hover:scale-105 active:scale-95 transition-all cursor-pointer z-40"
                       >
-                        <div 
-                          className="absolute right-[-26px] opacity-0 group-hover/right:opacity-100 transition-opacity duration-300 pointer-events-none w-11 h-11 rounded-full bg-card text-foreground shadow-[0_4px_16px_rgba(16,29,24,0.12)] border border-border flex items-center justify-center -translate-y-1/2"
-                          style={{ top: `${rightArrowY}px` }}
-                        >
-                          <ChevronRight className="w-5 h-5" />
-                        </div>
-                      </div>
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
                     </>
                   )}
-
+ 
                 </div>
               );
             })}
