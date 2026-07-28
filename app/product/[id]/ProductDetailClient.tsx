@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { masterProducts, Product } from "./data";
 import CompleteYourDrip from "@/components/features/CompleteYourDrip";
 import { InteractiveAddToCartButton } from "@/components/ui/InteractiveAddToCartButton";
+import { PremiumProductCard } from "@/components/ui/PremiumProductCard";
 
 interface CartItem {
   id: number;
@@ -148,14 +149,7 @@ export default function ProductDetailClient({ productId }: { productId: number }
   // Dynamically query 4 other items from masterProducts database for the Recently Viewed section
   const recentlyViewedItems = masterProducts
     .filter((p) => p.id !== product.id)
-    .slice(0, 4)
-    .map((p) => ({
-      id: p.id,
-      brand: p.brand,
-      title: p.name,
-      price: p.price,
-      img: p.image
-    }));
+    .slice(0, 4);
 
   // All Media & 3D Interactive Modal States
   const [showAllMediaModal, setShowAllMediaModal] = useState(false);
@@ -299,6 +293,31 @@ export default function ProductDetailClient({ productId }: { productId: number }
   // Derive pricing details
   const parsedPrice = parseInt(product.price.replace(/[^0-9]/g, "")) || 7999;
   const originalMrp = Math.round(parsedPrice / (1 - (product.discount / 100)));
+
+  const handleAddRelatedToCart = (item: any) => {
+    setCart((prev) => {
+      const existing = prev.find((x) => x.id === item.id);
+      if (existing) {
+        return prev.map((x) =>
+          x.id === item.id ? { ...x, quantity: x.quantity + 1 } : x
+        );
+      }
+      return [
+        ...prev,
+        {
+          id: item.id,
+          brand: item.brand,
+          name: item.name,
+          price: item.price,
+          image: item.image,
+          quantity: 1,
+          size: item.sizes?.[0] || "M",
+          color: item.color || "Default"
+        } as any
+      ];
+    });
+    alert(`Added ${item.name} to your bag!`);
+  };
 
   const handleAddToCart = () => {
     if (!selectedSize) {
@@ -1942,62 +1961,35 @@ export default function ProductDetailClient({ productId }: { productId: number }
                       04 ITEMS SHOWCASED
                     </span>
                   </div>
-
-                  {/* 4 Cards Carousel Grid + Right Arrow */}
+{/* 4 Cards Carousel Grid + Right Arrow */}
                   <div className="relative flex items-center">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
                       {recentlyViewedItems.map((item) => {
                         const isWishlisted = wishlist.some((w) => w.id === item.id);
                         return (
-                          <div 
-                            key={item.id} 
-                            onClick={() => {
-                              window.location.href = `/product/${item.id}`;
-                            }}
-                            className="group space-y-3 cursor-pointer"
-                          >
-                            
-                            {/* Image Card Container */}
-                            <div className="relative aspect-[3/4] w-full bg-zinc-50/50 rounded-[24px] overflow-hidden p-4 flex items-center justify-center border border-zinc-150 group-hover:border-zinc-300 group-hover:shadow-[0_12px_30px_-10px_rgba(0,0,0,0.08)] group-hover:-translate-y-1.5 transition-all duration-500">
-                              
-                              {/* Wishlist Heart Icon (Top Right) */}
-                              <InteractiveHeartButton
-                                isFavorite={!!isWishlisted}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleToggleItemWishlist(item);
-                                }}
-                                className="absolute top-3 right-3 bg-white/70 backdrop-blur-xs border-none z-10"
-                                size="sm"
-                              />
-
-                              {/* Product Image */}
-                              <div className="relative w-full h-full">
-                                <Image
-                                  src={item.img}
-                                  alt={item.title}
-                                  fill
-                                  sizes="(max-width: 640px) 50vw, 25vw"
-                                  className="object-contain transition-transform duration-500 group-hover:scale-106"
-                                />
-                              </div>
-
-                            </div>
-
-                            {/* Product Details (Left Aligned) */}
-                            <div className="space-y-1 px-2 text-left font-sans">
-                              <span className="text-[10px] font-mono font-bold text-amber-500 uppercase tracking-widest block">
-                                {item.brand}
-                              </span>
-                              <span className="text-sm font-extrabold text-zinc-900 group-hover:text-amber-600 transition-colors block truncate leading-tight">
-                                {item.title}
-                              </span>
-                              <span className="text-sm font-black text-zinc-950 font-mono block pt-0.5">
-                                {item.price}
-                              </span>
-                            </div>
-
-                          </div>
+                          <PremiumProductCard
+                            key={item.id}
+                            id={item.id}
+                            brand={item.brand}
+                            name={item.name}
+                            price={item.price}
+                            image={item.image}
+                            hoverImage={item.hoverImage}
+                            badge={item.discount ? `${item.discount}% OFF` : undefined}
+                            discount={item.discount}
+                            gender={item.gender}
+                            category={item.category}
+                            colorVariants={item.colorVariants}
+                            isFavorite={isWishlisted}
+                            onFavoriteToggle={() => handleToggleItemWishlist({
+                              id: item.id,
+                              brand: item.brand,
+                              title: item.name,
+                              price: item.price,
+                              img: item.image
+                            })}
+                            onAddToCart={() => handleAddRelatedToCart(item)}
+                          />
                         );
                       })}
                     </div>

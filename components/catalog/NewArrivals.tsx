@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, ArrowUpRight, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "@/components/ui/section-header";
-import { ProductCard } from "@/components/ui/product-card";
+import { PremiumProductCard } from "@/components/ui/PremiumProductCard";
 
 interface Product {
   id: number;
@@ -426,33 +426,18 @@ export function NewArrivals({
                     filter: isCenter ? "none" : `blur(${Math.abs(offset) * 1.5}px)`,
                   }}
                   onClick={() => setActiveIndex(idx)}
-                  onMouseEnter={() => isCenter && setIsHovered(true)}
-                  onMouseLeave={isCenter ? handleCardMouseLeave : undefined}
                 >
                   
-                  {/* Card Container holding image and details with 3D Tilt responsiveness */}
+                  {/* Card Container holding image and details with 3D Tilt removed */}
                   <div 
-                    onMouseMove={isCenter ? handleCardMouseMove : undefined}
                     className={cn(
                       "relative rounded-[24px] overflow-hidden p-5 transition-all duration-500 flex flex-col justify-between border text-black select-none",
                       isCenter 
                         ? cn("w-[230px] sm:w-[280px] h-[330px] sm:h-[400px] bg-card border-border", prod.glowClass)
                         : "w-[150px] sm:w-[190px] h-[190px] sm:h-[230px] bg-card/70 border-border/60 shadow-[0_4px_12px_rgba(0,0,0,0.01)]"
                     )}
-                    style={isCenter ? {
-                      transform: `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`,
-                      transition: "transform 0.1s ease-out"
-                    } : undefined}
                   >
                     
-                    {/* Laser Scanner sweep line - runs only on active center card */}
-                    {isCenter && (
-                      <div className={cn(
-                        "absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent to-transparent opacity-0 pointer-events-none animate-scan z-10",
-                        prod.scanColor
-                      )} />
-                    )}
- 
                     {/* Corner Tech crosshairs on center card */}
                     {isCenter && (
                       <>
@@ -470,12 +455,10 @@ export function NewArrivals({
                       </button>
                     )}
  
-                    {/* Product Cutout Image container with relative heights to hide details */}
+                    {/* Product Cutout Image container with static height for center card */}
                     <div className={cn(
                       "relative flex items-center justify-center transition-all duration-500 overflow-visible w-full",
-                      isCenter 
-                        ? (isHovered ? "h-[160px] sm:h-[210px]" : "h-[250px] sm:h-[310px]")
-                        : "h-full"
+                      isCenter ? "h-[160px] sm:h-[210px]" : "h-full"
                     )}>
                       
                       {/* Holographic Pedestal base */}
@@ -492,14 +475,9 @@ export function NewArrivals({
  
                     </div>
  
-                    {/* Product details and CTA - slides and fades up only when hovered */}
+                    {/* Product details and CTA - always visible */}
                     {isCenter && (
-                      <div className={cn(
-                        "transition-all duration-500 overflow-hidden text-left",
-                        isHovered 
-                          ? "max-h-[140px] opacity-100 pt-2.5 border-t border-zinc-100 animate-fade-in-up" 
-                          : "max-h-0 opacity-0 pointer-events-none border-t-0"
-                      )}>
+                      <div className="transition-all duration-500 overflow-hidden text-left max-h-[140px] opacity-100 pt-2.5 border-t border-zinc-100">
                         <div>
                           <span className="text-[7.5px] font-mono text-accent font-extrabold uppercase tracking-widest block mb-0.5">
                             {prod.brand}
@@ -582,7 +560,7 @@ export function NewArrivals({
           {displayProducts.map((item) => {
             const isFav = favorites.includes(item.id);
             return (
-              <ProductCard
+              <PremiumProductCard
                 key={item.id}
                 id={item.id}
                 brand={item.brand}
@@ -595,7 +573,6 @@ export function NewArrivals({
                 isFavorite={isFav}
                 onFavoriteToggle={() => onToggleFavorite(item)}
                 onAddToCart={() => onAddToCart(item)}
-                variant="padded"
               />
             );
           })}

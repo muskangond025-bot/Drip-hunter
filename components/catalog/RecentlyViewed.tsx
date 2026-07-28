@@ -2,9 +2,25 @@
 
 import React from "react";
 import { SectionHeader } from "@/components/ui/section-header";
-import { ProductCard } from "@/components/ui/product-card";
-
+import { PremiumProductCard } from "@/components/ui/PremiumProductCard";
 import { masterProducts } from "@/app/product/[id]/data";
+
+interface RecentProduct {
+  id: number;
+  brand: string;
+  name: string;
+  price: string;
+  image: string;
+  hoverImage?: string;
+  discount?: number;
+  gender?: string;
+  category?: string;
+  colorVariants?: {
+    color: string;
+    image: string;
+    colorHex: string;
+  }[];
+}
 
 const recentProducts = [101, 102, 103, 104].map(id => {
   const p = masterProducts.find(prod => prod.id === id);
@@ -15,27 +31,15 @@ const recentProducts = [101, 102, 103, 104].map(id => {
       name: p.name,
       price: p.price,
       image: p.image,
-      hoverImage: p.hoverImage
+      hoverImage: p.hoverImage,
+      discount: p.discount,
+      gender: p.gender,
+      category: p.category,
+      colorVariants: p.colorVariants
     };
   }
   return null;
-}).filter(Boolean) as {
-  id: number;
-  brand: string;
-  name: string;
-  price: string;
-  image: string;
-  hoverImage?: string;
-}[];
-
-interface RecentProduct {
-  id: number;
-  brand: string;
-  name: string;
-  price: string;
-  image: string;
-  hoverImage?: string;
-}
+}).filter(Boolean) as RecentProduct[];
 
 interface RecentlyViewedProps {
   onAddToCart: (product: RecentProduct) => void;
@@ -66,7 +70,7 @@ export function RecentlyViewed({
           {recentProducts.map((prod, idx) => {
             const isFav = favorites.includes(prod.id);
             return (
-              <ProductCard
+              <PremiumProductCard
                 key={idx}
                 id={prod.id}
                 brand={prod.brand}
@@ -74,11 +78,14 @@ export function RecentlyViewed({
                 price={prod.price}
                 image={prod.image}
                 hoverImage={prod.hoverImage}
-                buttonText="Add To Cart"
+                badge={prod.discount ? `${prod.discount}% OFF` : undefined}
+                discount={prod.discount}
+                gender={prod.gender}
+                category={prod.category}
+                colorVariants={prod.colorVariants}
                 isFavorite={isFav}
                 onFavoriteToggle={() => onToggleFavorite(prod)}
                 onAddToCart={() => onAddToCart(prod)}
-                variant="full-width"
               />
             );
           })}
@@ -87,4 +94,3 @@ export function RecentlyViewed({
     </section>
   );
 }
-
