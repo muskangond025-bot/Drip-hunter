@@ -1,581 +1,274 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ArrowUpRight, Heart } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { SectionHeader } from "@/components/ui/section-header";
-import { PremiumProductCard } from "@/components/ui/PremiumProductCard";
 
-interface Product {
+interface CampaignCard {
   id: number;
-  brand: string;
-  name: string;
-  price: string;
+  title: string;
+  description: string;
   image: string;
-  hoverImage?: string;
-  badge?: string;
-  buttonText: string;
+  stickerBg: string;
+  stickerStyle: string;
+  link: string;
+  price: string;
+  stickerType?: "ice-blue" | "lace-layer";
 }
 
-const productsData: Product[] = [
+const campaignCards: CampaignCard[] = [
   {
-    id: 1,
-    brand: "Name of the brand",
-    name: "Oversized Heavy Hoodie",
-    price: "$89.00",
-    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
-    hoverImage: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
-    badge: "Limited Edition",
-    buttonText: "Pre Order",
+    id: 101,
+    title: "SPECIAL PLANS",
+    description: "WEEKEND CAPSULE COLLECTION",
+    image: "/images/special_plans.png",
+    stickerBg: "bg-[#2B1B17] text-[#FAF6EE]",
+    stickerStyle: "rounded-2xl rotate-[-3deg] uppercase font-bold",
+    link: "/shop?category=outfits",
+    price: "From $49"
   },
   {
-    id: 2,
-    brand: "Name of the brand",
-    name: "Classic Cotton Crewneck",
-    price: "$75.00",
-    image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=600&q=80",
-    hoverImage: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
-    badge: "Limited Edition",
-    buttonText: "Pre Order",
+    id: 102,
+    title: "STACK & SHINE",
+    description: "PREMIUM ACCESSORIES DROP",
+    image: "/images/stack_shine.png",
+    stickerBg: "bg-[#FAF6EE] text-[#2B1B17] border-2 border-[#2B1B17]",
+    stickerStyle: "rounded-sm rotate-[4deg] font-heading text-[10px] tracking-tight",
+    link: "/shop?category=accessories",
+    price: "From $19"
   },
   {
-    id: 3,
-    brand: "Name of the brand",
-    name: "Retro Box Graphic Tee",
-    price: "$45.00",
-    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80",
-    hoverImage: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
-    buttonText: "Add To Cart",
+    id: 103,
+    title: "ICE BLUE EDIT",
+    description: "SHEER MESH TOPS",
+    image: "/images/ice_blue_edit.png",
+    stickerBg: "",
+    stickerStyle: "",
+    stickerType: "ice-blue",
+    link: "/shop?category=tops",
+    price: "From $39"
   },
   {
-    id: 4,
-    brand: "Name of the brand",
-    name: "Utility Bomber Jacket",
-    price: "$120.00",
-    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80",
-    hoverImage: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
-    buttonText: "Add To Cart",
+    id: 104,
+    title: "Lace LAYER",
+    description: "SHEER LACE DRESSES",
+    image: "/images/lace_layer.png",
+    stickerBg: "",
+    stickerStyle: "",
+    stickerType: "lace-layer",
+    link: "/shop?category=dresses",
+    price: "From $59"
   },
   {
-    id: 5,
-    brand: "Name of the brand",
-    name: "Reflective Technical Jacket",
-    price: "$125.00",
-    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
-    hoverImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
-    buttonText: "Add To Cart",
+    id: 105,
+    title: "RETRO CHIC",
+    description: "OVERSIZED GRAPHIC COLLECTION",
+    image: "/images/retro_chic.png",
+    stickerBg: "bg-[#2B1B17] text-[#FAF6EE] border border-[#2B1B17]/20",
+    stickerStyle: "rounded-xl rotate-[3deg] font-heading font-black tracking-tight",
+    link: "/shop?category=tees",
+    price: "From $35"
   },
   {
-    id: 6,
-    brand: "Name of the brand",
-    name: "Cream Workwear Jacket",
-    price: "$110.00",
-    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80",
-    hoverImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
-    buttonText: "Add To Cart",
-  },
-];
-
-const productsByCategory: Record<string, Product[]> = {
-  "All Products": productsData,
-  "New Arrivals": [
-    productsData[0], // Oversized Heavy Hoodie
-    productsData[1], // Classic Cotton Crewneck
-    productsData[4], // Reflective Technical Jacket
-  ],
-  "Best Selling": [
-    productsData[2], // Retro Box Graphic Tee
-    productsData[3], // Utility Bomber Jacket
-    productsData[5], // Cream Workwear Jacket
-  ],
-  "Discounted Offers": [
-    { ...productsData[2], price: "$35.00", badge: "20% OFF" },
-    { ...productsData[5], price: "$85.00", badge: "25% OFF" }
-  ],
-  "Winter Collection": [
-    productsData[0], // Oversized Heavy Hoodie
-    productsData[3], // Utility Bomber Jacket
-    productsData[4], // Reflective Technical Jacket
-  ]
-};
-
-const SPOTLIGHT_PRODUCTS = [
-  {
-    name: "Oversized Graphic Tee",
-    brand: "Drip Monkey",
-    price: "$45.00",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
-    color: "amber",
-    glowClass: "shadow-[0_12px_36px_rgba(245,158,11,0.06)] border-zinc-200",
-    pedestalGlow: "from-amber-400/25 via-yellow-300/15 to-amber-400/25 border-yellow-300/10",
-    scanColor: "via-yellow-400/40",
-    ambientGlow: "bg-amber-500/5"
-  },
-  {
-    name: "Modular Sling Bag",
-    brand: "Drip Utility",
-    price: "$65.00",
-    image: "/images/luxury_sling_bag.png",
-    color: "emerald",
-    glowClass: "shadow-[0_12px_36px_rgba(16,185,129,0.06)] border-zinc-200",
-    pedestalGlow: "from-emerald-400/25 via-green-300/15 to-emerald-400/25 border-green-300/10",
-    scanColor: "via-green-400/40",
-    ambientGlow: "bg-emerald-500/5"
-  },
-  {
-    name: "Retro Street Shades",
-    brand: "Drip Accs",
-    price: "$35.00",
-    image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80",
-    color: "pink",
-    glowClass: "shadow-[0_12px_36px_rgba(244,63,94,0.06)] border-zinc-200",
-    pedestalGlow: "from-pink-400/25 via-fuchsia-300/15 to-pink-400/25 border-fuchsia-300/10",
-    scanColor: "via-fuchsia-400/40",
-    ambientGlow: "bg-pink-500/5"
-  },
-  {
-    name: "Hybrid Platform Kicks",
-    brand: "Drip Footwear",
-    price: "$120.00",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
-    color: "cyan",
-    glowClass: "shadow-[0_12px_36px_rgba(6,182,212,0.06)] border-zinc-200",
-    pedestalGlow: "from-cyan-400/25 via-blue-300/15 to-cyan-400/25 border-blue-300/10",
-    scanColor: "via-cyan-400/40",
-    ambientGlow: "bg-cyan-500/5"
+    id: 106,
+    title: "NEO MATRIX",
+    description: "TECHWEAR UTILITY DROPS",
+    image: "/images/neo_matrix.png",
+    stickerBg: "bg-[#0A0A0A] text-[#FAF6EE] border border-[#5C4033]",
+    stickerStyle: "rounded-md rotate-[-3deg] font-mono tracking-widest font-bold",
+    link: "/shop?category=utility",
+    price: "From $59"
   }
 ];
 
 interface NewArrivalsProps {
   activeTab?: string;
-  onAddToCart: (product: Product) => void;
-  favorites: number[];
-  onToggleFavorite: (product: Product) => void;
+  onAddToCart?: (product: any) => void;
+  favorites?: number[];
+  onToggleFavorite?: (product: any) => void;
   searchQuery?: string;
   searchCategory?: string;
   selectedSubCategory?: string | null;
 }
 
 export function NewArrivals({
-  activeTab = "All Products",
+  activeTab,
   onAddToCart,
   favorites = [],
   onToggleFavorite,
-  searchQuery = "",
-  searchCategory = "All",
+  searchQuery,
+  searchCategory,
   selectedSubCategory,
 }: NewArrivalsProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [translateXSpacing, setTranslateXSpacing] = useState(190);
-  
-  // Interactive Custom Card Tilt & Hover Arrow States
-  const [tiltX, setTiltX] = useState(0);
-  const [tiltY, setTiltY] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDown, setIsDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftState, setScrollLeftState] = useState(0);
 
-  // Swipe / Mouse Drag Scroll States
-  const [startX, setStartX] = useState<number | null>(null);
-  const [draggedX, setDraggedX] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
- 
-  // Auto-cycle slide every 3 seconds - Pauses on Hover or Drag!
-  useEffect(() => {
-    if (isHovered || isDragging) return;
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % SPOTLIGHT_PRODUCTS.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [isHovered, isDragging]);
- 
-  // Responsive translation spacing adjustments for card columns on Laptop/Mobile
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setTranslateXSpacing(110);
-      } else if (window.innerWidth < 1024) {
-        setTranslateXSpacing(150);
-      } else {
-        setTranslateXSpacing(200);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
- 
-  let displayProducts = productsByCategory[activeTab] || productsData;
- 
-  // Filter by selected subcategory (from CategorySelector)
+  // Translate vertical wheel scroll to horizontal scrolling
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const isAtRightEnd = container.scrollLeft >= container.scrollWidth - container.clientWidth - 1;
+    const isAtLeftEnd = container.scrollLeft <= 0;
+
+    if (e.deltaY > 0 && !isAtRightEnd) {
+      e.preventDefault();
+      container.scrollBy({ left: e.deltaY * 1.5, behavior: "auto" });
+    } else if (e.deltaY < 0 && !isAtLeftEnd) {
+      e.preventDefault();
+      container.scrollBy({ left: e.deltaY * 1.5, behavior: "auto" });
+    }
+  };
+
+  // Drag scroll logic
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDown(true);
+    setStartX(e.pageX - (containerRef.current?.offsetLeft || 0));
+    setScrollLeftState(containerRef.current?.scrollLeft || 0);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDown(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDown(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - (containerRef.current?.offsetLeft || 0);
+    const walk = (x - startX) * 1.5;
+    if (containerRef.current) {
+      containerRef.current.scrollLeft = scrollLeftState - walk;
+    }
+  };
+
+  // Filter campaigns depending on subcategory/tab if user interacted
+  let filteredCampaigns = campaignCards;
   if (selectedSubCategory) {
     const sub = selectedSubCategory.toLowerCase();
-    displayProducts = displayProducts.filter(item => {
-      const name = item.name.toLowerCase();
-      const brand = item.brand.toLowerCase();
-      
-      if (sub.includes("tee") || sub.includes("t-shirt")) {
-        return name.includes("tee") || name.includes("t-shirt");
-      }
-      if (sub.includes("hoodie")) {
-        return name.includes("hoodie");
-      }
-      if (sub.includes("shirt")) {
-        return name.includes("shirt");
-      }
-      if (sub.includes("vest")) {
-        return name.includes("vest");
-      }
-      if (sub.includes("sweater") || sub.includes("crewneck")) {
-        return name.includes("sweater") || name.includes("crewneck");
-      }
-      if (sub.includes("cargo")) {
-        return name.includes("cargo");
-      }
-      if (sub.includes("shorts")) {
-        return name.includes("shorts") || name.includes("short");
-      }
-      if (sub.includes("denim") || sub.includes("jeans")) {
-        return name.includes("denim") || name.includes("jeans");
-      }
-      if (sub.includes("sweatpants")) {
-        return name.includes("sweatpants") || name.includes("pants");
-      }
-      if (sub.includes("jogger")) {
-        return name.includes("jogger");
-      }
-      if (sub.includes("cap") || sub.includes("beanie") || sub.includes("shades") || sub.includes("bag") || sub.includes("socks") || sub.includes("utility")) {
-        return name.includes("cap") || name.includes("beanie") || name.includes("shades") || name.includes("bag") || name.includes("socks") || name.includes("utility") || name.includes("hat");
-      }
-      return name.includes(sub) || brand.includes(sub);
-    });
-  }
- 
-  // Filter by category dropdown select
-  if (searchCategory && searchCategory !== "All") {
-    displayProducts = displayProducts.filter(item => {
-      const cat = searchCategory.toLowerCase();
-      const name = item.name.toLowerCase();
-      if (cat === "tees") return name.includes("tee");
-      if (cat === "hoodies") return name.includes("hoodie") || name.includes("crewneck");
-      if (cat === "pants") return name.includes("pants") || name.includes("cargo") || name.includes("trouser");
-      return true;
-    });
-  }
- 
-  // Filter by text search query
-  if (searchQuery) {
-    const q = searchQuery.toLowerCase().trim();
-    displayProducts = displayProducts.filter(
-      item => item.name.toLowerCase().includes(q) || item.brand.toLowerCase().includes(q)
+    filteredCampaigns = campaignCards.filter(c => 
+      c.title.toLowerCase().includes(sub) || 
+      c.description.toLowerCase().includes(sub) ||
+      c.link.toLowerCase().includes(sub)
     );
-  }
- 
-  const prevSlide = () => {
-    setActiveIndex((prev) => (prev - 1 + SPOTLIGHT_PRODUCTS.length) % SPOTLIGHT_PRODUCTS.length);
-  };
- 
-  const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % SPOTLIGHT_PRODUCTS.length);
-  };
- 
-  const getOffset = (idx: number) => {
-    let diff = idx - activeIndex;
-    const len = SPOTLIGHT_PRODUCTS.length;
-    while (diff < -len / 2) diff += len;
-    while (diff > len / 2) diff -= len;
-    return diff;
-  };
- 
-  // Card Parallax Tilt Event Handlers
-  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    
-    // Tilt calculations (capped at 10 deg rotation)
-    const rotateX = -(y / (rect.height / 2)) * 10;
-    const rotateY = (x / (rect.width / 2)) * 10;
-    
-    setTiltX(rotateX);
-    setTiltY(rotateY);
-  };
- 
-  const handleCardMouseLeave = () => {
-    setTiltX(0);
-    setTiltY(0);
-    setIsHovered(false);
-  };
-
-  // Drag and Swipe Handler logic
-  const handleDragStart = (clientX: number) => {
-    setStartX(clientX);
-    setIsDragging(true);
-  };
-
-  const handleDragMove = (clientX: number) => {
-    if (!isDragging || startX === null) return;
-    const diff = clientX - startX;
-    setDraggedX(diff);
-  };
-
-  const handleDragEnd = () => {
-    if (!isDragging) return;
-    if (draggedX > 55) {
-      prevSlide();
-    } else if (draggedX < -55) {
-      nextSlide();
+    if (filteredCampaigns.length === 0) {
+      filteredCampaigns = campaignCards; // fallback to all
     }
-    setStartX(null);
-    setDraggedX(0);
-    setIsDragging(false);
-  };
- 
+  }
+
   return (
-    <section id="new-arrivals" className="bg-background text-foreground py-10 lg:py-14">
+    <section id="new-arrivals" className="bg-[#FBF9F4] text-[#0A0A0A] py-14 select-none">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Title & Subtitle */}
-        <SectionHeader
-          title={selectedSubCategory ? `New Arrival: ${selectedSubCategory}` : "New Arrival"}
-          description={selectedSubCategory ? `Showing premium streetwear items related to "${selectedSubCategory}"` : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et"}
-        />
- 
-        {/* Dynamic CSS for transitions */}
-        <style>{`
-          @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(14px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(95, 140, 109, 0.4); }
-            70% { box-shadow: 0 0 0 8px rgba(95, 140, 109, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(95, 140, 109, 0); }
-          }
-          @keyframes sheenSweep {
-            0% { transform: translate(-100%, -100%) rotate(45deg); }
-            100% { transform: translate(100%, 100%) rotate(45deg); }
-          }
-          @keyframes scanSweep {
-            0% { top: 0%; opacity: 0; }
-            8% { opacity: 1; }
-            92% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-          }
-          .animate-fade-in-up {
-            animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          }
-          .animate-glow-button {
-            animation: pulseGlow 2s infinite;
-          }
-          .animate-sheen-button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: translate(-100%, -100%) rotate(45deg);
-            animation: sheenSweep 2.5s infinite ease-in-out;
-          }
-          .animate-sheen-button {
-            position: relative;
-            overflow: hidden;
-          }
-          .animate-scan {
-            animation: scanSweep 3s infinite linear;
-          }
-        `}</style>
- 
-        {/* 1. BRIGHT THEME LAPTOP COMPACT COVER-FLOW HORIZONTAL CAROUSEL */}
-        <div 
-          onMouseDown={(e) => handleDragStart(e.clientX)}
-          onMouseMove={(e) => handleDragMove(e.clientX)}
-          onMouseUp={handleDragEnd}
-          onMouseLeave={() => { handleCardMouseLeave(); handleDragEnd(); }}
-          onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
-          onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
-          onTouchEnd={handleDragEnd}
-          className="relative w-full bg-secondary/40 border border-border rounded-[32px] p-4 sm:p-8 overflow-hidden flex flex-col items-center justify-center min-h-[380px] sm:min-h-[480px] shadow-[0_8px_30px_rgba(0,0,0,0.01)] mb-10 select-none cursor-grab active:cursor-grabbing"
-        >
-          
-          {/* Ambient center radial soft glow */}
-          <div className={cn(
-            "absolute w-[240px] sm:w-[380px] h-[240px] sm:h-[380px] rounded-full blur-[90px] opacity-15 transition-all duration-1000 ease-in-out z-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-            SPOTLIGHT_PRODUCTS[activeIndex].ambientGlow
-          )} />
- 
-          {/* Floating Product Cards Carousel - Compact for Laptop Screen resolutions */}
-          <div className="relative w-full max-w-2xl h-[240px] sm:h-[300px] flex items-center justify-center overflow-visible z-10">
-            {SPOTLIGHT_PRODUCTS.map((prod, idx) => {
-              const offset = getOffset(idx);
-              const isVisible = Math.abs(offset) <= 2;
-              if (!isVisible) return null;
-              
-              const isCenter = offset === 0;
-              
-              return (
-                <div
-                  key={idx}
-                  className="absolute transition-all duration-300 ease-out flex flex-col items-center justify-center overflow-visible"
-                  style={{
-                    transform: `translateX(${offset * translateXSpacing + draggedX}px) scale(${isCenter ? 1.08 : 0.74})`,
-                    zIndex: 30 - Math.abs(offset) * 10,
-                    opacity: isCenter ? 1 : offset === 1 || offset === -1 ? 0.65 : 0.22,
-                    filter: isCenter ? "none" : `blur(${Math.abs(offset) * 1.5}px)`,
-                  }}
-                  onClick={() => setActiveIndex(idx)}
-                >
-                  
-                  {/* Card Container holding image and details with 3D Tilt removed */}
-                  <div 
-                    className={cn(
-                      "relative rounded-[24px] overflow-hidden p-5 transition-all duration-500 flex flex-col justify-between border text-black select-none",
-                      isCenter 
-                        ? cn("w-[230px] sm:w-[280px] h-[330px] sm:h-[400px] bg-card border-border", prod.glowClass)
-                        : "w-[150px] sm:w-[190px] h-[190px] sm:h-[230px] bg-card/70 border-border/60 shadow-[0_4px_12px_rgba(0,0,0,0.01)]"
-                    )}
-                  >
-                    
-                    {/* Corner Tech crosshairs on center card */}
-                    {isCenter && (
-                      <>
-                        <div className="absolute top-4 left-4 w-1.5 h-1.5 border-t border-l border-zinc-200 opacity-55 pointer-events-none" />
-                        <div className="absolute top-4 right-4 w-1.5 h-1.5 border-t border-r border-zinc-200 opacity-55 pointer-events-none" />
-                        <div className="absolute bottom-4 left-4 w-1.5 h-1.5 border-b border-l border-zinc-200 opacity-55 pointer-events-none" />
-                        <div className="absolute bottom-4 right-4 w-1.5 h-1.5 border-b border-r border-zinc-200 opacity-55 pointer-events-none" />
-                      </>
-                    )}
- 
-                    {/* Favorite Heart Button - active card only */}
-                    {isCenter && (
-                      <button className="absolute top-4 right-4 text-zinc-300 hover:text-red-500 transition-colors cursor-pointer z-25">
-                        <Heart className="w-4 h-4" />
-                      </button>
-                    )}
- 
-                    {/* Product Cutout Image container with static height for center card */}
-                    <div className={cn(
-                      "relative flex items-center justify-center transition-all duration-500 overflow-visible w-full",
-                      isCenter ? "h-[160px] sm:h-[210px]" : "h-full"
-                    )}>
-                      
-                      {/* Holographic Pedestal base */}
-                      <div className={cn(
-                        "absolute bottom-2 left-1/2 -translate-x-1/2 w-24 sm:w-32 h-3.5 rounded-full bg-gradient-to-r blur-md border opacity-35 transition-all duration-700",
-                        isCenter ? prod.pedestalGlow : "from-transparent to-transparent border-transparent"
-                      )} />
- 
-                      <img
-                        src={prod.image}
-                        alt={prod.name}
-                        className="max-w-full max-h-full object-contain filter drop-shadow-[0_10px_14px_rgba(0,0,0,0.06)] pointer-events-none"
-                      />
- 
-                    </div>
- 
-                    {/* Product details and CTA - always visible */}
-                    {isCenter && (
-                      <div className="transition-all duration-500 overflow-hidden text-left max-h-[140px] opacity-100 pt-2.5 border-t border-zinc-100">
-                        <div>
-                          <span className="text-[7.5px] font-mono text-accent font-extrabold uppercase tracking-widest block mb-0.5">
-                            {prod.brand}
-                          </span>
-                          <h3 className="text-xs sm:text-sm font-sans font-extrabold uppercase leading-snug tracking-tight text-foreground pr-5">
-                            {prod.name}
-                          </h3>
-                        </div>
-                        
-                        <div className="flex items-center justify-between gap-3 pt-0.5">
-                          <span className="text-xs sm:text-sm font-mono font-black text-foreground">
-                            {prod.price}
-                          </span>
-                          
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation(); // Prevent card trigger
-                              const matchingProd = displayProducts.find(
-                                (p) => p.name.toLowerCase() === prod.name.toLowerCase()
-                              );
-                              if (matchingProd) {
-                                onAddToCart(matchingProd);
-                              } else {
-                                onAddToCart({
-                                  id: 999 + idx,
-                                  brand: prod.brand,
-                                  name: prod.name,
-                                  price: prod.price,
-                                  image: prod.image,
-                                  buttonText: "Add To Cart",
-                                });
-                              }
-                            }}
-                            className="animate-sheen-button animate-glow-button relative overflow-hidden bg-accent text-white hover:bg-hover-green font-black uppercase text-[8px] sm:text-[9px] tracking-wider px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition-all cursor-pointer border-none shadow-md flex items-center gap-0.5 z-30"
-                          >
-                            Buy Now
-                            <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                    
-                  </div>
- 
-                  {/* Floating Chevron Navigation buttons flanking the active center card */}
-                  {isCenter && (
-                    <>
-                      <button 
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          prevSlide();
-                        }}
-                        className="absolute left-[-22px] top-[74%] -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg border border-zinc-200/50 flex items-center justify-center text-black hover:scale-105 active:scale-95 transition-all cursor-pointer z-40"
-                      >
-                        <ChevronLeft className="w-5 h-5" />
-                      </button>
-                      <button 
-                        onMouseDown={(e) => e.stopPropagation()}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          nextSlide();
-                        }}
-                        className="absolute right-[-22px] top-[74%] -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg border border-zinc-200/50 flex items-center justify-center text-black hover:scale-105 active:scale-95 transition-all cursor-pointer z-40"
-                      >
-                        <ChevronRight className="w-5 h-5" />
-                      </button>
-                    </>
-                  )}
- 
-                </div>
-              );
-            })}
+        {/* Header Block matching the screenshot style */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 pb-6 border-b border-[#2B1B17]/10">
+          <div>
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-[#0A0A0A] font-heading leading-none">
+              NEW <span className="text-[#5C4033]">ARRIVALS</span>
+            </h2>
+            <p className="text-[10px] font-mono tracking-widest text-[#5C4033] uppercase mt-2.5 max-w-xl">
+              Swipe or scroll horizontally to explore this week's key drops, capsule collections, and styled brand campaigns.
+            </p>
           </div>
-
+          
+          <div className="flex gap-2">
+            <button 
+              onClick={() => containerRef.current?.scrollBy({ left: -340, behavior: "smooth" })}
+              className="w-10 h-10 rounded-full border border-[#2B1B17]/10 hover:border-[#2B1B17] flex items-center justify-center text-[#2B1B17] hover:bg-[#FAF6EE] transition-all cursor-pointer"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button 
+              onClick={() => containerRef.current?.scrollBy({ left: 340, behavior: "smooth" })}
+              className="w-10 h-10 rounded-full border border-[#2B1B17]/10 hover:border-[#2B1B17] flex items-center justify-center text-[#2B1B17] hover:bg-[#FAF6EE] transition-all cursor-pointer"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
-        {/* 2. MAIN NEW ARRIVALS PRODUCT GRID (underneath the slider section) */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 w-full">
-          {displayProducts.map((item) => {
-            const isFav = favorites.includes(item.id);
-            return (
-              <PremiumProductCard
-                key={item.id}
-                id={item.id}
-                brand={item.brand}
-                name={item.name}
-                price={item.price}
-                image={item.image}
-                hoverImage={item.hoverImage}
-                badge={item.badge}
-                buttonText={item.buttonText}
-                isFavorite={isFav}
-                onFavoriteToggle={() => onToggleFavorite(item)}
-                onAddToCart={() => onAddToCart(item)}
-              />
-            );
-          })}
+        {/* Scroll Container with overflow-x-auto, scrollbar-none, wheel listener and drag triggers */}
+        <div
+          ref={containerRef}
+          onWheel={handleWheel}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+          className="flex gap-6 overflow-x-auto scrollbar-none pb-8 pt-4 px-2 select-none cursor-grab active:cursor-grabbing snap-x snap-mandatory scroll-smooth"
+        >
+          {filteredCampaigns.map((card) => (
+            <div
+              key={card.id}
+              className="min-w-[280px] sm:min-w-[310px] h-[390px] sm:h-[450px] relative rounded-[32px] overflow-hidden group cursor-pointer border border-[#2B1B17]/10 bg-[#FAF6EE] shadow-[0_8px_30px_rgba(43,27,23,0.02)] hover:shadow-[0_20px_50px_rgba(43,27,23,0.08)] transition-all duration-500 snap-start"
+              onClick={() => {
+                if (!isDown) {
+                  window.location.href = card.link;
+                }
+              }}
+            >
+              {/* Product Background Image and Gradient Shadow */}
+              <div className="absolute inset-0 z-0">
+                <Image
+                  src={card.image}
+                  alt={card.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out pointer-events-none"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-85" />
+              </div>
+
+              {/* Card Contents Overlay */}
+              <div className="absolute inset-x-0 bottom-0 p-6 z-10 flex flex-col justify-end items-start text-white">
+                <p className="text-[9px] font-mono tracking-widest text-[#FBF9F4]/80 uppercase mb-1">
+                  {card.description}
+                </p>
+                
+                {/* Rotated sticker label styled premium matching the screenshot design */}
+                {card.stickerType === "ice-blue" ? (
+                  <div className="px-5 py-2 text-xs font-black tracking-tight bg-white text-[#1E3A8A] border-2 border-[#1E3A8A] select-none transform transition-transform duration-300 group-hover:scale-105 mb-4 rounded-none font-sans relative">
+                    ICE BLUE EDIT
+                    <div className="absolute right-[-10px] bottom-[-10px] w-6 h-6 rounded-full bg-yellow-400 text-black border border-black flex items-center justify-center text-[7px] font-black rotate-[15deg]">
+                      NEW
+                    </div>
+                  </div>
+                ) : card.stickerType === "lace-layer" ? (
+                  <div className="flex flex-col items-start gap-0.5 transform rotate-[-2deg] mb-4 select-none group-hover:scale-105 transition-transform">
+                    <span className="bg-pink-500 text-white font-serif italic font-black text-xs px-3.5 py-1 rounded-full shadow-xs">
+                      Lace
+                    </span>
+                    <span className="bg-white text-[#0A0A0A] font-sans font-black text-[9px] px-3.5 py-1 tracking-widest border border-[#0A0A0A] uppercase">
+                      LAYER
+                    </span>
+                  </div>
+                ) : (
+                  <div className={cn(
+                    "px-4 py-2 text-xs font-black tracking-tight shadow-md select-none transform transition-transform duration-300 group-hover:scale-105 mb-4",
+                    card.stickerBg,
+                    card.stickerStyle
+                  )}>
+                    {card.title}
+                  </div>
+                )}
+
+                {/* Card footer details */}
+                <div className="flex items-center justify-between w-full border-t border-white/10 pt-3.5 mt-1">
+                  <span className="text-xs font-mono font-bold tracking-tight text-white/95">
+                    {card.price}
+                  </span>
+                  <span className="text-[10px] font-mono tracking-widest text-[#FAF6EE]/95 uppercase flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                    EXPLORE <ArrowUpRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
       </div>

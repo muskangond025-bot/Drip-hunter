@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface LookbookData {
   logoTitle: string;
@@ -98,125 +100,97 @@ const brandLookbooks: Record<string, LookbookData> = {
   }
 };
 
-const dealCards = [
+interface DealSlide {
+  id: number;
+  title: string;
+  subtitle: string;
+  slogan: string;
+  image: string;
+  buttonText: string;
+  link: string;
+  bgStyle: string;
+  offers: {
+    category: string;
+    items: string[];
+  }[];
+}
+
+const dealSlides: DealSlide[] = [
   {
-    bg: "bg-gradient-to-br from-[#7c2d12] via-[#581c87] to-[#3b0764]",
-    content: (
-      <div className="text-center font-black tracking-tighter leading-none">
-        <span className="text-yellow-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">DEAL</span>
-        <span className="text-cyan-300 text-sm block italic my-1.5 font-bold font-sans">of the</span>
-        <span className="text-yellow-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">DAY</span>
-      </div>
-    )
+    id: 1,
+    title: "BUY MORE SAVE MORE",
+    subtitle: "TOPS & HEELS",
+    slogan: "More styles. Bigger savings.",
+    image: "/images/deal_banner_1.png",
+    buttonText: "View Offers",
+    link: "/shop?category=outfits",
+    bgStyle: "bg-[#FAF6EE]",
+    offers: [
+      {
+        category: "TOPS",
+        items: ["Buy 1 Save ₹100", "Buy 2 Save ₹300", "Buy 3 Save ₹720"]
+      },
+      {
+        category: "HEELS",
+        items: ["Buy 1 Save ₹100", "Buy 2 Save ₹598"]
+      }
+    ]
   },
   {
-    bg: "bg-[#e11d48]",
-    content: (
-      <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
-        <span className="bg-yellow-400 text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">DEAL OF THE</span>
-        <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">WEEK</span>
-        <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">SHOP NOW!</span>
-      </div>
-    )
+    id: 2,
+    title: "MID SEASON STEAL",
+    subtitle: "HOODIES & KICKS",
+    slogan: "Premium comfort. Heavy discounts.",
+    image: "/images/deal_banner_2.png",
+    buttonText: "Shop Collection",
+    link: "/shop?category=hoodies",
+    bgStyle: "bg-[#F5F2EB]",
+    offers: [
+      {
+        category: "HOODIES",
+        items: ["Buy 1 Save ₹200", "Buy 2 Save ₹500", "Buy 3 Save ₹900"]
+      },
+      {
+        category: "KICKS",
+        items: ["Flat 30% Off on Sneakers", "Free Shipping Included"]
+      }
+    ]
   },
   {
-    bg: "bg-gradient-to-br from-[#f59e0b] to-[#ea580c]",
-    content: (
-      <div className="text-center flex flex-col items-center gap-1.5">
-        <span className="bg-red-650 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">THIS WEEK ONLY</span>
-        <span className="bg-cyan-400 text-white text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BEST DEAL</span>
-        <span className="bg-black text-white text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">BIG OFFER</span>
-        <span className="text-red-600 text-[9px] font-extrabold uppercase tracking-widest bg-white px-2 py-0.5 rounded-full border border-red-500 mt-1">UP TO 50% OFF</span>
-      </div>
-    )
-  },
-  {
-    bg: "bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#334155]",
-    content: (
-      <div className="text-center font-black tracking-tighter leading-none">
-        <span className="text-[#ea580c] text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">FLASH</span>
-        <span className="text-white text-sm block italic my-1.5 font-bold font-sans">SALE</span>
-        <span className="text-[#ea580c] text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">70% OFF</span>
-      </div>
-    )
-  },
-  {
-    bg: "bg-[#059669]",
-    content: (
-      <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
-        <span className="bg-[#fef08a] text-black text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">MID-SEASON</span>
-        <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">SPECIAL</span>
-        <span className="text-[#fef08a] text-[10px] font-bold uppercase tracking-widest mt-1">LIMITED STOCKS</span>
-      </div>
-    )
-  },
-  {
-    bg: "bg-gradient-to-br from-[#be123c] to-[#9f1239]",
-    content: (
-      <div className="text-center flex flex-col items-center gap-1.5">
-        <span className="bg-black text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">EXCLUSIVE CODES</span>
-        <span className="bg-yellow-400 text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">BUY 1 GET 1</span>
-        <span className="bg-white text-zinc-900 text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">FREE TEES</span>
-        <span className="text-yellow-500 text-[9px] font-extrabold uppercase tracking-widest bg-zinc-900 px-2 py-0.5 rounded-full mt-1">CODE: FREE20</span>
-      </div>
-    )
-  },
-  {
-    bg: "bg-gradient-to-br from-[#4c1d95] via-[#2e1065] to-[#1e1b4b]",
-    content: (
-      <div className="text-center font-black tracking-tighter leading-none">
-        <span className="text-cyan-400 text-3xl sm:text-4xl block uppercase font-mono drop-shadow-md">HOODIE</span>
-        <span className="text-yellow-400 text-sm block italic my-1.5 font-bold font-sans">SPECIAL</span>
-        <span className="text-cyan-400 text-4xl sm:text-5xl block uppercase font-mono drop-shadow-md">DROP DEALS</span>
-      </div>
-    )
-  },
-  {
-    bg: "bg-gradient-to-br from-[#0d9488] to-[#115e59]",
-    content: (
-      <div className="text-center font-black tracking-tighter leading-none flex flex-col items-center gap-2">
-        <span className="bg-black text-yellow-400 text-[9px] font-black px-2.5 py-0.5 rounded-md uppercase tracking-wider">WEEKEND ONLY</span>
-        <span className="text-white text-4xl sm:text-5xl uppercase font-mono drop-shadow-md">STEALS</span>
-        <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest mt-1">Flat 40% Off</span>
-      </div>
-    )
-  },
-  {
-    bg: "bg-gradient-to-br from-[#3f3f46] to-[#18181b]",
-    content: (
-      <div className="text-center flex flex-col items-center gap-1.5">
-        <span className="bg-yellow-400 text-black text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">WORLDWIDE</span>
-        <span className="bg-white text-black text-xs font-black px-3.5 py-1 rounded-md uppercase tracking-wide">FREE SHIPPING</span>
-        <span className="bg-zinc-800 text-white text-sm font-black px-3.5 py-1.5 rounded-md uppercase tracking-wider">NO MINIMUM</span>
-        <span className="text-yellow-400 text-[9px] font-extrabold uppercase tracking-widest mt-1">AUTOMATIC APPLY</span>
-      </div>
-    )
+    id: 3,
+    title: "EXCLUSIVE LOOKBOOK",
+    subtitle: "JACKETS & BAGS",
+    slogan: "Luxury utility. Elevate your everyday.",
+    image: "/images/deal_banner_3.png",
+    buttonText: "Claim Offer",
+    link: "/shop?category=outerwear",
+    bgStyle: "bg-[#FAF6EE]",
+    offers: [
+      {
+        category: "JACKETS",
+        items: ["Flat 20% Off on Outerwear", "Limited Edition Drops"]
+      },
+      {
+        category: "BAGS",
+        items: ["Save ₹400 on Sling Bags", "Combo Offers Available"]
+      }
+    ]
   }
 ];
 
 export function TemplatesShowcase() {
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isHoveringBanner, setIsHoveringBanner] = useState(false);
 
-  const handleScroll = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const totalWidth = el.scrollWidth - el.clientWidth;
-    if (totalWidth <= 0) return;
-    const progress = (el.scrollLeft / totalWidth) * 100;
-    setScrollProgress(progress);
-  };
-
-  const scroll = (direction: "left" | "right") => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const scrollAmount = el.clientWidth * 0.8;
-    el.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth"
-    });
-  };
+  // Auto-play interval: 2 seconds
+  useEffect(() => {
+    if (isHoveringBanner) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % dealSlides.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [isHoveringBanner]);
 
   const handleBrandClick = (brandName: string) => {
     if (activeBrand === brandName) {
@@ -226,65 +200,146 @@ export function TemplatesShowcase() {
     }
   };
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % dealSlides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + dealSlides.length) % dealSlides.length);
+  };
+
   // Get current active lookbook data
   const currentLookbook = activeBrand ? brandLookbooks[activeBrand] : null;
 
   return (
-    <section className="bg-background text-foreground py-20 border-t border-b border-border/40 font-sans select-none">
+    <section className="bg-[#FBF9F4] text-[#0A0A0A] py-20 border-t border-b border-[#2B1B17]/10 font-sans select-none">
       
       {/* 1. DEAL OF THE DAY/WEEK SECTION */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16 relative">
-        <h2 className="text-3xl sm:text-4xl font-heading font-black tracking-wider text-foreground uppercase">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10 relative">
+        <h2 className="text-3xl sm:text-4xl font-heading font-black tracking-wider text-[#0A0A0A] uppercase">
           Deal Of The Day/Week
         </h2>
-        <p className="text-muted-foreground text-xs sm:text-sm max-w-2xl mx-auto mt-3 leading-relaxed font-sans">
+        <p className="text-[#5C4033] text-xs sm:text-sm max-w-2xl mx-auto mt-3 leading-relaxed font-sans uppercase tracking-wider">
           Discover exclusive limited offers and hot seasonal discount drops across our custom street aesthetic selection.
         </p>
+      </div>
 
-        {/* Scrollable Carousel Wrapper */}
-        <div className="relative mt-10 max-w-6xl mx-auto">
-          <div 
-            ref={scrollRef}
-            onScroll={handleScroll}
-            className="flex overflow-x-auto gap-6 pb-6 pt-4 scrollbar-none snap-x snap-mandatory scroll-smooth"
-          >
-            {dealCards.map((card, i) => (
-              <div 
-                key={i} 
-                className={`${card.bg} rounded-[28px] min-w-[280px] sm:min-w-[340px] md:min-w-[360px] aspect-[1.6] snap-center flex flex-col items-center justify-center p-6 shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden group border border-white/10`}
-              >
-                <div className="absolute -top-10 -right-10 w-28 h-28 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-                {card.content}
+      {/* Unified Slideshow Banner Wrapper (Full Width Edge-to-Edge like Hero Banner) */}
+      <div 
+        onMouseEnter={() => setIsHoveringBanner(true)}
+        onMouseLeave={() => setIsHoveringBanner(false)}
+        className="relative w-full overflow-hidden border-t border-b border-[#2B1B17]/10 bg-[#FAF6EE] shadow-[0_8px_30px_rgba(43,27,23,0.01)] min-h-[500px] md:h-[540px]"
+      >
+        {/* Inner slideshow using absolute fade transitions */}
+        {dealSlides.map((slide, index) => {
+          const isActive = index === currentSlide;
+          return (
+            <div
+              key={slide.id}
+              className={cn(
+                "absolute inset-0 transition-opacity duration-700 ease-in-out",
+                isActive ? "opacity-100 z-10 pointer-events-auto" : "opacity-0 z-0 pointer-events-none",
+                slide.bgStyle
+              )}
+            >
+              {/* Right Column: Background Image spanning to edge */}
+              <div className="absolute right-0 top-0 bottom-0 w-full md:w-1/2 h-[240px] md:h-full z-0 overflow-hidden">
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  className="object-cover pointer-events-none"
+                  priority
+                />
+                {/* Subtle vignette gradient */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#FAF6EE] via-transparent to-transparent hidden md:block" />
               </div>
-            ))}
-          </div>
+
+              {/* Centered Content container to align text perfectly with grid */}
+              <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col md:flex-row justify-between relative z-10 pointer-events-none">
+                {/* Left Column: Promotion Details */}
+                <div className="w-full md:w-1/2 p-8 sm:p-12 md:p-14 flex flex-col justify-center text-left pointer-events-auto">
+                  
+                  <span className="font-mono text-[#5C4033] text-xs md:text-sm uppercase tracking-widest mb-1.5 block">
+                    {slide.subtitle}
+                  </span>
+                  
+                  <h3 className="font-serif text-[#2B1B17] font-black text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight uppercase mb-2">
+                    {slide.title}
+                  </h3>
+                  
+                  <p className="font-serif italic text-zinc-500 text-xs md:text-sm mb-8 block">
+                    {slide.slogan}
+                  </p>
+
+                  {/* Offers Grid */}
+                  <div className="grid grid-cols-2 gap-6 md:gap-8 mb-8 border-t border-[#2B1B17]/10 pt-6">
+                    {slide.offers.map((offer, oIdx) => (
+                      <div key={oIdx} className="flex flex-col">
+                        <span className="font-serif text-[#2B1B17] text-sm md:text-md uppercase tracking-wider border-b border-[#2B1B17]/20 pb-1.5 mb-2.5 font-bold">
+                          {offer.category}
+                        </span>
+                        <div className="flex flex-col gap-1.5">
+                          {offer.items.map((item, iIdx) => (
+                            <span key={iIdx} className="font-sans font-bold text-zinc-700 text-[11px] md:text-xs tracking-tight">
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Button CTA */}
+                  <div className="mt-2">
+                    <button
+                      onClick={() => window.location.href = slide.link}
+                      className="bg-[#2B1B17] text-white hover:bg-[#5C4033] hover:scale-102 border border-[#2B1B17] font-sans font-black text-xs uppercase px-8 py-3.5 rounded-xl transition-all cursor-pointer shadow-md"
+                    >
+                      {slide.buttonText}
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Left/Right Arrows (Aligned with max-w-6xl boundaries for visual neatness) */}
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-20 pointer-events-none flex justify-between">
+          <button
+            onClick={prevSlide}
+            className="w-10 h-10 rounded-full bg-white/85 hover:bg-white border border-[#2B1B17]/10 flex items-center justify-center text-[#2B1B17] shadow-md pointer-events-auto active:scale-95 transition-all cursor-pointer"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <button
+            onClick={nextSlide}
+            className="w-10 h-10 rounded-full bg-white/85 hover:bg-white border border-[#2B1B17]/10 flex items-center justify-center text-[#2B1B17] shadow-md pointer-events-auto active:scale-95 transition-all cursor-pointer"
+            aria-label="Next slide"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
 
-        {/* Custom Progress Track Bar and Navigation Arrows */}
-        <div className="flex items-center justify-between mt-6 max-w-md mx-auto">
-          <button
-            onClick={() => scroll("left")}
-            className="w-10 h-10 rounded-full bg-zinc-100/80 backdrop-blur-xs text-foreground flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer border border-zinc-200/50 shadow-xs text-lg font-bold"
-            aria-label="Scroll left"
-          >
-            ‹
-          </button>
-          
-          <div className="h-[2px] bg-zinc-200/60 rounded-full flex-grow mx-6 relative overflow-hidden">
-            <div 
-              className="absolute top-0 bottom-0 left-0 bg-primary rounded-full transition-all duration-300 ease-out"
-              style={{ width: `${scrollProgress}%` }}
+        {/* Slider dots pagination */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
+          {dealSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={cn(
+                "w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer",
+                index === currentSlide ? "bg-[#2B1B17] w-6" : "bg-[#2B1B17]/35"
+              )}
+              aria-label={`Go to slide ${index + 1}`}
             />
-          </div>
-
-          <button
-            onClick={() => scroll("right")}
-            className="w-10 h-10 rounded-full bg-zinc-100/80 backdrop-blur-xs text-foreground flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer border border-zinc-200/50 shadow-xs text-lg font-bold"
-            aria-label="Scroll right"
-          >
-            ›
-          </button>
+          ))}
         </div>
+
       </div>
 
       {/* 2. BRAND SHOW-CASE SECTION */}
