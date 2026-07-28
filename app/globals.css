@@ -204,6 +204,102 @@
   --color-orange-800: #2B1B17;
   --color-orange-900: #1A0F0B;
   --color-orange-950: #0D0806;
+
+  --color-blue-50: #FDFBF7;
+  --color-blue-100: #FAF6EE;
+  --color-blue-200: #EADEC9;
+  --color-blue-300: #D4C3B3;
+  --color-blue-400: #A38F7F;
+  --color-blue-500: #5C4033;
+  --color-blue-600: #4E3629;
+  --color-blue-700: #3E2A1F;
+  --color-blue-800: #2B1B17;
+  --color-blue-900: #0A0A0A;
+  --color-blue-950: #020202;
+
+  --color-indigo-50: #FDFBF7;
+  --color-indigo-100: #FAF6EE;
+  --color-indigo-200: #EADEC9;
+  --color-indigo-300: #D4C3B3;
+  --color-indigo-400: #A38F7F;
+  --color-indigo-500: #5C4033;
+  --color-indigo-600: #4E3629;
+  --color-indigo-700: #3E2A1F;
+  --color-indigo-800: #2B1B17;
+  --color-indigo-900: #0A0A0A;
+  --color-indigo-950: #020202;
+
+  --color-purple-50: #FDFBF7;
+  --color-purple-100: #FAF6EE;
+  --color-purple-200: #EADEC9;
+  --color-purple-300: #D4C3B3;
+  --color-purple-400: #A38F7F;
+  --color-purple-500: #5C4033;
+  --color-purple-600: #4E3629;
+  --color-purple-700: #3E2A1F;
+  --color-purple-800: #2B1B17;
+  --color-purple-900: #0A0A0A;
+  --color-purple-950: #020202;
+
+  --color-violet-50: #FDFBF7;
+  --color-violet-100: #FAF6EE;
+  --color-violet-200: #EADEC9;
+  --color-violet-300: #D4C3B3;
+  --color-violet-400: #A38F7F;
+  --color-violet-500: #5C4033;
+  --color-violet-600: #4E3629;
+  --color-violet-700: #3E2A1F;
+  --color-violet-800: #2B1B17;
+  --color-violet-900: #0A0A0A;
+  --color-violet-950: #020202;
+
+  --color-yellow-50: #FDFBF7;
+  --color-yellow-100: #FAF6EE;
+  --color-yellow-200: #EADEC9;
+  --color-yellow-300: #D4C3B3;
+  --color-yellow-400: #A38F7F;
+  --color-yellow-500: #5C4033;
+  --color-yellow-600: #4E3629;
+  --color-yellow-700: #3E2A1F;
+  --color-yellow-800: #2B1B17;
+  --color-yellow-900: #0A0A0A;
+  --color-yellow-950: #020202;
+
+  --color-amber-50: #FDFBF7;
+  --color-amber-100: #FAF6EE;
+  --color-amber-200: #EADEC9;
+  --color-amber-300: #D4C3B3;
+  --color-amber-400: #A38F7F;
+  --color-amber-500: #5C4033;
+  --color-amber-600: #4E3629;
+  --color-amber-700: #3E2A1F;
+  --color-amber-800: #2B1B17;
+  --color-amber-900: #0A0A0A;
+  --color-amber-950: #020202;
+
+  --color-pink-50: #FDFBF7;
+  --color-pink-100: #FAF6EE;
+  --color-pink-200: #EADEC9;
+  --color-pink-300: #D4C3B3;
+  --color-pink-400: #A38F7F;
+  --color-pink-500: #5C4033;
+  --color-pink-600: #4E3629;
+  --color-pink-700: #3E2A1F;
+  --color-pink-800: #2B1B17;
+  --color-pink-900: #0A0A0A;
+  --color-pink-950: #020202;
+
+  --color-rose-50: #FDFBF7;
+  --color-rose-100: #FAF6EE;
+  --color-rose-200: #EADEC9;
+  --color-rose-300: #D4C3B3;
+  --color-rose-400: #A38F7F;
+  --color-rose-500: #5C4033;
+  --color-rose-600: #4E3629;
+  --color-rose-700: #3E2A1F;
+  --color-rose-800: #2B1B17;
+  --color-rose-900: #0A0A0A;
+  --color-rose-950: #020202;
 }
 
 :root {
@@ -464,4 +560,53 @@
 
 @utility bg-gradient-hero-glow {
   background: radial-gradient(circle, rgba(92, 64, 51, 0.35), transparent 70%);
+}
+
+/* Global Heading Style and Color Consistency (Except Hero) */
+section:not(#hero) h2,
+section:not(#hero) h3,
+main :not(#hero) h2,
+main :not(#hero) h3 {
+  font-family: 'CHANEY Wide', sans-serif !important;
+  color: #0A0A0A !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.04em !important;
+}
+
+.dark section:not(#hero) h2,
+.dark section:not(#hero) h3,
+.dark main :not(#hero) h2,
+.dark main :not(#hero) h3 {
+  color: #FBF9F4 !important;
+}
+
+/* Hardcoded Tailwind hex override system to force strict color consistency across all sections & pages */
+[class*="bg-[#ffd500]"], [class*="bg-[#ffd52c]"], [class*="bg-[#ffc324]"], [class*="bg-[#ffd426]"], [class*="bg-[#facc15]"] {
+  background-color: #FAF6EE !important;
+}
+[class*="bg-[#4f46e5]"], [class*="bg-[#4338ca]"], [class*="bg-[#3b5998]"], [class*="bg-[#2e477e]"], [class*="bg-[#2a93fc]"], [class*="bg-[#2995fc]"], [class*="bg-[#0052cc]"], [class*="bg-[#0043a8]"] {
+  background-color: #2B1B17 !important;
+}
+[class*="bg-[#f05a28]"], [class*="bg-[#fca34d]"], [class*="bg-[#f0324c]"], [class*="bg-[#5d3fd3]"], [class*="bg-[#e8903c]"] {
+  background-color: #5C4033 !important;
+}
+[class*="bg-[#141414]"], [class*="bg-[#1a1836]"], [class*="bg-[#051119]"] {
+  background-color: #0A0A0A !important;
+}
+
+[class*="text-[#ffd500]"], [class*="text-[#ffd426]"], [class*="text-[#ffc324]"], [class*="text-[#facc15]"] {
+  color: #5C4033 !important;
+}
+[class*="text-[#ff5a00]"], [class*="text-[#f05a28]"], [class*="text-[#f0324c]"] {
+  color: #2B1B17 !important;
+}
+[class*="text-[#2a93fc]"], [class*="text-[#2995fc]"], [class*="text-[#84c6ff]"] {
+  color: #2B1B17 !important;
+}
+
+[class*="border-[#ffd500]"], [class*="border-[#ffd52c]"], [class*="border-[#ffc324]"], [class*="border-[#facc15]"] {
+  border-color: #5C4033 !important;
+}
+[class*="border-[#fca34d]"], [class*="border-[#e8903c]"], [class*="border-[#f05a28]"], [class*="border-[#2e477e]"], [class*="border-[#197be3]"], [class*="border-[#187ee0]"] {
+  border-color: #5C4033 !important;
 }

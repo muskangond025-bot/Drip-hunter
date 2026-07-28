@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CampaignCard {
@@ -101,52 +100,7 @@ export function NewArrivals({
   searchCategory,
   selectedSubCategory,
 }: NewArrivalsProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isDown, setIsDown] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeftState, setScrollLeftState] = useState(0);
 
-  // Translate vertical wheel scroll to horizontal scrolling
-  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const isAtRightEnd = container.scrollLeft >= container.scrollWidth - container.clientWidth - 1;
-    const isAtLeftEnd = container.scrollLeft <= 0;
-
-    if (e.deltaY > 0 && !isAtRightEnd) {
-      e.preventDefault();
-      container.scrollBy({ left: e.deltaY * 1.5, behavior: "auto" });
-    } else if (e.deltaY < 0 && !isAtLeftEnd) {
-      e.preventDefault();
-      container.scrollBy({ left: e.deltaY * 1.5, behavior: "auto" });
-    }
-  };
-
-  // Drag scroll logic
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDown(true);
-    setStartX(e.pageX - (containerRef.current?.offsetLeft || 0));
-    setScrollLeftState(containerRef.current?.scrollLeft || 0);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDown(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDown(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - (containerRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 1.5;
-    if (containerRef.current) {
-      containerRef.current.scrollLeft = scrollLeftState - walk;
-    }
-  };
 
   // Filter campaigns depending on subcategory/tab if user interacted
   let filteredCampaigns = campaignCards;
@@ -163,9 +117,10 @@ export function NewArrivals({
   }
 
   return (
-    <section id="new-arrivals" className="bg-[#FBF9F4] text-[#0A0A0A] py-14 select-none">
+    <section id="new-arrivals" className="bg-[#FBF9F4] text-[#0A0A0A] py-14 select-none w-full overflow-hidden">
+      
+      {/* Centered Header container */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* Header Block matching the screenshot style */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 pb-6 border-b border-[#2B1B17]/10">
           <div>
@@ -173,44 +128,21 @@ export function NewArrivals({
               NEW <span className="text-[#5C4033]">ARRIVALS</span>
             </h2>
             <p className="text-[10px] font-mono tracking-widest text-[#5C4033] uppercase mt-2.5 max-w-xl">
-              Swipe or scroll horizontally to explore this week's key drops, capsule collections, and styled brand campaigns.
+              Explore this week's key drops, capsule collections, and styled brand campaigns.
             </p>
           </div>
-          
-          <div className="flex gap-2">
-            <button 
-              onClick={() => containerRef.current?.scrollBy({ left: -340, behavior: "smooth" })}
-              className="w-10 h-10 rounded-full border border-[#2B1B17]/10 hover:border-[#2B1B17] flex items-center justify-center text-[#2B1B17] hover:bg-[#FAF6EE] transition-all cursor-pointer"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button 
-              onClick={() => containerRef.current?.scrollBy({ left: 340, behavior: "smooth" })}
-              className="w-10 h-10 rounded-full border border-[#2B1B17]/10 hover:border-[#2B1B17] flex items-center justify-center text-[#2B1B17] hover:bg-[#FAF6EE] transition-all cursor-pointer"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
         </div>
+      </div>
 
-        {/* Scroll Container with overflow-x-auto, scrollbar-none, wheel listener and drag triggers */}
-        <div
-          ref={containerRef}
-          onWheel={handleWheel}
-          onMouseDown={handleMouseDown}
-          onMouseLeave={handleMouseLeave}
-          onMouseUp={handleMouseUp}
-          onMouseMove={handleMouseMove}
-          className="flex gap-6 overflow-x-auto scrollbar-none pb-8 pt-4 px-2 select-none cursor-grab active:cursor-grabbing snap-x snap-mandatory scroll-smooth"
-        >
+      {/* Edge-to-edge scrollable container */}
+      <div className="w-full px-4 sm:px-12 lg:px-20">
+        <div className="flex gap-6 overflow-x-auto scrollbar-none pb-8 pt-4 select-none snap-x snap-mandatory scroll-smooth">
           {filteredCampaigns.map((card) => (
             <div
               key={card.id}
-              className="min-w-[280px] sm:min-w-[310px] h-[390px] sm:h-[450px] relative rounded-[32px] overflow-hidden group cursor-pointer border border-[#2B1B17]/10 bg-[#FAF6EE] shadow-[0_8px_30px_rgba(43,27,23,0.02)] hover:shadow-[0_20px_50px_rgba(43,27,23,0.08)] transition-all duration-500 snap-start"
+              className="flex-shrink-0 w-[170px] sm:w-[200px] md:w-[220px] h-[280px] sm:h-[320px] md:h-[350px] relative rounded-[24px] overflow-hidden group cursor-pointer border border-[#2B1B17]/10 bg-[#FAF6EE] shadow-[0_8px_30px_rgba(43,27,23,0.02)] hover:shadow-[0_20px_50px_rgba(43,27,23,0.08)] transition-all duration-500 snap-start"
               onClick={() => {
-                if (!isDown) {
-                  window.location.href = card.link;
-                }
+                window.location.href = card.link;
               }}
             >
               {/* Product Background Image and Gradient Shadow */}
@@ -225,21 +157,18 @@ export function NewArrivals({
               </div>
 
               {/* Card Contents Overlay */}
-              <div className="absolute inset-x-0 bottom-0 p-6 z-10 flex flex-col justify-end items-start text-white">
-                <p className="text-[9px] font-mono tracking-widest text-[#FBF9F4]/80 uppercase mb-1">
-                  {card.description}
-                </p>
+              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 z-10 flex flex-col justify-end items-start text-white">
                 
                 {/* Rotated sticker label styled premium matching the screenshot design */}
                 {card.stickerType === "ice-blue" ? (
-                  <div className="px-5 py-2 text-xs font-black tracking-tight bg-white text-[#1E3A8A] border-2 border-[#1E3A8A] select-none transform transition-transform duration-300 group-hover:scale-105 mb-4 rounded-none font-sans relative">
+                  <div className="px-5 py-2 text-xs font-black tracking-tight bg-white text-[#1E3A8A] border-2 border-[#1E3A8A] select-none transform transition-transform duration-300 group-hover:scale-105 mb-0 rounded-none font-sans relative">
                     ICE BLUE EDIT
                     <div className="absolute right-[-10px] bottom-[-10px] w-6 h-6 rounded-full bg-yellow-400 text-black border border-black flex items-center justify-center text-[7px] font-black rotate-[15deg]">
                       NEW
                     </div>
                   </div>
                 ) : card.stickerType === "lace-layer" ? (
-                  <div className="flex flex-col items-start gap-0.5 transform rotate-[-2deg] mb-4 select-none group-hover:scale-105 transition-transform">
+                  <div className="flex flex-col items-start gap-0.5 transform rotate-[-2deg] mb-0 select-none group-hover:scale-105 transition-transform">
                     <span className="bg-pink-500 text-white font-serif italic font-black text-xs px-3.5 py-1 rounded-full shadow-xs">
                       Lace
                     </span>
@@ -249,7 +178,7 @@ export function NewArrivals({
                   </div>
                 ) : (
                   <div className={cn(
-                    "px-4 py-2 text-xs font-black tracking-tight shadow-md select-none transform transition-transform duration-300 group-hover:scale-105 mb-4",
+                    "px-4 py-2 text-xs font-black tracking-tight shadow-md select-none transform transition-transform duration-300 group-hover:scale-105 mb-0",
                     card.stickerBg,
                     card.stickerStyle
                   )}>
@@ -257,20 +186,10 @@ export function NewArrivals({
                   </div>
                 )}
 
-                {/* Card footer details */}
-                <div className="flex items-center justify-between w-full border-t border-white/10 pt-3.5 mt-1">
-                  <span className="text-xs font-mono font-bold tracking-tight text-white/95">
-                    {card.price}
-                  </span>
-                  <span className="text-[10px] font-mono tracking-widest text-[#FAF6EE]/95 uppercase flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    EXPLORE <ArrowUpRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

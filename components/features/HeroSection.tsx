@@ -55,6 +55,7 @@ export function HeroSection({ onShopTheLook, onExploreCollections }: HeroSection
 
   return (
     <section 
+      id="hero"
       className="relative w-full h-[88vh] min-h-[420px] sm:min-h-[460px] lg:min-h-[500px] xl:min-h-[580px] lg:max-h-[850px] flex items-center justify-center overflow-hidden bg-[#051119] text-white select-none pt-12"
       style={{ fontFamily: "'Montserrat', sans-serif" }}
     >

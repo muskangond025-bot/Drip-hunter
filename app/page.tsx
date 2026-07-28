@@ -6,6 +6,7 @@ import { HeroSection } from "@/components/features/HeroSection";
 
 import { NewArrivals } from "@/components/catalog/NewArrivals";
 import { TemplatesShowcase } from "@/components/features/TemplatesShowcase";
+import { BrandShowcase } from "@/components/features/BrandShowcase";
 import { BrandCollabTeasers } from "@/components/features/BrandCollabTeasers";
 import { RecentlyViewed } from "@/components/catalog/RecentlyViewed";
 import { LiveEvents } from "@/components/features/LiveEvents";
@@ -161,9 +162,6 @@ export default function Home() {
             window.location.href = `/explore`;
           }}
         />
-
-
-
         {/* New Arrivals Product Showcase */}
         <NewArrivals
           activeTab={activeTab}
@@ -178,6 +176,9 @@ export default function Home() {
 
         {/* Deal of the Day/Week Section */}
         <TemplatesShowcase />
+
+        {/* Premium Brand Showcase Section */}
+        <BrandShowcase />
 
         {/* Brand Collabs & Teasers Grid (renders Product Lines carousel & Brand Teasers grid) */}
         <BrandCollabTeasers onAddToCart={handleAddToCart} />
