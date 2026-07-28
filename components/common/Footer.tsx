@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { cn } from "@/lib/utils";
 
 // Social SVG Icons (re-styled to match the image layout)
 const FacebookIcon = () => (
@@ -26,6 +27,7 @@ const InstagramIcon = () => (
 export function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [showInput, setShowInput] = useState(false);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,13 +46,18 @@ export function Footer() {
         {/* ========================================== */}
         <div className="md:col-span-5 space-y-6 text-left">
           
-          {/* Neon Styled Glow Logo */}
-          <div className="inline-block relative">
-            <div className="text-[26px] font-black tracking-tighter uppercase px-5 py-2 rounded-2xl bg-black border-2 border-blue-600 text-pink-500 shadow-[0_0_15px_rgba(37,99,235,0.6)] flex items-center justify-center">
-              <span className="bg-gradient-to-r from-pink-500 via-pink-400 to-purple-500 bg-clip-text text-transparent drop-shadow-[0_0_2px_rgba(236,72,153,0.8)]">
-                DRIPHUNTER
+          {/* Premium Text-based Logo (No button capsule) */}
+          <div className="flex flex-col items-start gap-1 select-none">
+            <div className="text-[26px] font-heading font-black tracking-widest text-white leading-none">
+              <span className="text-[#ebd26b]">DRIP</span>
+              <span className="text-white relative ml-1">
+                HUNTER
+                <span className="absolute left-0 bottom-[-4px] w-full h-[3px] bg-gradient-to-r from-[#ebd26b] to-orange-500 rounded-full animate-pulse" />
               </span>
             </div>
+            <span className="text-[8px] font-mono tracking-[0.4em] text-zinc-400 uppercase font-black ml-0.5 mt-2">
+              STREETWEAR ARCHIVE
+            </span>
           </div>
 
           {/* Contact Details */}
@@ -65,8 +72,8 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Social Follow */}
-          <div className="flex items-center gap-4 pt-2">
+          {/* Social Follow (Moved further down with larger margin-top) */}
+          <div className="flex items-center gap-4 pt-10 sm:pt-14 border-t border-zinc-800/30">
             <span className="text-sm font-black text-[#ebd26b] uppercase tracking-wider">
               Follow Us
             </span>
@@ -132,18 +139,34 @@ export function Footer() {
                 ✓ Thank you for subscribing!
               </p>
             ) : (
-              <form onSubmit={handleSubscribe} className="flex items-stretch w-full border-2 border-[#ebd26b] rounded-2xl overflow-hidden bg-[#242424] shadow-md h-12">
-                <input 
-                  type="email"
-                  required
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-grow bg-transparent text-white px-4 outline-none text-xs sm:text-sm placeholder-zinc-400 font-medium"
-                />
+              <form onSubmit={handleSubscribe} className="flex items-center h-12 overflow-visible relative">
+                <div className={cn(
+                  "flex items-center h-full bg-[#1e1e1e] transition-all duration-500 ease-out overflow-hidden",
+                  showInput 
+                    ? "w-64 sm:w-80 opacity-100 px-4 border-y-2 border-l-2 border-[#ebd26b] rounded-l-2xl" 
+                    : "w-0 opacity-0 px-0 border-transparent border-none"
+                )}>
+                  <input 
+                    type="email"
+                    required
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-transparent text-white outline-none text-xs sm:text-sm placeholder-zinc-500 font-medium"
+                  />
+                </div>
                 <button
-                  type="submit"
-                  className="bg-[#facc15] hover:bg-[#eab308] text-black font-black text-xs uppercase tracking-widest px-8 border-none cursor-pointer transition-colors shrink-0 h-full flex items-center justify-center"
+                  type={showInput ? "submit" : "button"}
+                  onClick={(e) => {
+                    if (!showInput) {
+                      e.preventDefault();
+                      setShowInput(true);
+                    }
+                  }}
+                  className={cn(
+                    "bg-[#facc15] hover:bg-[#eab308] text-black font-black text-xs uppercase tracking-widest px-8 cursor-pointer transition-all duration-300 flex items-center justify-center shrink-0 h-full border-[#ebd26b]",
+                    showInput ? "rounded-r-2xl border-y-2 border-r-2 border-l-0" : "rounded-2xl border-2"
+                  )}
                 >
                   Subscribe
                 </button>

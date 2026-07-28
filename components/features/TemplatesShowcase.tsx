@@ -293,101 +293,79 @@ export function TemplatesShowcase() {
           Brand Show-Case
         </h3>
 
-        {/* Brand Logos Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-y-10 gap-x-6 items-center justify-items-center max-w-4xl mx-auto">
-          {/* Row 1 */}
+        {/* Brand Logos Row (Single line, circular buttons) */}
+        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 max-w-5xl mx-auto">
+          
           {/* 1. UNRL */}
           <div 
             onClick={() => handleBrandClick("UNRL")}
-            className={`font-black text-xl sm:text-2xl tracking-tighter flex items-baseline font-sans cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "UNRL" ? "text-accent scale-102 font-extrabold" : "text-foreground"
+            className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center border-2 bg-white text-zinc-950 shadow-xs hover:shadow-md hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer select-none ${
+              activeBrand === "UNRL" 
+                ? "border-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.35)] ring-2 ring-[#facc15]/20 font-black" 
+                : "border-zinc-200/80 hover:border-zinc-400"
             }`}
           >
-            UNRL<span className="text-[10px] align-super font-bold ml-0.5">®</span>
+            <span className="font-sans font-black text-xs sm:text-sm tracking-tighter uppercase leading-none">
+              UNRL<span className="text-[8px] sm:text-[9px] align-super font-black ml-0.5">®</span>
+            </span>
           </div>
+
           {/* 2. BURBERRY */}
           <div 
             onClick={() => handleBrandClick("BURBERRY")}
-            className={`font-extrabold text-[10px] sm:text-xs tracking-[0.25em] font-sans cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "BURBERRY" ? "text-accent scale-102 font-extrabold" : "text-foreground"
+            className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center border-2 bg-white text-zinc-950 shadow-xs hover:shadow-md hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer select-none ${
+              activeBrand === "BURBERRY" 
+                ? "border-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.35)] ring-2 ring-[#facc15]/20 font-black" 
+                : "border-zinc-200/80 hover:border-zinc-400"
             }`}
           >
-            BURBERRY
+            <span className="font-sans font-extrabold text-[8px] sm:text-[9px] tracking-[0.12em] uppercase leading-none text-center px-1">
+              BURBERRY
+            </span>
           </div>
+
           {/* 3. STUSSY */}
           <div 
             onClick={() => handleBrandClick("STUSSY")}
-            className={`font-black text-lg sm:text-xl tracking-tighter italic uppercase font-serif cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "STUSSY" ? "text-accent scale-102 font-bold" : "text-foreground/50"
+            className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center border-2 bg-white text-zinc-950 shadow-xs hover:shadow-md hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer select-none ${
+              activeBrand === "STUSSY" 
+                ? "border-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.35)] ring-2 ring-[#facc15]/20 font-black" 
+                : "border-zinc-200/80 hover:border-zinc-400"
             }`}
           >
-            STUSSY
+            <span className="font-serif font-black italic text-xs sm:text-sm tracking-tighter uppercase leading-none">
+              STÜSSY
+            </span>
           </div>
+
           {/* 4. ESSENTIALS */}
           <div 
             onClick={() => handleBrandClick("ESSENTIALS")}
-            className={`font-bold text-[9px] sm:text-[10px] tracking-[0.3em] font-sans uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "ESSENTIALS" ? "text-accent scale-102 font-extrabold" : "text-foreground/50"
+            className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center border-2 bg-white text-zinc-955 shadow-xs hover:shadow-md hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer select-none ${
+              activeBrand === "ESSENTIALS" 
+                ? "border-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.35)] ring-2 ring-[#facc15]/20 font-black" 
+                : "border-zinc-200/80 hover:border-zinc-400"
             }`}
           >
-            ESSENTIALS
+            <span className="font-sans font-bold text-[7.5px] sm:text-[8.5px] tracking-[0.2em] uppercase leading-none">
+              ESSENTIALS
+            </span>
           </div>
+
           {/* 5. BAPE */}
           <div 
             onClick={() => handleBrandClick("BAPE")}
-            className={`font-black text-base sm:text-lg tracking-tight font-mono uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "BAPE" ? "text-accent scale-102 font-extrabold" : "text-foreground/70"
+            className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center border-2 bg-white text-zinc-950 shadow-xs hover:shadow-md hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer select-none ${
+              activeBrand === "BAPE" 
+                ? "border-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.35)] ring-2 ring-[#facc15]/20 font-black" 
+                : "border-zinc-200/80 hover:border-zinc-400"
             }`}
           >
-            BAPE
+        <span className="font-mono font-black text-xs sm:text-sm tracking-tight uppercase leading-none">
+              BAPE
+            </span>
           </div>
 
-          {/* Row 2 */}
-          {/* 6. STUSSY */}
-          <div 
-            onClick={() => handleBrandClick("STUSSY")}
-            className={`font-black text-lg sm:text-xl tracking-tighter italic uppercase font-serif cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "STUSSY" ? "text-accent scale-102 font-bold" : "text-foreground/50"
-            }`}
-          >
-            STUSSY
-          </div>
-          {/* 7. ESSENTIALS */}
-          <div 
-            onClick={() => handleBrandClick("ESSENTIALS")}
-            className={`font-bold text-[9px] sm:text-[10px] tracking-[0.3em] font-sans uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "ESSENTIALS" ? "text-accent scale-102 font-extrabold" : "text-foreground/50"
-            }`}
-          >
-            ESSENTIALS
-          </div>
-          {/* 8. STUSSY */}
-          <div 
-            onClick={() => handleBrandClick("STUSSY")}
-            className={`font-black text-lg sm:text-xl tracking-tighter italic uppercase font-serif cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "STUSSY" ? "text-accent scale-102 font-bold" : "text-foreground/50"
-            }`}
-          >
-            STUSSY
-          </div>
-          {/* 9. ESSENTIALS */}
-          <div 
-            onClick={() => handleBrandClick("ESSENTIALS")}
-            className={`font-bold text-[9px] sm:text-[10px] tracking-[0.3em] font-sans uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "ESSENTIALS" ? "text-accent scale-102 font-extrabold" : "text-foreground/50"
-            }`}
-          >
-            ESSENTIALS
-          </div>
-          {/* 10. BAPE */}
-          <div 
-            onClick={() => handleBrandClick("BAPE")}
-            className={`font-black text-base sm:text-lg tracking-tight font-mono uppercase cursor-pointer hover:scale-105 transition-all select-none ${
-              activeBrand === "BAPE" ? "text-accent scale-102 font-extrabold" : "text-foreground/70"
-            }`}
-          >
-            BAPE
-          </div>
         </div>
       </div>
 

@@ -116,7 +116,7 @@ const SPOTLIGHT_PRODUCTS = [
     name: "Modular Sling Bag",
     brand: "Drip Utility",
     price: "$65.00",
-    image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=600&q=80",
+    image: "/images/luxury_sling_bag.png",
     color: "emerald",
     glowClass: "shadow-[0_12px_36px_rgba(16,185,129,0.06)] border-zinc-200",
     pedestalGlow: "from-emerald-400/25 via-green-300/15 to-emerald-400/25 border-green-300/10",

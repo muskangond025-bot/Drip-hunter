@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Heart, ChevronRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -164,7 +165,32 @@ interface BrandCollabTeasersProps {
   }) => void;
 }
 
+// Framer-motion entrance variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15
+    }
+  }
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 100,
+      damping: 15
+    }
+  }
+};
+
 export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}) {
+  const router = useRouter();
   const [hoveredLookCard, setHoveredLookCard] = useState<number | null>(null);
   const [isLiked, setIsLiked] = useState<Record<number, boolean>>({});
 
@@ -174,7 +200,6 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
 
   const handleGetThisLook = (look: CuratedLookItem) => {
     if (onAddToCart) {
-      // Add the primary model look jacket/shoe to the cart
       onAddToCart({
         id: look.id * 1000,
         brand: "Styled Outfit",
@@ -193,10 +218,9 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
       {/* ==================== 1. CURATED FOR YOU (OUTFITS) ==================== */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
         
-        {/* Screenshot matching header */}
+        {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4.5">
-            {/* Heart selection icon */}
             <button 
               onClick={() => toggleLike(99)}
               className="p-2 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer text-zinc-650"
@@ -204,10 +228,10 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
               <Heart className={cn("w-5 h-5", isLiked[99] ? "fill-red-500 stroke-red-500" : "")} />
             </button>
             <div className="text-left space-y-0.5">
-              <span className="text-[9px] font-sans font-extrabold tracking-widest text-zinc-400 uppercase block">
-                LOOKS THAT WE
+              <span className="text-[9px] font-sans font-extrabold tracking-widest text-[#ff5a00] uppercase block">
+                LOOKS THAT WE LOVE
               </span>
-              <h2 className="text-2xl sm:text-3xl font-sans font-black text-zinc-900 tracking-tight leading-none uppercase">
+              <h2 className="text-2xl sm:text-3xl font-heading font-black text-zinc-900 tracking-tight leading-none uppercase">
                 Shop the Look
               </h2>
               <span className="text-[10px] font-mono text-zinc-500 block">
@@ -224,11 +248,19 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
         </div>
 
         {/* Horizontal Scrolling Card Deck Container */}
-        <div className="flex gap-6 overflow-x-auto scrollbar-none pb-6 px-1 scroll-smooth">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="flex gap-6 overflow-x-auto scrollbar-none pb-6 px-1 scroll-smooth"
+        >
           {curatedLooks.map((look) => (
-            <div
+            <motion.div
               key={look.id}
-              className="flex-shrink-0 w-full max-w-[530px] rounded-2xl overflow-hidden border border-zinc-200 bg-white flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative"
+              variants={cardVariants}
+              whileHover={{ y: -6 }}
+              className="flex-shrink-0 w-full max-w-[530px] rounded-[32px] overflow-hidden border border-zinc-200 bg-white flex flex-col justify-between shadow-sm hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] transition-all relative group"
             >
               {/* Top body content grid split (model left / products grid right) */}
               <div className="flex items-stretch min-h-[340px]">
@@ -240,7 +272,7 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
                     alt={`Model look #${look.id}`}
                     fill
                     sizes="200px"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-700 group-hover:scale-102"
                   />
                 </div>
 
@@ -291,16 +323,18 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
               </div>
 
               {/* Bottom solid black full width CTA button */}
-              <button
-                onClick={() => handleGetThisLook(look)}
-                className="w-full py-4.5 bg-black hover:bg-zinc-850 text-white font-black uppercase text-[10px] tracking-widest transition-all cursor-pointer border-t border-zinc-200"
-              >
-                Get this look
-              </button>
+              <div className="px-4 pb-4 mt-4">
+                <button
+                  onClick={() => handleGetThisLook(look)}
+                  className="w-full py-3.5 bg-[#121824] hover:bg-black text-yellow-400 font-extrabold uppercase text-[10px] tracking-widest transition-all cursor-pointer border border-zinc-850 rounded-full active:scale-98 shadow-xs"
+                >
+                  Get this look
+                </button>
+              </div>
 
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
       </div>
 
@@ -309,68 +343,75 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
         
         {/* Awwwards style Left-Aligned Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-zinc-200 pb-6 mb-12">
-          <div className="space-y-2">
-            <span className="text-[10px] font-mono tracking-widest text-zinc-400 uppercase font-black block">
+          <div className="space-y-2 text-left">
+            <span className="text-[10px] font-mono tracking-widest text-[#ff5a00] uppercase font-black block">
               SEASON PREVIEWS
             </span>
-            <h2 className="text-2xl sm:text-3xl font-sans font-black uppercase text-black tracking-tight leading-none">
+            <h2 className="text-2xl sm:text-3xl font-heading font-black uppercase text-black tracking-tight leading-none">
               Brand Teasers
             </h2>
           </div>
-          <p className="text-zinc-500 text-xs sm:text-sm font-sans font-medium max-w-sm mt-4 md:mt-0 leading-relaxed">
+          <p className="text-zinc-500 text-xs sm:text-sm font-sans font-medium max-w-sm mt-4 md:mt-0 leading-relaxed text-left md:text-right">
             Exclusive insights, upcoming concepts, and high-fashion previews on the street horizons.
           </p>
         </div>
 
-        {/* Dynamic 4-Column Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Dynamic 4-Column Grid (Editorial Bright Theme) */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {brandTeasers.map((teaser) => (
             <motion.div
               key={teaser.id}
-              whileHover={{ y: -8 }}
-              transition={{ type: "spring", stiffness: 350, damping: 25 }}
-              className="group relative aspect-[9/14] rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-950 flex flex-col justify-end p-5 cursor-pointer transition-shadow hover:shadow-xl"
+              variants={cardVariants}
+              whileHover={{ y: -8, scale: 1.01 }}
+              onClick={() => router.push(`/brand-teaser/${teaser.id}`)}
+              className="bg-white border border-zinc-200 rounded-[28px] p-4 flex flex-col justify-between shadow-sm hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-300 cursor-pointer group select-none text-left"
             >
-              {/* Background image */}
-              <div className="absolute inset-0 z-0">
-                <Image
-                  src={teaser.image}
-                  alt={teaser.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 280px"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-106"
-                />
-                {/* Subtle Gradient Shadow overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/85 via-zinc-950/20 to-transparent z-10" />
-                <div className="absolute inset-0 bg-zinc-950/20 z-10 opacity-35 group-hover:opacity-10 transition-opacity duration-500" />
-              </div>
-
-              {/* Content */}
-              <div className="relative z-20 text-white w-full flex flex-col justify-between h-full">
-                
-                {/* Top Badge */}
-                <div>
-                  <span className="bg-white/10 backdrop-blur-md border border-white/20 px-2.5 py-0.5 rounded text-[8px] font-mono tracking-widest text-white uppercase">
-                    {teaser.tag}
-                  </span>
+              <div>
+                {/* Frame/Container for background image */}
+                <div className="relative aspect-[4/5] bg-zinc-50 rounded-[20px] overflow-hidden">
+                  <Image
+                    src={teaser.image}
+                    alt={teaser.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 280px"
+                    className="object-cover transition-transform duration-700 group-hover:scale-106"
+                  />
+                  
+                  {/* Top Badge */}
+                  <div className="absolute top-3 left-3 z-20">
+                    <span className="bg-white/95 backdrop-blur-sm border border-zinc-200/50 px-2.5 py-0.5 rounded-lg text-[8px] font-mono tracking-widest text-[#ff5a00] font-black uppercase shadow-xs">
+                      {teaser.tag}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Bottom Text details */}
-                <div className="space-y-1.5 text-left">
-                  <span className="text-[9px] text-zinc-400 font-mono tracking-widest block uppercase font-bold">
+                {/* Text Details beneath image */}
+                <div className="mt-4 space-y-1">
+                  <span className="text-[9px] text-[#ff5a00] font-mono tracking-widest block uppercase font-black">
                     {teaser.brandName}
                   </span>
-                  <h3 className="text-lg sm:text-xl font-black uppercase text-yellow-400 tracking-tight leading-tight">
+                  <h3 className="text-base font-extrabold uppercase text-zinc-900 tracking-tight leading-tight group-hover:text-[#ff5a00] transition-colors">
                     {teaser.title}
                   </h3>
                 </div>
-
               </div>
 
+              {/* Bottom Link/Arrow */}
+              <div className="mt-5 pt-3 border-t border-zinc-100 flex items-center justify-between text-zinc-400 group-hover:text-[#ff5a00] transition-colors">
+                <span className="text-[9px] font-mono font-black uppercase tracking-widest">
+                  Explore Drop
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </div>
             </motion.div>
           ))}
-        </div>
-
+        </motion.div>
       </div>
 
     </section>

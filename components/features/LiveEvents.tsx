@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import { Calendar, MapPin, ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
+import { cn } from "@/lib/utils";
 
 interface LiveEvent {
   id: number;
@@ -56,6 +57,151 @@ const liveEventsData: LiveEvent[] = [
     buttonText: "Pre Order",
   },
 ];
+
+function LiveEventCard({
+  item,
+  animatingEventId,
+  animationStep,
+  handlePreOrderClick,
+}: {
+  item: LiveEvent;
+  animatingEventId: number | null;
+  animationStep: 'idle' | 'bag-in' | 'drop' | 'fly';
+  handlePreOrderClick: (item: LiveEvent, e: React.MouseEvent<HTMLButtonElement>) => void;
+}) {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  const cardRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
+        setIsExpanded(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseEnter={() => setIsExpanded(true)}
+      onMouseLeave={() => setIsExpanded(false)}
+      onClick={() => setIsExpanded(prev => !prev)}
+      className="flex-shrink-0 w-[290px] sm:w-[320px] bg-white border border-zinc-200 rounded-[28px] shadow-sm hover:shadow-md transition-all duration-300 flex flex-col relative overflow-hidden group cursor-pointer"
+      style={{ scrollSnapAlign: "start" }}
+    >
+      {/* Event Image with rounded top corners to fit parent rounded border */}
+      <div className="relative w-full aspect-[4/3] bg-zinc-100 overflow-hidden rounded-t-[26px]">
+        
+        {/* Bag Back Layer */}
+        {animatingEventId === item.id && (animationStep === "bag-in" || animationStep === "drop") && (
+          <div className="absolute inset-x-0 bottom-4 flex justify-center z-5 animate-slide-up-bag">
+            <div className="relative w-36 h-28 bg-[#18181b] rounded-b-xl border border-zinc-800 shadow-inner">
+              {/* Back handle string */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-6 border-2 border-zinc-700 rounded-t-full" />
+            </div>
+          </div>
+        )}
+
+        {/* Image Wrapper */}
+        <div
+          className={`w-full h-full transition-all duration-300 z-10 relative ${
+            animatingEventId === item.id && animationStep === "drop" ? "scale-40 translate-y-24 opacity-0" : ""
+          } ${
+            animatingEventId === item.id && animationStep === "bag-in" ? "scale-90" : ""
+          }`}
+        >
+          <Image
+            src={item.image}
+            alt={item.name}
+            fill
+            sizes="(max-width: 768px) 290px, 320px"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        </div>
+
+        {/* Bag Front Layer */}
+        {animatingEventId === item.id && (animationStep === "bag-in" || animationStep === "drop") && (
+          <div className="absolute inset-x-0 bottom-4 flex justify-center z-15 animate-slide-up-bag">
+            <div className="relative w-36 h-28 bg-[#09090b] rounded-b-xl border-t border-zinc-700 shadow-lg flex flex-col justify-center items-center">
+              {/* Front handle string */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-6 border-2 border-zinc-600 rounded-t-full" />
+              {/* Gold brand text */}
+              <span className="text-[7px] font-mono text-zinc-500 font-black tracking-widest uppercase mt-4">
+                DRIP HUNTER
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Hover Overlay Badge */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
+          <div className="bg-black/85 backdrop-blur-md text-yellow-400 border border-yellow-400/20 text-[10px] font-black tracking-widest uppercase py-3 px-6 rounded-full flex items-center gap-1.5 shadow-2xl transform scale-90 group-hover:scale-100 transition-all duration-350 ease-out">
+            Get Tickets
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </div>
+        </div>
+      </div>
+
+      {/* Ticket Details Panel: Slides smoothly up to down on hover/click */}
+      <div
+        className={cn(
+          "transition-all duration-500 ease-in-out overflow-hidden flex flex-col justify-between w-full bg-white",
+          isExpanded ? "max-h-[350px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-4 pointer-events-none"
+        )}
+      >
+        {/* White Ticket Box */}
+        <div className="relative bg-white p-5 border-t border-dashed border-zinc-200 flex flex-col gap-4">
+          {/* Perforation Notches */}
+          <div className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-zinc-50 rounded-full border-r border-zinc-200 z-10" />
+          <div className="absolute right-0 top-0 translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-zinc-50 rounded-full border-l border-zinc-200 z-10" />
+
+          {/* Title - all text visible */}
+          <h3 className="text-base font-bold text-zinc-955 uppercase tracking-tight leading-tight text-wrap">
+            {item.name}
+          </h3>
+
+          {/* Details block */}
+          <div className="flex flex-col gap-2">
+            {/* Date */}
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-zinc-950 text-white flex items-center justify-center flex-shrink-0">
+                <Calendar className="w-4 h-4" />
+              </div>
+              <span className="text-xs text-zinc-600 font-mono font-medium text-wrap">
+                {item.date}
+              </span>
+            </div>
+
+            {/* Venue - all text visible */}
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-zinc-950 text-white flex items-center justify-center flex-shrink-0">
+                <MapPin className="w-4 h-4" />
+              </div>
+              <span className="text-xs text-zinc-600 font-mono font-medium text-wrap leading-snug">
+                {item.venue}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Pre Order Button - curved corner and padded inside */}
+        <div className="px-5 pb-5">
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePreOrderClick(item, e);
+            }}
+            className="w-full bg-zinc-900 hover:bg-black text-yellow-400 text-xs font-black uppercase tracking-widest py-3.5 transition-colors cursor-pointer border border-zinc-800 rounded-full active:scale-95 duration-200 shadow-sm"
+          >
+            {item.buttonText}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function LiveEvents() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -164,107 +310,13 @@ export function LiveEvents() {
             style={{ scrollSnapType: "x mandatory" }}
           >
             {liveEventsData.map((item) => (
-              <div
+              <LiveEventCard
                 key={item.id}
-                className="flex-shrink-0 w-[290px] sm:w-[320px] bg-white border border-zinc-200 rounded-3xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between relative"
-                style={{ scrollSnapAlign: "start" }}
-              >
-                {/* Event Image with rounded top corners to fit parent rounded border */}
-                <div className="relative w-full aspect-[4/3] bg-zinc-100 overflow-hidden rounded-t-[22px]">
-                  
-                  {/* Bag Back Layer */}
-                  {animatingEventId === item.id && (animationStep === "bag-in" || animationStep === "drop") && (
-                    <div className="absolute inset-x-0 bottom-4 flex justify-center z-5 animate-slide-up-bag">
-                      <div className="relative w-36 h-28 bg-[#18181b] rounded-b-xl border border-zinc-800 shadow-inner">
-                        {/* Back handle string */}
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-6 border-2 border-zinc-700 rounded-t-full" />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Image Wrapper */}
-                  <div
-                    className={`w-full h-full transition-all duration-300 z-10 relative ${
-                      animatingEventId === item.id && animationStep === "drop" ? "scale-40 translate-y-24 opacity-0" : ""
-                    } ${
-                      animatingEventId === item.id && animationStep === "bag-in" ? "scale-90" : ""
-                    }`}
-                  >
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      sizes="(max-width: 768px) 290px, 320px"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-
-                  {/* Bag Front Layer */}
-                  {animatingEventId === item.id && (animationStep === "bag-in" || animationStep === "drop") && (
-                    <div className="absolute inset-x-0 bottom-4 flex justify-center z-15 animate-slide-up-bag">
-                      <div className="relative w-36 h-28 bg-[#09090b] rounded-b-xl border-t border-zinc-700 shadow-lg flex flex-col justify-center items-center">
-                        {/* Front handle string */}
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-12 h-6 border-2 border-zinc-600 rounded-t-full" />
-                        {/* Gold brand text */}
-                        <span className="text-[7px] font-mono text-zinc-500 font-black tracking-widest uppercase mt-4">
-                          DRIP HUNTER
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Hover Overlay Badge */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
-                    <div className="bg-black/85 backdrop-blur-md text-yellow-400 border border-yellow-400/20 text-[10px] font-black tracking-widest uppercase py-3 px-6 rounded-full flex items-center gap-1.5 shadow-2xl transform scale-90 group-hover:scale-100 transition-all duration-350 ease-out">
-                      Get Tickets
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* White Ticket Box */}
-                <div className="relative bg-white p-5 border-t border-dashed border-zinc-200 flex flex-col gap-4">
-                  {/* Perforation Notches */}
-                  <div className="absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-zinc-50 rounded-full border-r border-zinc-200 z-10" />
-                  <div className="absolute right-0 top-0 translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-zinc-50 rounded-full border-l border-zinc-200 z-10" />
-
-                  {/* Title */}
-                  <h3 className="text-base font-bold text-zinc-950 uppercase tracking-tight line-clamp-1">
-                    {item.name}
-                  </h3>
-
-                  {/* Details block */}
-                  <div className="flex flex-col gap-2">
-                    {/* Date */}
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-zinc-950 text-white flex items-center justify-center flex-shrink-0">
-                        <Calendar className="w-4 h-4" />
-                      </div>
-                      <span className="text-xs text-zinc-600 font-mono font-medium">
-                        {item.date}
-                      </span>
-                    </div>
-
-                    {/* Venue */}
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-zinc-950 text-white flex items-center justify-center flex-shrink-0">
-                        <MapPin className="w-4 h-4" />
-                      </div>
-                      <span className="text-xs text-zinc-600 font-mono font-medium truncate">
-                        {item.venue}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Pre Order Button with rounded bottom corners */}
-                <button 
-                  onClick={(e) => handlePreOrderClick(item, e)}
-                  className="w-full bg-zinc-900 hover:bg-black text-yellow-400 text-xs font-black uppercase tracking-widest py-4 transition-colors cursor-pointer border-t border-zinc-800 rounded-b-[22px]"
-                >
-                  {item.buttonText}
-                </button>
-              </div>
+                item={item}
+                animatingEventId={animatingEventId}
+                animationStep={animationStep}
+                handlePreOrderClick={handlePreOrderClick}
+              />
             ))}
           </div>
         </div>
