@@ -21,7 +21,7 @@ const liveEventsData: LiveEvent[] = [
     name: "Fashion Show Music Runway",
     date: "24 - 28 OCT 2026",
     venue: "Metropolitan Pavilion, NY",
-    image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
+    image: "/images/beige_jumpsuit.png",
     buttonText: "Pre Order",
   },
   {
@@ -29,7 +29,7 @@ const liveEventsData: LiveEvent[] = [
     name: "Lakme Fashion Week '26",
     date: "12 - 16 NOV 2026",
     venue: "Jio Convention Centre, Mumbai",
-    image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
+    image: "/images/red_rose_dress.png",
     buttonText: "Pre Order",
   },
   {
@@ -37,7 +37,7 @@ const liveEventsData: LiveEvent[] = [
     name: "Paris Street Haute Couture",
     date: "05 - 09 DEC 2026",
     venue: "Palais de Tokyo, Paris",
-    image: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp",
+    image: "/images/white_off_shoulder_dress.png",
     buttonText: "Pre Order",
   },
   {
@@ -45,7 +45,7 @@ const liveEventsData: LiveEvent[] = [
     name: "Tokyo Cyberpunk Runway",
     date: "18 - 22 JAN 2027",
     venue: "Shibuya Sky, Tokyo",
-    image: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp",
+    image: "/images/white_blue_floral_dress.png",
     buttonText: "Pre Order",
   },
   {
@@ -53,7 +53,7 @@ const liveEventsData: LiveEvent[] = [
     name: "London Avant-Garde Showcase",
     date: "04 - 08 FEB 2027",
     venue: "The Somerset House, London",
-    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
+    image: "/images/blue_flutter_dress.png",
     buttonText: "Pre Order",
   },
 ];

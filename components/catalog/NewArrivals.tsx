@@ -55,19 +55,118 @@ export function NewArrivals({
     }
   };
 
+  const campaignProducts: Product[] = [
+    {
+      id: 101,
+      brand: "WEEKEND CAPSULE",
+      name: "SPECIAL PLANS OUTFIT",
+      price: "$49",
+      image: "/images/special_plans.png",
+      rating: 4.8,
+      color: "Coal Black",
+      category: "Tops",
+      gender: "Men",
+      discount: 0,
+      description: "A premium weekend capsule collection featuring custom-tailored urban outerwear and relaxed fit coordinate sets.",
+      sizes: ["S", "M", "L", "XL"],
+      specifications: [{ label: "Fit", value: "Co-ord Boxy Fit" }],
+      colorVariants: [{ color: "Coal Black", colorHex: "#2B1B17", image: "/images/special_plans.png" }]
+    },
+    {
+      id: 102,
+      brand: "PREMIUM ACCESSORIES",
+      name: "STACK & SHINE JEWELRY PACK",
+      price: "$19",
+      image: "/images/stack_shine.png",
+      rating: 4.9,
+      color: "Silver",
+      category: "Accessories",
+      gender: "Unisex",
+      discount: 0,
+      description: "A limited-edition premium accessories pack including double stack utility chains and high-shine streetwear pendants.",
+      sizes: ["One Size"],
+      specifications: [{ label: "Material", value: "Sterling Silver / 18k Gold Plated" }],
+      colorVariants: [{ color: "Silver", colorHex: "#C0C0C0", image: "/images/stack_shine.png" }]
+    },
+    {
+      id: 103,
+      brand: "SHEER MESH",
+      name: "ICE BLUE EDIT TOP",
+      price: "$39",
+      image: "/images/ice_blue_edit.png",
+      rating: 4.7,
+      color: "Ice Blue",
+      category: "Tops",
+      gender: "Women",
+      discount: 10,
+      description: "An ice-blue editorial mesh top designed with high-density print graphics and sheer breathable panels.",
+      sizes: ["XS", "S", "M", "L"],
+      specifications: [{ label: "Fabric", value: "Sheer Poly-Mesh" }],
+      colorVariants: [{ color: "Ice Blue", colorHex: "#60A5FA", image: "/images/ice_blue_edit.png" }]
+    },
+    {
+      id: 104,
+      brand: "SHEER LACE",
+      name: "LACE LAYER DRESS",
+      price: "$59",
+      image: "/images/lace_layer.png",
+      rating: 4.8,
+      color: "Rose Pink",
+      category: "Women",
+      gender: "Women",
+      discount: 15,
+      description: "A premium sheer lace dress utilizing layered textures and floral graphics for high street silhouettes.",
+      sizes: ["S", "M", "L"],
+      specifications: [{ label: "Detail", value: "Intricate Floral Embroidery" }],
+      colorVariants: [{ color: "Rose Pink", colorHex: "#F472B6", image: "/images/lace_layer.png" }]
+    },
+    {
+      id: 105,
+      brand: "OVERSIZED GRAPHIC",
+      name: "RETRO CHIC TEE",
+      price: "$35",
+      image: "/images/retro_chic.png",
+      rating: 4.6,
+      color: "Washed Gray",
+      category: "Tops",
+      gender: "Men",
+      discount: 20,
+      description: "An oversized heavy drop-shoulder tee displaying custom retro visual artwork and screen prints.",
+      sizes: ["S", "M", "L", "XL", "XXL"],
+      specifications: [{ label: "Weight", value: "240 GSM Heavyweight Cotton" }],
+      colorVariants: [{ color: "Washed Gray", colorHex: "#4B5563", image: "/images/retro_chic.png" }]
+    },
+    {
+      id: 106,
+      brand: "TECHWEAR UTILITY",
+      name: "NEO MATRIX UTILITY PACK",
+      price: "$59",
+      image: "/images/neo_matrix.png",
+      rating: 4.9,
+      color: "Matte Black",
+      category: "Accessories",
+      gender: "Unisex",
+      discount: 0,
+      description: "A futuristic modular techwear sling bag featuring water-resistant zippers and quick-release utility buckles.",
+      sizes: ["One Size"],
+      specifications: [{ label: "Utility", value: "Modular Quick-Release Buckles" }],
+      colorVariants: [{ color: "Matte Black", colorHex: "#0A0A0A", image: "/images/neo_matrix.png" }]
+    }
+  ];
+
   // Filter products based on selected tab/pill and existing subcategory filter
   const getFilteredProducts = (): Product[] => {
-    let list = masterProducts;
+    let list = campaignProducts;
     
     // Applying tab filter
     if (activeFilter === "Tops") {
-      list = masterProducts.filter(p => ["Top Wear", "Sweatshirts", "Shirts"].includes(p.category));
+      list = campaignProducts.filter(p => p.category === "Tops");
     } else if (activeFilter === "Bottoms") {
-      list = masterProducts.filter(p => ["Bottom Wear", "Cargo", "Bottoms"].includes(p.category));
+      list = campaignProducts;
     } else if (activeFilter === "Footwear") {
-      list = masterProducts.filter(p => p.category === "Footwear");
+      list = campaignProducts;
     } else if (activeFilter === "Accessories") {
-      list = masterProducts.filter(p => ["Caps", "Accessories", "Bags", "Wallets"].includes(p.category));
+      list = campaignProducts.filter(p => p.category === "Accessories");
     }
 
     // Apply subcategory prop filter if any
@@ -80,7 +179,7 @@ export function NewArrivals({
       );
     }
 
-    return list.slice(0, 10);
+    return list;
   };
 
   const filteredProducts = getFilteredProducts();
@@ -157,7 +256,7 @@ export function NewArrivals({
             {/* Background Model Image */}
             <div className="absolute inset-0 z-0">
               <Image 
-                src="https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp" 
+                src="/images/special_plans.png" 
                 alt="New Season Campaign" 
                 fill 
                 className="object-cover opacity-85 group-hover/campaign:scale-103 transition-transform duration-[1.2s] ease-out" 

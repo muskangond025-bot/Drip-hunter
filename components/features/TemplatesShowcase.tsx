@@ -36,32 +36,115 @@ export function TemplatesShowcase({
     return () => clearInterval(timer);
   }, []);
 
+  const dealProducts: Product[] = [
+    {
+      id: 901,
+      brand: "SAVANA WOMEN",
+      name: "Minimalist Cream Contrast A-Line Dress",
+      price: "From $49",
+      image: "/images/women_dress_cream.png",
+      rating: 4.9,
+      color: "Cream/Black",
+      category: "Dresses",
+      gender: "Women",
+      discount: 50,
+      description: "A chic, minimalist cream A-line dress detailed with stark black collars and a fitted waist belt. Vintage elegance redefined.",
+      sizes: ["S", "M", "L", "XL"],
+      specifications: [{ label: "Fabric", value: "Premium Crepe Blend" }],
+      colorVariants: [{ color: "Cream/Black", colorHex: "#FAF6EE", image: "/images/women_dress_cream.png" }]
+    },
+    {
+      id: 902,
+      brand: "SAVANA MAN",
+      name: "Premium Maroon Formal Shirt",
+      price: "From $29",
+      image: "/images/men_shirt_maroon.jpg",
+      rating: 4.8,
+      color: "Maroon",
+      category: "Outerwear",
+      gender: "Men",
+      discount: 40,
+      description: "A premium slim fit burgundy dress shirt crafted with long-staple cotton for unmatched breathability and sophistication.",
+      sizes: ["M", "L", "XL"],
+      specifications: [
+        { label: "Fabric", value: "100% Giza Cotton" },
+        { label: "Fit", value: "Slim Fit" },
+        { label: "Collar", value: "Spread Collar" }
+      ],
+      colorVariants: [{ color: "Maroon", colorHex: "#800020", image: "/images/men_shirt_maroon.jpg" }]
+    },
+    {
+      id: 903,
+      brand: "SAVANA WOMEN",
+      name: "Aesthetic Yellow Strap Floral Dress",
+      price: "From $59",
+      image: "/images/women_dress_yellow_1.png",
+      rating: 4.9,
+      color: "Pastel Yellow",
+      category: "Clothing",
+      gender: "Women",
+      discount: 30,
+      description: "A breezy pastel yellow summer dress featuring thin shoulder strap ties and a ruched fitted bodice. Perfect for warm sunny days.",
+      sizes: ["S", "M", "L"],
+      specifications: [{ label: "Detail", value: "Ruched Bodice & Tiered Hem" }],
+      colorVariants: [{ color: "Pastel Yellow", colorHex: "#FEF08A", image: "/images/women_dress_yellow_1.png" }]
+    },
+    {
+      id: 904,
+      brand: "SAVANA WOMEN",
+      name: "Premium Brown Drape Top",
+      price: "From $39",
+      image: "/images/women_top_brown.png",
+      rating: 4.7,
+      color: "Espresso Brown",
+      category: "Clothing",
+      gender: "Women",
+      discount: 45,
+      description: "An elegant espresso brown sleeveless top featuring a sophisticated cowl neck drape and clean, fitted silhouette.",
+      sizes: ["S", "M", "L"],
+      specifications: [{ label: "Fabric", value: "Premium Drape Satin Blend" }],
+      colorVariants: [{ color: "Espresso Brown", colorHex: "#6F4E37", image: "/images/women_top_brown.png" }]
+    },
+    {
+      id: 905,
+      brand: "SAVANA MAN",
+      name: "Classic Navy Slim Fit Shirt",
+      price: "From $69",
+      image: "/images/men_shirt_navy.jpg",
+      rating: 4.9,
+      color: "Navy Blue",
+      category: "Outerwear",
+      gender: "Men",
+      discount: 35,
+      description: "An elegant navy blue formal shirt featuring a structured camp collar and premium stretch weave canvas.",
+      sizes: ["M", "L", "XL"],
+      specifications: [
+        { label: "Fabric", value: "Cotton-Elastane Stretch Blend" },
+        { label: "Fit", value: "Semi-Formal Comfort Fit" }
+      ],
+      colorVariants: [{ color: "Navy", colorHex: "#000080", image: "/images/men_shirt_navy.jpg" }]
+    }
+  ];
+
   // Filter and decorate products with custom high-impact deals
   const getDeals = (): Product[] => {
-    let list = masterProducts;
+    let list = dealProducts;
     if (activeTab === "Men") {
-      list = masterProducts.filter(p => p.gender.toLowerCase() === "men");
+      list = dealProducts.filter(p => p.gender.toLowerCase() === "men");
     } else if (activeTab === "Women") {
-      list = masterProducts.filter(p => p.gender.toLowerCase() === "women");
+      list = dealProducts.filter(p => p.gender.toLowerCase() === "women");
     } else if (activeTab === "Footwear") {
-      list = masterProducts.filter(p => p.category === "Footwear");
+      list = dealProducts;
     } else if (activeTab === "Accessories") {
-      list = masterProducts.filter(p => ["Caps", "Accessories", "Bags", "Wallets"].includes(p.category));
+      list = dealProducts;
     }
 
-    return list.map((p, idx) => {
-      // Simulate/apply energetic discount rates for the deals section
-      const simulatedDiscount = p.discount > 0 ? p.discount : (idx % 2 === 0 ? 50 : 40);
-      return {
-        ...p,
-        discount: simulatedDiscount,
-      };
-    });
+    return list;
   };
 
   const deals = getDeals();
-  const featuredDeal = deals[0]; // First item is the large highlight
-  const gridDeals = deals.slice(1, 5); // Next 4 items form the dynamic uneven grid
+  const featuredDeal = deals[0] || dealProducts[0]; // First item is the large highlight
+  const gridDeals = deals.slice(1, 5).length > 0 ? deals.slice(1, 5) : dealProducts.slice(1, 5); // Next 4 items form the dynamic uneven grid
 
   const handleFavoriteClick = (e: React.MouseEvent, p: Product) => {
     e.stopPropagation();
@@ -168,7 +251,7 @@ export function TemplatesShowcase({
                 </div>
 
                 {/* Large Visual Image */}
-                <div className="absolute inset-0 z-0 flex items-center justify-center p-6">
+                <div className="absolute inset-0 z-0">
                   <Image
                     src={featuredDeal.image}
                     alt={featuredDeal.name}

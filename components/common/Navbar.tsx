@@ -1174,6 +1174,188 @@ interface MegaMenuData {
   };
 }
 
+const HOVER_PREVIEW_MAP: Record<string, { image: string; tag: string; title: string; description: string; href: string }> = {
+  // Apparel
+  "T-Shirts": {
+    image: "/images/streetwear_tshirt_preview.png",
+    tag: "STREETWEAR CORE",
+    title: "Graphic Tees",
+    description: "Heavyweight drop-shoulder graphic tees and oversized premium essentials.",
+    href: "/shop?category=T-Shirts"
+  },
+  "Hoodies & Sweatshirts": {
+    image: "/images/streetwear_sweatshirt_preview.png",
+    tag: "WINTER UTILITY",
+    title: "Sweatshirts & Hoodies",
+    description: "Ultra-soft heavy fleece hoodies and crewnecks styled for the streets.",
+    href: "/shop?category=Hoodies"
+  },
+  "Jackets & Coats": {
+    image: "/images/urban-essentials/denim_jacket.png",
+    tag: "OUTERWEAR",
+    title: "Jackets & Coats",
+    description: "Utility cargos, bomber jackets, and heavy denim pieces for perfect layering.",
+    href: "/shop?category=Jackets"
+  },
+  "Shirts": {
+    image: "/images/shirt_hover.jpg",
+    tag: "SHARP ESSENTIALS",
+    title: "Casual & Formal Shirts",
+    description: "Tailored fit premium cotton shirts for a modern, sophisticated dress code.",
+    href: "/shop?category=Shirts"
+  },
+  "Pants & Cargos": {
+    image: "/images/urban-essentials/cargo_pants.png",
+    tag: "STREET BOTTOMS",
+    title: "Cargos & Pants",
+    description: "Heavyweight ripstop utility cargos and relaxed fit trousers.",
+    href: "/shop?category=Bottoms"
+  },
+  "Almost Gods": {
+    image: "/images/almost_gods_hover.jpg",
+    tag: "FEATURED BRAND",
+    title: "Almost Gods",
+    description: "Indian streetwear label focusing on premium luxury materials and avant-garde designs.",
+    href: "/shop?brand=Almost+Gods"
+  },
+  "Supervek": {
+    image: "/images/supervek_hover.jpg",
+    tag: "FEATURED BRAND",
+    title: "Supervek",
+    description: "Aesthetic streetwear accessories, caps, and minimalist cardholders built for utility.",
+    href: "/shop?brand=Supervek"
+  },
+  "Arlo": {
+    image: "/images/arlo_hover.jpg",
+    tag: "FEATURED BRAND",
+    title: "Arlo Apparel",
+    description: "Premium minimal basics and oversized comfort apparel.",
+    href: "/shop?brand=Arlo"
+  },
+  // Accessories
+  "Sling Bags": {
+    image: "/images/urban-essentials/sling_bag.png",
+    tag: "STREET UTILITY",
+    title: "Sling & Crossbody Bags",
+    description: "Complete your look with premium water-resistant tactical slingers.",
+    href: "/shop?category=Bags"
+  },
+  "Wallets": {
+    image: "/images/urban-essentials/bifold_wallet.png",
+    tag: "DAILY UTILITY",
+    title: "Bifold & Card Wallets",
+    description: "Minimalist card holders and premium quilted zip wallets.",
+    href: "/shop?category=Wallets"
+  },
+  "Caps & Beanies": {
+    image: "/images/neo_matrix.png",
+    tag: "HEADWEAR CORES",
+    title: "Caps & Beanies",
+    description: "Streetwear snapbacks, bucket hats, and classic baseball caps.",
+    href: "/shop?category=Headwear"
+  },
+  "Eyewear & Sunglasses": {
+    image: "/images/retro_chic.png",
+    tag: "STATEMENT SHADES",
+    title: "Sunglasses & Frames",
+    description: "Timeless polarized sunglasses designed with premium acetate frames.",
+    href: "/shop?category=Eyewear"
+  },
+  // Brands Collabs
+  "Cyber Shield": {
+    image: "/images/beige_jumpsuit.png",
+    tag: "EXCLUSIVE COLLAB",
+    title: "Cyber Shield Tech",
+    description: "Futuristic techwear accessories and high performance materials.",
+    href: "/shop?search=Cyber"
+  },
+  "Heritage Bomber": {
+    image: "/images/red_rose_dress.png",
+    tag: "GRAIL COLLAB",
+    title: "Heritage Bomber Kit",
+    description: "Vintage styled premium bombers and flight jackets.",
+    href: "/shop?search=Bomber"
+  },
+  // Sneakers / Footwear
+  "Air Jordan": {
+    image: "/images/sneaker-1.png",
+    tag: "JORDAN BRAND",
+    title: "Air Jordan",
+    description: "Verified authentic hype sneakers from Jordan Brand.",
+    href: "/shop?brand=Jordan"
+  },
+  "Nike": {
+    image: "/images/sneaker-2.png",
+    tag: "NIKE SPORTSWEAR",
+    title: "Nike",
+    description: "Sleek active kicks and iconic streetwear sneakers from Nike.",
+    href: "/shop?brand=Nike"
+  },
+  "Adidas": {
+    image: "/images/sneaker-3.png",
+    tag: "THREE STRIPES",
+    title: "Adidas Originals",
+    description: "Timeless classic casual kicks from Adidas.",
+    href: "/shop?brand=Adidas"
+  },
+  "Yeezy": {
+    image: "/images/sneaker-4.png",
+    tag: "YEEZY LIFE",
+    title: "Yeezy Series",
+    description: "Hype lifestyle sneakers and slides designed by Kanye West.",
+    href: "/shop?brand=Yeezy"
+  },
+  "New Balance": {
+    image: "/images/sneaker-5.png",
+    tag: "RETRO CORE",
+    title: "New Balance",
+    description: "Premium suede retro trainers and modern comfort runners.",
+    href: "/shop?brand=New+Balance"
+  },
+  "Asics": {
+    image: "/images/sneaker-6.png",
+    tag: "JAPAN DESIGN",
+    title: "Asics Gel",
+    description: "Japanese performance running sneakers and retro GEL cushioning.",
+    href: "/shop?brand=Asics"
+  },
+  "Samba": {
+    image: "/images/sneaker-1.png",
+    tag: "TRENDING KICK",
+    title: "Adidas Samba",
+    description: "The classic low-profile terrace sneaker ruling the streets.",
+    href: "/shop?search=Samba"
+  },
+  "Air Jordan 1": {
+    image: "/images/sneaker-2.png",
+    tag: "TRENDING KICK",
+    title: "Air Jordan 1",
+    description: "The legendary basketball sneaker that started it all.",
+    href: "/shop?search=Jordan+1"
+  },
+  "Air Force 1": {
+    image: "/images/sneaker-3.png",
+    tag: "TRENDING KICK",
+    title: "Nike Air Force 1",
+    description: "The classic triple white court shoe turned street icon.",
+    href: "/shop?search=Air+Force"
+  },
+  "Dunk Low": {
+    image: "/images/sneaker-4.png",
+    tag: "TRENDING KICK",
+    title: "Nike Dunk Low",
+    description: "Sleek two-tone skate shoe that dominates streetwear.",
+    href: "/shop?search=Dunk"
+  },
+  "Yeezy Slide": {
+    image: "/images/sneaker-5.png",
+    tag: "TRENDING SLIDE",
+    title: "Adidas Yeezy Slide",
+    description: "Minimalist injection-molded EVA foam slides for extreme comfort.",
+    href: "/shop?search=Slide"
+  }
+};
+
 const getMegaMenuData = (category: 'Sneakers' | 'Apparel' | 'Accessories' | 'Brands'): MegaMenuData => {
   const sneakers = {
     columns: [
@@ -1378,6 +1560,12 @@ export function Navbar({
 
   // New premium navigation & suggestions states
   const [activeMegaMenu, setActiveMegaMenu] = useState<'Sneakers' | 'Apparel' | 'Accessories' | 'Brands' | null>(null);
+  const [hoveredSubItem, setHoveredSubItem] = useState<string | null>(null);
+
+  useEffect(() => {
+    setHoveredSubItem(null);
+  }, [activeMegaMenu]);
+
   const [activeMobileMenu, setActiveMobileMenu] = useState<'Sneakers' | 'Apparel' | 'Accessories' | 'Brands' | null>(null);
   const [searchFocused, setSearchFocused] = useState(false);
   const [notificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
@@ -1519,6 +1707,12 @@ export function Navbar({
     const priceNum = parseFloat(item.price.replace(/[^0-9.]/g, "")) || 0;
     return sum + priceNum * item.quantity;
   }, 0);
+
+  const currentPromo = (hoveredSubItem && HOVER_PREVIEW_MAP[hoveredSubItem])
+    ? HOVER_PREVIEW_MAP[hoveredSubItem]
+    : activeMegaMenu
+      ? getMegaMenuData(activeMegaMenu).promo
+      : null;
 
   return (
     <header 
@@ -1968,6 +2162,8 @@ export function Navbar({
                         <a
                           key={subItem.label}
                           href={subItem.href}
+                          onMouseEnter={() => setHoveredSubItem(subItem.label)}
+                          onMouseLeave={() => setHoveredSubItem(null)}
                           className="hover:text-black hover:translate-x-1.5 transition-all py-0.5"
                         >
                           {subItem.label}
@@ -1980,30 +2176,32 @@ export function Navbar({
 
               {/* Mega menu promo card on the right */}
               <div className="col-span-4 border-l border-zinc-200/80 pl-8 flex items-center justify-center">
-                <a
-                  href={getMegaMenuData(activeMegaMenu).promo.href}
-                  className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-lg border border-zinc-200/50 group/promo flex flex-col justify-end p-6 text-left"
-                >
-                  <Image
-                    src={getMegaMenuData(activeMegaMenu).promo.image}
-                    alt={getMegaMenuData(activeMegaMenu).promo.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover/promo:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
-                  
-                  <div className="relative z-10 space-y-1">
-                    <span className="text-[9px] font-black font-mono tracking-widest text-yellow-400 uppercase">
-                      {getMegaMenuData(activeMegaMenu).promo.tag}
-                    </span>
-                    <h3 className="text-sm font-black uppercase tracking-tight text-white leading-tight">
-                      {getMegaMenuData(activeMegaMenu).promo.title}
-                    </h3>
-                    <p className="text-[10px] text-zinc-350 font-medium leading-normal line-clamp-2">
-                      {getMegaMenuData(activeMegaMenu).promo.description}
-                    </p>
-                  </div>
-                </a>
+                {currentPromo && (
+                  <a
+                    href={currentPromo.href}
+                    className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-lg border border-zinc-200/50 group/promo flex flex-col justify-end p-6 text-left"
+                  >
+                    <Image
+                      src={currentPromo.image}
+                      alt={currentPromo.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover/promo:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+                    
+                    <div className="relative z-10 space-y-1">
+                      <span className="text-[9px] font-black font-mono tracking-widest text-yellow-400 uppercase">
+                        {currentPromo.tag}
+                      </span>
+                      <h3 className="text-sm font-black uppercase tracking-tight text-white leading-tight">
+                        {currentPromo.title}
+                      </h3>
+                      <p className="text-[10px] text-zinc-350 font-medium leading-normal line-clamp-2">
+                        {currentPromo.description}
+                      </p>
+                    </div>
+                  </a>
+                )}
               </div>
             </div>
           </motion.div>
