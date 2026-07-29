@@ -25,13 +25,26 @@ export function SectionHeader({
   children,
 }: SectionHeaderProps) {
   const renderTitle = () => {
-    if (!titleHighlight) return title;
+    if (!titleHighlight) {
+      const words = title.trim().split(/\s+/);
+      if (words.length > 1) {
+        const midIndex = Math.ceil(words.length / 2);
+        const firstPart = words.slice(0, midIndex).join(" ");
+        const secondPart = words.slice(midIndex).join(" ");
+        return (
+          <>
+            {firstPart} <span className="text-[#5C4033]">{secondPart}</span>
+          </>
+        );
+      }
+      return title;
+    }
 
     const parts = title.split(titleHighlight);
     return (
       <>
         {parts[0]}
-        <span className="text-[#133e7c] dark:text-blue-400">{titleHighlight}</span>
+        <span className="text-[#5C4033]">{titleHighlight}</span>
         {parts[1]}
       </>
     );
@@ -60,7 +73,7 @@ export function SectionHeader({
         )}
         <h2
           className={cn(
-            "text-3xl sm:text-5xl font-chaney-title uppercase tracking-tight text-foreground mt-1",
+            "text-3xl md:text-5xl font-black uppercase tracking-tighter text-[#2B1B17] font-heading leading-none",
             titleClassName
           )}
         >

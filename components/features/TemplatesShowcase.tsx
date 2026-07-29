@@ -33,8 +33,8 @@ const dealSlides: DealSlide[] = [
     tag: "LIMITED EDITION | STAY TUNED",
     buttonText: "VIEW COLLECTION",
     link: "/shop",
-    bgStyle: "bg-[#EAE4DC]",
-    imageFit: "object-contain"
+    bgStyle: "bg-[#E8E2E2]",
+    imageFit: "object-cover"
   },
   {
     id: 3,
@@ -43,8 +43,8 @@ const dealSlides: DealSlide[] = [
     tag: "EDITORIAL | DESIGNER COUTURE",
     buttonText: "EXPLORE COUTURE",
     link: "/shop?category=Clothing",
-    bgStyle: "bg-[#E6DFDA]",
-    imageFit: "object-contain"
+    bgStyle: "bg-[#CCB5A1]",
+    imageFit: "object-cover"
   }
 ];
 
@@ -66,8 +66,8 @@ export function TemplatesShowcase() {
       
       {/* Centered Heading Block */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10 relative">
-        <h2 className="text-3xl sm:text-4xl font-heading font-black tracking-wider text-[#0A0A0A] uppercase">
-          Deal Of The Day/Week
+        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-[#2B1B17] font-heading leading-none">
+          Deal Of The <span className="text-[#5C4033]">Day/Week</span>
         </h2>
         <div className="w-12 h-0.5 bg-[#5C4033] mx-auto mt-3.5" />
       </div>

@@ -11,6 +11,8 @@ interface BrandItem {
   image: string;
   video: string;
   link: string;
+  textColorLine1?: string;
+  textColorLine2?: string;
 }
 
 const brandsData: BrandItem[] = [
@@ -20,7 +22,9 @@ const brandsData: BrandItem[] = [
     slogan: "CITY OF SAINTS",
     image: "/images/neo_matrix.png",
     video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c051a8d84451000676472491b10a4e76&profile_id=139&oauth2_token_id=57447761",
-    link: "/shop?brand=UNRL"
+    link: "/shop?brand=UNRL",
+    textColorLine1: "text-[#FFE082]",
+    textColorLine2: "text-[#FFD54F]"
   },
   {
     id: "burberry",
@@ -28,7 +32,9 @@ const brandsData: BrandItem[] = [
     slogan: "LONDON HERITAGE",
     image: "/images/slay_streets_model.png",
     video: "https://player.vimeo.com/external/435674703.sd.mp4?s=7f5c093a8d9b152d11979ca847424d1264c9d54e&profile_id=139&oauth2_token_id=57447761",
-    link: "/shop?brand=BURBERRY"
+    link: "/shop?brand=BURBERRY",
+    textColorLine1: "text-[#EF9A9A]",
+    textColorLine2: "text-[#EF5350]"
   },
   {
     id: "stussy",
@@ -36,7 +42,9 @@ const brandsData: BrandItem[] = [
     slogan: "LAGUNA SURF & STREET",
     image: "/images/retro_chic.png",
     video: "https://player.vimeo.com/external/403816781.sd.mp4?s=d7e35b71db30737a6b8ef981de8fa538e1a6be8b&profile_id=139&oauth2_token_id=57447761",
-    link: "/shop?brand=STUSSY"
+    link: "/shop?brand=STUSSY",
+    textColorLine1: "text-[#80DEEA]",
+    textColorLine2: "text-[#26C6DA]"
   },
   {
     id: "essentials",
@@ -44,7 +52,9 @@ const brandsData: BrandItem[] = [
     slogan: "FEAR OF GOD MINIMALISM",
     image: "/images/special_plans.png",
     video: "https://player.vimeo.com/external/459389137.sd.mp4?s=8c3a33ca3d41f021e149ef3879ef796ee2b3e839&profile_id=139&oauth2_token_id=57447761",
-    link: "/shop?brand=ESSENTIALS"
+    link: "/shop?brand=ESSENTIALS",
+    textColorLine1: "text-[#CE93D8]",
+    textColorLine2: "text-[#AB47BC]"
   },
   {
     id: "bape",
@@ -52,7 +62,9 @@ const brandsData: BrandItem[] = [
     slogan: "HARAPEKU CAMOUFLAGE",
     image: "/images/savana_flame_tee.png",
     video: "https://player.vimeo.com/external/482200194.sd.mp4?s=12049e0f119be9e65839062eb1d1bbdcd688849b&profile_id=139&oauth2_token_id=57447761",
-    link: "/shop?brand=BAPE"
+    link: "/shop?brand=BAPE",
+    textColorLine1: "text-[#C5E1A5]",
+    textColorLine2: "text-[#9CCC65]"
   },
   {
     id: "prada",
@@ -60,7 +72,9 @@ const brandsData: BrandItem[] = [
     slogan: "MILANO TRADITION",
     image: "/images/deal_banner_1.png",
     video: "https://player.vimeo.com/external/435674703.sd.mp4?s=7f5c093a8d9b152d11979ca847424d1264c9d54e&profile_id=139&oauth2_token_id=57447761",
-    link: "/shop?brand=PRADA"
+    link: "/shop?brand=PRADA",
+    textColorLine1: "text-[#F48FB1]",
+    textColorLine2: "text-[#EC407A]"
   },
   {
     id: "puma",
@@ -68,7 +82,9 @@ const brandsData: BrandItem[] = [
     slogan: "SPORT MEETING STYLE",
     image: "/images/puma_t7_sweatshirt_worn.png",
     video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c051a8d84451000676472491b10a4e76&profile_id=139&oauth2_token_id=57447761",
-    link: "/shop?brand=PUMA"
+    link: "/shop?brand=PUMA",
+    textColorLine1: "text-[#FFF59D]",
+    textColorLine2: "text-[#FBC02D]"
   },
   {
     id: "kith",
@@ -76,12 +92,15 @@ const brandsData: BrandItem[] = [
     slogan: "ELEVATED UTILITY DESIGN",
     image: "/images/slay_streets_walking.png",
     video: "https://player.vimeo.com/external/459389137.sd.mp4?s=8c3a33ca3d41f021e149ef3879ef796ee2b3e839&profile_id=139&oauth2_token_id=57447761",
-    link: "/shop?brand=KITH"
+    link: "/shop?brand=KITH",
+    textColorLine1: "text-[#A7FFEB]",
+    textColorLine2: "text-[#1DE9B6]"
   }
 ];
 
 function BrandCard({ brand }: { brand: BrandItem }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -95,13 +114,17 @@ function BrandCard({ brand }: { brand: BrandItem }) {
     } else {
       video.pause();
       video.currentTime = 0;
+      setIsVideoPlaying(false);
     }
   }, [isHovered]);
 
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setIsVideoPlaying(false);
+      }}
       onClick={() => window.location.href = brand.link}
       className="group relative flex-shrink-0 w-[170px] sm:w-[200px] md:w-[220px] h-[280px] sm:h-[320px] md:h-[350px] rounded-[24px] overflow-hidden border border-[#2B1B17]/15 bg-[#FAF6EE] flex flex-col justify-end p-4 sm:p-5 cursor-pointer shadow-sm hover:shadow-[0_12px_32px_rgba(43,27,23,0.05)] hover:-translate-y-1 transition-all duration-500 ease-out select-none snap-start"
     >
@@ -112,13 +135,14 @@ function BrandCard({ brand }: { brand: BrandItem }) {
         muted
         loop
         playsInline
+        onPlaying={() => setIsVideoPlaying(true)}
         className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
       />
 
-      {/* Default Cover Image Overlay (Fades out smoothly on hover) */}
+      {/* Default Cover Image Overlay (Fades out smoothly on hover only after video starts playing) */}
       <div 
         className={`absolute inset-0 z-10 transition-opacity duration-700 ease-out overflow-hidden ${
-          isHovered ? "opacity-0" : "opacity-100"
+          isHovered && isVideoPlaying ? "opacity-0" : "opacity-100"
         }`}
       >
         <Image
@@ -143,11 +167,11 @@ function BrandCard({ brand }: { brand: BrandItem }) {
       </div>
 
       {/* Brand text details */}
-      <div className="relative z-30 text-white space-y-0.5 text-left w-full overflow-hidden">
-        <span className="font-mono text-[8px] sm:text-[9px] text-white/70 uppercase tracking-widest block font-bold leading-none mb-1">
+      <div className="relative z-30 space-y-0.5 text-left w-full overflow-hidden">
+        <span className={`font-mono text-[8px] sm:text-[9px] uppercase tracking-widest block font-bold leading-none mb-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] ${brand.textColorLine1 || 'text-white/70'}`}>
           {brand.slogan}
         </span>
-        <h3 className="font-heading font-black text-lg sm:text-xl tracking-wider uppercase leading-none transform group-hover:scale-102 transition-transform duration-500 truncate max-w-full">
+        <h3 className={`font-heading font-black text-lg sm:text-xl tracking-wider uppercase leading-none transform group-hover:scale-102 transition-transform duration-500 truncate max-w-full drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] ${brand.textColorLine2 || 'text-white'}`}>
           {brand.name}
         </h3>
       </div>
@@ -166,8 +190,8 @@ export function BrandShowcase() {
           <span className="font-mono text-[#5C4033] text-xs uppercase tracking-widest mb-1.5 block">
             Curated Icons
           </span>
-          <h2 className="text-3xl sm:text-4xl font-heading font-black tracking-wider text-[#0A0A0A] uppercase">
-            Featured Brands
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-[#2B1B17] font-heading leading-none">
+            Featured <span className="text-[#5C4033]">Brands</span>
           </h2>
           <div className="w-12 h-0.5 bg-[#5C4033] mx-auto mt-3" />
         </div>

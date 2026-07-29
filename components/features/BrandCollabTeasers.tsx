@@ -95,8 +95,8 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
             <span className="text-[10px] font-mono tracking-widest text-[#5C4033] uppercase font-black block">
               SEASON PREVIEWS
             </span>
-            <h2 className="text-2xl sm:text-3xl font-heading font-black uppercase text-[#0A0A0A] tracking-tight leading-none">
-              Brand Teasers
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-[#2B1B17] font-heading leading-none">
+              Brand <span className="text-[#5C4033]">Teasers</span>
             </h2>
           </div>
           <p className="text-zinc-500 text-xs sm:text-sm font-sans font-medium max-w-sm mt-4 md:mt-0 leading-relaxed text-left md:text-right">
@@ -118,44 +118,39 @@ export function BrandCollabTeasers({ onAddToCart }: BrandCollabTeasersProps = {}
               variants={cardVariants}
               whileHover={{ y: -8, scale: 1.01 }}
               onClick={() => router.push(`/brand-teaser/${teaser.id}`)}
-              className="bg-white border border-[#2B1B17]/10 rounded-[28px] p-4 flex flex-col justify-between shadow-sm hover:shadow-[0_20px_40px_rgba(43,27,23,0.03)] transition-all duration-300 cursor-pointer group select-none text-left"
+              className="group relative aspect-[4/5] w-full rounded-[32px] overflow-hidden border border-[#2B1B17]/10 bg-[#FAF6EE] flex flex-col justify-end p-5 cursor-pointer shadow-sm hover:shadow-[0_24px_50px_rgba(43,27,23,0.05)] transition-all duration-500 ease-out select-none text-left"
             >
-              <div>
-                {/* Frame/Container for background image */}
-                <div className="relative aspect-[4/5] bg-zinc-50 rounded-[20px] overflow-hidden">
-                  <Image
-                    src={teaser.image}
-                    alt={teaser.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 280px"
-                    className="object-cover transition-transform duration-700 group-hover:scale-106"
-                  />
-                  
-                  {/* Top Badge */}
-                  <div className="absolute top-3 left-3 z-20">
-                    <span className="bg-white/95 backdrop-blur-sm border border-[#2B1B17]/10 px-2.5 py-0.5 rounded-lg text-[8px] font-mono tracking-widest text-[#5C4033] font-black uppercase shadow-xs">
-                      {teaser.tag}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Text Details beneath image */}
-                <div className="mt-4 space-y-1">
-                  <span className="text-[9px] text-[#5C4033] font-mono tracking-widest block uppercase font-black">
-                    {teaser.brandName}
-                  </span>
-                  <h3 className="text-base font-extrabold uppercase text-[#0A0A0A] tracking-tight leading-tight group-hover:text-[#5C4033] transition-colors">
-                    {teaser.title}
-                  </h3>
-                </div>
+              {/* Full Card Background Image */}
+              <div className="absolute inset-0 z-0 overflow-hidden">
+                <Image
+                  src={teaser.image}
+                  alt={teaser.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 280px"
+                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-106"
+                  priority
+                />
+                
+                {/* Visual Vignette Overlays matching coffee/dark style for high contrast */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#2B1B17]/95 via-[#2B1B17]/40 to-transparent z-10 pointer-events-none" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all duration-500 z-10 pointer-events-none" />
               </div>
 
-              {/* Bottom Link/Arrow */}
-              <div className="mt-5 pt-3 border-t border-zinc-100 flex items-center justify-between text-zinc-400 group-hover:text-[#5C4033] transition-colors">
-                <span className="text-[9px] font-mono font-black uppercase tracking-widest">
-                  Explore Drop
+              {/* Top Badge (translucent premium badge) */}
+              <div className="absolute top-4 left-4 z-20">
+                <span className="bg-[#FAF6EE]/90 backdrop-blur-md border border-[#2B1B17]/10 px-3.5 py-1.5 rounded-full text-[8px] font-mono tracking-widest text-[#5C4033] font-black uppercase shadow-sm">
+                  {teaser.tag}
                 </span>
-                <ArrowUpRight className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </div>
+
+              {/* Text Details layered on top of image */}
+              <div className="relative z-20 space-y-1 w-full overflow-hidden">
+                <span className="text-[9px] text-[#FFE082] font-mono tracking-[0.18em] block uppercase font-black drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                  {teaser.brandName}
+                </span>
+                <h3 className="text-base sm:text-lg font-heading font-black uppercase text-white tracking-wider leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] transform group-hover:scale-[1.01] transition-transform duration-500 truncate max-w-full">
+                  {teaser.title}
+                </h3>
               </div>
             </motion.div>
           ))}

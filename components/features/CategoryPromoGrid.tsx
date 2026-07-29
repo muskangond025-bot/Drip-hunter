@@ -58,8 +58,8 @@ export function CategoryPromoGrid() {
           <span className="font-mono text-[#5C4033] text-xs uppercase tracking-widest mb-1.5 block">
             Limited Combinations
           </span>
-          <h2 className="text-3xl sm:text-4xl font-heading font-black tracking-wider text-[#0A0A0A] uppercase">
-            Shop By Deal Store
+          <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-[#2B1B17] font-heading leading-none">
+            Shop By <span className="text-[#5C4033]">Deal Store</span>
           </h2>
           <div className="w-12 h-0.5 bg-[#5C4033] mx-auto mt-3" />
         </div>

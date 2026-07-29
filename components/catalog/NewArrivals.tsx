@@ -14,6 +14,11 @@ interface CampaignCard {
   link: string;
   price: string;
   stickerType?: "ice-blue" | "lace-layer";
+  titleLine1: string;
+  titleLine2: string;
+  classLine1: string;
+  classLine2: string;
+  showNewBadge?: boolean;
 }
 
 const campaignCards: CampaignCard[] = [
@@ -25,7 +30,11 @@ const campaignCards: CampaignCard[] = [
     stickerBg: "bg-[#2B1B17] text-[#FAF6EE]",
     stickerStyle: "rounded-2xl rotate-[-3deg] uppercase font-bold",
     link: "/shop?category=outfits",
-    price: "From $49"
+    price: "From $49",
+    titleLine1: "SPECIAL",
+    titleLine2: "PLANS",
+    classLine1: "font-sans font-black text-xs tracking-widest uppercase text-[#FF8F59] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
+    classLine2: "font-heading font-black text-2xl uppercase text-[#FFD25A] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
   },
   {
     id: 102,
@@ -35,7 +44,11 @@ const campaignCards: CampaignCard[] = [
     stickerBg: "bg-[#FAF6EE] text-[#2B1B17] border-2 border-[#2B1B17]",
     stickerStyle: "rounded-sm rotate-[4deg] font-heading text-[10px] tracking-tight",
     link: "/shop?category=accessories",
-    price: "From $19"
+    price: "From $19",
+    titleLine1: "STACK &",
+    titleLine2: "SHINE",
+    classLine1: "font-sans font-black text-xs tracking-wider uppercase text-[#4EF5D6] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
+    classLine2: "font-heading font-black text-2xl uppercase text-[#34D399] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
   },
   {
     id: 103,
@@ -46,7 +59,12 @@ const campaignCards: CampaignCard[] = [
     stickerStyle: "",
     stickerType: "ice-blue",
     link: "/shop?category=tops",
-    price: "From $39"
+    price: "From $39",
+    titleLine1: "ICE BLUE",
+    titleLine2: "EDIT",
+    classLine1: "font-sans font-black text-xs tracking-widest uppercase text-[#5FE3F5] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
+    classLine2: "font-heading font-black text-2xl uppercase text-[#60A5FA] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
+    showNewBadge: true,
   },
   {
     id: 104,
@@ -57,7 +75,11 @@ const campaignCards: CampaignCard[] = [
     stickerStyle: "",
     stickerType: "lace-layer",
     link: "/shop?category=dresses",
-    price: "From $59"
+    price: "From $59",
+    titleLine1: "Lace",
+    titleLine2: "LAYER",
+    classLine1: "font-serif italic font-black text-2xl text-[#F472B6] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
+    classLine2: "font-sans font-black text-xs tracking-widest uppercase text-[#FCD34D] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
   },
   {
     id: 105,
@@ -67,7 +89,11 @@ const campaignCards: CampaignCard[] = [
     stickerBg: "bg-[#2B1B17] text-[#FAF6EE] border border-[#2B1B17]/20",
     stickerStyle: "rounded-xl rotate-[3deg] font-heading font-black tracking-tight",
     link: "/shop?category=tees",
-    price: "From $35"
+    price: "From $35",
+    titleLine1: "RETRO",
+    titleLine2: "CHIC",
+    classLine1: "font-heading font-extrabold text-2xl uppercase text-[#C084FC] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
+    classLine2: "font-sans font-black text-xs tracking-widest uppercase text-[#E879F9] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
   },
   {
     id: 106,
@@ -77,7 +103,11 @@ const campaignCards: CampaignCard[] = [
     stickerBg: "bg-[#0A0A0A] text-[#FAF6EE] border border-[#5C4033]",
     stickerStyle: "rounded-md rotate-[-3deg] font-mono tracking-widest font-bold",
     link: "/shop?category=utility",
-    price: "From $59"
+    price: "From $59",
+    titleLine1: "NEO",
+    titleLine2: "MATRIX",
+    classLine1: "font-mono font-black text-xs tracking-widest uppercase text-[#A3E635] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
+    classLine2: "font-heading font-black text-2xl uppercase text-[#34D399] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]",
   }
 ];
 
@@ -124,7 +154,7 @@ export function NewArrivals({
         {/* Header Block matching the screenshot style */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 pb-6 border-b border-[#2B1B17]/10">
           <div>
-            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-[#0A0A0A] font-heading leading-none">
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-[#2B1B17] font-heading leading-none">
               NEW <span className="text-[#5C4033]">ARRIVALS</span>
             </h2>
             <p className="text-[10px] font-mono tracking-widest text-[#5C4033] uppercase mt-2.5 max-w-xl">
@@ -159,32 +189,19 @@ export function NewArrivals({
               {/* Card Contents Overlay */}
               <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 z-10 flex flex-col justify-end items-start text-white">
                 
-                {/* Rotated sticker label styled premium matching the screenshot design */}
-                {card.stickerType === "ice-blue" ? (
-                  <div className="px-5 py-2 text-xs font-black tracking-tight bg-white text-[#1E3A8A] border-2 border-[#1E3A8A] select-none transform transition-transform duration-300 group-hover:scale-105 mb-0 rounded-none font-sans relative">
-                    ICE BLUE EDIT
-                    <div className="absolute right-[-10px] bottom-[-10px] w-6 h-6 rounded-full bg-yellow-400 text-black border border-black flex items-center justify-center text-[7px] font-black rotate-[15deg]">
+                <div className="flex flex-col items-start gap-0.5 select-none group-hover:scale-105 transition-transform relative">
+                  <span className={card.classLine1}>
+                    {card.titleLine1}
+                  </span>
+                  <span className={card.classLine2}>
+                    {card.titleLine2}
+                  </span>
+                  {card.showNewBadge && (
+                    <div className="absolute right-[-14px] bottom-[-6px] w-6 h-6 rounded-full bg-yellow-400 text-black border border-black flex items-center justify-center text-[7px] font-black rotate-[15deg]">
                       NEW
                     </div>
-                  </div>
-                ) : card.stickerType === "lace-layer" ? (
-                  <div className="flex flex-col items-start gap-0.5 transform rotate-[-2deg] mb-0 select-none group-hover:scale-105 transition-transform">
-                    <span className="bg-pink-500 text-white font-serif italic font-black text-xs px-3.5 py-1 rounded-full shadow-xs">
-                      Lace
-                    </span>
-                    <span className="bg-white text-[#0A0A0A] font-sans font-black text-[9px] px-3.5 py-1 tracking-widest border border-[#0A0A0A] uppercase">
-                      LAYER
-                    </span>
-                  </div>
-                ) : (
-                  <div className={cn(
-                    "px-4 py-2 text-xs font-black tracking-tight shadow-md select-none transform transition-transform duration-300 group-hover:scale-105 mb-0",
-                    card.stickerBg,
-                    card.stickerStyle
-                  )}>
-                    {card.title}
-                  </div>
-                )}
+                  )}
+                </div>
 
               </div>
             </div>
