@@ -153,9 +153,9 @@ export function MixMatchCreator({ wishlist = [] }: MixMatchCreatorProps) {
 
   // Simulated items list for modal selection
   const extraItems = [
-    { id: "extra-1", name: "Cyberpunk Tactical Vest", image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=300&q=80", category: "T-Shirt" as const, filter: "none" },
-    { id: "extra-2", name: "Acid Wash Jogger Cargo", image: "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=300&q=80", category: "Pants" as const, filter: "none" },
-    { id: "extra-3", name: "Premium Knit Cap", image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=300&q=80", category: "Accessories" as const, filter: "none" },
+    { id: "extra-1", name: "Cyberpunk Tactical Vest", image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp", category: "T-Shirt" as const, filter: "none" },
+    { id: "extra-2", name: "Acid Wash Jogger Cargo", image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp", category: "Pants" as const, filter: "none" },
+    { id: "extra-3", name: "Premium Knit Cap", image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp", category: "Accessories" as const, filter: "none" },
   ];
 
   const addExtraItem = (item: OutfitItem) => {

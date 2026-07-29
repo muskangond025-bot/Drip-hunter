@@ -75,7 +75,7 @@ const lookbookItems: LookbookItem[] = [
     price: "₹1,899",
     category: "top",
     color: "Blue",
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=150&q=80"
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp"
   },
   {
     id: "item-shorts",
@@ -83,7 +83,7 @@ const lookbookItems: LookbookItem[] = [
     price: "₹1,499",
     category: "shorts",
     color: "Black",
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=150&q=80"
+    image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp"
   },
   {
     id: "item-cap",
@@ -91,7 +91,7 @@ const lookbookItems: LookbookItem[] = [
     price: "₹799",
     category: "cap",
     color: "Blue",
-    image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=150&q=80"
+    image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp"
   },
   {
     id: "item-socks",
@@ -99,7 +99,7 @@ const lookbookItems: LookbookItem[] = [
     price: "₹299",
     category: "socks",
     color: "Red",
-    image: "https://images.unsplash.com/photo-1576871337622-98d48d4aa53e?auto=format&fit=crop&w=150&q=80"
+    image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp"
   },
   {
     id: "item-shoes",
@@ -107,7 +107,7 @@ const lookbookItems: LookbookItem[] = [
     price: "₹4,200",
     category: "shoes",
     color: "Red",
-    image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=150&q=80"
+    image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp"
   }
 ];
 

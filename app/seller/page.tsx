@@ -103,14 +103,14 @@ export default function SellerPage() {
       quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
       author: "Yash Gangwal",
       handle: "@yashgangwal",
-      videoThumb: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
+      videoThumb: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     },
     {
       id: 2,
       quote: "Selling on Driphunter expanded our streetwear brand reach across India by 300% in under 6 months. Highly recommend their vendor platform!",
       author: "Rohan Verma",
       handle: "@rohanstreetdrip",
-      videoThumb: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80",
+      videoThumb: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
     },
   ];
 
@@ -162,7 +162,7 @@ export default function SellerPage() {
             <div className="md:col-span-6 flex justify-end">
               <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border border-zinc-200 group bg-zinc-100">
                 <Image
-                  src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=800&q=80"
+                  src="https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp"
                   alt="Become a Driphunter Seller"
                   fill
                   priority

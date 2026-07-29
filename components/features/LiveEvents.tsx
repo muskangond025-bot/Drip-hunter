@@ -21,7 +21,7 @@ const liveEventsData: LiveEvent[] = [
     name: "Fashion Show Music Runway",
     date: "24 - 28 OCT 2026",
     venue: "Metropolitan Pavilion, NY",
-    image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
     buttonText: "Pre Order",
   },
   {
@@ -29,7 +29,7 @@ const liveEventsData: LiveEvent[] = [
     name: "Lakme Fashion Week '26",
     date: "12 - 16 NOV 2026",
     venue: "Jio Convention Centre, Mumbai",
-    image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     buttonText: "Pre Order",
   },
   {
@@ -37,7 +37,7 @@ const liveEventsData: LiveEvent[] = [
     name: "Paris Street Haute Couture",
     date: "05 - 09 DEC 2026",
     venue: "Palais de Tokyo, Paris",
-    image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp",
     buttonText: "Pre Order",
   },
   {
@@ -45,7 +45,7 @@ const liveEventsData: LiveEvent[] = [
     name: "Tokyo Cyberpunk Runway",
     date: "18 - 22 JAN 2027",
     venue: "Shibuya Sky, Tokyo",
-    image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp",
     buttonText: "Pre Order",
   },
   {
@@ -53,7 +53,7 @@ const liveEventsData: LiveEvent[] = [
     name: "London Avant-Garde Showcase",
     date: "04 - 08 FEB 2027",
     venue: "The Somerset House, London",
-    image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     buttonText: "Pre Order",
   },
 ];

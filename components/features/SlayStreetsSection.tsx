@@ -8,25 +8,25 @@ const orbitNodes = [
   {
     id: 1,
     name: "Red Nike Sneaker",
-    img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=200&q=80",
+    img: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
     pos: "top-0", // 12 o'clock
   },
   {
     id: 2,
     name: "Streetwear Cap",
-    img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=200&q=80",
+    img: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     pos: "right-0", // 3 o'clock
   },
   {
     id: 3,
     name: "Urban Sweatshirt",
-    img: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=200&q=80",
+    img: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
     pos: "bottom-0", // 6 o'clock
   },
   {
     id: 4,
     name: "Fashion Look",
-    img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=200&q=80",
+    img: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
     pos: "left-0", // 9 o'clock
   },
 ];

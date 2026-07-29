@@ -47,7 +47,7 @@ export function MediaCollage() {
           <div className="absolute inset-0 bg-black/45 z-10" />
           <div className="absolute inset-0 z-0 select-none transition-transform duration-500 group-hover:scale-105">
             <Image
-              src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=500&q=80"
+              src="https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp"
               alt="Duo Street Jacket"
               fill
               className="object-cover"
@@ -65,7 +65,7 @@ export function MediaCollage() {
           <div className="absolute inset-0 bg-black/45 z-10" />
           <div className="absolute inset-0 z-0 select-none transition-transform duration-500 group-hover:scale-105">
             <Image
-              src="https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=500&q=80"
+              src="https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp"
               alt="Dystopian Graphic Tee"
               fill
               className="object-cover"
@@ -83,10 +83,10 @@ export function MediaCollage() {
       {/* Row of 4 Grid Boxes Below */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
         {[
-          { name: "Neon Blue Tee", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80" },
-          { name: "Graphic Red Fit", image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80" },
-          { name: "Camo Green Tee", image: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&w=400&q=80" },
-          { name: "Urban Logo Tee", image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=400&q=80" },
+          { name: "Neon Blue Tee", image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp" },
+          { name: "Graphic Red Fit", image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp" },
+          { name: "Camo Green Tee", image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp" },
+          { name: "Urban Logo Tee", image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp" },
         ].map((item, idx) => (
           <div
             key={idx}

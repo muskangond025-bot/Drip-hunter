@@ -21,13 +21,13 @@ export interface Product {
 }
 
 export const masterProducts: Product[] = [
-  {
+{
     id: 201,
     brand: "Puma",
     name: "Puma Scuderia Ferrari Heritage Zip Sweatshirt",
     price: "₹7,999",
-    image: "/images/puma_t7_sweatshirt.png",
-    hoverImage: "/images/puma_t7_sweatshirt_worn.png",
+    image: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
+    hoverImage: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
     rating: 4.8,
     color: "Cream",
     gender: "Men",
@@ -46,32 +46,33 @@ export const masterProducts: Product[] = [
     colorVariants: [
       {
         color: "Cream",
-        image: "/images/puma_t7_sweatshirt.png",
+        image: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
         colorHex: "#f5f5dc"
       },
       {
         color: "Black",
-        image: "/images/puma_sweatshirt_2.png",
+        image: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
         colorHex: "#18181b"
       },
       {
         color: "Red",
-        image: "/images/puma_sweatshirt_4.png",
+        image: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
         colorHex: "#dc2626"
       },
       {
         color: "Yellow",
-        image: "/images/puma_sweatshirt_5.png",
+        image: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
         colorHex: "#facc15"
       }
     ]
   },
-  {
+{
     id: 202,
     brand: "Burberry London",
     name: "Red Crest Regular Fit Tee",
     price: "₹1,499",
-    image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
+    hoverImage: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     rating: 4.5,
     color: "Red",
     gender: "Men",
@@ -88,12 +89,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Dry Clean Recommended" }
     ]
   },
-  {
+{
     id: 203,
     brand: "Stüssy Beach",
     name: "Red Stock Logo Tee",
     price: "₹1,199",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+    hoverImage: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
     rating: 4.7,
     color: "Red",
     gender: "Boys",
@@ -110,12 +112,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Hand Wash Cold" }
     ]
   },
-  {
+{
     id: 204,
     brand: "Essentials Co.",
     name: "Red Core Crewneck Tee",
     price: "₹899",
-    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
+    hoverImage: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
     rating: 4.2,
     color: "Red",
     gender: "Men",
@@ -132,12 +135,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Wash Inside Out" }
     ]
   },
-  {
+{
     id: 205,
     brand: "Bape Streetwear",
     name: "Red Ape Head Graphic Tee",
     price: "₹1,999",
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+    hoverImage: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
     rating: 4.9,
     color: "Red",
     gender: "Boys",
@@ -154,12 +158,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Gentle" }
     ]
   },
-  {
+{
     id: 206,
     brand: "Drip Hunter",
     name: "Red Signature Logo Tee",
     price: "₹999",
-    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
+    hoverImage: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
     rating: 4.6,
     color: "Red",
     gender: "Men",
@@ -176,12 +181,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Do Not Iron On Print" }
     ]
   },
-  {
+{
     id: 207,
     brand: "Burberry London",
     name: "Red Embroidered Icon Tee",
     price: "₹1,599",
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/b1f965b1c47f4aeb9324aae4a983d71e.webp",
+    hoverImage: "https://img105.savana.com/b624019e62da430f8e7c88b4f8c5aca2.webp",
     rating: 4.4,
     color: "Red",
     gender: "Women",
@@ -198,12 +204,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Dry Clean Recommended" }
     ]
   },
-  {
+{
     id: 208,
     brand: "Stüssy Beach",
     name: "Red 8-Ball Street Tee",
     price: "₹1,249",
-    image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+    hoverImage: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
     rating: 4.8,
     color: "Red",
     gender: "Kids",
@@ -220,12 +227,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Cold" }
     ]
   },
-  {
+{
     id: 209,
     brand: "Essentials Co.",
     name: "Red Relaxed Boxy Fit Tee",
     price: "₹949",
-    image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+    hoverImage: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
     rating: 4.3,
     color: "Red",
     gender: "Girls",
@@ -242,12 +250,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Tumble Dry Low" }
     ]
   },
-  {
+{
     id: 210,
     brand: "Bape Streetwear",
     name: "Red Camo College Tee",
     price: "₹2,199",
-    image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+    hoverImage: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
     rating: 4.9,
     color: "Red",
     gender: "Boys",
@@ -264,12 +273,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Delicate" }
     ]
   },
-  {
+{
     id: 211,
     brand: "Drip Hunter",
     name: "Blue Classic Oversized Tee",
     price: "₹999",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
+    hoverImage: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     rating: 4.7,
     color: "Blue",
     gender: "Men",
@@ -286,12 +296,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Cold" }
     ]
   },
-  {
+{
     id: 212,
     brand: "Stüssy Beach",
     name: "Blue Stock Logo Tee",
     price: "₹1,199",
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+    hoverImage: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
     rating: 4.8,
     color: "Blue",
     gender: "Boys",
@@ -308,12 +319,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Hand Wash Cold" }
     ]
   },
-  {
+{
     id: 213,
     brand: "Burberry London",
     name: "Green Regular Fit Tee",
     price: "₹1,499",
-    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
+    hoverImage: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
     rating: 4.5,
     color: "Green",
     gender: "Men",
@@ -330,12 +342,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Dry Clean Recommended" }
     ]
   },
-  {
+{
     id: 214,
     brand: "Bape Streetwear",
     name: "Green Camo College Tee",
     price: "₹2,199",
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+    hoverImage: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
     rating: 4.9,
     color: "Green",
     gender: "Boys",
@@ -352,12 +365,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Cold" }
     ]
   },
-  {
+{
     id: 215,
     brand: "Drip Hunter",
     name: "Black Signature Logo Tee",
     price: "₹999",
-    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
+    hoverImage: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
     rating: 4.8,
     color: "Black",
     gender: "Men",
@@ -374,12 +388,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Cold" }
     ]
   },
-  {
+{
     id: 216,
     brand: "Essentials Co.",
     name: "Black Core Crewneck Tee",
     price: "₹899",
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+    hoverImage: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
     rating: 4.4,
     color: "Black",
     gender: "Kids",
@@ -396,12 +411,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Do Not Tumble Dry" }
     ]
   },
-  {
+{
     id: 217,
     brand: "Stüssy Beach",
     name: "White 8-Ball Street Tee",
     price: "₹1,249",
-    image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+    hoverImage: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
     rating: 4.7,
     color: "White",
     gender: "Kids",
@@ -418,12 +434,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Cold" }
     ]
   },
-  {
+{
     id: 218,
     brand: "Burberry London",
     name: "White Crest Regular Tee",
     price: "₹1,499",
-    image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/01366425e7d24a60a4d5dd1b0592d4f4.webp",
+    hoverImage: "https://img105.savana.com/b1f965b1c47f4aeb9324aae4a983d71e.webp",
     rating: 4.6,
     color: "White",
     gender: "Women",
@@ -440,12 +457,12 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Dry Clean Recommended" }
     ]
   },
-  {
+{
     id: 231,
     brand: "Burberry London",
     name: "Red Utility Snapback Cap",
     price: "₹499",
-    image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
     rating: 4.6,
     color: "Red",
     gender: "Men",
@@ -460,12 +477,12 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Wipe Clean Only" }
     ]
   },
-  {
+{
     id: 232,
     brand: "Stüssy Beach",
     name: "Red Knit Beanie Hat",
     price: "₹399",
-    image: "https://images.unsplash.com/photo-1576871337622-98d48d4aa53e?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
     rating: 4.8,
     color: "Red",
     gender: "Kids",
@@ -479,12 +496,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Hand Wash Cold" }
     ]
   },
-  {
+{
     id: 241,
     brand: "Drip Hunter",
     name: "Red Tactical Cargo Pants",
     price: "₹1,899",
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
+    hoverImage: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
     rating: 4.7,
     color: "Red",
     gender: "Men",
@@ -499,12 +517,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Cold" }
     ]
   },
-  {
+{
     id: 242,
     brand: "Essentials Co.",
     name: "Red Relaxed Sweatpants",
     price: "₹1,299",
-    image: "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/17eb77b4c05b4168a6e9aba0fd3bd4ea.webp",
+    hoverImage: "https://img105.savana.com/82f87913d0814f9083297cfb44303ef9.webp",
     rating: 4.4,
     color: "Red",
     gender: "Women",
@@ -518,13 +537,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Wash Inside Out" }
     ]
   },
-  {
+{
     id: 101,
     brand: "SUPREME",
     name: "Vintage Flame Oversized Tee",
     price: "₹1,499",
-    image: "/images/supreme_flame_tee_black.png",
-    hoverImage: "/images/supreme_flame_tee_black_worn.png",
+    image: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
+    hoverImage: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     rating: 5.0,
     color: "Black",
     gender: "Men",
@@ -543,33 +562,33 @@ export const masterProducts: Product[] = [
     colorVariants: [
       {
         color: "Black",
-        image: "/images/supreme_flame_tee_black.png",
+        image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
         colorHex: "#18181b"
       },
       {
         color: "White",
-        image: "/images/supreme_flame_tee_white.png",
+        image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
         colorHex: "#f4f4f5"
       },
       {
         color: "Blue",
-        image: "/images/supreme_flame_tee_blue.png",
+        image: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
         colorHex: "#1d4ed8"
       },
       {
         color: "Red",
-        image: "/images/supreme_flame_tee_red.png",
+        image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
         colorHex: "#dc2626"
       }
     ]
   },
-  {
+{
     id: 102,
     brand: "STÜSSY",
     name: "Retro Palms Resort Shirt",
     price: "₹1,899",
-    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80",
-    hoverImage: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80&rect=100,50,400,400",
+    image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
+    hoverImage: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
     rating: 4.8,
     color: "White",
     gender: "Men",
@@ -584,13 +603,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Delicate" }
     ]
   },
-  {
+{
     id: 103,
     brand: "AMIRI",
     name: "Distressed Bleach Denim Shirt",
     price: "₹2,999",
-    image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80",
-    hoverImage: "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
+    hoverImage: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
     rating: 5.0,
     color: "Blue",
     gender: "Men",
@@ -604,13 +623,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Dry Clean Only" }
     ]
   },
-  {
+{
     id: 104,
     brand: "PALACE",
     name: "Heavyweight Kanji Red Tee",
     price: "₹1,299",
-    image: "https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&w=600&q=80",
-    hoverImage: "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
+    hoverImage: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     rating: 4.7,
     color: "Red",
     gender: "Men",
@@ -624,12 +643,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Cold" }
     ]
   },
-  {
+{
     id: 105,
     brand: "OFF-WHITE",
     name: "Industrial Tape Utility Vest",
     price: "₹3,499",
-    image: "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
+    hoverImage: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
     rating: 5.0,
     color: "Yellow",
     gender: "Men",
@@ -643,12 +663,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Hand Wash Cold" }
     ]
   },
-  {
+{
     id: 106,
     brand: "CARHARTT WIP",
     name: "Classic Canvas Chore Jacket",
     price: "₹4,299",
-    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
+    hoverImage: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
     rating: 4.8,
     color: "Brown",
     gender: "Men",
@@ -662,12 +683,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Warm" }
     ]
   },
-  {
+{
     id: 107,
     brand: "BAPE",
     name: "Shark Full Zip Sweatshirt",
     price: "₹4,999",
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
+    hoverImage: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     rating: 4.9,
     color: "Red",
     gender: "Men",
@@ -681,12 +703,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Machine Wash Cold" }
     ]
   },
-  {
+{
     id: 108,
     brand: "ALMOST GODS",
     name: "Slay the Streets Joggers",
     price: "₹2,299",
-    image: "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
+    hoverImage: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
     rating: 4.7,
     color: "Red",
     gender: "Men",
@@ -700,12 +723,13 @@ export const masterProducts: Product[] = [
       { label: "Wash Care", value: "Wash Inside Out" }
     ]
   },
-  {
+{
     id: 851,
     brand: "URBAN MONKEY",
     name: "DENIM JACKET // 001",
     price: "RS.2,200.00",
-    image: "/images/urban-essentials/denim_jacket.png",
+    image: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
+    hoverImage: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
     rating: 5.0,
     color: "Blue",
     gender: "Men",
@@ -721,12 +745,12 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 852,
     brand: "URBAN MONKEY",
     name: "FANNY PACK // 001",
     price: "RS.1,900.00",
-    image: "/images/urban-essentials/fanny_pack.png",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     rating: 4.9,
     color: "Black",
     gender: "Men",
@@ -741,12 +765,12 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 853,
     brand: "URBAN MONKEY",
     name: "FULL SLEEVE SHIRT // BLACK",
     price: "RS.1,400.00",
-    image: "/images/urban-essentials/full_sleeve_shirt.png",
+    image: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
     rating: 5.0,
     color: "Black",
     gender: "Men",
@@ -764,12 +788,13 @@ export const masterProducts: Product[] = [
       { label: "model info", value: "Pravin is wearing a size M and is 5'7\"" }
     ]
   },
-  {
+{
     id: 854,
     brand: "URBAN MONKEY",
     name: "RIPSTOP CARGO PANTS // BLACK",
     price: "RS.2,850.00",
-    image: "/images/urban-essentials/cargo_pants.png",
+    image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
+    hoverImage: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
     rating: 5.0,
     color: "Black",
     gender: "Men",
@@ -784,12 +809,12 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 855,
     brand: "URBAN MONKEY",
     name: "BIFOLD WALLET // 001",
     price: "RS.1,300.00",
-    image: "/images/urban-essentials/bifold_wallet.png",
+    image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
     rating: 4.8,
     color: "Black",
     gender: "Men",
@@ -804,12 +829,12 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 856,
     brand: "URBAN MONKEY",
     name: "COIN AND CARD HOLDER // 001",
     price: "RS.1,000.00",
-    image: "/images/urban-essentials/coin_card_holder.png",
+    image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
     rating: 4.9,
     color: "Black",
     gender: "Men",
@@ -823,12 +848,13 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 857,
     brand: "URBAN MONKEY",
     name: "SHORT SLEEVE SHIRT // BLACK",
     price: "RS.1,200.00",
-    image: "/images/urban-essentials/short_sleeve_shirt.png",
+    image: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
+    hoverImage: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
     rating: 5.0,
     color: "Black",
     gender: "Men",
@@ -843,12 +869,12 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 858,
     brand: "URBAN MONKEY",
     name: "SLING BAG // 001",
     price: "RS.1,900.00",
-    image: "/images/urban-essentials/sling_bag.png",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     rating: 5.0,
     color: "Black",
     gender: "Men",
@@ -862,12 +888,13 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 861,
     brand: "SUPERVEK INDIA",
     name: "Oversized Streetwear Tee // Black",
     price: "RS.1,400.00",
-    image: "/images/urban-essentials/oversized_tshirt_black.png",
+    image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
+    hoverImage: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     rating: 5.0,
     color: "Black",
     gender: "Men",
@@ -883,12 +910,13 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 862,
     brand: "SUPERVEK INDIA",
     name: "Oversized Streetwear Tee // Cream",
     price: "RS.1,400.00",
-    image: "https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
+    hoverImage: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
     rating: 4.8,
     color: "Cream",
     gender: "Men",
@@ -903,12 +931,13 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 863,
     brand: "URBAN MONKEY",
     name: "Vintage Wash Oversized Tee",
     price: "RS.1,600.00",
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
+    hoverImage: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     rating: 4.9,
     color: "Blue",
     gender: "Men",
@@ -923,12 +952,12 @@ export const masterProducts: Product[] = [
       { label: "unisex", value: "made in India" }
     ]
   },
-  {
+{
     id: 901,
     brand: "NIKE SPORTSWEAR",
     name: "AIR MAX INTRLK LITE // HYPER VIBE",
     price: "₹8,999",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
     rating: 4.9,
     color: "Red",
     gender: "Men",
@@ -943,12 +972,12 @@ export const masterProducts: Product[] = [
       { label: "style", value: "Futuristic Streetwear" }
     ]
   },
-  {
+{
     id: 902,
     brand: "PUMA STREET",
     name: "FUTURE RIDER // ELECTRIC CYAN",
     price: "₹6,499",
-    image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
     rating: 4.8,
     color: "Cyan",
     gender: "Women",
@@ -963,12 +992,12 @@ export const masterProducts: Product[] = [
       { label: "style", value: "Retro Cyber Runner" }
     ]
   },
-  {
+{
     id: 903,
     brand: "DRIP HUNTER SPECIAL",
     name: "DRIP MESH RUNNER // VOLT GOLD",
     price: "₹10,999",
-    image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
     rating: 5.0,
     color: "Yellow",
     gender: "Men",
@@ -982,14 +1011,13 @@ export const masterProducts: Product[] = [
       { label: "colorway", value: "Volt Gold / Stealth Black" },
       { label: "style", value: "Premium Luxury Streetwear" }
     ]
-  }
-,
-  {
+  },
+{
     id: 801,
     brand: "Supervek",
     name: "Classic Slinger",
     price: "Rs. 1,499.00",
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     rating: 4.7,
     color: "Multi",
     gender: "Unisex",
@@ -1012,12 +1040,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 802,
     brand: "Supervek",
     name: "Carbon Black Slinger",
     price: "Rs. 1,999.00",
-    image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=500&q=80",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     rating: 4.7,
     color: "Multi",
     gender: "Unisex",
@@ -1040,12 +1068,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 803,
     brand: "Supervek",
     name: "Super Shark Camo Wallet",
     price: "Rs. 1,599.00",
-    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     rating: 4.7,
     color: "Multi",
     gender: "Unisex",
@@ -1068,12 +1096,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 804,
     brand: "Supervek",
     name: "OG Thunder Oversized T-Shirt",
     price: "Rs. 1,199.00",
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     rating: 4.7,
     color: "Multi",
     gender: "Unisex",
@@ -1096,12 +1124,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 805,
     brand: "Supervek",
     name: "Oni Oversized Graphic Tee",
     price: "Rs. 1,999.00",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     rating: 4.7,
     color: "Multi",
     gender: "Unisex",
@@ -1124,12 +1152,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 811,
     brand: "Supervek",
     name: "Cyber Shield Sunglasses",
     price: "Rs. 1,299.00",
-    image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     rating: 4.8,
     color: "Black",
     gender: "Unisex",
@@ -1152,12 +1180,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 812,
     brand: "Supervek",
     name: "Stealth Tactical Chest Rig",
     price: "Rs. 2,499.00",
-    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     rating: 4.8,
     color: "Black",
     gender: "Unisex",
@@ -1180,12 +1208,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 813,
     brand: "Supervek",
     name: "Utility Cargo Shorts",
     price: "Rs. 1,899.00",
-    image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=500&q=80",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     rating: 4.8,
     color: "Black",
     gender: "Unisex",
@@ -1208,12 +1236,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 814,
     brand: "Supervek",
     name: "Heavyweight Graphic Tee",
     price: "Rs. 1,499.00",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     rating: 4.8,
     color: "Black",
     gender: "Unisex",
@@ -1236,12 +1264,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 815,
     brand: "Supervek",
     name: "Retro Tech Beanie",
     price: "Rs. 899.00",
-    image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     rating: 4.8,
     color: "Black",
     gender: "Unisex",
@@ -1264,12 +1292,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 821,
     brand: "Supervek",
     name: "Urban Utility Sling",
     price: "Rs. 1,249.00",
-    image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=500&q=80",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     rating: 4.5,
     color: "Black",
     gender: "Unisex",
@@ -1292,12 +1320,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 822,
     brand: "Supervek",
     name: "Reflective Street Vest",
     price: "Rs. 2,799.00",
-    image: "https://images.unsplash.com/photo-1520975954732-35dd22299614?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     rating: 4.5,
     color: "Black",
     gender: "Unisex",
@@ -1320,12 +1348,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 823,
     brand: "Supervek",
     name: "Classic Skate Deck",
     price: "Rs. 2,999.00",
-    image: "https://images.unsplash.com/photo-1547447134-cd3f5c716030?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     rating: 4.5,
     color: "Black",
     gender: "Unisex",
@@ -1348,12 +1376,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 824,
     brand: "Supervek",
     name: "Minimalist Card Wallet",
     price: "Rs. 599.00",
-    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=500&q=80",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     rating: 4.5,
     color: "Black",
     gender: "Unisex",
@@ -1376,12 +1404,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 825,
     brand: "Supervek",
     name: "Corduroy Dad Hat",
     price: "Rs. 799.00",
-    image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=500&q=80",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     rating: 4.5,
     color: "Black",
     gender: "Unisex",
@@ -1404,12 +1432,13 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 851,
     brand: "Urban Monkey",
     name: "DENIM JACKET // 001",
     price: "RS.2,200.00",
-    image: "/images/urban-essentials/denim_jacket.png",
+    image: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
+    hoverImage: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
     rating: 4.9,
     color: "Black",
     gender: "Unisex",
@@ -1432,12 +1461,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 852,
     brand: "Urban Monkey",
     name: "FANNY PACK // 001",
     price: "RS.1,900.00",
-    image: "/images/urban-essentials/fanny_pack.png",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     rating: 4.9,
     color: "Black",
     gender: "Unisex",
@@ -1460,12 +1489,13 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 853,
     brand: "Urban Monkey",
     name: "FULL SLEEVE SHIRT // BLACK",
     price: "RS.1,400.00",
-    image: "/images/urban-essentials/full_sleeve_shirt.png",
+    image: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
+    hoverImage: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
     rating: 4.9,
     color: "Black",
     gender: "Unisex",
@@ -1488,12 +1518,13 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 854,
     brand: "Urban Monkey",
     name: "RIPSTOP CARGO PANTS // BLACK",
     price: "RS.2,850.00",
-    image: "/images/urban-essentials/cargo_pants.png",
+    image: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
+    hoverImage: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
     rating: 4.9,
     color: "Black",
     gender: "Unisex",
@@ -1516,12 +1547,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 855,
     brand: "Urban Monkey",
     name: "BIFOLD WALLET // 001",
     price: "RS.1,300.00",
-    image: "/images/urban-essentials/bifold_wallet.png",
+    image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
     rating: 4.9,
     color: "Black",
     gender: "Unisex",
@@ -1544,12 +1575,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 856,
     brand: "Urban Monkey",
     name: "COIN AND CARD HOLDER // 001",
     price: "RS.1,000.00",
-    image: "/images/urban-essentials/coin_card_holder.png",
+    image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
     rating: 4.9,
     color: "Black",
     gender: "Unisex",
@@ -1572,12 +1603,13 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 857,
     brand: "Urban Monkey",
     name: "SHORT SLEEVE SHIRT // BLACK",
     price: "RS.1,200.00",
-    image: "/images/urban-essentials/short_sleeve_shirt.png",
+    image: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
+    hoverImage: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
     rating: 4.9,
     color: "Black",
     gender: "Unisex",
@@ -1600,12 +1632,12 @@ export const masterProducts: Product[] = [
       }
 ]
   },
-  {
+{
     id: 858,
     brand: "Urban Monkey",
     name: "SLING BAG // 001",
     price: "RS.1,900.00",
-    image: "/images/urban-essentials/sling_bag.png",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     rating: 4.9,
     color: "Black",
     gender: "Unisex",

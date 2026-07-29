@@ -600,7 +600,7 @@ export default function WishlistPage() {
                             <div className="flex gap-4">
                               <div className="relative w-16 h-20 bg-zinc-50 rounded-xl overflow-hidden flex-shrink-0 border border-zinc-200/50">
                                 <Image 
-                                  src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=300&q=80" 
+                                  src="https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp" 
                                   alt="Acme Kanji Graphic Tee" 
                                   fill 
                                   sizes="60px"
@@ -660,7 +660,7 @@ export default function WishlistPage() {
                             <div className="flex gap-4">
                               <div className="relative w-16 h-20 bg-zinc-50 rounded-xl overflow-hidden flex-shrink-0 border border-zinc-200/50">
                                 <Image 
-                                  src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80" 
+                                  src="https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp" 
                                   alt="Downtown Oversized Hoodie" 
                                   fill 
                                   sizes="60px"

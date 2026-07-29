@@ -31,13 +31,13 @@ const curatedLooks: CuratedLookItem[] = [
     id: 1,
     title: "Casual Core Suit",
     desc: "A sleek combination of dark navy linen shirts and minimal sandals for relaxed street style.",
-    modelImage: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80",
+    modelImage: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     products: [
       {
         id: 101,
         name: "Classic Mercer Shirt – Midnight Navy",
         price: "₹3,499",
-        image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=300&q=80"
+        image: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp"
       },
       {
         id: 102,
@@ -49,13 +49,13 @@ const curatedLooks: CuratedLookItem[] = [
         id: 103,
         name: "Linen Pants White",
         price: "₹3,499",
-        image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=300&q=80"
+        image: "https://img105.savana.com/17eb77b4c05b4168a6e9aba0fd3bd4ea.webp"
       },
       {
         id: 104,
         name: "Tag Heuer Carrera War201d.Fc6291",
         price: "₹2,24,400",
-        image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=300&q=80"
+        image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp"
       }
     ]
   },
@@ -63,7 +63,7 @@ const curatedLooks: CuratedLookItem[] = [
     id: 2,
     title: "Stealth Techwear Outfit",
     desc: "An industrial look featuring heavy multi-pocket cargo utility pants and high-top sneakers.",
-    modelImage: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
+    modelImage: "https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp",
     products: [
       {
         id: 201,
@@ -75,19 +75,19 @@ const curatedLooks: CuratedLookItem[] = [
         id: 202,
         name: "Cassette Cargo Pants [24 Exclusive]",
         price: "₹6,999",
-        image: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&w=300&q=80"
+        image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp"
       },
       {
         id: 203,
         name: "Royal Seikoak Skeleton Full Black",
         price: "₹20,279",
-        image: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=300&q=80"
+        image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp"
       },
       {
         id: 204,
         name: "Forfksake Walkout Shirt",
         price: "₹3,499",
-        image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80"
+        image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp"
       }
     ]
   },
@@ -95,7 +95,7 @@ const curatedLooks: CuratedLookItem[] = [
     id: 3,
     title: "Vaporwave Summer Kit",
     desc: "Neon highlights matched with breathable lightweight shorts and reflective eyewear.",
-    modelImage: "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?auto=format&fit=crop&w=600&q=80",
+    modelImage: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
     products: [
       {
         id: 301,
@@ -107,7 +107,7 @@ const curatedLooks: CuratedLookItem[] = [
         id: 302,
         name: "Linen Drawstring Shorts White",
         price: "₹2,999",
-        image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=300&q=80"
+        image: "https://img105.savana.com/82f87913d0814f9083297cfb44303ef9.webp"
       },
       {
         id: 303,
@@ -119,7 +119,7 @@ const curatedLooks: CuratedLookItem[] = [
         id: 304,
         name: "Cyber Aviator Polarized Glasses",
         price: "₹8,999",
-        image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=300&q=80"
+        image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp"
       }
     ]
   }

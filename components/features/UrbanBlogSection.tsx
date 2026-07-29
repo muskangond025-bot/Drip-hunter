@@ -24,7 +24,7 @@ const BLOG_POSTS: BlogPost[] = [
     date: "JUL 18, 2026",
     readTime: "4 MIN READ",
     category: "STYLE GUIDE",
-    image: "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&q=80&w=800",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     slug: "how-to-style-cargo-pants",
   },
   {
@@ -35,7 +35,7 @@ const BLOG_POSTS: BlogPost[] = [
     date: "JUL 15, 2026",
     readTime: "5 MIN READ",
     category: "CRAFT & FABRIC",
-    image: "https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&q=80&w=800",
+    image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
     slug: "why-high-quality-fabric-matters",
   },
   {
@@ -46,7 +46,7 @@ const BLOG_POSTS: BlogPost[] = [
     date: "JUL 10, 2026",
     readTime: "3 MIN READ",
     category: "HEADWEAR GUIDE",
-    image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&q=80&w=800",
+    image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
     slug: "perfect-hat-for-face-shape",
   },
 ];

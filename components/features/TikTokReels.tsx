@@ -11,12 +11,12 @@ const reels = [
     likes: "85K",
     comments: "420",
     text: "Oversized Tee styling tip ✨ #streetwear #drip #fashion",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
     bgGradient: "from-purple-900 via-zinc-900 to-black",
     videoUrl: "https://player.vimeo.com/external/435674703.sd.mp4?s=7fdf702c2e646271c77f0a6727289efcb59eb1b6&profile_id=165&oauth2_token_id=57447761",
     products: [
-      { id: 101, name: "Season Cruise Oversized Tee", price: "$28.00", image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=150&q=80" },
-      { id: 102, name: "Wide Cargo Pants (Raw Denim)", price: "$45.00", image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=150&q=80" }
+      { id: 101, name: "Season Cruise Oversized Tee", price: "$28.00", image: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp" },
+      { id: 102, name: "Wide Cargo Pants (Raw Denim)", price: "$45.00", image: "https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp" }
     ]
   },
   {
@@ -25,12 +25,12 @@ const reels = [
     likes: "62K",
     comments: "310",
     text: "How to style cargo pants for winter ❄️ #utility #cargopants",
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp",
     bgGradient: "from-amber-950 via-zinc-900 to-black",
     videoUrl: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c054f2086e3f05d006c9a35e461a6b0c&profile_id=165&oauth2_token_id=57447761",
     products: [
-      { id: 201, name: "Utility Combat Cargo Pants", price: "$49.00", image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=150&q=80" },
-      { id: 202, name: "Heavyknit Sweatshirt (Cream)", price: "$39.00", image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=150&q=80" }
+      { id: 201, name: "Utility Combat Cargo Pants", price: "$49.00", image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp" },
+      { id: 202, name: "Heavyknit Sweatshirt (Cream)", price: "$39.00", image: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp" }
     ]
   },
   {
@@ -39,12 +39,12 @@ const reels = [
     likes: "155K",
     comments: "890",
     text: "Unboxing the limited techwear jacket drop 🔥 #unboxing #cyber",
-    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
     bgGradient: "from-indigo-950 via-zinc-900 to-black",
     videoUrl: "https://player.vimeo.com/external/517602126.sd.mp4?s=d0a1b02b5e28a50e50f5800ec9a35d97f2e1a3bc&profile_id=165&oauth2_token_id=57447761",
     products: [
-      { id: 301, name: "Tactical Techwear Jacket", price: "$79.00", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=150&q=80" },
-      { id: 302, name: "Cyber Shield Chest Bag", price: "$24.00", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=150&q=80" }
+      { id: 301, name: "Tactical Techwear Jacket", price: "$79.00", image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp" },
+      { id: 302, name: "Cyber Shield Chest Bag", price: "$24.00", image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp" }
     ]
   },
   {
@@ -53,12 +53,12 @@ const reels = [
     likes: "48K",
     comments: "150",
     text: "Minimalist cap style collection details 🧢 #minimalist #headwear",
-    image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=400&q=80",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     bgGradient: "from-emerald-950 via-zinc-900 to-black",
     videoUrl: "https://player.vimeo.com/external/340058564.sd.mp4?s=cf9d9b4eb9eddb80fa511fcf26402edc5df1d4f2&profile_id=165&oauth2_token_id=57447761",
     products: [
-      { id: 401, name: "Minimalist Palm Tree Cap", price: "$19.00", image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=150&q=80" },
-      { id: 402, name: "Washed Black Premium Tee", price: "$25.00", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=150&q=80" }
+      { id: 401, name: "Minimalist Palm Tree Cap", price: "$19.00", image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp" },
+      { id: 402, name: "Washed Black Premium Tee", price: "$25.00", image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp" }
     ]
   }
 ];

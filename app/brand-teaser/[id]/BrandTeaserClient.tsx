@@ -34,7 +34,7 @@ const teasersData: Record<number, TeaserDetails> = {
     brandName: "PUMA SELECT",
     title: "The Clyde Capsule",
     tag: "Collab Teaser",
-    image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     description: "A premium retro collaboration blending classic heritage basketball shapes with luxury lifestyle materials. Designed for the street collectors.",
     products: [
       {
@@ -42,7 +42,7 @@ const teasersData: Record<number, TeaserDetails> = {
         name: "PUMA Clyde 'OG Drip' Sneaker",
         price: "₹8,499",
         priceNum: 8499,
-        image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
         description: "Classic suede upper shoe featuring gold foil Clyde branding, custom fat laces, and premium vulcanized honey gum cupsole.",
         sizes: ["UK 7", "UK 8", "UK 9", "UK 10"],
         colors: ["Classic Suede", "Midnight Blue", "Crimson Red"]
@@ -52,7 +52,7 @@ const teasersData: Record<number, TeaserDetails> = {
         name: "Select Street Hoodie - Heather Grey",
         price: "₹4,999",
         priceNum: 4999,
-        image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
         description: "Heavyweight 450GSM loopback cotton fleece hoodie featuring embroidered collaboration logos and drop-shoulder streetwear fit.",
         sizes: ["S", "M", "L", "XL"],
         colors: ["Heather Grey", "Off-Black", "Forest Green"]
@@ -62,7 +62,7 @@ const teasersData: Record<number, TeaserDetails> = {
         name: "Archive Graphic Tee - Off-White",
         price: "₹2,499",
         priceNum: 2499,
-        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
         description: "Organic combed cotton tee with soft-touch vintage graphic print details on front chest and oversized back profile.",
         sizes: ["S", "M", "L", "XL"],
         colors: ["Off-White", "Washed Slate"]
@@ -74,7 +74,7 @@ const teasersData: Record<number, TeaserDetails> = {
     brandName: "RECKLESS DRIP",
     title: "Back In Stock Deal",
     tag: "Trending",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/990190ec202a45a7be49d65961a83e75.webp",
     description: "The crowd favorites are returning. All limited archives restocked soon."
   },
   3: {
@@ -82,7 +82,7 @@ const teasersData: Record<number, TeaserDetails> = {
     brandName: "NEON DIVISION",
     title: "Cyber Shield Tech",
     tag: "Limited Drop",
-    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/f64269193867428aaa81923d2a683436.webp",
     description: "Technical utility shells and windbreakers built with weather-resistant custom nylon shells, heavy cargo straps, and neon graphic seals.",
     products: [
       {
@@ -90,7 +90,7 @@ const teasersData: Record<number, TeaserDetails> = {
         name: "Division Utility Shield Jacket",
         price: "₹12,999",
         priceNum: 12999,
-        image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/ed88b6e2e77f461b913d3cecb8f1c215.webp",
         description: "Windproof and highly water-resistant shell jacket featuring 8 pockets layout, adjustable velcro straps, and high-guard helmet hood.",
         sizes: ["M", "L", "XL"],
         colors: ["Tech Black", "Division Orange"]
@@ -100,7 +100,7 @@ const teasersData: Record<number, TeaserDetails> = {
         name: "Cyber Cargo Pant - Weatherproof Carbon",
         price: "₹7,499",
         priceNum: 7499,
-        image: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/9104562de9d541b1ae03530cd8a58275.webp",
         description: "Weather-resistant nylon utility trousers with adjustable buckle straps, dual cargo bellows, and premium elasticated ankles.",
         sizes: ["30", "32", "34", "36"],
         colors: ["Carbon Black", "Utility Khaki"]
@@ -112,7 +112,7 @@ const teasersData: Record<number, TeaserDetails> = {
     brandName: "RETRO RULERS",
     title: "Heritage Bomber Kit",
     tag: "Teaser Product",
-    image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp",
     description: "Vintage-inspired varsity bombers with chain-stitched custom lettering patches."
   }
 };

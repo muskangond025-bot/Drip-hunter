@@ -64,9 +64,9 @@ const initialBlogPosts: BlogPost[] = [
     category: "Editorial",
     readTime: "7 MIN READ",
     date: "July 21, 2026",
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80",
+    image: "https://img105.savana.com/9104562de9d541b1ae03530cd8a58275.webp",
     author: "Misha&apos;s Fashion Author",
-    authorAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+    authorAvatar: "https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp",
     summary: "In the ever-evolving world of streetwear and high fashion, true style is born from self-expression and unbridled creativity.",
     content: [
       "Fashion isn't merely what we wear; it is an extension of our inner consciousness and imagination.",
@@ -80,9 +80,9 @@ const initialBlogPosts: BlogPost[] = [
     category: "Trends",
     readTime: "5 MIN READ",
     date: "July 20, 2026",
-    image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80",
+    image: "https://img105.savana.com/b1f965b1c47f4aeb9324aae4a983d71e.webp",
     author: "Elena Rostova",
-    authorAvatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80",
+    authorAvatar: "https://img105.savana.com/82f87913d0814f9083297cfb44303ef9.webp",
     summary: "Exploring sunset streetwear aesthetic silhouettes across coastal cities.",
     content: [
       "Golden hour lighting paired with boxy cotton tees brings out subtle textures in vintage dyes.",
@@ -95,9 +95,9 @@ const initialBlogPosts: BlogPost[] = [
     category: "Lookbook",
     readTime: "4 MIN READ",
     date: "July 19, 2026",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80",
+    image: "https://img105.savana.com/4a98999a637a41fba333a1881f09c60c.webp",
     author: "Marcus Vance",
-    authorAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+    authorAvatar: "https://img105.savana.com/156220e3ccb24d899323dae724a3951b.webp",
     summary: "Natural light, organic cotton, and earth-tone cargo wear in modern street editorials.",
     content: [
       "Heavyweight textiles absorb light differently, giving green and olive tones a rich muted depth.",
@@ -110,9 +110,9 @@ const initialBlogPosts: BlogPost[] = [
     category: "Subcultures",
     readTime: "6 MIN READ",
     date: "July 18, 2026",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80",
+    image: "https://img105.savana.com/fd912543884c43c892a39219b2f63738.webp",
     author: "Alex Rivera",
-    authorAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+    authorAvatar: "https://img105.savana.com/5e08c0285d82474ea9d0278e33deb10e.webp",
     summary: "Monochrome photography highlights shape, structure, and graphic contrast.",
     content: [
       "Without color distraction, viewers focus entirely on the garment's cut, stitching, and silhouette.",
@@ -125,9 +125,9 @@ const initialBlogPosts: BlogPost[] = [
     category: "Dance",
     readTime: "4 MIN READ",
     date: "July 17, 2026",
-    image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=1200&q=80",
+    image: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
     author: "Sophia Chen",
-    authorAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+    authorAvatar: "https://img105.savana.com/5b128d15efd948c983868a1302c463f7.webp",
     summary: "Fluid draping fabrics engineered for dance studio rehearsals and dynamic motion.",
     content: [
       "When fabric moves in harmony with human body mechanics, clothing transforms into performance art.",
@@ -241,9 +241,9 @@ export default function BlogPage() {
         category: "Trends",
         readTime: "5 MIN READ",
         date: "July 16, 2026",
-        image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80",
+        image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
         author: "Marcus Vance",
-        authorAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+        authorAvatar: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
         summary: "Exploring modern water-resistant fabrics and 3x expandable pocket systems.",
         content: ["Utility meets high street in this season's tactical vest and cargo drop."]
       },
@@ -253,9 +253,9 @@ export default function BlogPage() {
         category: "Editorial",
         readTime: "6 MIN READ",
         date: "July 15, 2026",
-        image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80",
+        image: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
         author: "Sophia Chen",
-        authorAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+        authorAvatar: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
         summary: "How traditional indigo dyeing processes are reinvented by Tokyo streetwear labels.",
         content: ["Selvedge denim remains an irreplaceable canvas for custom embroidery and graphic patches."]
       }
@@ -487,7 +487,7 @@ export default function BlogPage() {
                 <div className="md:col-span-7 flex items-center gap-4">
                   <div className="w-14 h-14 rounded-full bg-zinc-200 overflow-hidden relative shrink-0 border border-zinc-300">
                     <Image
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+                      src="https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp"
                       alt="Author Avatar"
                       fill
                       className="object-cover"
@@ -554,7 +554,7 @@ export default function BlogPage() {
               >
                 <div className="max-w-3xl mx-auto relative aspect-video rounded-2xl overflow-hidden border-4 border-zinc-800 shadow-2xl">
                   <Image
-                    src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80"
+                    src="https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp"
                     alt="Editorial Desktop Showcase"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -582,7 +582,7 @@ export default function BlogPage() {
                 >
                   <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-zinc-800">
                     <Image
-                      src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&q=80"
+                      src="https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp"
                       alt="Editorial Model"
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -612,7 +612,7 @@ export default function BlogPage() {
                 >
                   <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-zinc-800">
                     <Image
-                      src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=600&q=80"
+                      src="https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp"
                       alt="Dark Streetwear Jacket"
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -631,7 +631,7 @@ export default function BlogPage() {
                 >
                   <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-zinc-800">
                     <Image
-                      src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80"
+                      src="https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp"
                       alt="Vintage Photography"
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -651,7 +651,7 @@ export default function BlogPage() {
                 className="relative aspect-video max-h-[420px] w-full rounded-3xl overflow-hidden border border-zinc-800 shadow-2xl bg-zinc-900 flex items-center justify-center cursor-pointer group"
               >
                 <Image
-                  src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80"
+                  src="https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp"
                   alt="Fashion Video Reel"
                   fill
                   className="object-cover brightness-60 group-hover:scale-105 transition-transform duration-700"
@@ -725,21 +725,21 @@ export default function BlogPage() {
                         title: "The Architecture of Drop-Shoulder Heavyweight Tees",
                         cat: "DESIGN & FIT",
                         time: "4 MIN READ",
-                        img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80"
+                        img: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp"
                       },
                       {
                         id: 102,
                         title: "Streetwear & High Luxury Crossovers in 2026",
                         cat: "RUNWAY REPORT",
                         time: "6 MIN READ",
-                        img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=400&q=80"
+                        img: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp"
                       },
                       {
                         id: 103,
                         title: "Sustainable Denim Dyeing & Eco-Friendly Textiles",
                         cat: "SUSTAINABILITY",
                         time: "5 MIN READ",
-                        img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=400&q=80"
+                        img: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp"
                       }
                     ].map((art) => (
                       <div
@@ -798,7 +798,7 @@ export default function BlogPage() {
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-zinc-200 relative overflow-hidden">
                       <Image
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
+                        src="https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp"
                         alt="Author"
                         fill
                         className="object-cover"
@@ -817,7 +817,7 @@ export default function BlogPage() {
               {/* Main Article Hero Image */}
               <div className="relative aspect-[16/9] w-full rounded-3xl overflow-hidden shadow-2xl border border-zinc-200">
                 <Image
-                  src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80"
+                  src="https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp"
                   alt="Streetwear Culture Story"
                   fill
                   priority
@@ -854,7 +854,7 @@ export default function BlogPage() {
               <div className="bg-zinc-50 border border-zinc-200 rounded-3xl p-6 flex items-center gap-4">
                 <div className="w-14 h-14 rounded-full bg-zinc-300 relative overflow-hidden shrink-0">
                   <Image
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80"
+                    src="https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp"
                     alt="Alex Rivera"
                     fill
                     className="object-cover"
@@ -911,7 +911,7 @@ export default function BlogPage() {
                       date: "SUMMER 2026",
                       bg: "from-yellow-500 to-amber-600",
                       text: "text-black",
-                      img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80"
+                      img: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp"
                     },
                     {
                       issue: "ISSUE #41",
@@ -919,7 +919,7 @@ export default function BlogPage() {
                       date: "SPRING 2026",
                       bg: "from-red-600 to-rose-700",
                       text: "text-white",
-                      img: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=500&q=80"
+                      img: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp"
                     },
                     {
                       issue: "ISSUE #40",
@@ -927,7 +927,7 @@ export default function BlogPage() {
                       date: "WINTER 2025",
                       bg: "from-blue-600 to-indigo-700",
                       text: "text-white",
-                      img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=500&q=80"
+                      img: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp"
                     },
                     {
                       issue: "ISSUE #39",
@@ -935,7 +935,7 @@ export default function BlogPage() {
                       date: "FALL 2025",
                       bg: "from-emerald-600 to-teal-700",
                       text: "text-white",
-                      img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80"
+                      img: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp"
                     }
                   ].map((mag, i) => (
                     <div
@@ -1010,7 +1010,7 @@ export default function BlogPage() {
                 <div className="lg:col-span-4 flex justify-center">
                   <div className="relative w-48 aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border-2 border-white/20 transform rotate-3 hover:rotate-0 transition-transform duration-500">
                     <Image
-                      src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80"
+                      src="https://img105.savana.com/990190ec202a45a7be49d65961a83e75.webp"
                       alt="Spotlight Cover"
                       fill
                       className="object-cover"
@@ -1063,8 +1063,8 @@ export default function BlogPage() {
                 <Image
                   src={
                     flipbookPage % 2 === 1
-                      ? "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80"
-                      : "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80"
+                      ? "https://img105.savana.com/f64269193867428aaa81923d2a683436.webp"
+                      : "https://img105.savana.com/ed88b6e2e77f461b913d3cecb8f1c215.webp"
                   }
                   alt={`Page ${flipbookPage}`}
                   fill
@@ -1213,7 +1213,7 @@ export default function BlogPage() {
               </button>
 
               <Image
-                src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80"
+                src="https://img105.savana.com/9104562de9d541b1ae03530cd8a58275.webp"
                 alt="Video Reel"
                 fill
                 className="object-cover opacity-80"

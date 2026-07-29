@@ -13,7 +13,7 @@ const reviews = [
     tag: "VERIFIED BUYER",
     comment: "Absolutely in love with the Oversized Cyber Heavy Hoodie. The fabric is extremely thick, fits exactly boxy as described. The custom graphics are holding up perfectly after multiple washes! Will buy again.",
     item: "Purchased: Oversized Cyber Hoodie",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
+    avatar: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ const reviews = [
     tag: "VERIFIED BUYER",
     comment: "These Tech-Cargo Belted Pants are a lifesaver. The adjustable buckle straps make them fit perfectly. I love the tactical pocket layouts. It gives the exact techwear aesthetic I wanted.",
     item: "Purchased: Tech-Cargo Belted Pants",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
+    avatar: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp",
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const reviews = [
     tag: "VERIFIED BUYER",
     comment: "Ordered the Drip Denim Jacket. The wash and distress is high quality. I get compliments every time I wear it. Pockets are roomy, zippers glide smoothly. Highly recommended!",
     item: "Purchased: Drip Denim Utility Jacket",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+    avatar: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
   },
 ];
 

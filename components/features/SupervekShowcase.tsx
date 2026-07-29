@@ -74,7 +74,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 1,499.00",
       originalPrice: "Rs. 2,499.00",
-      image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
       colors: ["#99f6e4", "#fbcfe8", "#fef08a", "#c084fc"],
     },
     {
@@ -84,7 +84,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#18181b]",
       price: "Rs. 1,999.00",
       originalPrice: "Rs. 2,499.00",
-      image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
       colors: ["#18181b"],
     },
     {
@@ -94,7 +94,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#15803d]",
       price: "Rs. 1,599.00",
       originalPrice: "Rs. 1,999.00",
-      image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
       colors: ["#3f6212"],
     },
     {
@@ -104,7 +104,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 1,199.00",
       originalPrice: "Rs. 2,499.00",
-      image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
       colors: ["#18181b", "#2563eb", "#dc2626", "#eab308", "#16a34a"],
     },
     {
@@ -114,7 +114,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 1,999.00",
       originalPrice: "Rs. 3,995.00",
-      image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80",
+      image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
       colors: ["#18181b"],
     },
   ];
@@ -127,7 +127,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 1,299.00",
       originalPrice: "Rs. 1,999.00",
-      image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
       colors: ["#000000", "#ffffff"],
     },
     {
@@ -137,7 +137,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 2,499.00",
       originalPrice: "Rs. 3,499.00",
-      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
       colors: ["#18181b"],
     },
     {
@@ -147,7 +147,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 1,899.00",
       originalPrice: "Rs. 2,599.00",
-      image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/990190ec202a45a7be49d65961a83e75.webp",
       colors: ["#3f6212", "#18181b"],
     },
     {
@@ -157,7 +157,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 1,499.00",
       originalPrice: "Rs. 2,199.00",
-      image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/f64269193867428aaa81923d2a683436.webp",
       colors: ["#ffffff", "#18181b"],
     },
     {
@@ -167,7 +167,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 899.00",
       originalPrice: "Rs. 1,299.00",
-      image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=500&q=80",
+      image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
       colors: ["#dc2626", "#18181b", "#ffffff"],
     },
   ];
@@ -180,7 +180,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 1,249.00",
       originalPrice: "Rs. 2,499.00",
-      image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
       colors: ["#18181b"],
     },
     {
@@ -190,7 +190,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 2,799.00",
       originalPrice: "Rs. 3,999.00",
-      image: "https://images.unsplash.com/photo-1520975954732-35dd22299614?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp",
       colors: ["#eab308"],
     },
     {
@@ -200,7 +200,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 2,999.00",
       originalPrice: "Rs. 3,999.00",
-      image: "https://images.unsplash.com/photo-1547447134-cd3f5c716030?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
       colors: ["#ffffff"],
     },
     {
@@ -210,7 +210,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 599.00",
       originalPrice: "Rs. 999.00",
-      image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=500&q=80",
+      image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
       colors: ["#3f3f46"],
     },
     {
@@ -220,7 +220,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 799.00",
       originalPrice: "Rs. 1,999.00",
-      image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=500&q=80",
+      image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
       colors: ["#b45309"],
     },
   ];
@@ -295,10 +295,10 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
   ];
 
   const streetGallery = [
-    { id: 1, title: "Tennis Court Drip", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" },
-    { id: 2, title: "Mountain Peak Utility", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" },
-    { id: 3, title: "Beach Bucket Style", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" },
-    { id: 4, title: "Starry Night Art Wallet", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80" },
+    { id: 1, title: "Tennis Court Drip", img: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp" },
+    { id: 2, title: "Mountain Peak Utility", img: "https://img105.savana.com/fd912543884c43c892a39219b2f63738.webp" },
+    { id: 3, title: "Beach Bucket Style", img: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp" },
+    { id: 4, title: "Starry Night Art Wallet", img: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp" },
   ];
 
   return (
@@ -373,22 +373,22 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
             {[
               {
                 title: "SLING BAGS",
-                img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80",
+                img: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
                 href: "/shop?category=Sling+Bags",
               },
               {
                 title: "CLOTHING",
-                img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
+                img: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
                 href: "/shop?category=Clothing",
               },
               {
                 title: "WALLETS",
-                img: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=600&q=80",
+                img: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
                 href: "/shop?category=Wallets",
               },
               {
                 title: "ACCESSORIES",
-                img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&q=80",
+                img: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
                 href: "/shop?category=Accessories",
               },
             ].map((cat, idx) => (
@@ -560,7 +560,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
             <div className="lg:col-span-6 flex justify-center">
               <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden bg-white shadow-md border border-zinc-200">
                 <Image
-                  src="https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=800&q=80"
+                  src="https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp"
                   alt="Carbon Black Slinger"
                   fill
                   sizes="50vw"
@@ -617,7 +617,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
                       brand: "Supervek",
                       name: "Carbon Black Slinger",
                       price: "Rs. 1,999.00",
-                      image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=800&q=80",
+                      image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
                     })
                   }
                   buttonText="ADD TO CART"
@@ -634,7 +634,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
                       brand: "Supervek",
                       name: "Carbon Black Slinger",
                       price: "Rs. 1,999.00",
-                      image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&w=800&q=80",
+                      image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
                     })
                   }
                   buttonText="BUY IT NOW"
@@ -689,7 +689,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
         {/* Full-width Video Campaign Hero Banner */}
         <div className="relative w-full aspect-[21/9] sm:aspect-[24/8] max-h-[500px] overflow-hidden bg-zinc-900 flex items-center justify-center">
           <Image
-            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1600&q=80"
+            src="https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp"
             alt="Supervek Streetwear Campaign Banner"
             fill
             sizes="100vw"

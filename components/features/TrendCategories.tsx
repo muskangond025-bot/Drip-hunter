@@ -7,25 +7,25 @@ import { CategoryCard } from "@/components/ui/category-card";
 const categories = [
   {
     name: "Oversized Tees",
-    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     desc: "Relaxed drops & heavyweight graphics",
     gradient: "from-zinc-900 to-neutral-800",
   },
   {
     name: "Loose Cargo Pants",
-    image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     desc: "Multi-pocket tactical trousers",
     gradient: "from-zinc-900 to-neutral-700",
   },
   {
     name: "Heavy Hoodies",
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
     desc: "Double-lined boxy fit cuts",
     gradient: "from-zinc-900 to-stone-800",
   },
   {
     name: "Caps & Beanies",
-    image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
     desc: "Street utility headwear caps",
     gradient: "from-zinc-900 to-zinc-800",
   },

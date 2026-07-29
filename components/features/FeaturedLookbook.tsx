@@ -55,7 +55,7 @@ export function FeaturedLookbook({ onSelectCategory }: FeaturedLookbookProps) {
             <div className="absolute inset-0 bg-black/35 z-10" />
             <div className="absolute inset-0 z-0 select-none transition-transform duration-700 group-hover:scale-105">
               <Image
-                src="https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=600&q=80"
+                src="https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp"
                 alt="Varsity Yellow Look"
                 fill
                 className="object-cover"
@@ -78,7 +78,7 @@ export function FeaturedLookbook({ onSelectCategory }: FeaturedLookbookProps) {
             <div className="flex-1 bg-zinc-900 border border-zinc-800 rounded-3xl p-6 relative overflow-hidden group flex flex-col justify-between">
               <div className="absolute inset-0 z-0 select-none transition-transform duration-500 group-hover:scale-105">
                 <Image
-                  src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80"
+                  src="https://img105.savana.com/b1f965b1c47f4aeb9324aae4a983d71e.webp"
                   alt="Industrial Crop Top"
                   fill
                   className="object-cover opacity-35 group-hover:opacity-45 transition-opacity"
@@ -103,7 +103,7 @@ export function FeaturedLookbook({ onSelectCategory }: FeaturedLookbookProps) {
             <div className="flex-1 bg-zinc-900 border border-zinc-800 rounded-3xl p-6 relative overflow-hidden group flex flex-col justify-between">
               <div className="absolute inset-0 z-0 select-none transition-transform duration-500 group-hover:scale-105">
                 <Image
-                  src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80"
+                  src="https://img105.savana.com/82f87913d0814f9083297cfb44303ef9.webp"
                   alt="Wide Cargo Pants"
                   fill
                   className="object-cover opacity-35 group-hover:opacity-45 transition-opacity"
@@ -128,7 +128,7 @@ export function FeaturedLookbook({ onSelectCategory }: FeaturedLookbookProps) {
             <div className="flex-1 bg-zinc-900 border border-zinc-800 rounded-3xl p-6 relative overflow-hidden group flex flex-col justify-between">
               <div className="absolute inset-0 z-0 select-none transition-transform duration-500 group-hover:scale-105">
                 <Image
-                  src="https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=400&q=80"
+                  src="https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp"
                   alt="Tactical Mesh Cap"
                   fill
                   className="object-cover opacity-35 group-hover:opacity-45 transition-opacity"

@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Search, User, Heart, ShoppingBag, Menu, X, ArrowRight, Eye, EyeOff, ChevronDown, Mic, Camera, Loader2 } from "lucide-react";
+import { Search, User, Heart, ShoppingBag, Menu, X, ArrowRight, Eye, EyeOff, ChevronDown, Mic, Camera, Loader2, Bell } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { masterProducts } from "@/app/product/[id]/data";
 
 interface CartItem {
   id: number;
@@ -114,8 +115,8 @@ const MEGA_MENU_DATA: Record<string, {
   "Footwear": {
     subcategories: ["Casual Shoes", "Sports Shoes", "Formal Shoes", "Sneakers", "Sandals & Floaters", "Flip Flops", "Socks"],
     promotions: [
-      { title: "LIMITED EDITION SNEAKERS", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80", tag: "HYBRID FOOTWEAR" },
-      { title: "CHUNKY PLATFORM KICKS", image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=400&q=80", tag: "RETRO TWINS" }
+      { title: "LIMITED EDITION SNEAKERS", image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp", tag: "HYBRID FOOTWEAR" },
+      { title: "CHUNKY PLATFORM KICKS", image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp", tag: "RETRO TWINS" }
     ]
   },
   "Personal Care & Grooming": {
@@ -127,7 +128,7 @@ const MEGA_MENU_DATA: Record<string, {
   "Sunglasses & Frames": {
     subcategories: ["Classic Aviators", "Wayfarers", "Round Frames", "Sports Shades"],
     promotions: [
-      { title: "CYBER FRAME SHADES", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=400&q=80", tag: "SUNGLASSES" }
+      { title: "CYBER FRAME SHADES", image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp", tag: "SUNGLASSES" }
     ]
   },
   "Watches": {
@@ -139,19 +140,19 @@ const MEGA_MENU_DATA: Record<string, {
   "Sports & Active Wear": {
     subcategories: ["Sports Shoes", "Sports Sandals", "Active T-Shirts", "Track Pants & Shorts", "Tracksuits", "Jackets & Sweatshirts", "Sports Accessories", "Swimwear"],
     promotions: [
-      { title: "PERFORMANCE MESH DRIP", image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=400&q=80", tag: "SPORTS GEAR" }
+      { title: "PERFORMANCE MESH DRIP", image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp", tag: "SPORTS GEAR" }
     ]
   },
   "Gadgets": {
     subcategories: ["Smart Wearables", "Fitness Gadgets", "Headphones", "Speakers"],
     promotions: [
-      { title: "NOISE CANCELLING PHONES", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80", tag: "GADGET LAB" }
+      { title: "NOISE CANCELLING PHONES", image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp", tag: "GADGET LAB" }
     ]
   },
   "Fashion Accessories": {
     subcategories: ["Wallets", "Belts", "Perfumes & Body Mists", "Trimmers", "Deodorants", "Ties, Cufflinks & Pocket Squares", "Accessory Gift Sets", "Caps & Hats", "Mufflers, Scarves & Gloves", "Phone Cases", "Rings & Wristwear", "Helmets"],
     promotions: [
-      { title: "UTILITY CAP CAPSULE", image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=400&q=80", tag: "ACCESSORIES" }
+      { title: "UTILITY CAP CAPSULE", image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp", tag: "ACCESSORIES" }
     ]
   },
   "Bags & Backpacks": {
@@ -392,7 +393,7 @@ const SUBCATEGORY_PREVIEWS: Record<string, Record<string, { image: string; tag: 
             description: "Minimalist leather sneakers, suede slip-ons, and canvas trainers."
         },
         "Sports Shoes": {
-            image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
             tag: "ATHLETIC DRIP",
             title: "Sports Shoes",
             description: "High-performance running kicks, sports trainers, and workout sneakers."
@@ -429,7 +430,7 @@ const SUBCATEGORY_PREVIEWS: Record<string, Record<string, { image: string; tag: 
         },
         // --- OTHER COMMON CATEGORIES (MEN) ---
         "Smart Watches": {
-            image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "SMART TECH",
             title: "Smart Watches",
             description: "AMOLED touch displays, heart-rate monitors, and multi-day battery life."
@@ -441,7 +442,7 @@ const SUBCATEGORY_PREVIEWS: Record<string, Record<string, { image: string; tag: 
             description: "Swiss movements, premium leather straps, and structural steel casings."
         },
         "Digital Watches": {
-            image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "RETRO CASINGS",
             title: "Digital Watches",
             description: "Vintage metal digital watches, alarms, and technical stopwatch systems."
@@ -453,7 +454,7 @@ const SUBCATEGORY_PREVIEWS: Record<string, Record<string, { image: string; tag: 
             description: "Sub-dial tachymeters, water-resistant crowns, and elegant solid gold casings."
         },
         "Smart Wearables": {
-            image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "SMART TECH",
             title: "Smart Wearables",
             description: "Aesthetic fitness bands, smart rings, and connected notifications."
@@ -465,13 +466,13 @@ const SUBCATEGORY_PREVIEWS: Record<string, Record<string, { image: string; tag: 
             description: "Advanced home training equipment including smart mirrors, scales, and workout trackers."
         },
         "Headphones": {
-            image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
             tag: "AUDIO GEAR",
             title: "Grail Headphones",
             description: "Active noise-cancelling over-ear headphones with studio sound profile."
         },
         "Speakers": {
-            image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
             tag: "AUDIO GRID",
             title: "Portable Speakers",
             description: "Waterproof Bluetooth speakers with deep bass grids and ambient lights."
@@ -507,7 +508,7 @@ const SUBCATEGORY_PREVIEWS: Record<string, Record<string, { image: string; tag: 
             description: "Customized gift cases featuring leather wallets, belts, pens, and white cologne."
         },
         "Caps & Hats": {
-            image: "/images/pink_cap_3d.png",
+            image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
             tag: "HEADWEAR",
             title: "Drip Caps",
             description: "Streetwear bucket hats, distressed snapbacks, and classic baseball caps."
@@ -702,289 +703,289 @@ const SUBCATEGORY_PREVIEWS: Record<string, Record<string, { image: string; tag: 
             description: "Womens heavy knit sweaters and oversized warm hoodies built for layering."
         },
         "Jackets & Coats": {
-            image: "/images/womens_jackets_preview.jpg",
+            image: "https://img105.savana.com/fd912543884c43c892a39219b2f63738.webp",
             tag: "OUTERWEAR DROP",
             title: "Jackets & Coats",
             description: "Utility cargos, bomber jackets, and heavy denim pieces for perfect layering."
         },
         "Blazers & Waistcoats": {
-            image: "/images/womens_blazers_preview.jpg",
+            image: "https://img105.savana.com/fd912543884c43c892a39219b2f63738.webp",
             tag: "MODERN TAILORING",
             title: "Blazers & Waistcoats",
             description: "Oversized blazers and structured waistcoats designed to stand out."
         },
         "Dresses": {
-            image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp",
             tag: "FASHION FORWARD",
             title: "Dresses",
             description: "Elegant silhouettes, slip dresses, and minimal modern shapes."
         },
         "Tops": {
-            image: "/images/womens_tops_preview.jpg",
+            image: "https://img105.savana.com/b1f965b1c47f4aeb9324aae4a983d71e.webp",
             tag: "ESSENTIAL TOPS",
             title: "Tops",
             description: "Elegant long sleeve wrap styles, ribbed crop tops, structured corsets, and summer blouses."
         },
         "Co-ords": {
-            image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/4a98999a637a41fba333a1881f09c60c.webp",
             tag: "MATCHING SETS",
             title: "Co-ord Sets",
             description: "Monochrome rib knit sets, cozy utility shorts-tees, and tailored matching sets."
         },
         "Playsuits": {
-            image: "/images/womens_playsuits_preview.jpg",
+            image: "https://img105.savana.com/5e08c0285d82474ea9d0278e33deb10e.webp",
             tag: "SUMMER JUMPS",
             title: "Playsuits",
             description: "Chic short-sleeved playsuits and rompers for casual sun-soaked weekends."
         },
         "Jumpsuits": {
-            image: "/images/womens_jumpsuits_preview.jpg",
+            image: "https://img105.savana.com/5e08c0285d82474ea9d0278e33deb10e.webp",
             tag: "ONE-PIECE DRIP",
             title: "Jumpsuits",
             description: "Stunning pleated wide-leg jumpsuits, structured boiler suits, and utility wear."
         },
         "Shrugs": {
-            image: "/images/womens_shrugs_preview.jpg",
+            image: "https://img105.savana.com/b624019e62da430f8e7c88b4f8c5aca2.webp",
             tag: "LIGHT LAYERS",
             title: "Shrugs & Cardigans",
             description: "Elegant long black shrugs, cardigans, and duster coats for layering."
         },
         // --- INDIAN & FESTIVE (WOMEN) ---
         "Kurtas & Suits": {
-            image: "/images/womens_kurta_preview.jpg",
+            image: "https://img105.savana.com/5b128d15efd948c983868a1302c463f7.webp",
             tag: "TRADITIONAL WEAR",
             title: "Kurtas & Salwar Suits",
             description: "Traditional salwar sets and embroidered kurtas with georgette dupattas."
         },
         "Kurtis, Tunics & Tops": {
-            image: "/images/womens_kurta_tunics_preview.jpg",
+            image: "https://img105.savana.com/5b128d15efd948c983868a1302c463f7.webp",
             tag: "DAILY ETHNIC",
             title: "Kurtis & Tunics",
             description: "Breezy printed kurtis, everyday tunics, and modern indo-western fusion wear."
         },
         "Sarees": {
-            image: "/images/womens_saree_preview.jpg",
+            image: "https://img105.savana.com/8f1ab7d704f54f958a1e607020cead7d.webp",
             tag: "HANDLOOM GRACE",
             title: "Sarees",
             description: "Exquisite Banarasi silk, Kanjeevaram weaves, and lightweight organza sarees."
         },
         "Ethnic Wear": {
-            image: "/images/womens_ethnic_wear_preview.jpg",
+            image: "https://img105.savana.com/8f1ab7d704f54f958a1e607020cead7d.webp",
             tag: "FESTIVE DRIP",
             title: "Ethnic Wear",
             description: "Beautifully styled anarkali gowns, fusion wear sets, and festive silhouettes."
         },
         "Leggings, Salwars & Churidars": {
-            image: "/images/womens_leggings_salwar_preview.jpg",
+            image: "https://img105.savana.com/17eb77b4c05b4168a6e9aba0fd3bd4ea.webp",
             tag: "ETHNIC BOTTOMS",
             title: "Ethnic Bottoms",
             description: "Comfortable stretch leggings, cotton salwars, and silk-blend churidars."
         },
         "Skirts & Palazzos": {
-            image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/5b128d15efd948c983868a1302c463f7.webp",
             tag: "BOHO CORES",
             title: "Skirts & Palazzos",
             description: "Wide-leg flared palazzo trousers and handblock printed cotton long skirts."
         },
         "Dress Materials": {
-            image: "/images/womens_dress_material_preview.jpg",
+            image: "https://img105.savana.com/8f1ab7d704f54f958a1e607020cead7d.webp",
             tag: "UNSTITCHED FABRICS",
             title: "Dress Materials",
             description: "Premium unstitched cotton, georgette, and chanderi dress material sets."
         },
         "Lehenga Cholis": {
-            image: "/images/womens_lehenga_preview.jpg",
+            image: "https://img105.savana.com/8f1ab7d704f54f958a1e607020cead7d.webp",
             tag: "BRIDAL & CELEBRATION",
             title: "Lehenga Cholis",
             description: "Heavily embellished lehengas, mirror work designs, and modern pastel cuts."
         },
         "Dupattas & Shawls": {
-            image: "/images/womens_dupatta_preview.jpg",
+            image: "https://img105.savana.com/8f1ab7d704f54f958a1e607020cead7d.webp",
             tag: "ETHNIC ACCESSORIES",
             title: "Dupattas & Shawls",
             description: "Fine phulkari dupattas, banarasi silk stoles, and warm pashmina shawls."
         },
         "Jackets": {
-            image: "/images/womens_sports_jackets_preview.jpg",
+            image: "https://img105.savana.com/fd912543884c43c892a39219b2f63738.webp",
             tag: "ETHNIC JACKETS",
             title: "Ethnic Jackets",
             description: "Beautifully styled jackets, capes, and ethnic waistcoats to pair with your outfits."
         },
         // --- BOTTOMWEAR (WOMEN) ---
         "Jeans": {
-            image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/17eb77b4c05b4168a6e9aba0fd3bd4ea.webp",
             tag: "STREETWEAR CORE",
             title: "Womens Denim",
             description: "Womens heavyweight wide-leg jeans, distressed finishes, and classic straight cuts."
         },
         "Trousers & Capris": {
-            image: "/images/womens_trousers_preview.jpg",
+            image: "https://img105.savana.com/17eb77b4c05b4168a6e9aba0fd3bd4ea.webp",
             tag: "EVERYDAY UTILITY",
             title: "Trousers & Capris",
             description: "Relaxed fit cargo pants, utility joggers, and versatile daily bottoms."
         },
         "Shorts & Skirts": {
-            image: "/images/womens_shorts_skirts_preview.jpg",
+            image: "https://img105.savana.com/82f87913d0814f9083297cfb44303ef9.webp",
             tag: "SUMMER DROP",
             title: "Shorts & Skirts",
             description: "Comfortable mesh, fleece, and lightweight cargo shorts for high-temp drip."
         },
         // --- INNERWEAR & SLEEPWEAR (WOMEN) ---
         "Bra": {
-            image: "/images/womens_bra_preview.jpg",
+            image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
             tag: "DAILY COMFORT",
             title: "Bra & Lingerie",
             description: "Premium seamless wireless sports bras, bralettes, and comfortable daily wear."
         },
         "Briefs": {
-            image: "/images/womens_briefs_preview.png",
+            image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
             tag: "COZY BASICS",
             title: "Briefs & Panties",
             description: "Ultra-soft seamless microfibre and hypoallergenic organic cotton briefs sets."
         },
         "Shapewear": {
-            image: "/images/womens_shapewear_preview.png",
+            image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
             tag: "SCULPTED CORE",
             title: "Shapewear",
             description: "High-waisted tummy control shaping shorts, bodysuits, and seamless contours."
         },
         "Sleepwear & Loungewear": {
-            image: "/images/womens_sleepwear_preview.png",
+            image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
             tag: "SLUMBER DRIP",
             title: "Sleep & Loungewear",
             description: "Luxury satin silk pajama sets, cozy modal stoles, and nightwear coordinates."
         },
         "Swimwear": {
-            image: "/images/womens_swimwear_preview.png",
+            image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
             tag: "RESORT WEAR",
             title: "Swimwear",
             description: "Chic modern one-piece active swimsuits, resort cover-ups, and beachwear."
         },
         "Camisoles & Thermals": {
-            image: "/images/womens_camisoles_preview.png",
+            image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
             tag: "ESSENTIAL LAYERS",
             title: "Camisoles & Thermals",
             description: "Premium modal spaghetti strap camisoles and warm base layer winter thermals."
         },
         // --- PLUS SIZE (WOMEN) ---
         "Maternity Dresses": {
-            image: "/images/womens_maternity_dresses_preview.png",
+            image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp",
             tag: "MATERNITY WEAR",
             title: "Maternity Dresses",
             description: "Flowy, elasticated empire-waist maternity dresses to style comfortably."
         },
         "Maternity Tops": {
-            image: "/images/womens_maternity_tops_preview.png",
+            image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp",
             tag: "MATERNITY LOUNGE",
             title: "Maternity Tops",
             description: "Ruched sides maternity tees and loose drape linen pregnancy shirts."
         },
         "Maternity Bottoms": {
-            image: "/images/womens_maternity_bottoms_preview.png",
+            image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp",
             tag: "MATERNITY COMFORT",
             title: "Maternity Bottoms",
             description: "Over-the-belly support leggings and ultra-soft comfort waistband joggers."
         },
         "Plus Size Dresses": {
-            image: "/images/womens_plus_size_dresses_preview.png",
+            image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
             tag: "CURVE STYLES",
             title: "Plus Size Dresses",
             description: "Beautifully draped statement dresses designed for flattering curves."
         },
         "Plus Size Tops": {
-            image: "/images/womens_plus_size_tops_preview.png",
+            image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
             tag: "CURVE ESSENTIALS",
             title: "Plus Size Tops",
             description: "Structured shirts, oversized casual tees, and premium knitted tops."
         },
         // --- FOOTWEAR (WOMEN) ---
         "Flats": {
-            image: "/images/womens_flats_preview.jpg",
+            image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
             tag: "EASY FLAT",
             title: "Flats & Ballerinas",
             description: "Premium white Aldo slip-on sandals, pointed flats, and comfortable mules."
         },
         "Casual Shoes": {
-            image: "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
             tag: "FOOTWEAR CORE",
             title: "Casual Shoes",
             description: "Comfortable leather slip-ons, minimal loafers, and flats."
         },
         "Heels": {
-            image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
             tag: "HIGH HEELS",
             title: "Heels & Stilettos",
             description: "Sleek block heels, pumps, and strapped party stilettos."
         },
         "Boots": {
-            image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
             tag: "STREET LEATHER",
             title: "Leather Boots",
             description: "Rugged lace-up leather boots and sleek Chelsea boot silhouettes."
         },
         "Sports Shoes & Floaters": {
-            image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
             tag: "ATHLETIC GEAR",
             title: "Sports Shoes",
             description: "Lightweight trail-runners and cushioned training footwear."
         },
         // --- OTHER COMMON CATEGORIES (WOMEN) ---
         "Smart Watches": {
-            image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "SMART TECH",
             title: "Smart Watches",
             description: "AMOLED touch displays, heart-rate monitors, and multi-day battery life."
         },
         "Analogue Watches": {
-            image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
             tag: "TIMEPIECES",
             title: "Analogue Watches",
             description: "Swiss movements, premium leather straps, and structural steel casings."
         },
         "Digital Watches": {
-            image: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
             tag: "RETRO CASINGS",
             title: "Digital Watches",
             description: "Vintage metal digital watches, alarms, and technical stopwatch systems."
         },
         "Smart Wearables": {
-            image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
             tag: "SMART TECH",
             title: "Smart Wearables",
             description: "Aesthetic fitness bands, smart rings, and connected notifications."
         },
         "Headphones": {
-            image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
             tag: "AUDIO GEAR",
             title: "Grail Headphones",
             description: "Active noise-cancelling over-ear headphones with studio sound profile."
         },
         "Speakers": {
-            image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
             tag: "AUDIO GRID",
             title: "Portable Speakers",
             description: "Waterproof Bluetooth speakers with deep bass grids and ambient lights."
         },
         "Handbags": {
-            image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "CARRY ACCESSORY",
             title: "Handbags",
             description: "Luxury leather satchels, designer shoulder bags, and structured top-handles."
         },
         "Clutches": {
-            image: "/images/womens_clutches_preview.jpg",
+            image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
             tag: "PARTY GRAB",
             title: "Clutches & Pouches",
             description: "Elegant silk embroidered clutches with floral details and sequins."
         },
         "Tote Bags": {
-            image: "/images/womens_tote_bag_preview.jpg",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "DAILY CANVAS",
             title: "Tote Bags",
             description: "Chic butterfly print canvas tote bags with premium leather handles."
         },
         "Caps & Hats": {
-            image: "/images/pink_cap_3d.png",
+            image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
             tag: "HEADWEAR",
             title: "Drip Caps",
             description: "Streetwear bucket hats, distressed snapbacks, and classic baseball caps."
@@ -996,139 +997,139 @@ const SUBCATEGORY_PREVIEWS: Record<string, Record<string, { image: string; tag: 
             description: "Heavy duty techwear backpacks with multi-compartment modular storage."
         },
         "Makeup": {
-            image: "/images/womens_makeup_preview.png",
+            image: "https://img105.savana.com/f64269193867428aaa81923d2a683436.webp",
             tag: "BEAUTY CARE",
             title: "Makeup Essentials",
             description: "Premium luxury makeup cosmetics set, palettes, and brushes."
         },
         "Skincare": {
-            image: "/images/womens_skincare_preview.png",
+            image: "https://img105.savana.com/990190ec202a45a7be49d65961a83e75.webp",
             tag: "SKIN ESSENTIALS",
             title: "Skincare Essentials",
             description: "Luxury skincare serum bottle, cream jar, and hydrating toner."
         },
         "Premium Beauty": {
-            image: "/images/womens_premium_beauty_preview.png",
+            image: "https://img105.savana.com/990190ec202a45a7be49d65961a83e75.webp",
             tag: "PREMIUM BEAUTY",
             title: "Premium Beauty Care",
             description: "Premium high-end beauty products and luxury cosmetics collection."
         },
         "Lipsticks": {
-            image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/ed88b6e2e77f461b913d3cecb8f1c215.webp",
             tag: "LIP GLOW",
             title: "Luxury Lipsticks",
             description: "High-end luxury matte lipsticks set featuring rich red and nude shades."
         },
         "Fragrances": {
-            image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/ed88b6e2e77f461b913d3cecb8f1c215.webp",
             tag: "LUXURY SCENTS",
             title: "Women's Fragrances",
             description: "Elegant glass perfume spray bottles featuring soft floral notes."
         },
         "Classic Sunglasses": {
-            image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
             tag: "CLASSIC SHADES",
             title: "Classic Sunglasses",
             description: "Timeless polarized sunglasses designed with premium acetate frames."
         },
         "Cat-Eye Glasses": {
-            image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
             tag: "RETRO CHIC",
             title: "Cat-Eye Glasses",
             description: "Chic vintage cat-eye glasses for a bold statement look."
         },
         "Oversized Shades": {
-            image: "https://images.unsplash.com/photo-1508296695146-257a814070b4?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
             tag: "STATEMENT DRIP",
             title: "Oversized Shades",
             description: "Elegant oversized designer sunglasses with dark tinted UV protection lenses."
         },
         "Clothing": {
-            image: "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
             tag: "SPORTSWEAR",
             title: "Sports Clothing",
             description: "Premium performance compression tees, leggings, and active wear."
         },
         "Footwear": {
-            image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
             tag: "ATHLETIC GEAR",
             title: "Sports Footwear",
             description: "Lightweight trail-runners and cushioned training athletic shoes."
         },
         "Sports Accessories": {
-            image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
             tag: "ACTIVE GEAR",
             title: "Sports Accessories",
             description: "High-quality gym bags, sweatbands, and leakproof water bottles."
         },
         "Sports Equipment": {
-            image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
             tag: "HOME WORKOUT",
             title: "Sports Equipment",
             description: "Anti-slip yoga mats, dumbbells, and adjustable training resistance bands."
         },
         "Fitness Gadgets": {
-            image: "/images/womens_fitness_gadgets_preview.jpg",
+            image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
             tag: "HEALTH TECH",
             title: "Fitness Gadgets",
             description: "Smart bands, smart rings, dumbbells, and active training gear."
         },
         "Fashion Jewellery": {
-            image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "TRENDY GLOW",
             title: "Fashion Jewellery",
             description: "Chic layered necklaces, trendy chain bracelets, and statement rings."
         },
         "Fine Jewellery": {
-            image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "LUXURY STONES",
             title: "Fine Jewellery",
             description: "Elegant diamond solitaire rings and platinum pendant necklaces."
         },
         "Earrings": {
-            image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "EARRING DROP",
             title: "Earrings",
             description: "Premium gold-plated hoops, pearl studs, and elegant drop earrings."
         },
         "Belts": {
-            image: "/images/womens_belts_preview.jpg",
+            image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
             tag: "LEATHER ACCESSORIES",
             title: "Belts",
             description: "Premium pack of slim black, brown, and white leather fashion belts with square buckles."
         },
         "Scarves & More": {
-            image: "/images/womens_scarves_preview.jpg",
+            image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
             tag: "WRAPS & STOLES",
             title: "Scarves & More",
             description: "Premium blue, white, and teal geometric patterned fashion scarves."
         },
         "Hair Accessories": {
-            image: "/images/womens_hair_accessories_preview.jpg",
+            image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
             tag: "HAIR STYLES",
             title: "Hair Accessories",
             description: "Elegant rhinestone-studded claw hair clips and aesthetic headbands."
         },
         "Wallets": {
-            image: "/images/womens_wallet_preview.jpg",
+            image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
             tag: "LEATHER POUCH",
             title: "Wallets",
             description: "Premium quilted light blue zip wallets, cardholders, and coin pouches."
         },
         "Hard Suitcases": {
-            image: "/images/womens_hard_suitcase_preview.jpg",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "TRAVEL LUGGAGE",
             title: "Hard Suitcases",
             description: "Premium blue-to-pink gradient ombre hard-shell travel suitcases."
         },
         "Soft Suitcases": {
-            image: "https://images.unsplash.com/photo-1581553680321-4fffae59fccd?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
             tag: "SOFT LUGGAGE",
             title: "Soft Suitcases",
             description: "Premium lightweight fabric travel suitcases with expandable pockets."
         },
         "Travel Bags": {
-            image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80",
+            image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
             tag: "TRAVEL DRIP",
             title: "Travel Bags",
             description: "Luxury travel weekend duffle bags and water-resistant cabin luggage."
@@ -1152,11 +1153,143 @@ const getPreviewData = (gender: string, category: string, subcategory: string) =
     };
   }
   return {
-    image: "/images/hero_streetwear.png",
+    image: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp",
     tag: "DRIP EXCLUSIVES",
     title: subcategory,
     description: `Shop our premium selection of ${subcategory}.`
   };
+};
+
+interface MegaMenuData {
+  columns: {
+    title: string;
+    items: { label: string; href: string }[];
+  }[];
+  promo: {
+    title: string;
+    tag: string;
+    description: string;
+    image: string;
+    href: string;
+  };
+}
+
+const getMegaMenuData = (category: 'Sneakers' | 'Apparel' | 'Accessories' | 'Brands'): MegaMenuData => {
+  const sneakers = {
+    columns: [
+      {
+        title: "Popular Brands",
+        items: [
+          { label: "Air Jordan", href: "/shop?brand=Jordan" },
+          { label: "Nike", href: "/shop?brand=Nike" },
+          { label: "Adidas", href: "/shop?brand=Adidas" },
+          { label: "Yeezy", href: "/shop?brand=Yeezy" },
+          { label: "New Balance", href: "/shop?brand=New+Balance" },
+          { label: "Asics", href: "/shop?brand=Asics" }
+        ]
+      },
+      {
+        title: "Trending Silhouettes",
+        items: [
+          { label: "Samba", href: "/shop?search=Samba" },
+          { label: "Air Jordan 1", href: "/shop?search=Jordan+1" },
+          { label: "Air Force 1", href: "/shop?search=Air+Force" },
+          { label: "Dunk Low", href: "/shop?search=Dunk" },
+          { label: "Yeezy Slide", href: "/shop?search=Slide" }
+        ]
+      }
+    ],
+    promo: {
+      title: "Trending Footwear",
+      tag: "COP THE HEAT",
+      description: "Verified authentic hype sneakers from Jordan, Nike, Adidas & more.",
+      image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
+      href: "/shop?category=Footwear"
+    }
+  };
+
+  const apparel = {
+    columns: [
+      {
+        title: "Categories",
+        items: [
+          { label: "T-Shirts", href: "/shop?category=T-Shirts" },
+          { label: "Hoodies & Sweatshirts", href: "/shop?category=Hoodies" },
+          { label: "Jackets & Coats", href: "/shop?category=Jackets" },
+          { label: "Shirts", href: "/shop?category=Shirts" },
+          { label: "Pants & Cargos", href: "/shop?category=Bottoms" }
+        ]
+      },
+      {
+        title: "Featured Brands",
+        items: [
+          { label: "Almost Gods", href: "/shop?brand=Almost+Gods" },
+          { label: "Supervek", href: "/shop?brand=Supervek" },
+          { label: "Arlo", href: "/shop?brand=Arlo" }
+        ]
+      }
+    ],
+    promo: {
+      title: "Streetwear Drops",
+      tag: "SEASON 1 DROP",
+      description: "Heavyweight drop-shoulder graphic tees and oversized premium essentials.",
+      image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
+      href: "/shop?gender=men"
+    }
+  };
+
+  const accessories = {
+    columns: [
+      {
+        title: "Categories",
+        items: [
+          { label: "Sling Bags", href: "/shop?category=Bags" },
+          { label: "Wallets", href: "/shop?category=Wallets" },
+          { label: "Caps & Beanies", href: "/shop?category=Headwear" },
+          { label: "Eyewear & Sunglasses", href: "/shop?category=Eyewear" }
+        ]
+      }
+    ],
+    promo: {
+      title: "Finish Your Drip",
+      tag: "STREET UTILITY",
+      description: "Complete your look with premium slingers, bifold wallets, and caps.",
+      image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
+      href: "/shop?category=Bags"
+    }
+  };
+
+  const brands = {
+    columns: [
+      {
+        title: "Verified Resellers",
+        items: [
+          { label: "Almost Gods", href: "/shop?brand=Almost+Gods" },
+          { label: "Supervek", href: "/shop?brand=Supervek" },
+          { label: "Arlo", href: "/shop?brand=Arlo" }
+        ]
+      },
+      {
+        title: "Collaborations",
+        items: [
+          { label: "Cyber Shield", href: "/shop?search=Cyber" },
+          { label: "Heritage Bomber", href: "/shop?search=Bomber" }
+        ]
+      }
+    ],
+    promo: {
+      title: "Brand Curations",
+      tag: "OFFICIAL PARTNERS",
+      description: "Explore limited collections and verified streetwear drops.",
+      image: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp",
+      href: "/brands"
+    }
+  };
+
+  if (category === "Sneakers") return sneakers;
+  if (category === "Apparel") return apparel;
+  if (category === "Accessories") return accessories;
+  return brands;
 };
 
 interface NavbarProps {
@@ -1242,6 +1375,17 @@ export function Navbar({
   const [searchOverlayOpen, setSearchOverlayOpen] = useState(false);
   const [searchCategoryOpen, setSearchCategoryOpen] = useState(false);
   const [localSearchCategory, setLocalSearchCategory] = useState(searchCategory || "All");
+
+  // New premium navigation & suggestions states
+  const [activeMegaMenu, setActiveMegaMenu] = useState<'Sneakers' | 'Apparel' | 'Accessories' | 'Brands' | null>(null);
+  const [activeMobileMenu, setActiveMobileMenu] = useState<'Sneakers' | 'Apparel' | 'Accessories' | 'Brands' | null>(null);
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [notificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, text: "🔥 Restock alert: Yeezy Slide Black is back in stock!", time: "2 hours ago", read: false },
+    { id: 2, text: "🎉 Special Promo: Use code DRIP10 for 10% off your purchase.", time: "1 day ago", read: true },
+    { id: 3, text: "📦 Your order #DH-948271 has been delivered.", time: "3 days ago", read: true }
+  ]);
 
   // Voice & Visual Search simulation states
   const [voiceSearchOpen, setVoiceSearchOpen] = useState(false);
@@ -1377,53 +1521,259 @@ export function Navbar({
   }, 0);
 
   return (
-    <header className="w-full bg-white text-black border-b border-zinc-200 sticky top-0 z-50" suppressHydrationWarning>
+    <header 
+      className="w-full bg-white/70 backdrop-blur-xl border-b border-zinc-200/50 sticky top-0 z-50 select-none transition-all duration-300 shadow-[0_2px_15px_rgba(0,0,0,0.02)]" 
+      suppressHydrationWarning
+      onMouseLeave={() => setActiveMegaMenu(null)}
+    >
       {/* Announcement Bar */}
       <div className="w-full bg-black text-white text-[10px] py-1.5 px-4 flex items-center justify-center font-mono overflow-hidden tracking-wider select-none" suppressHydrationWarning>
         <div className="animate-pulse flex items-center space-x-2">
-          <span>ÔÜí SUMMER DRIP IS HERE: USE CODE <strong className="text-yellow-400 font-bold">DRIP10</strong> FOR 10% OFF ÔÜí</span>
+          <span>⚡ SUMMER DRIP IS HERE: USE CODE <strong className="text-yellow-400 font-bold">DRIP10</strong> FOR 10% OFF ⚡</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </div>
       </div>
 
       {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-6" suppressHydrationWarning>
-        {/* Left: Brand Logo & All Categories Dropdown */}
-        <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0" suppressHydrationWarning>
+        {/* Left: Brand Logo & Navigation Links */}
+        <div className="flex items-center gap-8 flex-shrink-0" suppressHydrationWarning>
           <a href="/" className="font-chaney-title text-xl md:text-2xl tracking-tighter hover:opacity-85 transition-opacity">
             DRIP HUNTER
           </a>
 
-
+          {/* Top-Level Desktop Links (Culture Circle style) */}
+          <nav className="hidden lg:flex items-center gap-6 text-[12px] font-black uppercase tracking-widest text-zinc-800">
+            {["Sneakers", "Apparel", "Accessories", "Brands"].map((item) => (
+              <div
+                key={item}
+                className="relative py-2 cursor-pointer group"
+                onMouseEnter={() => setActiveMegaMenu(item as any)}
+              >
+                <span className="hover:text-black transition-colors duration-200">
+                  {item}
+                </span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full" />
+              </div>
+            ))}
+          </nav>
         </div>
 
-        {/* Center: Centered Navigation Links & Sleek Search Bar */}
-        <div className="hidden lg:flex flex-1 items-center justify-center gap-8">
-          <nav className="flex items-center gap-6 text-sm font-semibold tracking-wide">
-          </nav>
-
-          {/* Search Bar with Category Dropdown Arrow & Overlay Trigger */}
+        {/* Center: Inline Search Bar with dynamic suggestions */}
+        <div className="flex-1 max-w-lg relative">
           <div 
-            onClick={() => setSearchOverlayOpen(true)}
-            className="flex items-center gap-2 border-2 border-zinc-950 rounded-full bg-white px-4 py-2 w-72 sm:w-80 md:w-96 lg:w-[420px] cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:-translate-y-[0.5px] transition-all duration-300 group"
+            className="flex items-center gap-2 border border-zinc-200 focus-within:border-black rounded-full bg-zinc-50/50 px-4 py-2 cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.04)] focus-within:bg-white focus-within:shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all duration-300 group"
           >
-            <Search className="w-4 h-4 text-zinc-900 group-hover:scale-105 transition-transform shrink-0" />
+            <Search className="w-4 h-4 text-zinc-500 group-hover:scale-105 transition-transform shrink-0" />
             <input
               type="text"
-              readOnly
               value={localSearch}
+              onFocus={() => setSearchFocused(true)}
+              onChange={(e) => {
+                const val = e.target.value;
+                setLocalSearch(val);
+                onSearchChange?.(val);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setSearchFocused(false);
+                  handleSearchSubmit();
+                }
+              }}
               placeholder="Find your perfect streetwear..."
-              className="bg-transparent outline-none text-[12px] w-full text-zinc-950 placeholder-zinc-500 font-bold cursor-pointer pointer-events-none"
+              className="bg-transparent outline-none text-[12px] w-full text-zinc-950 placeholder-zinc-500 font-bold"
             />
-            <div className="flex items-center gap-1 border-l-2 border-zinc-200 pl-3 text-[10px] font-black tracking-wider text-zinc-800 group-hover:text-black uppercase shrink-0">
-              <span>Category</span>
-              <ChevronDown className="w-3 h-3 text-zinc-800 group-hover:text-black transition-transform duration-200" />
+            {/* Input triggers */}
+            <div className="flex items-center gap-2 border-l border-zinc-200 pl-2 text-zinc-400 shrink-0">
+              <button
+                onClick={() => startVoiceSearch()}
+                className="hover:text-black transition-colors cursor-pointer p-0.5 border-none bg-transparent"
+                title="Voice Search"
+              >
+                <Mic className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={() => {
+                  setVisualSearchOpen(true);
+                  setVisualSearchImage(null);
+                  setVisualSearchScanning(false);
+                }}
+                className="hover:text-black transition-colors cursor-pointer p-0.5 border-none bg-transparent"
+                title="Search by Image"
+              >
+                <Camera className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
+
+          {/* Inline Live Suggestions Dropdown */}
+          <AnimatePresence>
+            {searchFocused && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 15 }}
+                transition={{ duration: 0.2 }}
+                className="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 w-[90vw] sm:w-[500px] md:w-[560px] bg-white border border-zinc-200 rounded-3xl shadow-2xl p-6 z-50 overflow-hidden flex flex-col gap-6 text-left"
+              >
+                {localSearch.trim() === "" ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Trending Searches */}
+                    <div>
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Trending Searches</h4>
+                      <div className="flex flex-col gap-2">
+                        {["Samba", "Scuderia Ferrari", "Almost Gods", "Cargo Shorts", "Heritage Red"].map((term) => (
+                          <button
+                            key={term}
+                            onClick={() => {
+                              setLocalSearch(term);
+                              onSearchChange?.(term);
+                              setSearchFocused(false);
+                              if (typeof window !== "undefined") {
+                                window.location.href = `/shop?search=${encodeURIComponent(term)}`;
+                              }
+                            }}
+                            className="text-xs font-semibold text-zinc-650 hover:text-black text-left hover:translate-x-1 transition-all py-1 cursor-pointer bg-transparent border-none"
+                          >
+                            {term}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Popular Brands */}
+                    <div>
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Popular Brands</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        {["Puma", "Supervek", "Almost Gods", "Arlo"].map((brand) => (
+                          <button
+                            key={brand}
+                            onClick={() => {
+                              setSearchFocused(false);
+                              if (typeof window !== "undefined") {
+                                window.location.href = `/shop?brand=${encodeURIComponent(brand)}`;
+                              }
+                            }}
+                            className="px-3 py-2 border border-zinc-200 hover:border-black rounded-xl text-center text-xs font-bold transition-all hover:bg-zinc-50 cursor-pointer bg-transparent"
+                          >
+                            {brand}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Matching Products</h4>
+                    <div className="flex flex-col gap-3 max-h-[300px] overflow-y-auto no-scrollbar">
+                      {masterProducts.filter(p => 
+                        p.name.toLowerCase().includes(localSearch.toLowerCase()) ||
+                        p.brand.toLowerCase().includes(localSearch.toLowerCase()) ||
+                        p.category.toLowerCase().includes(localSearch.toLowerCase())
+                      ).slice(0, 4).map((p) => (
+                        <div 
+                          key={p.id}
+                          className="flex items-center gap-3 p-2 hover:bg-zinc-50 rounded-2xl transition-colors border border-transparent hover:border-zinc-200/80 cursor-pointer"
+                          onClick={() => {
+                            setSearchFocused(false);
+                            if (typeof window !== "undefined") {
+                              window.location.href = `/product/${p.id}`;
+                            }
+                          }}
+                        >
+                          <div className="relative w-12 h-14 bg-zinc-100 rounded-xl overflow-hidden flex-shrink-0">
+                            <Image src={p.image} alt={p.name} fill className="object-cover" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <span className="text-[9px] font-mono text-zinc-400 uppercase tracking-widest block">{p.brand}</span>
+                            <h5 className="text-xs font-bold text-zinc-900 truncate uppercase tracking-tight">{p.name}</h5>
+                            <span className="text-xs font-extrabold text-zinc-950 mt-0.5 block">{p.price}</span>
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onAddToCart({ id: p.id, brand: p.brand, name: p.name, price: p.price, image: p.image });
+                              setAnimateCart(true);
+                              setTimeout(() => setAnimateCart(false), 800);
+                            }}
+                            className="bg-black hover:bg-zinc-900 text-white text-[10px] font-bold uppercase tracking-wider px-3.5 py-2 rounded-xl transition-all cursor-pointer border-none shadow-xs hover:scale-102"
+                          >
+                            Add
+                          </button>
+                        </div>
+                      ))}
+                      {masterProducts.filter(p => 
+                        p.name.toLowerCase().includes(localSearch.toLowerCase()) ||
+                        p.brand.toLowerCase().includes(localSearch.toLowerCase()) ||
+                        p.category.toLowerCase().includes(localSearch.toLowerCase())
+                      ).length === 0 && (
+                        <p className="text-xs text-zinc-400 font-medium py-4 text-center">No matches found for &quot;{localSearch}&quot;.</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* Right: Preserved Action Icons */}
+        {/* Right: Preserved Action Icons + Notifications */}
         <div className="flex items-center gap-4 flex-shrink-0">
+          {/* Notifications dropdown bell */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setNotificationDropdownOpen(true)}
+            onMouseLeave={() => setNotificationDropdownOpen(false)}
+          >
+            <button 
+              onClick={() => setNotificationDropdownOpen(!notificationDropdownOpen)}
+              className="p-2 hover:bg-zinc-100 rounded-full transition-colors relative cursor-pointer block border-none bg-transparent" 
+              aria-label="Notifications"
+            >
+              <Bell className="w-5.5 h-5.5" />
+              {notifications.some(n => !n.read) && (
+                <span className="absolute top-1.5 right-1.5 bg-red-500 w-2 h-2 rounded-full animate-pulse" />
+              )}
+            </button>
+            
+            <AnimatePresence>
+              {notificationDropdownOpen && (
+                <div className="absolute right-0 top-full pt-2 z-50">
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.15 }}
+                    className="w-80 bg-white border border-zinc-200 rounded-2xl shadow-xl p-4 text-left select-none space-y-3"
+                  >
+                    <div className="flex justify-between items-center pb-2 border-b border-zinc-100">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-zinc-900">Notifications</h4>
+                      <button 
+                        onClick={() => setNotifications(prev => prev.map(n => ({ ...n, read: true })))}
+                        className="text-[9px] font-mono text-zinc-400 hover:text-black font-bold uppercase cursor-pointer bg-transparent border-none p-0"
+                      >
+                        Mark all read
+                      </button>
+                    </div>
+                    <div className="flex flex-col gap-2.5 max-h-[250px] overflow-y-auto no-scrollbar">
+                      {notifications.map((n) => (
+                        <div 
+                          key={n.id} 
+                          className={`p-2.5 rounded-xl border text-[11px] leading-relaxed transition-all cursor-pointer ${
+                            n.read ? "bg-zinc-50/50 border-zinc-100 text-zinc-500" : "bg-yellow-50/40 border-yellow-200/60 text-zinc-900 font-medium"
+                          }`}
+                          onClick={() => setNotifications(prev => prev.map(item => item.id === n.id ? { ...item, read: true } : item))}
+                        >
+                          <p>{n.text}</p>
+                          <span className="text-[9px] text-zinc-400 font-mono block mt-1">{n.time}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
+              )}
+            </AnimatePresence>
+          </div>
+
           {/* Account Icon with Hover/Click Dropdown */}
           <div 
             className="relative"
@@ -1451,7 +1801,7 @@ export function Navbar({
                     {!isLoggedIn ? (
                       <div className="space-y-3">
                         <h4 className="text-sm font-bold text-zinc-900 font-sans uppercase tracking-wider">Welcome</h4>
-                        <p className="text-[11px] text-zinc-505 font-medium font-sans">To access your wishlist and orders</p>
+                        <p className="text-[11px] text-zinc-500 font-medium font-sans">To access your wishlist and orders</p>
                         <button
                           onClick={() => {
                             window.location.href = "/login";
@@ -1472,7 +1822,7 @@ export function Navbar({
                           </a>
                           <a 
                             href="/seller" 
-                            className="flex items-center justify-between py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors text-[11px] font-semibold font-sans"
+                            className="flex items-center justify-between py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-900 transition-colors text-[11px] font-semibold font-sans"
                             onClick={() => setProfileDropdownOpen(false)}
                           >
                             <span>Become a Seller</span>
@@ -1480,7 +1830,7 @@ export function Navbar({
                           </a>
                           <a 
                             href="/brands" 
-                            className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors text-[11px] font-semibold font-sans"
+                            className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-900 transition-colors text-[11px] font-semibold font-sans"
                             onClick={() => setProfileDropdownOpen(false)}
                           >
                             Brand
@@ -1503,7 +1853,7 @@ export function Navbar({
                         </a>
                         <a 
                           href="/seller" 
-                          className="flex items-center justify-between py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          className="flex items-center justify-between py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-900 transition-colors animate-fade-in"
                           onClick={() => setProfileDropdownOpen(false)}
                         >
                           <span>Become a Seller</span>
@@ -1511,28 +1861,28 @@ export function Navbar({
                         </a>
                         <a 
                           href="/wishlist?tab=profile" 
-                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-900 transition-colors animate-fade-in"
                           onClick={() => setProfileDropdownOpen(false)}
                         >
                           My Profile
                         </a>
                         <a 
                           href="/wishlist?tab=orders" 
-                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-900 transition-colors animate-fade-in"
                           onClick={() => setProfileDropdownOpen(false)}
                         >
                           Orders
                         </a>
                         <a 
                           href="/wishlist?tab=wishlist" 
-                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-900 transition-colors animate-fade-in"
                           onClick={() => setProfileDropdownOpen(false)}
                         >
                           Wishlist
                         </a>
                         <a 
                           href="/brands" 
-                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-955 transition-colors animate-fade-in"
+                          className="flex items-center gap-2 py-2 px-2 hover:bg-zinc-50 rounded-lg cursor-pointer text-zinc-700 hover:text-zinc-900 transition-colors animate-fade-in"
                           onClick={() => setProfileDropdownOpen(false)}
                         >
                           Brand
@@ -1587,101 +1937,179 @@ export function Navbar({
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden p-2 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer"
+            className="lg:hidden p-2 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-5.5 h-5.5" /> : <Menu className="w-5.5 h-5.5" />}
           </button>
         </div>
       </div>
-      {/* Category Sub-Navbar */}
-      <div 
-        className="w-full bg-white border-b border-zinc-200 select-none relative shadow-[0_1px_4px_rgba(0,0,0,0.02)]"
-        onMouseLeave={handleCategoryMouseLeave}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-center gap-12 py-3">
-          {GENDER_TABS.map((gender, idx) => (
-            <a
-              key={idx}
-              href={`/shop?gender=${gender.toLowerCase()}`}
-              onMouseEnter={() => handleCategoryMouseEnter(gender)}
-              className={`text-[12px] font-black tracking-[0.2em] uppercase transition-colors py-1 cursor-pointer border-b-2 ${
-                activeHoverGender === gender 
-                  ? "text-black border-black font-extrabold" 
-                  : "text-zinc-900 hover:text-black border-transparent"
-              }`}
-            >
-              {gender}
-            </a>
-          ))}
-        </div>
 
-        {/* Interactive Mega Menu Panel */}
-        <AnimatePresence>
-          {activeHoverGender && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              onMouseEnter={handlePanelMouseEnter}
-              onMouseLeave={handlePanelMouseLeave}
-              className="absolute left-0 right-0 top-full bg-zinc-50 border-b border-zinc-200 shadow-xl z-40 select-none w-full"
-            >
-              <div className="max-w-7xl mx-auto flex divide-x divide-zinc-200 min-h-[380px] bg-zinc-50">
-                {/* Left Side: Categories Drawer Column (Gray backdrop) */}
-                <div 
-                  onMouseLeave={() => setActiveHoverSubcategory(null)}
-                  className="w-1/4 min-w-[250px] bg-zinc-50 p-5 flex flex-col gap-2 overflow-y-auto max-h-[440px] no-scrollbar"
+      {/* Desktop Hover Mega Menus Panel */}
+      <AnimatePresence>
+        {activeMegaMenu && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="absolute left-0 right-0 top-full bg-white/95 backdrop-blur-xl border-b border-zinc-200/50 shadow-2xl z-40 select-none w-full"
+          >
+            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 p-8 min-h-[280px]">
+              {/* Menu subcategories layout */}
+              <div className="col-span-8 grid grid-cols-3 gap-6 text-left">
+                {getMegaMenuData(activeMegaMenu).columns.map((col, idx) => (
+                  <div key={idx} className="space-y-3">
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                      {col.title}
+                    </h4>
+                    <div className="flex flex-col gap-2 text-xs font-semibold text-zinc-800">
+                      {col.items.map((subItem) => (
+                        <a
+                          key={subItem.label}
+                          href={subItem.href}
+                          className="hover:text-black hover:translate-x-1.5 transition-all py-0.5"
+                        >
+                          {subItem.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Mega menu promo card on the right */}
+              <div className="col-span-4 border-l border-zinc-200/80 pl-8 flex items-center justify-center">
+                <a
+                  href={getMegaMenuData(activeMegaMenu).promo.href}
+                  className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden shadow-lg border border-zinc-200/50 group/promo flex flex-col justify-end p-6 text-left"
                 >
-                  <h4 className="text-[10px] font-black tracking-widest uppercase text-zinc-400 mb-2 select-none">
-                    Categories
-                  </h4>
-                  {SUBNAV_CATEGORIES.map((cat, idx) => {
-                    const isExpanded = activeHoverCategory === cat;
-                    const subList = activeHoverGender === "Men" 
-                      ? MEGA_MENU_DATA[cat]?.subcategories 
-                      : MEGA_MENU_WOMEN_DATA[cat];
+                  <Image
+                    src={getMegaMenuData(activeMegaMenu).promo.image}
+                    alt={getMegaMenuData(activeMegaMenu).promo.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover/promo:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+                  
+                  <div className="relative z-10 space-y-1">
+                    <span className="text-[9px] font-black font-mono tracking-widest text-yellow-400 uppercase">
+                      {getMegaMenuData(activeMegaMenu).promo.tag}
+                    </span>
+                    <h3 className="text-sm font-black uppercase tracking-tight text-white leading-tight">
+                      {getMegaMenuData(activeMegaMenu).promo.title}
+                    </h3>
+                    <p className="text-[10px] text-zinc-350 font-medium leading-normal line-clamp-2">
+                      {getMegaMenuData(activeMegaMenu).promo.description}
+                    </p>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Dynamic Background Backdrop overlay when search suggestions are open */}
+      <AnimatePresence>
+        {searchFocused && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSearchFocused(false)}
+            className="fixed inset-0 top-[112px] bg-black/40 backdrop-blur-xs z-30"
+          />
+        )}
+      </AnimatePresence>
+
+
+      {/* Mobile Drawer Menu (Culture Circle Slide-out style) */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 z-50 lg:hidden select-none">
+            {/* Backdrop Blur Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-xs"
+            />
+            {/* Slide-out Menu Panel */}
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="absolute inset-y-0 left-0 w-80 bg-white shadow-2xl p-6 flex flex-col justify-between"
+            >
+              <div className="space-y-6 overflow-y-auto no-scrollbar">
+                {/* Header Row */}
+                <div className="flex items-center justify-between">
+                  <span className="font-chaney-title text-lg tracking-tighter">DRIP HUNTER</span>
+                  <button 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-2 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer border-none bg-transparent"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Mobile Search Input */}
+                <div className="flex items-center gap-2 border border-zinc-200 rounded-full bg-zinc-50 px-4 py-2">
+                  <Search className="w-4 h-4 text-zinc-500 shrink-0" />
+                  <input
+                    type="text"
+                    value={localSearch}
+                    onChange={(e) => {
+                      setLocalSearch(e.target.value);
+                      onSearchChange?.(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        setMobileMenuOpen(false);
+                        handleSearchSubmit();
+                      }
+                    }}
+                    placeholder="Search streetwear..."
+                    className="bg-transparent outline-none text-xs w-full text-zinc-950 placeholder-zinc-500 font-bold"
+                  />
+                </div>
+
+                {/* Mobile Navigation List with accordion items */}
+                <div className="flex flex-col gap-1 text-left">
+                  {["Sneakers", "Apparel", "Accessories", "Brands"].map((cat) => {
+                    const isExpanded = activeMobileMenu === cat;
+                    const menuData = getMegaMenuData(cat as any);
 
                     return (
-                      <div key={idx}>
+                      <div key={cat} className="border-b border-zinc-100 py-2">
                         <button
-                          onClick={() => {
-                            if (isExpanded) {
-                              setActiveHoverCategory("");
-                            } else {
-                              setActiveHoverCategory(cat);
-                            }
-                          }}
-                          className={`w-full flex items-center justify-between py-2 text-[11px] font-bold uppercase tracking-wider border-b border-zinc-200/60 cursor-pointer focus:outline-none transition-colors ${
-                            isExpanded ? "text-black font-black" : "text-zinc-650 hover:text-black"
-                          }`}
+                          onClick={() => setActiveMobileMenu(isExpanded ? null : cat as any)}
+                          className="w-full flex items-center justify-between text-xs font-black uppercase tracking-wider py-2 bg-transparent border-none cursor-pointer text-left"
                         >
                           <span>{cat}</span>
-                          <ChevronDown 
-                            className={`w-3.5 h-3.5 text-zinc-500 transition-transform duration-200 ${
-                              isExpanded ? "rotate-180" : ""
-                            }`} 
-                          />
+                          <ChevronDown className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
                         </button>
                         
                         <AnimatePresence initial={false}>
-                          {isExpanded && subList && (
+                          {isExpanded && (
                             <motion.div
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: "auto", opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.15 }}
-                              className="overflow-hidden flex flex-col gap-1 pl-2 pt-2"
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden flex flex-col gap-2 pl-4 pt-2 text-xs font-semibold text-zinc-600"
                             >
-                              {subList.map((sub, sIdx) => (
+                              {menuData.columns.flatMap(c => c.items).map((item) => (
                                 <a
-                                  key={sIdx}
-                                  href={`/shop?category=${encodeURIComponent(cat)}&search=${encodeURIComponent(sub)}&gender=${activeHoverGender.toLowerCase()}`}
-                                  onMouseEnter={() => setActiveHoverSubcategory(sub)}
-                                  className="text-[11px] font-semibold text-zinc-500 hover:text-black hover:translate-x-1.5 transition-all flex items-center justify-between py-1.5 font-sans"
+                                  key={item.label}
+                                  href={item.href}
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className="py-1 hover:text-black transition-colors"
                                 >
-                                  <span>{sub}</span>
+                                  {item.label}
                                 </a>
                               ))}
                             </motion.div>
@@ -1691,109 +2119,41 @@ export function Navbar({
                     );
                   })}
                 </div>
+              </div>
 
-                {/* Right Side: Premium Promotions Panel (White backdrop) or Hover Preview */}
-                <div className="flex-1 bg-white relative overflow-hidden min-h-[380px] max-h-[440px]">
-                  <AnimatePresence mode="wait">
-                    {activeHoverSubcategory ? (
-                      <motion.div
-                        key={`preview-${activeHoverSubcategory}`}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2, ease: "easeInOut" }}
-                        className="absolute inset-0 p-8 flex flex-col md:flex-row gap-8 items-center justify-center bg-white"
-                      >
-                        {/* Visual Preview Image */}
-                        <div className="relative w-full md:w-1/2 aspect-square rounded-2xl overflow-hidden shadow-lg border border-zinc-150 group/preview bg-zinc-50 flex-shrink-0">
-                          <Image
-                            src={getPreviewData(activeHoverGender || "Men", activeHoverCategory, activeHoverSubcategory).image}
-                            alt={activeHoverSubcategory}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover/preview:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex-1 flex flex-col justify-center text-left space-y-4">
-                          <span className="text-[9px] font-black font-mono tracking-widest text-orange-500 uppercase">
-                            {getPreviewData(activeHoverGender || "Men", activeHoverCategory, activeHoverSubcategory).tag}
-                          </span>
-                          <h3 className="text-xl font-black font-chaney-title uppercase tracking-wide text-zinc-900 leading-tight">
-                            {getPreviewData(activeHoverGender || "Men", activeHoverCategory, activeHoverSubcategory).title}
-                          </h3>
-                          <p className="text-xs text-zinc-500 font-sans font-medium leading-relaxed max-w-[280px]">
-                            {getPreviewData(activeHoverGender || "Men", activeHoverCategory, activeHoverSubcategory).description}
-                          </p>
-                          <div className="pt-2">
-                            <a
-                              href={`/shop?category=${encodeURIComponent(activeHoverCategory)}&search=${encodeURIComponent(activeHoverSubcategory)}&gender=${activeHoverGender.toLowerCase()}`}
-                              className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-black hover:text-zinc-650 transition-colors group/btn select-none"
-                            >
-                              <span>Shop Collection</span>
-                              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
-                            </a>
-                          </div>
-                        </div>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="default-empty"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute inset-0 flex flex-col items-center justify-center bg-white p-6 select-none"
-                      >
-                        <div className="text-center space-y-2">
-                          <p className="text-[10px] font-black tracking-widest text-zinc-300 uppercase font-sans">
-                            DRIP PREVIEW ACTIVE
-                          </p>
-                          <p className="text-[9px] font-medium tracking-wide text-zinc-400 font-sans">
-                            Hover over a subcategory to view the collection drop
-                          </p>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+              {/* Bottom Quick Links */}
+              <div className="border-t border-zinc-100 pt-6 space-y-3 text-left">
+                {!isLoggedIn ? (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      window.location.href = "/login";
+                    }}
+                    className="w-full bg-black text-white font-extrabold text-xs uppercase tracking-wider py-3.5 rounded-xl cursor-pointer text-center border-none"
+                  >
+                    Sign In
+                  </button>
+                ) : (
+                  <div className="space-y-2 text-xs font-bold text-zinc-700">
+                    <p className="text-[10px] text-zinc-400 font-mono truncate">{userEmail}</p>
+                    <a href="/wishlist?tab=profile" className="block py-1 hover:text-black">My Profile</a>
+                    <a href="/wishlist?tab=orders" className="block py-1 hover:text-black">Orders</a>
+                    <button 
+                      onClick={() => {
+                        handleLogOutSimulate();
+                        setMobileMenuOpen(false);
+                      }} 
+                      className="text-red-500 hover:text-red-700 block py-1 font-bold bg-transparent border-none cursor-pointer text-left"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                )}
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden w-full bg-white border-t border-zinc-200 p-4 space-y-4">
-          <div className="flex items-center border border-zinc-300 rounded-full px-4 py-2 bg-zinc-50">
-            <input
-              type="text"
-              value={localSearch}
-              onChange={(e) => {
-                const val = e.target.value;
-                setLocalSearch(val);
-                onSearchChange?.(val);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSearchSubmit();
-                }
-              }}
-              placeholder="Search..."
-              className="w-full bg-transparent outline-none text-sm"
-            />
-            <Search 
-              className="w-4 h-4 text-zinc-500 cursor-pointer hover:text-black transition-colors" 
-              onClick={handleSearchSubmit}
-            />
           </div>
-          <nav className="flex flex-col space-y-3 font-semibold text-sm">
-          </nav>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
 
       {/* Cart Drawer Panel */}
       {cartOpen && (
@@ -2572,12 +2932,12 @@ export function Navbar({
 
                   <div className="space-y-3">
                     {[
-                      { title: "Elevate Your Streetwear Drip With Oversized Tees", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" },
-                      { title: "Top 10 Varsity Jackets & Bomber Essentials", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" },
-                      { title: "How to Style Tactical Sling Bags & Accessories", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" },
-                      { title: "Skate Culture & Underground Urban Fashion", img: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=400&q=80" },
-                      { title: "The Ultimate Guide to Premium Headwear & Caps", img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=400&q=80" },
-                      { title: "Ripstop Cargo Pants: Utility Meets High Street", img: "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=400&q=80" },
+                      { title: "Elevate Your Streetwear Drip With Oversized Tees", img: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp" },
+                      { title: "Top 10 Varsity Jackets & Bomber Essentials", img: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp" },
+                      { title: "How to Style Tactical Sling Bags & Accessories", img: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp" },
+                      { title: "Skate Culture & Underground Urban Fashion", img: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp" },
+                      { title: "The Ultimate Guide to Premium Headwear & Caps", img: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp" },
+                      { title: "Ripstop Cargo Pants: Utility Meets High Street", img: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp" },
                     ].map((blog, idx) => (
                       <div
                         key={idx}
@@ -2742,9 +3102,9 @@ export function Navbar({
                           </span>
                           <div className="grid grid-cols-3 gap-2">
                             {[
-                              { label: "Retro", query: "Retro Graphic", img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=150&q=80" },
-                              { label: "Classic", query: "Kanji Oversized", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=150&q=80" },
-                              { label: "Cargo", query: "Cargo Utility", img: "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=150&q=80" }
+                              { label: "Retro", query: "Retro Graphic", img: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp" },
+                              { label: "Classic", query: "Kanji Oversized", img: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp" },
+                              { label: "Cargo", query: "Cargo Utility", img: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp" }
                             ].map((sample) => (
                               <button
                                 key={sample.label}

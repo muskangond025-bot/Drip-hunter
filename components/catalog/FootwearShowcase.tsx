@@ -40,21 +40,21 @@ const shoeProducts: FootwearProduct[] = [
       {
         name: "Red",
         hex: "#dc2626",
-        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
         bgGlow: "from-red-300/35 via-red-200/10 to-transparent",
         accentColor: "border-red-500 text-red-500 hover:bg-red-500"
       },
       {
         name: "Blue-Black",
         hex: "#1e3a8a",
-        image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
         bgGlow: "from-blue-300/35 via-blue-200/10 to-transparent",
         accentColor: "border-blue-600 text-blue-600 hover:bg-blue-600"
       },
       {
         name: "Neon Yellow",
         hex: "#eab308",
-        image: "https://images.unsplash.com/photo-1597045566677-8cf032ed6634?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
         bgGlow: "from-yellow-300/35 via-yellow-200/10 to-transparent",
         accentColor: "border-yellow-500 text-yellow-500 hover:bg-yellow-500"
       }
@@ -74,21 +74,21 @@ const shoeProducts: FootwearProduct[] = [
       {
         name: "Cyan",
         hex: "#06b6d4",
-        image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
         bgGlow: "from-cyan-300/35 via-cyan-200/10 to-transparent",
         accentColor: "border-cyan-500 text-cyan-500 hover:bg-cyan-500"
       },
       {
         name: "Red-Orange",
         hex: "#ea580c",
-        image: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
         bgGlow: "from-orange-300/35 via-orange-200/10 to-transparent",
         accentColor: "border-orange-500 text-orange-500 hover:bg-orange-500"
       },
       {
         name: "Lime-Green",
         hex: "#84cc16",
-        image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
         bgGlow: "from-lime-300/35 via-lime-200/10 to-transparent",
         accentColor: "border-lime-500 text-lime-500 hover:bg-lime-500"
       }
@@ -108,21 +108,21 @@ const shoeProducts: FootwearProduct[] = [
       {
         name: "Yellow",
         hex: "#facc15",
-        image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
         bgGlow: "from-yellow-300/35 via-yellow-200/10 to-transparent",
         accentColor: "border-yellow-500 text-yellow-500 hover:bg-yellow-500"
       },
       {
         name: "Sunset Orange",
         hex: "#f97316",
-        image: "https://images.unsplash.com/photo-1512374382149-43345095a84f?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
         bgGlow: "from-orange-300/35 via-orange-200/10 to-transparent",
         accentColor: "border-orange-500 text-orange-500 hover:bg-orange-500"
       },
       {
         name: "Stealth Black",
         hex: "#18181b",
-        image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?auto=format&fit=crop&w=600&q=80",
+        image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
         bgGlow: "from-zinc-400/35 via-zinc-200/10 to-transparent",
         accentColor: "border-zinc-955 text-zinc-955 hover:bg-zinc-955"
       }

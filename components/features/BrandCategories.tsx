@@ -7,22 +7,22 @@ import { CategoryCard } from "@/components/ui/category-card";
 const categories = [
   {
     title: "Office Drip",
-    image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=400&q=80",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     desc: "Premium tech-commute wear"
   },
   {
     title: "Street Athletic",
-    image: "https://images.unsplash.com/photo-1486218119243-13883505764c?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp",
     desc: "High-performance jog garments"
   },
   {
     title: "Urban Commute",
-    image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
     desc: "Outerwear for city transit"
   },
   {
     title: "Court Looks",
-    image: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=400&q=80",
+    image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
     desc: "Luxury athletic golf sets"
   }
 ];

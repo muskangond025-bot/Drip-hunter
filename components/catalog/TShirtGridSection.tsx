@@ -35,41 +35,41 @@ interface TShirtGridSectionProps {
 
 const productsData: Product[] = [
   // Red Top Wear
-  { id: 201, brand: "Drip Hustler", name: "Red Classic Oversized Tee", price: "₹999", rating: 4.8, color: "Red", gender: "Men", category: "Top Wear", discount: 20, sizes: ["S", "M", "L"], image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80" },
-  { id: 202, brand: "Burberry London", name: "Red Crest Regular Fit Tee", price: "₹1,499", rating: 4.5, color: "Red", gender: "Men", category: "Top Wear", discount: 15, sizes: ["M", "L", "XL"], image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=400&q=80" },
-  { id: 203, brand: "Stüssy Beach", name: "Red Stock Logo Tee", price: "₹1,199", rating: 4.7, color: "Red", gender: "Boys", category: "Top Wear", discount: 30, sizes: ["S", "M", "XL"], image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80" },
-  { id: 204, brand: "Essentials Co.", name: "Red Core Crewneck Tee", price: "₹899", rating: 4.2, color: "Red", gender: "Men", category: "Top Wear", discount: 10, sizes: ["L", "XL", "XXL"], image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=400&q=80" },
-  { id: 205, brand: "Bape Streetwear", name: "Red Ape Head Graphic Tee", price: "₹1,999", rating: 4.9, color: "Red", gender: "Boys", category: "Top Wear", discount: 50, sizes: ["S", "L", "XXL"], image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80" },
+  { id: 201, brand: "Drip Hustler", name: "Red Classic Oversized Tee", price: "₹999", rating: 4.8, color: "Red", gender: "Men", category: "Top Wear", discount: 20, sizes: ["S", "M", "L"], image: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp" },
+  { id: 202, brand: "Burberry London", name: "Red Crest Regular Fit Tee", price: "₹1,499", rating: 4.5, color: "Red", gender: "Men", category: "Top Wear", discount: 15, sizes: ["M", "L", "XL"], image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp" },
+  { id: 203, brand: "Stüssy Beach", name: "Red Stock Logo Tee", price: "₹1,199", rating: 4.7, color: "Red", gender: "Boys", category: "Top Wear", discount: 30, sizes: ["S", "M", "XL"], image: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp" },
+  { id: 204, brand: "Essentials Co.", name: "Red Core Crewneck Tee", price: "₹899", rating: 4.2, color: "Red", gender: "Men", category: "Top Wear", discount: 10, sizes: ["L", "XL", "XXL"], image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp" },
+  { id: 205, brand: "Bape Streetwear", name: "Red Ape Head Graphic Tee", price: "₹1,999", rating: 4.9, color: "Red", gender: "Boys", category: "Top Wear", discount: 50, sizes: ["S", "L", "XXL"], image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp" },
   
-  { id: 206, brand: "Drip Hustler", name: "Red Signature Logo Tee", price: "₹999", rating: 4.6, color: "Red", gender: "Men", category: "Top Wear", discount: 25, sizes: ["M", "L"], image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=400&q=80" },
-  { id: 207, brand: "Burberry London", name: "Red Embroidered Icon Tee", price: "₹1,599", rating: 4.4, color: "Red", gender: "Women", category: "Top Wear", discount: 10, sizes: ["S", "XL"], image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=400&q=80" },
-  { id: 208, brand: "Stüssy Beach", name: "Red 8-Ball Street Tee", price: "₹1,249", rating: 4.8, color: "Red", gender: "Kids", category: "Top Wear", discount: 40, sizes: ["M", "L", "XL"], image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=400&q=80" },
-  { id: 209, brand: "Essentials Co.", name: "Red Relaxed Boxy Fit Tee", price: "₹949", rating: 4.3, color: "Red", gender: "Girls", category: "Top Wear", discount: 10, sizes: ["L", "XXL"], image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=400&q=80" },
-  { id: 210, brand: "Bape Streetwear", name: "Red Camo College Tee", price: "₹2,199", rating: 4.9, color: "Red", gender: "Boys", category: "Top Wear", discount: 15, sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=400&q=80" },
+  { id: 206, brand: "Drip Hustler", name: "Red Signature Logo Tee", price: "₹999", rating: 4.6, color: "Red", gender: "Men", category: "Top Wear", discount: 25, sizes: ["M", "L"], image: "https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp" },
+  { id: 207, brand: "Burberry London", name: "Red Embroidered Icon Tee", price: "₹1,599", rating: 4.4, color: "Red", gender: "Women", category: "Top Wear", discount: 10, sizes: ["S", "XL"], image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp" },
+  { id: 208, brand: "Stüssy Beach", name: "Red 8-Ball Street Tee", price: "₹1,249", rating: 4.8, color: "Red", gender: "Kids", category: "Top Wear", discount: 40, sizes: ["M", "L", "XL"], image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp" },
+  { id: 209, brand: "Essentials Co.", name: "Red Relaxed Boxy Fit Tee", price: "₹949", rating: 4.3, color: "Red", gender: "Girls", category: "Top Wear", discount: 10, sizes: ["L", "XXL"], image: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp" },
+  { id: 210, brand: "Bape Streetwear", name: "Red Camo College Tee", price: "₹2,199", rating: 4.9, color: "Red", gender: "Boys", category: "Top Wear", discount: 15, sizes: ["S", "M", "L", "XL"], image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp" },
 
   // Red Caps
-  { id: 231, brand: "Burberry London", name: "Red Utility Snapback Cap", price: "₹499", rating: 4.6, color: "Red", gender: "Men", category: "Caps", discount: 10, sizes: ["M", "L"], image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=400&q=80" },
-  { id: 232, brand: "Stüssy Beach", name: "Red Knit Beanie Hat", price: "₹399", rating: 4.8, color: "Red", gender: "Kids", category: "Caps", discount: 20, sizes: ["S", "M"], image: "https://images.unsplash.com/photo-1576871337622-98d48d4aa53e?auto=format&fit=crop&w=400&q=80" },
+  { id: 231, brand: "Burberry London", name: "Red Utility Snapback Cap", price: "₹499", rating: 4.6, color: "Red", gender: "Men", category: "Caps", discount: 10, sizes: ["M", "L"], image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp" },
+  { id: 232, brand: "Stüssy Beach", name: "Red Knit Beanie Hat", price: "₹399", rating: 4.8, color: "Red", gender: "Kids", category: "Caps", discount: 20, sizes: ["S", "M"], image: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp" },
 
   // Red Bottom Wear
-  { id: 241, brand: "Drip Hustler", name: "Red Tactical Cargo Pants", price: "₹1,899", rating: 4.7, color: "Red", gender: "Men", category: "Bottom Wear", discount: 30, sizes: ["M", "L", "XL"], image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=400&q=80" },
-  { id: 242, brand: "Essentials Co.", name: "Red Relaxed Sweatpants", price: "₹1,299", rating: 4.4, color: "Red", gender: "Women", category: "Bottom Wear", discount: 20, sizes: ["S", "M", "L"], image: "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=400&q=80" },
+  { id: 241, brand: "Drip Hustler", name: "Red Tactical Cargo Pants", price: "₹1,899", rating: 4.7, color: "Red", gender: "Men", category: "Bottom Wear", discount: 30, sizes: ["M", "L", "XL"], image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp" },
+  { id: 242, brand: "Essentials Co.", name: "Red Relaxed Sweatpants", price: "₹1,299", rating: 4.4, color: "Red", gender: "Women", category: "Bottom Wear", discount: 20, sizes: ["S", "M", "L"], image: "https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp" },
 
   // Blue
-  { id: 211, brand: "Drip Hustler", name: "Blue Classic Oversized Tee", price: "₹999", rating: 4.7, color: "Blue", gender: "Men", category: "Top Wear", discount: 20, sizes: ["S", "M", "L"], image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80" },
-  { id: 212, brand: "Stüssy Beach", name: "Blue Stock Logo Tee", price: "₹1,199", rating: 4.8, color: "Blue", gender: "Boys", category: "Top Wear", discount: 10, sizes: ["M", "XL"], image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80" },
+  { id: 211, brand: "Drip Hustler", name: "Blue Classic Oversized Tee", price: "₹999", rating: 4.7, color: "Blue", gender: "Men", category: "Top Wear", discount: 20, sizes: ["S", "M", "L"], image: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp" },
+  { id: 212, brand: "Stüssy Beach", name: "Blue Stock Logo Tee", price: "₹1,199", rating: 4.8, color: "Blue", gender: "Boys", category: "Top Wear", discount: 10, sizes: ["M", "XL"], image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp" },
 
   // Green
-  { id: 213, brand: "Burberry London", name: "Green Regular Fit Tee", price: "₹1,499", rating: 4.5, color: "Green", gender: "Men", category: "Top Wear", discount: 15, sizes: ["L", "XL"], image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=400&q=80" },
-  { id: 214, brand: "Bape Streetwear", name: "Green Camo College Tee", price: "₹2,199", rating: 4.9, color: "Green", gender: "Boys", category: "Top Wear", discount: 20, sizes: ["S", "M"], image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80" },
+  { id: 213, brand: "Burberry London", name: "Green Regular Fit Tee", price: "₹1,499", rating: 4.5, color: "Green", gender: "Men", category: "Top Wear", discount: 15, sizes: ["L", "XL"], image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp" },
+  { id: 214, brand: "Bape Streetwear", name: "Green Camo College Tee", price: "₹2,199", rating: 4.9, color: "Green", gender: "Boys", category: "Top Wear", discount: 20, sizes: ["S", "M"], image: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp" },
 
   // Black
-  { id: 215, brand: "Drip Hustler", name: "Black Signature Logo Tee", price: "₹999", rating: 4.8, color: "Black", gender: "Men", category: "Top Wear", discount: 30, sizes: ["M", "L", "XXL"], image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=400&q=80" },
-  { id: 216, brand: "Essentials Co.", name: "Black Core Crewneck Tee", price: "₹899", rating: 4.4, color: "Black", sizes: ["S", "XL"], gender: "Kids", category: "Top Wear", discount: 10, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=400&q=80" },
+  { id: 215, brand: "Drip Hustler", name: "Black Signature Logo Tee", price: "₹999", rating: 4.8, color: "Black", gender: "Men", category: "Top Wear", discount: 30, sizes: ["M", "L", "XXL"], image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp" },
+  { id: 216, brand: "Essentials Co.", name: "Black Core Crewneck Tee", price: "₹899", rating: 4.4, color: "Black", sizes: ["S", "XL"], gender: "Kids", category: "Top Wear", discount: 10, image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp" },
 
   // White
-  { id: 217, brand: "Stüssy Beach", name: "White 8-Ball Street Tee", price: "₹1,249", rating: 4.7, color: "White", gender: "Kids", category: "Top Wear", discount: 25, sizes: ["S", "M", "L", "XL"], image: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=400&q=80" },
-  { id: 218, brand: "Burberry London", name: "White Crest Regular Tee", price: "₹1,499", rating: 4.6, color: "White", gender: "Women", category: "Top Wear", discount: 15, sizes: ["M", "L"], image: "https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=400&q=80" }
+  { id: 217, brand: "Stüssy Beach", name: "White 8-Ball Street Tee", price: "₹1,249", rating: 4.7, color: "White", gender: "Kids", category: "Top Wear", discount: 25, sizes: ["S", "M", "L", "XL"], image: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp" },
+  { id: 218, brand: "Burberry London", name: "White Crest Regular Tee", price: "₹1,499", rating: 4.6, color: "White", gender: "Women", category: "Top Wear", discount: 15, sizes: ["M", "L"], image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp" }
 ];
 
 export function TShirtGridSection({ 

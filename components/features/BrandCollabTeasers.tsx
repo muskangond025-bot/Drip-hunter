@@ -20,28 +20,28 @@ const brandTeasers: BrandTeaserItem[] = [
     id: 1,
     brandName: "PUMA SELECT",
     title: "The Clyde Capsule",
-    image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp",
     tag: "Collab Teaser"
   },
   {
     id: 2,
     brandName: "RECKLESS DRIP",
     title: "Back In Stock Deal",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp",
     tag: "Trending"
   },
   {
     id: 3,
     brandName: "NEON DIVISION",
     title: "Cyber Shield Tech",
-    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp",
     tag: "Limited Drop"
   },
   {
     id: 4,
     brandName: "RETRO RULERS",
     title: "Heritage Bomber Kit",
-    image: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=600&q=80",
+    image: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
     tag: "Teaser Product"
   }
 ];

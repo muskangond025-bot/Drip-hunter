@@ -34,21 +34,21 @@ const spotlightProduct = {
     {
       name: "Forest Green",
       hex: "#166534",
-      image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
+      image: "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
       bgGlow: "from-green-500/25 via-green-400/5 to-transparent",
       badgeColor: "bg-green-50 text-green-700 border-green-200"
     },
     {
       name: "Carbon Black",
       hex: "#18181b",
-      image: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=600&q=80",
+      image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
       bgGlow: "from-zinc-500/25 via-zinc-400/5 to-transparent",
       badgeColor: "bg-zinc-50 text-zinc-700 border-zinc-200"
     },
     {
       name: "Crimson Red",
       hex: "#991b1b",
-      image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=600&q=80",
+      image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
       bgGlow: "from-red-500/25 via-red-400/5 to-transparent",
       badgeColor: "bg-red-50 text-red-700 border-red-200"
     }

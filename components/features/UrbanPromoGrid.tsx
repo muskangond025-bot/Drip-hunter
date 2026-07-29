@@ -19,7 +19,7 @@ const PROMO_ITEMS: PromoCardProps[] = [
     subtitle: "Waterproof canvas & modular strap system for utility on the go.",
     badge: "NEW ARRIVALS",
     tagline: "ESSENTIAL ACCESSORIES",
-    image: "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?auto=format&fit=crop&q=80&w=800",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     linkHref: "/shop?search=Bag",
   },
   {
@@ -27,7 +27,7 @@ const PROMO_ITEMS: PromoCardProps[] = [
     subtitle: "280 GSM premium combed cotton with durable dropped shoulder fit.",
     badge: "BESTSELLER",
     tagline: "STREETWEAR CORE",
-    image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&q=80&w=800",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     linkHref: "/shop?category=Top%20Wear&search=Oversized",
   },
   {
@@ -35,7 +35,7 @@ const PROMO_ITEMS: PromoCardProps[] = [
     subtitle: "Structure snapbacks, dad caps & bucket hats built for the streets.",
     badge: "LIMITED EDITION",
     tagline: "URBAN ICONIC",
-    image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=800",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     linkHref: "/shop?category=Caps",
   },
 ];

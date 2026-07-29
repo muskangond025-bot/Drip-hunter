@@ -382,11 +382,11 @@ export default function CheckoutPage() {
 
   // Static recommendations
   const recommendedProducts = [
-    { id: 101, name: "Premium Vintage Graphic Tee", price: "$49.00", image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=300&q=80" },
-    { id: 102, name: "Retro Tokyo Street Tee", price: "$52.00", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=300&q=80" },
-    { id: 103, name: "Downtown Oversized hoodie", price: "$75.00", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80" },
-    { id: 104, name: "Slouchy Acid Cargo Pants", price: "$85.00", image: "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=300&q=80" },
-    { id: 105, name: "Urban Streetwear Cap", price: "$32.00", image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=300&q=80" },
+    { id: 101, name: "Premium Vintage Graphic Tee", price: "$49.00", image: "https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp" },
+    { id: 102, name: "Retro Tokyo Street Tee", price: "$52.00", image: "https://img105.savana.com/156220e3ccb24d899323dae724a3951b.webp" },
+    { id: 103, name: "Downtown Oversized hoodie", price: "$75.00", image: "https://img105.savana.com/fd912543884c43c892a39219b2f63738.webp" },
+    { id: 104, name: "Slouchy Acid Cargo Pants", price: "$85.00", image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp" },
+    { id: 105, name: "Urban Streetwear Cap", price: "$32.00", image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp" },
   ];
 
   return (

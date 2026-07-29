@@ -17,7 +17,7 @@ const TRENDING_PRODUCTS: ProductItem[] = [
     name: "GHOST GRAPHIC OVERSIZED TEE",
     brand: "URBAN MONKEY",
     price: "₹1,499",
-    image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=600",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     badge: "TRENDING #1",
   },
   {
@@ -25,7 +25,7 @@ const TRENDING_PRODUCTS: ProductItem[] = [
     name: "DAILY COMMUTER TACTICAL BACKPACK",
     brand: "URBAN MONKEY",
     price: "₹2,199",
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     badge: "HOT SELLER",
   },
   {
@@ -33,7 +33,7 @@ const TRENDING_PRODUCTS: ProductItem[] = [
     name: "RETRO WIREFRAME GOLD SPECTACLES",
     brand: "URBAN MONKEY",
     price: "₹1,299",
-    image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=600",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     badge: "RESTOCKED",
   },
   {
@@ -41,7 +41,7 @@ const TRENDING_PRODUCTS: ProductItem[] = [
     name: "URBAN MONKEY SIGNATURE EMBLEM CAP",
     brand: "URBAN MONKEY",
     price: "₹999",
-    image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80&w=600",
+    image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
     badge: "ICONIC",
   },
 ];

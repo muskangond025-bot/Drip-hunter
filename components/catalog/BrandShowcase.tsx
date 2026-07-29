@@ -52,10 +52,10 @@ export function BrandShowcase() {
         {/* Vertical Stack of 4 Landscape Banners */}
         <div className="flex flex-col gap-6 w-full">
           {[
-            { id: 1, img: "https://images.unsplash.com/photo-1534215754734-18e55d13e346?auto=format&fit=crop&w=800&q=80", alt: "Cap back view" },
-            { id: 2, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80", alt: "Grey hoodie back view" },
-            { id: 3, img: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=800&q=80", alt: "Puffer jackets" },
-            { id: 4, img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80", alt: "Black jeans" }
+            { id: 1, img: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp", alt: "Cap back view" },
+            { id: 2, img: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp", alt: "Grey hoodie back view" },
+            { id: 3, img: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp", alt: "Puffer jackets" },
+            { id: 4, img: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp", alt: "Black jeans" }
           ].map((banner) => (
             <div 
               key={banner.id}

@@ -87,9 +87,9 @@ const brandsList: BrandItem[] = [
       </div>
     ),
     products: [
-      { name: "T-Shirt", image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=300&q=80" },
-      { name: "Hat", image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=300&q=80" },
-      { name: "Cap", image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=300&q=80" }
+      { name: "T-Shirt", image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp" },
+      { name: "Hat", image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp" },
+      { name: "Cap", image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp" }
     ]
   },
   {
@@ -110,8 +110,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "T-Shirt", image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=300&q=80" },
-      { name: "Short", image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=300&q=80" }
+      { name: "T-Shirt", image: "https://img105.savana.com/b624019e62da430f8e7c88b4f8c5aca2.webp" },
+      { name: "Short", image: "https://img105.savana.com/5b128d15efd948c983868a1302c463f7.webp" }
     ]
   },
   {
@@ -131,8 +131,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "Utility Vest", image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=300&q=80" },
-      { name: "Track Pants", image: "https://images.unsplash.com/photo-1551854838-212c50b4c184?auto=format&fit=crop&w=300&q=80" }
+      { name: "Utility Vest", image: "https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp" },
+      { name: "Track Pants", image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp" }
     ]
   },
   {
@@ -153,8 +153,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "Camo Jacket", image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&w=300&q=80" },
-      { name: "T-Shirt", image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=300&q=80" }
+      { name: "Camo Jacket", image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp" },
+      { name: "T-Shirt", image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp" }
     ]
   },
   {
@@ -173,10 +173,10 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "T-Shirt", image: "https://images.unsplash.com/photo-1618354691229-88d47f285158?auto=format&fit=crop&w=300&q=80" },
-      { name: "Jeans", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=300&q=80" },
-      { name: "Hoodie", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80" },
-      { name: "Sock", image: "https://images.unsplash.com/photo-1582966772680-860e372bb558?auto=format&fit=crop&w=300&q=80" }
+      { name: "T-Shirt", image: "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp" },
+      { name: "Jeans", image: "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp" },
+      { name: "Hoodie", image: "https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp" },
+      { name: "Sock", image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp" }
     ]
   },
   {
@@ -196,8 +196,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "Hoodie", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80" },
-      { name: "Denim Pants", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=300&q=80" }
+      { name: "Hoodie", image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp" },
+      { name: "Denim Pants", image: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp" }
     ]
   },
   {
@@ -216,8 +216,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "Sneakers", image: "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?auto=format&fit=crop&w=300&q=80" },
-      { name: "Hoodie", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80" }
+      { name: "Sneakers", image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp" },
+      { name: "Hoodie", image: "https://img105.savana.com/0e94be63baf046ea9f09de69c7f4741e.webp" }
     ]
   },
   {
@@ -237,8 +237,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "T-Shirt", image: "https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&w=300&q=80" },
-      { name: "Hoodie", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80" }
+      { name: "T-Shirt", image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp" },
+      { name: "Hoodie", image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp" }
     ]
   },
   {
@@ -257,8 +257,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "Work Jacket", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=300&q=80" },
-      { name: "Cargos", image: "https://images.unsplash.com/photo-1550928431-ee0ec6db1ad7?auto=format&fit=crop&w=300&q=80" }
+      { name: "Work Jacket", image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp" },
+      { name: "Cargos", image: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp" }
     ]
   },
   {
@@ -278,8 +278,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "Trackies", image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=300&q=80" },
-      { name: "Knit Cap", image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=300&q=80" }
+      { name: "Trackies", image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp" },
+      { name: "Knit Cap", image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp" }
     ]
   },
   {
@@ -300,8 +300,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "Jacket", image: "https://images.unsplash.com/photo-1544923246-77307dd654cb?auto=format&fit=crop&w=300&q=80" },
-      { name: "Belt", image: "https://images.unsplash.com/photo-1624224971170-2f84fed5eb5e?auto=format&fit=crop&w=300&q=80" }
+      { name: "Jacket", image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp" },
+      { name: "Belt", image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp" }
     ]
   },
   {
@@ -320,8 +320,8 @@ const brandsList: BrandItem[] = [
       </svg>
     ),
     products: [
-      { name: "Box Logo Tee", image: "https://images.unsplash.com/photo-1503342394128-c104d54dba01?auto=format&fit=crop&w=300&q=80" },
-      { name: "Camp Cap", image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=300&q=80" }
+      { name: "Box Logo Tee", image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp" },
+      { name: "Camp Cap", image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp" }
     ]
   }
 ];
@@ -332,10 +332,10 @@ const spotlightProducts = [
     title: "White Classic Oversized Tee",
     collection: "Slay the Streets Custom Collection",
     price: "₹1,499",
-    img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80",
+    img: "https://img105.savana.com/ed88b6e2e77f461b913d3cecb8f1c215.webp",
     similars: [
-      { name: "Raw Box Tee", img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=150&q=80", price: "₹999" },
-      { name: "Signature Fit", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=150&q=80", price: "₹1,199" }
+      { name: "Raw Box Tee", img: "https://img105.savana.com/9104562de9d541b1ae03530cd8a58275.webp", price: "₹999" },
+      { name: "Signature Fit", img: "https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp", price: "₹1,199" }
     ]
   },
   {
@@ -343,10 +343,10 @@ const spotlightProducts = [
     title: "Distressed Denim Pants",
     collection: "Slay the Streets Denim Collection",
     price: "₹2,199",
-    img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=500&q=80",
+    img: "https://img105.savana.com/b1f965b1c47f4aeb9324aae4a983d71e.webp",
     similars: [
-      { name: "Tactical Cargo Lower", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=150&q=80", price: "₹1,899" },
-      { name: "Mesh Athletic Shorts", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=150&q=80", price: "₹799" }
+      { name: "Tactical Cargo Lower", img: "https://img105.savana.com/82f87913d0814f9083297cfb44303ef9.webp", price: "₹1,899" },
+      { name: "Mesh Athletic Shorts", img: "https://img105.savana.com/4a98999a637a41fba333a1881f09c60c.webp", price: "₹799" }
     ]
   },
   {
@@ -354,10 +354,10 @@ const spotlightProducts = [
     title: "Tactical Cargo Lower",
     collection: "Slay the Streets Cargo Collection",
     price: "₹1,899",
-    img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=300&q=80",
+    img: "https://img105.savana.com/156220e3ccb24d899323dae724a3951b.webp",
     similars: [
-      { name: "Distressed Denim Pants", img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=150&q=80", price: "₹2,199" },
-      { name: "Oversized Flannel Shirt", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=150&q=80", price: "₹1,299" }
+      { name: "Distressed Denim Pants", img: "https://img105.savana.com/fd912543884c43c892a39219b2f63738.webp", price: "₹2,199" },
+      { name: "Oversized Flannel Shirt", img: "https://img105.savana.com/5e08c0285d82474ea9d0278e33deb10e.webp", price: "₹1,299" }
     ]
   }
 ];
@@ -403,15 +403,15 @@ export default function AffiliatePage() {
   // Affiliate tab states
   const [currentSlide, setCurrentSlide] = useState(0);
   const slides = useMemo(() => [
-    { image: "https://images.unsplash.com/photo-1590650516494-0c8e4a4dd67e?auto=format&fit=crop&w=1200&q=80" },
-    { image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80" }
+    { image: "https://img105.savana.com/b624019e62da430f8e7c88b4f8c5aca2.webp" },
+    { image: "https://img105.savana.com/5b128d15efd948c983868a1302c463f7.webp" }
   ], []);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   // Blogs tab states
   const [activeBlogFilter, setActiveBlogFilter] = useState("Trends");
   const [dripSpotView, setDripSpotView] = useState<"A" | "B" | "C">("A");
-  const [selectedVariantImage, setSelectedVariantImage] = useState<string>("https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=300&q=80");
+  const [selectedVariantImage, setSelectedVariantImage] = useState<string>("https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp");
   const [dripVisionLayout, setDripVisionLayout] = useState<"row" | "stack">("row");
   const [instaOffset, setInstaOffset] = useState(0);
   const [activeSpotlightId, setActiveSpotlightId] = useState<number>(1);
@@ -1204,12 +1204,12 @@ export default function AffiliatePage() {
               <div className="w-full overflow-hidden">
                 <motion.div animate={{ x: -instaOffset * 220 }} transition={{ type: "spring", stiffness: 120, damping: 18 }} className="flex gap-4 w-max py-2">
                   {[
-                    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=300&q=80",
-                    "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=300&q=80",
-                    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=300&q=80",
-                    "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80",
-                    "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=300&q=80",
-                    "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=300&q=80"
+                    "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
+                    "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp",
+                    "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp",
+                    "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
+                    "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
+                    "https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp"
                   ].map((imgUrl, i) => (
                     <div key={i} className="w-[180px] sm:w-[200px] flex flex-col gap-2.5 flex-shrink-0 text-left">
                       <div className="relative aspect-[3/4] rounded-[24px] overflow-hidden border border-zinc-150 shadow-xs group hover:scale-[1.01] transition-transform cursor-pointer">
@@ -1397,7 +1397,7 @@ export default function AffiliatePage() {
                         <h4 className="text-sm font-bold uppercase tracking-wider text-black">{circleBrands[0].name}</h4>
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        {[{ name: "T-Shirt", image: "https://images.unsplash.com/photo-1618354691229-88d47f285158?auto=format&fit=crop&w=300&q=80" }, { name: "Short", image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=300&q=80" }].map((prod, idx) => (
+                        {[{ name: "T-Shirt", image: "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp" }, { name: "Short", image: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp" }].map((prod, idx) => (
                           <div key={idx} className="flex flex-col items-center">
                             <div className="w-full aspect-[4/5] bg-zinc-50 rounded-2xl overflow-hidden relative border border-zinc-100 shadow-xs mb-2"><Image src={prod.image} alt={prod.name} fill className="object-cover" sizes="200px" /></div>
                             <span className="text-xs font-bold text-zinc-800">{prod.name}</span>

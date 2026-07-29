@@ -45,10 +45,10 @@ const spotlightProducts = [
     title: "White Classic Oversized Tee",
     collection: "Slay the Streets Custom Collection",
     price: "₹1,499",
-    img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80",
+    img: "https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp",
     similars: [
-      { name: "Raw Box Tee", img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=150&q=80", price: "₹999" },
-      { name: "Signature Fit", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=150&q=80", price: "₹1,199" }
+      { name: "Raw Box Tee", img: "https://img105.savana.com/b1f965b1c47f4aeb9324aae4a983d71e.webp", price: "₹999" },
+      { name: "Signature Fit", img: "https://img105.savana.com/82f87913d0814f9083297cfb44303ef9.webp", price: "₹1,199" }
     ]
   },
   {
@@ -56,10 +56,10 @@ const spotlightProducts = [
     title: "Distressed Denim Pants",
     collection: "Slay the Streets Denim Collection",
     price: "₹2,199",
-    img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=500&q=80",
+    img: "https://img105.savana.com/4a98999a637a41fba333a1881f09c60c.webp",
     similars: [
-      { name: "Tactical Cargo Lower", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=150&q=80", price: "₹1,899" },
-      { name: "Mesh Athletic Shorts", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=150&q=80", price: "₹799" }
+      { name: "Tactical Cargo Lower", img: "https://img105.savana.com/156220e3ccb24d899323dae724a3951b.webp", price: "₹1,899" },
+      { name: "Mesh Athletic Shorts", img: "https://img105.savana.com/fd912543884c43c892a39219b2f63738.webp", price: "₹799" }
     ]
   },
   {
@@ -67,10 +67,10 @@ const spotlightProducts = [
     title: "Tactical Cargo Lower",
     collection: "Slay the Streets Cargo Collection",
     price: "₹1,899",
-    img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=300&q=80",
+    img: "https://img105.savana.com/5e08c0285d82474ea9d0278e33deb10e.webp",
     similars: [
-      { name: "Distressed Denim Pants", img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=150&q=80", price: "₹2,199" },
-      { name: "Oversized Flannel Shirt", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=150&q=80", price: "₹1,299" }
+      { name: "Distressed Denim Pants", img: "https://img105.savana.com/b624019e62da430f8e7c88b4f8c5aca2.webp", price: "₹2,199" },
+      { name: "Oversized Flannel Shirt", img: "https://img105.savana.com/5b128d15efd948c983868a1302c463f7.webp", price: "₹1,299" }
     ]
   }
 ];
@@ -174,7 +174,7 @@ export default function About() {
 
   // DripSpot, DripVision & Instagram interaction states
   const [dripSpotView, setDripSpotView] = useState<"A" | "B" | "C">("A");
-  const [selectedVariantImage, setSelectedVariantImage] = useState<string>("https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=300&q=80");
+  const [selectedVariantImage, setSelectedVariantImage] = useState<string>("https://img105.savana.com/768828d8de3647fab3593c91587cec6c.webp");
   const [dripVisionLayout, setDripVisionLayout] = useState<"row" | "stack">("row");
   const [activeDripVisionIndex, setActiveDripVisionIndex] = useState<number>(0);
   const [isDripVisionPlaying, setIsDripVisionPlaying] = useState<boolean>(false);
@@ -1003,9 +1003,9 @@ export default function About() {
 
                     <div className="space-y-4 flex-grow flex flex-col justify-between">
                       {[
-                        { title: "Tactical Cargo Lower", category: "Lower Fit", price: "₹1,899", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=300&q=80" },
-                        { title: "Distressed Denim Pants", category: "Pants Fit", price: "₹2,199", img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=300&q=80" },
-                        { title: "Oversized Flannel Shirt", category: "Shirt Fit", price: "₹1,299", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=300&q=80" }
+                        { title: "Tactical Cargo Lower", category: "Lower Fit", price: "₹1,899", img: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp" },
+                        { title: "Distressed Denim Pants", category: "Pants Fit", price: "₹2,199", img: "https://img105.savana.com/d247c54bb1e84d00ac32a0d2ee340180.webp" },
+                        { title: "Oversized Flannel Shirt", category: "Shirt Fit", price: "₹1,299", img: "https://img105.savana.com/6d46ad99d345403bb27750081709f298.webp" }
                       ].map((variant, idx) => (
                         <div 
                           key={idx}
@@ -1056,10 +1056,10 @@ export default function About() {
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
                     {[
-                      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=300&q=80",
-                      "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=300&q=80",
-                      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=300&q=80",
-                      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=300&q=80"
+                      "https://img105.savana.com/7db1623f0bb74829afb406bcdc8cf703.webp",
+                      "https://img105.savana.com/799cbf906744487086647c6a0ab5f8d8.webp",
+                      "https://img105.savana.com/4b8e375e990c4f80ba1c1b79546897bd.webp",
+                      "https://img105.savana.com/4934e176de2f4a9eae0d137b77c9b316.webp"
                     ].map((imgUrl, i) => (
                       <div 
                         key={i} 
@@ -1077,10 +1077,10 @@ export default function About() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   {[
-                    { title: "Grave skater", bg: "bg-purple-600 text-purple-100", label: "Slay the Streets List", img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=300&q=80" },
-                    { title: "Ape Head", bg: "bg-blue-600 text-blue-100", label: "Slay the Streets List", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80" },
-                    { title: "Core crew", bg: "bg-green-600 text-green-100", label: "Slay the Streets List", img: "https://images.unsplash.com/photo-1517423568366-8b83523034fd?auto=format&fit=crop&w=300&q=80" },
-                    { title: "Signature", bg: "bg-orange-600 text-orange-100", label: "Slay the Streets List", img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=300&q=80" }
+                    { title: "Grave skater", bg: "bg-purple-600 text-purple-100", label: "Slay the Streets List", img: "https://img105.savana.com/75e5d27d3e52464d9e57586d7078fcdb.webp" },
+                    { title: "Ape Head", bg: "bg-blue-600 text-blue-100", label: "Slay the Streets List", img: "https://img105.savana.com/b778ce7f97cc4b8dacb8fc6b3f5a2f2f.webp" },
+                    { title: "Core crew", bg: "bg-green-600 text-green-100", label: "Slay the Streets List", img: "https://img105.savana.com/cecdb44ed30148609593d9750cffff01.webp" },
+                    { title: "Signature", bg: "bg-orange-600 text-orange-100", label: "Slay the Streets List", img: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp" }
                   ].map((card, idx) => (
                     <div key={idx} className="flex flex-col items-center gap-3">
                       <div className="w-full aspect-[4/5] rounded-2xl overflow-hidden relative shadow-md group">
@@ -1240,12 +1240,12 @@ export default function About() {
               className="flex gap-4 w-max py-2"
             >
               {[
-                "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=300&q=80",
-                "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=300&q=80",
-                "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=300&q=80",
-                "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&q=80",
-                "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=300&q=80",
-                "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=300&q=80"
+                "https://img105.savana.com/9d519fb69e394f14b7b7f59513a40fcd.webp",
+                "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
+                "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
+                "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
+                "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
+                "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp"
               ].map((imgUrl, i) => (
                 <div key={i} className="w-[180px] sm:w-[200px] flex flex-col gap-2.5 flex-shrink-0 text-left">
                   <div className="relative aspect-[3/4] rounded-[24px] overflow-hidden border border-zinc-150 shadow-xs group hover:scale-[1.01] transition-transform cursor-pointer">
@@ -1315,7 +1315,7 @@ export default function About() {
           <div 
             className="rounded-[32px] p-8 md:p-14 text-center text-white relative overflow-hidden shadow-2xl border border-zinc-800"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=1200&q=80')",
+              backgroundImage: "url('https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp')",
               backgroundSize: "cover",
               backgroundPosition: "center"
             }}

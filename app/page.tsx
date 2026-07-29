@@ -175,7 +175,11 @@ export default function Home() {
 
 
         {/* Deal of the Day/Week Section */}
-        <TemplatesShowcase />
+        <TemplatesShowcase
+          onAddToCart={handleAddToCart}
+          favorites={wishlist.map((item) => item.id)}
+          onToggleFavorite={handleToggleFavorite}
+        />
 
         {/* Premium Brand Showcase Section */}
         <BrandShowcase />

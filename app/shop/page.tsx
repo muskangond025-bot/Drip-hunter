@@ -866,7 +866,7 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
               className="relative aspect-[16/9] rounded-3xl overflow-hidden shadow-xl group border border-zinc-200 block bg-zinc-900"
             >
               <Image
-                src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
+                src="https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp"
                 alt="Level Up Your Carry Game! Shop Slingers"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700 brightness-75"
@@ -886,7 +886,7 @@ export default function ShopCatalog({ initialTab }: { initialTab?: string }) {
               className="relative aspect-[16/9] rounded-3xl overflow-hidden shadow-xl group border border-zinc-200 block bg-zinc-900"
             >
               <Image
-                src="https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=800&q=80"
+                src="https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp"
                 alt="Drip Wallets View Collection"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700 brightness-75"

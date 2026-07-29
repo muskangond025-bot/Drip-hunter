@@ -251,10 +251,10 @@ export function BrandHeroShowcase() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[
-            { title: "Office Drip", img: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=500&q=80" },
-            { title: "Street Athletic", img: "https://images.unsplash.com/photo-1486218119243-13883505764c?auto=format&fit=crop&w=500&q=80" },
-            { title: "Urban Commute", img: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=500&q=80" },
-            { title: "Court Looks", img: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=500&q=80" },
+            { title: "Office Drip", img: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp" },
+            { title: "Street Athletic", img: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp" },
+            { title: "Urban Commute", img: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp" },
+            { title: "Court Looks", img: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp" },
           ].map((cat, idx) => (
             <div key={idx} className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-md group cursor-pointer border border-zinc-200">
               <Image src={cat.img} alt={cat.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />

@@ -10,12 +10,12 @@ import {
 } from "@/components/ui/infinite-draggable-gallery";
 
 const galleryImages = [
-  "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1618517047922-928929e06180?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80",
-  "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=600&q=80",
+  "https://img105.savana.com/82f87913d0814f9083297cfb44303ef9.webp",
+  "https://img105.savana.com/4a98999a637a41fba333a1881f09c60c.webp",
+  "https://img105.savana.com/156220e3ccb24d899323dae724a3951b.webp",
+  "https://img105.savana.com/fd912543884c43c892a39219b2f63738.webp",
+  "https://img105.savana.com/5e08c0285d82474ea9d0278e33deb10e.webp",
+  "https://img105.savana.com/b624019e62da430f8e7c88b4f8c5aca2.webp",
 ];
 
 export default function GalleryPage() {

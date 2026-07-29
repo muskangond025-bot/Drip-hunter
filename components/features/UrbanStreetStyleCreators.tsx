@@ -25,7 +25,7 @@ const CREATORS: CreatorProps[] = [
     role: "RAPPER & POP ICON",
     outfitTag: "RETRO AVIATOR SPECTACLES",
     productPrice: "₹1,299",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600",
+    image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
     productId: 903,
   },
   {
@@ -35,7 +35,7 @@ const CREATORS: CreatorProps[] = [
     role: "CREATOR & COMEDIAN",
     outfitTag: "OVERSIZED DENIM SHIRT",
     productPrice: "₹3,499",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=600",
+    image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
     productId: 901,
   },
   {
@@ -45,7 +45,7 @@ const CREATORS: CreatorProps[] = [
     role: "HIP-HOP COLLECTIVE",
     outfitTag: "TACTICAL CROSSBODY BAG",
     productPrice: "₹1,499",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=600",
+    image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
     productId: 902,
   },
   {
@@ -55,7 +55,7 @@ const CREATORS: CreatorProps[] = [
     role: "ACTOR & STYLE ICON",
     outfitTag: "SIGNATURE MONKEY SNAPBACK",
     productPrice: "₹999",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600",
+    image: "https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp",
     productId: 904,
   },
 ];
