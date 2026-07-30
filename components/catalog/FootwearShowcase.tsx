@@ -40,7 +40,7 @@ const shoeProducts: FootwearProduct[] = [
       {
         name: "Red",
         hex: "#dc2626",
-        image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
+        image: "/images/air-max-intrlk-hyper-vibe.jpg",
         bgGlow: "from-red-300/35 via-red-200/10 to-transparent",
         accentColor: "border-red-500 text-red-500 hover:bg-red-500"
       },
@@ -74,7 +74,7 @@ const shoeProducts: FootwearProduct[] = [
       {
         name: "Cyan",
         hex: "#06b6d4",
-        image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
+        image: "/images/future-rider-electric-cyan.jpg",
         bgGlow: "from-cyan-300/35 via-cyan-200/10 to-transparent",
         accentColor: "border-cyan-500 text-cyan-500 hover:bg-cyan-500"
       },
@@ -108,7 +108,7 @@ const shoeProducts: FootwearProduct[] = [
       {
         name: "Yellow",
         hex: "#facc15",
-        image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
+        image: "/images/drip-mesh-runner-volt-gold.jpg",
         bgGlow: "from-yellow-300/35 via-yellow-200/10 to-transparent",
         accentColor: "border-yellow-500 text-yellow-500 hover:bg-yellow-500"
       },

@@ -1248,7 +1248,7 @@ const HOVER_PREVIEW_MAP: Record<string, { image: string; tag: string; title: str
     href: "/shop?category=Wallets"
   },
   "Caps & Beanies": {
-    image: "/images/neo_matrix.png",
+    image: "/images/accessory-caps.jpg",
     tag: "HEADWEAR CORES",
     title: "Caps & Beanies",
     description: "Streetwear snapbacks, bucket hats, and classic baseball caps.",
@@ -1278,77 +1278,77 @@ const HOVER_PREVIEW_MAP: Record<string, { image: string; tag: string; title: str
   },
   // Sneakers / Footwear
   "Air Jordan": {
-    image: "/images/sneaker-1.png",
+    image: "/images/sneaker-jordan.jpg",
     tag: "JORDAN BRAND",
     title: "Air Jordan",
     description: "Verified authentic hype sneakers from Jordan Brand.",
     href: "/shop?brand=Jordan"
   },
   "Nike": {
-    image: "/images/sneaker-2.png",
+    image: "/images/sneaker-nike.jpg",
     tag: "NIKE SPORTSWEAR",
     title: "Nike",
     description: "Sleek active kicks and iconic streetwear sneakers from Nike.",
     href: "/shop?brand=Nike"
   },
   "Adidas": {
-    image: "/images/sneaker-3.png",
+    image: "/images/sneaker-adidas.jpg",
     tag: "THREE STRIPES",
     title: "Adidas Originals",
     description: "Timeless classic casual kicks from Adidas.",
     href: "/shop?brand=Adidas"
   },
   "Yeezy": {
-    image: "/images/sneaker-4.png",
+    image: "/images/sneaker-yeezy.jpg",
     tag: "YEEZY LIFE",
     title: "Yeezy Series",
     description: "Hype lifestyle sneakers and slides designed by Kanye West.",
     href: "/shop?brand=Yeezy"
   },
   "New Balance": {
-    image: "/images/sneaker-5.png",
+    image: "/images/sneaker-newbalance.jpg",
     tag: "RETRO CORE",
     title: "New Balance",
     description: "Premium suede retro trainers and modern comfort runners.",
     href: "/shop?brand=New+Balance"
   },
   "Asics": {
-    image: "/images/sneaker-6.png",
+    image: "/images/sneaker-asics.jpg",
     tag: "JAPAN DESIGN",
     title: "Asics Gel",
     description: "Japanese performance running sneakers and retro GEL cushioning.",
     href: "/shop?brand=Asics"
   },
   "Samba": {
-    image: "/images/sneaker-1.png",
+    image: "/images/sneaker-samba.jpg",
     tag: "TRENDING KICK",
     title: "Adidas Samba",
     description: "The classic low-profile terrace sneaker ruling the streets.",
     href: "/shop?search=Samba"
   },
   "Air Jordan 1": {
-    image: "/images/sneaker-2.png",
+    image: "/images/sneaker-jordan1.jpg",
     tag: "TRENDING KICK",
     title: "Air Jordan 1",
     description: "The legendary basketball sneaker that started it all.",
     href: "/shop?search=Jordan+1"
   },
   "Air Force 1": {
-    image: "/images/sneaker-3.png",
+    image: "/images/sneaker-af1.jpg",
     tag: "TRENDING KICK",
     title: "Nike Air Force 1",
     description: "The classic triple white court shoe turned street icon.",
     href: "/shop?search=Air+Force"
   },
   "Dunk Low": {
-    image: "/images/sneaker-4.png",
+    image: "/images/sneaker-dunklow.jpg",
     tag: "TRENDING KICK",
     title: "Nike Dunk Low",
     description: "Sleek two-tone skate shoe that dominates streetwear.",
     href: "/shop?search=Dunk"
   },
   "Yeezy Slide": {
-    image: "/images/sneaker-5.png",
+    image: "/images/sneaker-yeezyslide.jpg",
     tag: "TRENDING SLIDE",
     title: "Adidas Yeezy Slide",
     description: "Minimalist injection-molded EVA foam slides for extreme comfort.",
@@ -1561,9 +1561,11 @@ export function Navbar({
   // New premium navigation & suggestions states
   const [activeMegaMenu, setActiveMegaMenu] = useState<'Sneakers' | 'Apparel' | 'Accessories' | 'Brands' | null>(null);
   const [hoveredSubItem, setHoveredSubItem] = useState<string | null>(null);
+  const [isHoveringHeader, setIsHoveringHeader] = useState(false);
 
   useEffect(() => {
     setHoveredSubItem(null);
+    setIsHoveringHeader(false);
   }, [activeMegaMenu]);
 
   const [activeMobileMenu, setActiveMobileMenu] = useState<'Sneakers' | 'Apparel' | 'Accessories' | 'Brands' | null>(null);
@@ -1710,9 +1712,7 @@ export function Navbar({
 
   const currentPromo = (hoveredSubItem && HOVER_PREVIEW_MAP[hoveredSubItem])
     ? HOVER_PREVIEW_MAP[hoveredSubItem]
-    : activeMegaMenu
-      ? getMegaMenuData(activeMegaMenu).promo
-      : null;
+    : null;
 
   return (
     <header 
@@ -2154,7 +2154,14 @@ export function Navbar({
               <div className="col-span-8 grid grid-cols-3 gap-6 text-left">
                 {getMegaMenuData(activeMegaMenu).columns.map((col, idx) => (
                   <div key={idx} className="space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                    <h4 
+                      className="text-[10px] font-black uppercase tracking-widest text-zinc-400 cursor-default"
+                      onMouseEnter={() => {
+                        setIsHoveringHeader(true);
+                        setHoveredSubItem(null);
+                      }}
+                      onMouseLeave={() => setIsHoveringHeader(false)}
+                    >
                       {col.title}
                     </h4>
                     <div className="flex flex-col gap-2 text-xs font-semibold text-zinc-800">

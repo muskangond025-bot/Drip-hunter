@@ -74,7 +74,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 1,499.00",
       originalPrice: "Rs. 2,499.00",
-      image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
+      image: "/images/classic-slinger.jpg",
       colors: ["#99f6e4", "#fbcfe8", "#fef08a", "#c084fc"],
     },
     {
@@ -84,7 +84,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#18181b]",
       price: "Rs. 1,999.00",
       originalPrice: "Rs. 2,499.00",
-      image: "https://img105.savana.com/d1203111e08244adb4fe6ffc6bb21043.webp",
+      image: "/images/carbon-black-slinger.jpg",
       colors: ["#18181b"],
     },
     {
@@ -94,7 +94,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#15803d]",
       price: "Rs. 1,599.00",
       originalPrice: "Rs. 1,999.00",
-      image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
+      image: "/images/super-shark-camo-wallet.jpg",
       colors: ["#3f6212"],
     },
     {
@@ -104,7 +104,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 1,199.00",
       originalPrice: "Rs. 2,499.00",
-      image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
+      image: "/images/og-thunder-oversized-tee.jpg",
       colors: ["#18181b", "#2563eb", "#dc2626", "#eab308", "#16a34a"],
     },
     {
@@ -114,7 +114,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 1,999.00",
       originalPrice: "Rs. 3,995.00",
-      image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
+      image: "/images/oni-oversized-graphic-tee.jpg",
       colors: ["#18181b"],
     },
   ];
@@ -127,7 +127,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 1,299.00",
       originalPrice: "Rs. 1,999.00",
-      image: "https://img105.savana.com/5610cf369ccf415a911f4db271e1da9d.webp",
+      image: "/images/cyber-shield-sunglasses.jpg",
       colors: ["#000000", "#ffffff"],
     },
     {
@@ -137,7 +137,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 2,499.00",
       originalPrice: "Rs. 3,499.00",
-      image: "https://img105.savana.com/4854347d98424cebac4b9b890f1d97fe.webp",
+      image: "/images/stealth-tactical-chest-rig.jpg",
       colors: ["#18181b"],
     },
     {
@@ -147,7 +147,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 1,899.00",
       originalPrice: "Rs. 2,599.00",
-      image: "https://img105.savana.com/990190ec202a45a7be49d65961a83e75.webp",
+      image: "/images/utility-cargo-shorts.jpg",
       colors: ["#3f6212", "#18181b"],
     },
     {
@@ -157,7 +157,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 1,499.00",
       originalPrice: "Rs. 2,199.00",
-      image: "https://img105.savana.com/f64269193867428aaa81923d2a683436.webp",
+      image: "/images/heavyweight-graphic-tee.jpg",
       colors: ["#ffffff", "#18181b"],
     },
     {
@@ -167,7 +167,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-blue-600",
       price: "Rs. 899.00",
       originalPrice: "Rs. 1,299.00",
-      image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
+      image: "/images/retro-tech-beanie.jpg",
       colors: ["#dc2626", "#18181b", "#ffffff"],
     },
   ];
@@ -180,7 +180,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 1,249.00",
       originalPrice: "Rs. 2,499.00",
-      image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
+      image: "/images/urban-utility-sling.jpg",
       colors: ["#18181b"],
     },
     {
@@ -190,7 +190,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 2,799.00",
       originalPrice: "Rs. 3,999.00",
-      image: "https://img105.savana.com/e5894d9178604542927c68e0d847de47.webp",
+      image: "/images/reflective-street-vest.jpg",
       colors: ["#eab308"],
     },
     {
@@ -200,7 +200,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 2,999.00",
       originalPrice: "Rs. 3,999.00",
-      image: "https://img105.savana.com/98f5af05efc74e51805c7e729b1f7be3.webp",
+      image: "/images/classic-skate-deck.jpg",
       colors: ["#ffffff"],
     },
     {
@@ -210,7 +210,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 599.00",
       originalPrice: "Rs. 999.00",
-      image: "https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp",
+      image: "/images/minimalist-card-wallet.jpg",
       colors: ["#3f3f46"],
     },
     {
@@ -220,7 +220,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
       badgeColor: "bg-[#d92626]",
       price: "Rs. 799.00",
       originalPrice: "Rs. 1,999.00",
-      image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
+      image: "/images/corduroy-dad-hat.jpg",
       colors: ["#b45309"],
     },
   ];
@@ -560,7 +560,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
             <div className="lg:col-span-6 flex justify-center">
               <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden bg-white shadow-md border border-zinc-200">
                 <Image
-                  src="https://img105.savana.com/76a4b6083ba741079a8ef16e2c7a73e8.webp"
+                  src="/images/carbon-black-slinger.jpg"
                   alt="Carbon Black Slinger"
                   fill
                   sizes="50vw"
@@ -617,7 +617,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
                       brand: "Supervek",
                       name: "Carbon Black Slinger",
                       price: "Rs. 1,999.00",
-                      image: "https://img104.savana.com/v1/7fc092a1c5374de19f465edcf4fea863_w540_q85.webp",
+                      image: "/images/carbon-black-slinger.jpg",
                     })
                   }
                   buttonText="ADD TO CART"
@@ -634,7 +634,7 @@ export function SupervekShowcase({ onAddToCart, favorites = [], onToggleFavorite
                       brand: "Supervek",
                       name: "Carbon Black Slinger",
                       price: "Rs. 1,999.00",
-                      image: "https://img105.savana.com/9fd50237d6cc4ff08ede7e37689cf3dc.webp",
+                      image: "/images/carbon-black-slinger.jpg",
                     })
                   }
                   buttonText="BUY IT NOW"
